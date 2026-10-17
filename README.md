@@ -3,6 +3,8 @@
 一个可以"动手弄响"的乐理互动课。不啃符号、不背公式，每一块内容都能点、能听、能改参数——
 大调小调、七个调式、五声、和弦进行、行板、拍号、移调、听感配方，主流的音乐语言一次玩透。
 
+> 线上试玩：**https://musictheory-gamma.vercel.app**（Vercel 生产环境）
+
 ## 运行
 
 工程已从单文件拆分为多文件（HTML / CSS / JS / 图片分离），仍是**零运行时依赖**的静态站，
@@ -88,5 +90,18 @@ npm test
 
 ## 部署
 
-纯静态站，入口即 `index.html`，任何静态托管都能发：Vercel、Netlify、GitHub Pages 等。
-仓库已配置 GitHub 远程，推送后 Vercel 可自动部署。
+线上地址（Vercel，production，状态 Ready）：
+
+- **https://musictheory-gamma.vercel.app**
+- https://musictheory-xiaole.vercel.app
+
+纯静态站，入口即 `index.html`，无构建步骤，任何静态托管都能发：Vercel、Netlify、GitHub Pages 等。
+本仓库已连接 Vercel 的 Git 集成（`github.com/Tairraos/musictheory`），
+推送 `master` 后可在 Vercel 控制台一键重新部署；也可以本地直接发：
+
+```bash
+vercel --prod --yes
+```
+
+> 注：git remote 使用 SSH 地址（`git@github.com:Tairraos/musictheory.git`），
+> 因为部分网络环境下 HTTPS 推送到 github.com 会被代理拦截。

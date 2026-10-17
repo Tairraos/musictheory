@@ -5,3 +5,6 @@ node_modules/
 .DS_Store
 .vercel
 *.log
+
+# 本地智能体工作区（记忆/日志，不进仓库）
+.workbuddy/
