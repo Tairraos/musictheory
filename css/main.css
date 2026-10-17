@@ -1,0 +1,275 @@
+/* ==========================================================================
+ * 《姐弟厨师团——乐理课》 · 全站样式（css/main.css）
+ * --------------------------------------------------------------------------
+ * 本文件由原单文件 index.html 的 <style> 原样拆出，规则与顺序未做任何改动
+ * （CSS 层叠依赖声明顺序，重排规则有风险），仅补充分区注释便于维护。
+ *
+ * 目录（按本文件出现顺序）：
+ *   1. 设计令牌（CSS 变量）          2. Reset 与基础排版
+ *   3. 左侧导航 #nav                 4. 主内容区 .wrap 与页头 .hero
+ *   5. 章节标题 / 引导语             6. 卡片与网格
+ *   7. 按钮 /  chip / 表单控件       8. 钢琴键盘 .kb（核心组件）
+ *   9. "正在响"读出区与播放三角      10. 表格 / 徽标 / 药丸
+ *  11. 拍点圆点 / 进行条高亮         12. 场景卡片 / 工具类
+ *  13. 常驻底栏钢琴 #dock            14. Toast 轻提示
+ *  15. 响应式断点（≤1000px 顶栏、≤700px 紧凑）
+ * ========================================================================== */
+
+/* ---------- 1. 设计令牌：全站配色集中在这里，改色调只动这一段 ---------- */
+:root{
+  --bg:#F7F6F2; --card:#FFFFFF; --line:#E5E2D9; --line2:#D6D2C6;
+  --text:#2C2C2A; --muted:#57554E; --faint:#6F6C62;
+  --purple:#534AB7; --purple-bg:#EEEDFE;
+  --teal:#0F6E56; --teal-bg:#E1F5EE;
+  --amber:#BA7517; --amber-bg:#FAEEDA;
+  --blue:#185FA5; --blue-bg:#E6F1FB;
+  --coral:#D85A30; --coral-bg:#FAECE7;
+  --pink:#993556; --pink-bg:#FBEAF0;
+  --green:#3B6D11; --green-bg:#EAF3DE;
+  --red:#A32D2D; --red-bg:#FCEBEB;
+  --gray-bg:#F1EFE8;
+}
+
+/* ---------- 2. Reset 与基础排版 ---------- */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:14px; line-height:1.7; -webkit-font-smoothing:antialiased;
+}
+/* 等宽字体类：音名、级数、BPM 等"代码味"文本统一用它 */
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+/* ---------- 3. 左侧固定导航（≤1000px 时变为顶部横滚条，见文件末尾断点） ---------- */
+#nav{
+  position:fixed; left:0; top:0; bottom:0; width:196px; padding:28px 16px;
+  border-right:1px solid var(--line); background:var(--bg); overflow-y:auto; z-index:50;
+}
+#nav .brand{font-size:15px; font-weight:600; padding:0 10px 4px; letter-spacing:.5px}
+#nav .brand small{display:block;font-size:11px;font-weight:400;color:var(--muted);letter-spacing:0}
+#nav a{
+  display:block; padding:7px 10px; margin:2px 0; border-radius:8px;
+  color:var(--muted); text-decoration:none; font-size:13px; transition:.15s;
+}
+#nav a:hover{background:#EDEBE4;color:var(--text)}
+#nav a.on{background:var(--purple-bg);color:var(--purple);font-weight:500}
+
+/* ---------- 4. 主内容区与页头 ---------- */
+.wrap{margin-left:196px; padding:0 32px 100px; max-width:1040px}
+.hero{padding:56px 0 36px}
+.hero h1{font-size:30px;font-weight:600;letter-spacing:.5px}
+/* 页头两栏：左边插画、右边介绍；窄屏叠成竖排，插画居中 */
+/* 插图是透明底 PNG：不加边框/阴影/圆角/底色——任何"特效"边缘都会露出页面底色 */
+/* 插图大小随分辨率三档（方型）；文字块 stretch 到与图等高、内容垂直居中 */
+:root{--hero-art:260px}
+@media(max-width:1280px){:root{--hero-art:220px}}
+@media(max-width:1000px){:root{--hero-art:190px}}
+.hero-grid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:30px;align-items:stretch;margin-top:24px}
+.hero-grid .art{width:var(--hero-art);height:var(--hero-art);display:flex;align-items:center;justify-content:center}
+.hero-grid .art img{width:100%;height:100%;object-fit:contain}
+.hero-grid .intro{align-self:stretch;display:flex;flex-direction:column;justify-content:center;
+  color:var(--muted);font-size:14.5px;line-height:1.95;max-width:560px}
+@media(max-width:700px){
+  .hero-grid{grid-template-columns:1fr;gap:18px}
+  .hero-grid .art{width:220px;height:220px;margin:0 auto}
+  .hero-grid .intro{font-size:14px}
+}
+/* scroll-margin-top 要大于手机端顶部横滚导航的高度（~48px），否则点导航跳转后标题被遮住 */
+section{padding:34px 0 8px; scroll-margin-top:64px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.sec-num{font-size:12px;color:var(--faint);font-family:ui-monospace,monospace}
+h2{font-size:21px;font-weight:600;letter-spacing:.3px}
+.lead{color:var(--muted);margin:6px 0 18px;max-width:790px}
+h3{font-size:15px;font-weight:600;margin:22px 0 8px}
+
+/* ---------- 6. 卡片与网格 ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:16px}
+.card.tight{padding:16px 18px}
+.card h3:first-child{margin-top:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+/* 卡片底部的小字注释 */
+.note{font-size:12px;color:var(--faint);margin-top:10px;line-height:1.6}
+
+/* ---------- 7. 按钮 / chip / 表单控件 ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line2);background:#fff;
+  border-radius:9px;padding:7px 14px;font-size:13px;color:var(--text);cursor:pointer;
+  font-family:inherit;transition:.15s;user-select:none;
+}
+.btn:hover{border-color:var(--purple);color:var(--purple);background:var(--purple-bg)}
+.btn:active{transform:translateY(1px)}
+/* .pri = 主要按钮（每张卡片里"最推荐点"的那个） */
+.btn.pri{background:var(--purple);border-color:var(--purple);color:#fff}
+.btn.pri:hover{background:#463FA0;color:#fff}
+.btn.sm{padding:4px 10px;font-size:12px;border-radius:7px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+/* chip = 圆角胶囊按钮（选调式、选进行、选速度术语都用它） */
+.chip{
+  border:1px solid var(--line2);background:#fff;border-radius:999px;padding:5px 13px;
+  font-size:12.5px;cursor:pointer;transition:.15s;user-select:none;font-family:inherit;color:var(--muted);
+}
+.chip:hover{border-color:var(--purple);color:var(--purple)}
+.chip:active{transform:translateY(1px)}
+/* .on = 选中态；可按节配色（teal/blue/amber/coral），让"当前选中"属于哪张卡片一眼可辨 */
+.chip.on{background:var(--purple-bg);border-color:var(--purple);color:var(--purple);font-weight:500}
+.chip.on.teal{background:var(--teal-bg);border-color:var(--teal);color:var(--teal)}
+.chip.on.blue{background:var(--blue-bg);border-color:var(--blue);color:var(--blue)}
+.chip.on.amber{background:var(--amber-bg);border-color:var(--amber);color:var(--amber)}
+.chip.on.coral{background:var(--coral-bg);border-color:var(--coral);color:var(--coral)}
+label.cap{font-size:12px;color:var(--muted);margin-right:2px}
+input[type=range]{accent-color:var(--purple);height:22px}
+select{font-family:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--line2);border-radius:8px;background:#fff;color:var(--text);cursor:pointer}
+
+/* ---------- 8. 钢琴键盘 .kb（本站核心组件，第 00 节与底栏常驻钢琴共用） ---------- */
+/* 键盘可视窗固定两个八度（C4–B5）：总键数（C3–D7）超出部分溢出左右两侧，
+   不显示滚动条；pointer 拖拽平移（竖划仍归页面滚动），教程播放时自动复位/自动跟随 */
+.kb{position:relative;height:172px;margin:14px 0 6px;user-select:none;
+  background:#EDEBE4;border:1px solid #C9C6BE;border-radius:10px;
+  overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-ms-overflow-style:none;
+  overscroll-behavior-x:contain;touch-action:pan-y;cursor:grab}
+.kb:active{cursor:grabbing}
+.kb[data-fixed]{cursor:pointer}          /* 固定键盘（hero）：不可拖，光标明示可点 */
+.kb[data-fixed]:active{cursor:pointer}
+.kb::-webkit-scrollbar{display:none}
+.kb .wk{
+  position:absolute;top:0;bottom:0;border:1px solid #C9C6BE;border-radius:0 0 7px 7px;
+  background:linear-gradient(#FFFFFF,#FBFAF6);cursor:pointer;transition:.08s;
+}
+.kb .wk:hover{background:#F1EFFD}
+/* 属于当前调式：键体仍保持白，只在底部压一道紫线 + 数字标紫，键盘才始终像钢琴 */
+.kb .wk.on{box-shadow:inset 0 -5px 0 0 var(--purple);background:linear-gradient(#FFFFFF,#F6F5FD)}
+.kb .wk.on .s{color:var(--purple);font-weight:600}
+/* 发声瞬间：整键变琥珀，压过"属于调式"的紫线 */
+.kb .wk.flash{background:#FAC775;border-color:#BA7517;box-shadow:inset 0 -5px 0 0 #854F0B}
+.kb .wk.flash .s,.kb .wk.flash .n{color:#412402}
+.kb .wk .n{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:10.5px;color:#33322E;font-weight:700;font-family:ui-monospace,monospace}
+.kb .wk .s{position:absolute;bottom:24px;left:0;right:0;text-align:center;font-size:14px;color:var(--purple);font-weight:700}
+.kb .bk:hover{background:#524F49}
+.kb .bk .n{position:absolute;bottom:6px;left:0;right:0;text-align:center;font-size:10.5px;color:#FFFFFF;font-weight:700;font-family:ui-monospace,monospace}
+.kb .press{transform:translateY(2px) scaleY(.97)}
+/* 黑键：顶部对齐、短于白键 —— 与真实钢琴一致 */
+.kb .bk{position:absolute;top:0;height:58%;border-radius:0 0 5px 5px;background:#3A3936;border:1px solid #221F1D;cursor:pointer;transition:.08s;z-index:3}
+.kb .bk.on{background:var(--purple)}
+/* 发声瞬间：整键变琥珀（.kb .wk.flash 与上面第 68 行重复，原文件即如此，保留） */
+.kb .wk.flash{background:#FAC775;border-color:#BA7517;box-shadow:inset 0 -5px 0 0 #854F0B}
+.kb .bk.flash{background:#EF9F27;border-color:#854F0B}
+.kb .wk.flash,.kb .bk.flash{transform:translateY(2px) scaleY(.97)}
+.kb .wk.flash .s,.kb .wk.flash .n,.kb .bk.flash .n{color:#412402}
+
+/* ---------- 9. "正在响"读出区与播放三角 ---------- */
+/* 示意图里的方块跟随发声逐个点亮（珊瑚＝正在发声；紫/灰是静态调式信息，互不混淆） */
+.ladder rect.lit{fill:#D85A30 !important;stroke:#993C1D !important}
+.ladder rect.lit + text{fill:#FFFFFF !important}
+/* "正在响"读出区：定宽容器右齐、文字左齐，长度变化时不位移 */
+#dock .dsp{width:300px;max-width:42%;flex:none;margin-left:auto;text-align:left;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:var(--muted);font-family:ui-monospace,monospace}
+/* "正在响"三个字常显、加粗；键名做成带框的小琴键（白底 + 深色键檐，像一颗键） */
+#dock .dsp .lv{font-family:inherit;font-weight:700;font-size:12.5px;color:var(--text);margin-right:7px}
+#dock .dsp .kc{display:inline-block;font-style:normal;font-weight:700;font-size:11px;line-height:1;
+  padding:3px 6px 4px;margin:0 4px 0 0;background:#FFFFFF;border:1px solid #C6C2B6;
+  border-bottom:2px solid #9C988A;border-radius:4px;box-shadow:0 1px 2px rgba(44,44,42,.12);vertical-align:1px}
+/* 所有"能播放"的 ▶ 统一大红色：扫一眼就知道哪里能响 */
+.tri{color:#E60012;font-weight:700}
+/* 键盘扩到四个八度后键变窄，音名不允许折行 */
+.kb .wk .n,.kb .bk .n{white-space:nowrap}
+
+/* ---------- 10. 表格 / 徽标 / 药丸 ---------- */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-weight:500;color:var(--muted);font-size:12px;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid #F0EEE7;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr.click{cursor:pointer}
+tr.click:hover td{background:#FAF9F5}
+/* .q = 和弦性质徽标：大=青、小=蓝、减=灰 */
+.q{display:inline-block;padding:1px 7px;border-radius:5px;font-size:11.5px;font-weight:500;white-space:nowrap}
+.q.maj{background:var(--teal-bg);color:var(--teal)}
+.q.min{background:var(--blue-bg);color:var(--blue)}
+.q.dim{background:var(--gray-bg);color:var(--muted)}
+.pill{display:inline-block;background:var(--gray-bg);color:var(--muted);border-radius:6px;padding:1px 8px;font-size:11.5px;margin-right:5px}
+
+/* ---------- 11. 拍点圆点 / 进行条高亮 ---------- */
+.beats{display:flex;gap:10px;margin:12px 0}
+.beat{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line2);display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:var(--faint);font-family:ui-monospace,monospace;transition:.08s}
+.beat.strong{border-color:var(--purple);color:var(--purple);font-weight:600}
+.beat.hit{background:var(--purple);border-color:var(--purple);color:#fff;transform:scale(1.08)}
+.beat.strong.hit{color:#fff}
+/* 和弦进行 / 终止式的"当前块"高亮 */
+#progStrip>div.hit,#cadStrip>div.hit{background:var(--purple-bg);border-color:var(--purple);box-shadow:0 0 0 1px var(--purple);transform:translateY(-1px)}
+#progStrip>div,#cadStrip>div{transition:background .12s,border-color .12s,transform .12s}
+
+/* ---------- 12. 场景卡片 / 示意图容器 / 工具类 ---------- */
+/* .ladder = 所有 SVG 示意图的通用类（由 js/svg.js 生成） */
+.ladder{width:100%;display:block;margin:6px 0}
+.scene{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--card);cursor:pointer;transition:.15s}
+.scene:hover{border-color:var(--purple);box-shadow:0 2px 10px rgba(82,74,183,.08)}
+.scene.playing{border-color:var(--purple);background:var(--purple-bg)}
+.scene h4{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+.scene p{font-size:12.5px;color:var(--muted);margin:4px 0 8px;line-height:1.5}
+.scene .pills{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:11px;background:#fff;border:1px solid var(--line);border-radius:5px;padding:1px 6px;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:none}
+ul.plain{list-style:none}
+ul.plain li{padding-left:18px;position:relative;margin:5px 0}
+ul.plain li:before{content:"";position:absolute;left:2px;top:9px;width:5px;height:5px;border-radius:50%;background:var(--purple)}
+.mini{font-size:12px;color:var(--muted)}
+.big{font-size:22px;font-weight:600}
+.stretch{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+/* .sw = 循环开关（滑块样式） */
+.sw{position:relative;width:40px;height:22px;background:var(--line2);border-radius:999px;cursor:pointer;transition:.2s;flex:none}
+.sw.on{background:var(--purple)}
+.sw:after{content:"";position:absolute;left:2px;top:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}
+.sw.on:after{left:20px}
+.footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:var(--faint);font-size:12px}
+
+/* ---------- 13. 常驻底栏钢琴：滚到哪都能看见发声反馈 ---------- */
+#dock{position:fixed;left:196px;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--line2);
+  padding:6px 18px 10px;transition:transform .25s}
+#dock.hide{transform:translateY(100%)}
+#dock .dbad{display:flex;align-items:baseline;gap:12px;margin-bottom:3px}
+#dock .dbad b{font-size:12.5px;font-weight:600}
+#dock .dbad .t{font-size:11.5px;color:var(--faint)}
+/* 底栏钢琴比正文章节里的矮一截，键上字号同步缩小 */
+#dock .kb{height:76px;margin:0}
+#dock .kb .wk .s{font-size:11px;bottom:12px}
+#dock .kb .wk .n{font-size:9px;bottom:3px}
+#dock .kb .bk{height:60%}
+#dock .kb .bk .n{font-size:9px;bottom:3px}
+/* bottom:100% = 按钮底边正好落在底栏顶边上（原先 top:-26px 会悬空 3px 白缝） */
+#dock .dbtn{position:absolute;right:14px;bottom:100%;background:#fff;border:1px solid var(--line2);border-bottom:none;
+  border-radius:8px 8px 0 0;padding:3px 12px;font-size:11.5px;color:var(--muted);cursor:pointer;font-family:inherit}
+#dock .dbtn:hover{color:var(--purple)}
+/* 窄屏：底栏只留"常驻钢琴 + 正在响"，说明文字挤成两三行太难看 */
+@media(max-width:700px){
+  #dock .dbad .t{display:none}
+  #dock .dsp{width:auto;max-width:58%}
+  /* 表头允许折行+收紧内边距：nowrap 表头会把表格顶穿卡片右缘（modesTable 实测 338>308） */
+  th{white-space:normal;padding:8px 7px}
+  td{padding:8px 7px}
+  /* 黑键只剩 ~13px 宽："C♯4" 整串 19px 必溢出，隐藏八度 + 缩字号只放 "C♯" */
+  .kb .bk .n{font-size:7px;bottom:4px}
+  .kb .bk .n .o{display:none}
+}
+/* 底栏常驻后，正文底部要多留一截，避免最后一张卡片被挡住 */
+.wrap{padding-bottom:150px}
+svg text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB",sans-serif}
+
+/* ---------- 14. Toast 轻提示（停止/换调等操作的反馈） ---------- */
+#toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:#2C2C2A;color:#fff;
+  font-size:13px;padding:9px 18px;border-radius:10px;opacity:0;transition:.25s;z-index:99;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ---------- 15. 响应式：≤1000px 侧栏导航改顶部横滚，底栏拉通全宽 ---------- */
+@media(max-width:1000px){
+  #nav{position:sticky;width:100%;height:auto;bottom:auto;border-right:none;border-bottom:1px solid var(--line);
+    display:flex;gap:4px;overflow-x:auto;padding:10px 12px;align-items:center}
+  #nav .brand{white-space:nowrap;font-size:13px;padding-right:8px}
+  #nav .brand small{display:none}
+  #nav a{white-space:nowrap;padding:5px 9px;font-size:12px}
+  .wrap{margin-left:0;padding:0 18px 140px}
+  #dock{left:0}
+  .hero{padding:28px 0 20px}
+}

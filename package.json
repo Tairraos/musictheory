@@ -1,0 +1,25 @@
+{
+  "name": "jiedi-chushituan-lilike",
+  "displayName": "姐弟厨师团——乐理课",
+  "version": "1.0.0",
+  "private": true,
+  "description": "一个可以动手弄响的乐理互动课：Web Audio 实时合成、无音频文件、零运行时依赖，拆分后的多文件静态工程。",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "serve": "python3 -m http.server 8000",
+    "test": "node tests/run-tests.js"
+  },
+  "keywords": [
+    "music-theory",
+    "web-audio",
+    "education",
+    "static-site"
+  ],
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "jsdom": "^26.1.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
