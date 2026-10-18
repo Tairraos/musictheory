@@ -8,3 +8,6 @@ node_modules/
 
 # 本地智能体工作区（记忆/日志，不进仓库）
 .workbuddy/
+
+# Cloudflare Workers 构建产物
+dist/

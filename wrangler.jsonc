@@ -1,0 +1,9 @@
+// Cloudflare Workers 静态资产部署配置（纯静态站，无需 Worker 脚本）
+// 构建流程：npm run build 把站点文件归拢到 dist/，wrangler deploy 上传 dist/
+{
+  "name": "musictheory",
+  "compatibility_date": "2026-01-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}
