@@ -1,13 +1,14 @@
 /* ==========================================================================
- * 《姐弟厨师团——乐理课》 · 音频引擎层（js/audio.js）
+ * 《姐弟厨师团——乐理课》 · 音色与环境层（js/audio.js）
  * --------------------------------------------------------------------------
  * 职责：Web Audio 实时合成。全站没有任何音频文件——每个音都是现场用振荡器
- *       拼出来的（钢琴音 = 基频 + 八度 + 十二度泛音，过低通包络），
- *       雨声/风声 = 噪声缓冲过带通/低通。另含节拍器 MET。
+ *       拼出来的。另含节拍器 MET。
  *
- * 依赖：utils.js（f 频率换算）、playback.js（flashKey 的可视化延时报时由
- *       voice 调用；此处只负责"出声"）
- * 被谁用：playback.js / sections.js
+ * 【本次重写的核心：把音色从"if/else 硬编码"改成"TONES 查表"】
+ *   原版只有 piano / pad / pluck 三种音色，全部写死在 voice() 的 if 分支里，
+ *   于是"材质"（玻璃/金属/丝绸/木头）这类维度根本无法表达——所有场景听起来
+ *   都像同一台琴。现在每种音色是一行数据（起音时间、衰减、泛音配比、滤波
+ *   亮度），voice() 读表工作，新增音色不用改引擎。
  *
  * 关键全局：
  *   AC / MASTER —— AudioContext 与主输出（带压缩器，多音齐响不爆音）
@@ -19,8 +20,55 @@
 /* ============ 音频引擎 ============ */
 let AC = null, MASTER = null, TOKEN = 0, NOISEBUF = null, BUSES = [];
 
+/* TONES：音色表。每一行描述一种"怎么响"，对应到人耳的材质与触感联想：
+ *   atk  起音时间（秒）—— 6ms 脆响＝玻璃/金属，400ms 慢起＝丝绸/木头
+ *   dec  衰减方式 'exp' 指数（打击感）| 'lin' 线性（呼吸感）
+ *   hold 是否在末段保持音量（pad 类需要，制造"还没结束"的错觉）
+ *   o2   二次泛音（八度）配比 —— 泛音越多越亮
+ *   o3   三次泛音（十二度）配比 —— 高频"毛刺"，金属/钟的关键
+ *   lp0  低通起始频率 —— 高＝通透，<1000 ＝闷在棉被里
+ *   lp1  低通结束频率 —— 与 lp0 的落差决定"变暗"的速度
+ *   atkCurve 起音斜率 'exp' 快 | 'lin' 缓
+ */
+const TONES = {
+  piano:  { atk:0.012, dec:'exp', hold:false, o2:0.32, o3:0.07, lp0:5200, lp1:900,  tag:'钢琴' },
+  pad:    { atk:0.450, dec:'exp', hold:true,  o2:0.20, o3:0.07, lp0:1400, lp1:1400, tag:'铺底' },
+  pluck:  { atk:0.006, dec:'exp', hold:false, o2:0.32, o3:0.07, lp0:5200, lp1:900,  tag:'拨弦' },
+  glass:  { atk:0.002, dec:'exp', hold:false, o2:0.20, o3:0.26, lp0:9000, lp1:2400, tag:'玻璃' },
+  metal:  { atk:0.001, dec:'exp', hold:false, o2:0.42, o3:0.34, lp0:11000, lp1:1800, tag:'金属' },
+  wood:   { atk:0.009, dec:'exp', hold:false, o2:0.14, o3:0.03, lp0:2600, lp1:700,  tag:'木头' },
+  silk:   { atk:0.180, dec:'exp', hold:false, o2:0.24, o3:0.05, lp0:3400, lp1:1500, tag:'丝绸' },
+  bass:   { atk:0.020, dec:'exp', hold:false, o2:0.10, o3:0.02, lp0:1600, lp1:320,  tag:'低音' },
+  bell:   { atk:0.002, dec:'exp', hold:false, o2:0.16, o3:0.44, lp0:12000, lp1:5200, tag:'钟' },
+  breath: { atk:0.620, dec:'exp', hold:true,  o2:0.18, o3:0.04, lp0:1000, lp1:1000, tag:'气息' },
+  stone:  { atk:0.030, dec:'exp', hold:false, o2:0.08, o3:0.02, lp0:900,  lp1:380,  tag:'石' },
+  organ:  { atk:0.028, dec:'exp', hold:true,  o2:0.30, o3:0.18, lp0:4200, lp1:2000, tag:'管风琴' },
+};
+
+/* NOISES：环境噪声表。天气/材质/空间三类维度靠它。
+ *   type  带通/低通/高通类型 —— 低通＝闷（风、雾、远处的雷），高通＝亮（雨点、电流）
+ *   f0/f1 起止频率 —— 扫频方向决定"渐强"还是"渐弱"
+ *   q     共振峰锐度 —— 大＝有音高（像人声/机器），小＝无差别嘶嘶
+ *   amp   基础音量 —— 与旋律音量的比值决定"背景还是前景"
+ */
+const NOISES = {
+  none:    null,
+  rain:    { type:'bandpass', f0:2400, f1:1800, q:1.0, amp:0.055, tag:'雨' },
+  downpour:{ type:'bandpass', f0:3400, f1:5200, q:0.7, amp:0.085, tag:'暴雨' },
+  wind:    { type:'lowpass',  f0:420,  f1:700,  q:1.0, amp:0.060, tag:'风' },
+  gale:    { type:'lowpass',  f0:260,  f1:980,  q:1.6, amp:0.090, tag:'狂风' },
+  mist:    { type:'lowpass',  f0:300,  f1:220,  q:0.6, amp:0.018, tag:'雾' },
+  sparkle: { type:'highpass', f0:5000, f1:5000, q:1.0, amp:0.022, tag:'微光' },
+  fire:    { type:'bandpass', f0:1400, f1:900,  q:2.2, amp:0.048, tag:'火' },
+  crowd:   { type:'bandpass', f0:760,  f1:900,  q:2.6, amp:0.055, tag:'人声' },
+  machine: { type:'lowpass',  f0:180,  f1:260,  q:3.5, amp:0.070, tag:'机械' },
+  water:   { type:'bandpass', f0:1100, f1:1900, q:1.4, amp:0.050, tag:'水' },
+  static:  { type:'highpass', f0:6200, f1:6200, q:1.0, amp:0.030, tag:'电流' },
+  thunder: { type:'lowpass',  f0:160,  f1:70,   q:1.2, amp:0.105, tag:'雷' },
+};
+
 /* ac()：懒加载 AudioContext。浏览器要求用户手势后才能发声，
-   所以不在页面加载时创建，而是第一次播放/点键时才建；顺带处理 resume。 */
+ *   所以不在页面加载时创建，而是第一次播放/点键时才建；顺带处理 resume。 */
 function ac(){
   if (!AC){
     AC = new (window.AudioContext || window.webkitAudioContext)();
@@ -68,49 +116,60 @@ function killBuses(){
 }
 
 /* ============ 音色 ============ */
-/* tone kinds: piano | pad | pluck */
 
-/* voice()：弹一个音。三个振荡器叠加出"钢琴感"：
- *   o1 sine     基频
- *   o2 triangle 高八度（gain 0.32，pad 音色降到 0.2）
- *   o3 sine     高十二度（×3.01，略调开避免泛音过强），gain 0.07
- * 再过一只低通滤波器（piano 从 5200Hz 指数衰减到 900Hz——这就是"明亮转闷"的包络）。
- * kind='pad' 慢起慢收（氛围）；'pluck' 6ms 瞬间起音（琶音/碎音）。
- * bus 参数让整条播放挂在同一总线上，可被 killBuses 整体静音。 */
-function voice(midi, at, dur, gain, kind, bus, litKey){
+/* voice()：弹一个音。三个振荡器叠加（基频 + 八度 + 十二度），
+ *   参数全部从 TONES 表读。三条调度路径对应三种包络手感：
+ *     hold=true  → 慢起、保持、慢收（铺底/气息，制造"还在持续"的错觉）
+ *     atk <0.01  → 瞬间起音后指数衰减（打击/拨弦/脆响）
+ *     其余       → 线性起音 + 指数衰减（钢琴/一般）
+ *   kind 不认识时回落 piano（配置写错也不炸）。
+ *   bus 参数让整条播放挂在同一总线上，可被 killBuses 整体静音。
+ *   bend：可选的滑音终点（半音数），用于"下坠""上冲"这类运动状态 */
+function voice(midi, at, dur, gain, kind, bus, litKey, bend){
   flashKey(midi, at, (dur || 0.9) * 500, litKey);   /* 闪光保持音符时长的一半 */
   const A = ac(), t = at, out = bus || MASTER;
+  const T = TONES[kind] || TONES.piano;
   const g = A.createGain(), lp = A.createBiquadFilter();
   lp.type = 'lowpass';
-  kind = kind || 'piano';
-  if (kind === 'pad'){ lp.frequency.setValueAtTime(1400, t); }
-  else { lp.frequency.setValueAtTime(5200, t); lp.frequency.exponentialRampToValueAtTime(900, t + dur); }
-  const o1 = A.createOscillator(); o1.type = 'sine'; o1.frequency.value = f(midi);
-  const o2 = A.createOscillator(); o2.type = 'triangle'; o2.frequency.value = f(midi) * 2;
-  const g2 = A.createGain(); g2.gain.value = (kind === 'pad') ? 0.2 : 0.32;
-  const o3 = A.createOscillator(); o3.type = 'sine'; o3.frequency.value = f(midi) * 3.01;
-  const g3 = A.createGain(); g3.gain.value = 0.07;
+  lp.frequency.setValueAtTime(T.lp0, t);
+  if (T.lp1 !== T.lp0) lp.frequency.exponentialRampToValueAtTime(Math.max(60, T.lp1), t + dur);
+
+  const f0 = f(midi);
+  const o1 = A.createOscillator(); o1.type = 'sine'; o1.frequency.value = f0;
+  const o2 = A.createOscillator(); o2.type = 'triangle'; o2.frequency.value = f0 * 2;
+  const o3 = A.createOscillator(); o3.type = 'sine';     o3.frequency.value = f0 * 3.01;
+
+  /* 滑音：把三个振荡器一起弯过去，endAt 之后再收 */
+  if (bend){
+    const bf = f(midi + bend);
+    [o1, o2, o3].forEach(o => { o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(bf, t + dur); });
+  }
+
+  const g2 = A.createGain(); g2.gain.value = T.o2;
+  const g3 = A.createGain(); g3.gain.value = T.o3;
   o1.connect(g); o2.connect(g2); g2.connect(g); o3.connect(g3); g3.connect(g);
   g.connect(lp); lp.connect(out);
-  if (kind === 'pad'){
+
+  const d = Math.max(0.05, dur);
+  if (T.hold){
     g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(gain, t + 0.45);
-    g.gain.setValueAtTime(gain, Math.max(t + 0.5, t + dur * 0.6));
-    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  } else if (kind === 'pluck'){
+    g.gain.exponentialRampToValueAtTime(gain, t + T.atk);
+    g.gain.setValueAtTime(gain, Math.max(t + T.atk + 0.02, t + d * 0.6));
+    g.gain.exponentialRampToValueAtTime(0.0001, t + d);
+  } else if (T.atk < 0.01){
     g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(gain, t + 0.006);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    g.gain.exponentialRampToValueAtTime(gain, t + T.atk);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + d);
   } else {
     g.gain.setValueAtTime(0.0001, t);
-    g.gain.linearRampToValueAtTime(gain, t + 0.012);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    g.gain.linearRampToValueAtTime(gain, t + T.atk);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + d);
   }
-  [o1, o2, o3].forEach(o => { o.start(t); o.stop(t + dur + 0.1); });
+  [o1, o2, o3].forEach(o => { o.start(t); o.stop(t + d + 0.1); });
 }
 
-/* noiseVoice()：环境噪声层（雨/风/微光）。type = 滤波器类型，
-   freq → swTo 可在播放中扫频（雨声由亮慢慢闷下去就是靠这个） */
+/* noiseVoice()：环境噪声层。type/f0/f1 全部来自 NOISES 表，
+ *   f0→f1 的扫频是"渐强/渐弱"的关键（雨由亮慢慢闷下去就是靠这个） */
 function noiseVoice(at, dur, gain, type, freq, swTo, bus){
   const A = ac(), t = at, out = bus || MASTER;
   const s = A.createBufferSource(); s.buffer = noiseBuf(); s.loop = true;
@@ -120,13 +179,25 @@ function noiseVoice(at, dur, gain, type, freq, swTo, bus){
   g.gain.setValueAtTime(0.0001, t);
   g.gain.linearRampToValueAtTime(gain, t + 0.3);
   g.gain.setValueAtTime(gain, t + dur * 0.7);
-  g.gain.linearRampToValueAtTime(0.0001, t + dur);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
   s.connect(bp); bp.connect(g); g.connect(out);
   s.start(t); s.stop(t + dur + 0.05);
 }
 
+/* sceneNoise()：按 NOISES 表里的名字铺一层环境声。
+ *   name 取不到（配置写错）时静默跳过，不影响播放 */
+function sceneNoise(name, at, dur, bus){
+  const N = NOISES[name];
+  if (!N) return;
+  noiseVoice(at, dur, N.amp, N.type, N.f0, N.f1, bus);
+  /* 下大雨 / 狂风这类要"厚"的声音，第二层补一条低频把底噪垫起来 */
+  if (N.amp > 0.07) noiseVoice(at, dur, N.amp * 0.45, 'lowpass', 220, 140, bus);
+  /* 电流/金属这类高频信号补一层超高频，制造"刺" */
+  if (N.f0 > 5000) noiseVoice(at, dur, N.amp * 0.5, 'highpass', 8000, 8000, bus);
+}
+
 /* clickVoice()：节拍器的"嗒"。无音高（方波短脉冲），不参与键盘/方块点亮，
-   但会点亮拍点圆点（dot = 第几个圆点） */
+ *   但会点亮拍点圆点（dot = 第几个圆点） */
 function clickVoice(at, strong, dot){
   const A = ac(), t = at;
   const o = A.createOscillator(), g = A.createGain();

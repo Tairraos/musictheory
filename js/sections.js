@@ -184,6 +184,37 @@ function buildPenta(){
   });
 }
 
+/* 四个"特色音阶"的试听（都节 / 羽调 / 宫调 / 布鲁斯）。
+   它们不是七个教会调式里的任何一个，而是各有地域与流派身份的调式——
+   第 10 节的"文化与风格"维度要靠它们。 */
+function buildExotic(){
+  const box = $('#exoticChips'); if (!box) return;
+  const list = [
+    { id: 'hira',    use: '日本 · 动漫和风',   d: 'hirajoshi = 1 2 ♭3 5 ♭6。两个半音（小二、♭三）是它的辨识度——听起来"怪"，正是日本都节的关键。' },
+    { id: 'pentaY',  use: '中国风 · 偏小调',   d: '羽调 = 1 2 4 6 7。同样是五声，但因为落在 la 上，听感含蓄偏暗，和徵调的明亮正好相反。' },
+    { id: 'pentaG',  use: '中国风 · 明亮',     d: '宫调 = 1 2 3 5 6。江南、茉莉花、彩云追月都是它。中国风听起来"正"，是因为主音落在大调上。' },
+    { id: 'blues',   use: '布鲁斯 · 摇滚',     d: '布鲁斯音阶 = 1 ♭3 4 ♭5 5 ♭7。那个 ♭5（降四级）是布鲁斯的灵魂——它天生想往上解决，撑起整首歌的张力。' },
+  ];
+  list.forEach((x, i) => {
+    const b = document.createElement('button'); b.className = 'chip' + (i === 0 ? ' on' : '');
+    b.textContent = M_OF(x.id).zh;
+    b.onclick = () => {
+      stopAll();
+      $$('#exoticChips .chip').forEach(c => c.classList.remove('on')); b.classList.add('on');
+      const semis = M_OF(x.id).semis, base = midiOct(state.root, 4);
+      /* 音阶上下行走两遍，听得出它和别的调式不是一回事 */
+      const deg = [];
+      for (let k = 0; k < 2; k++) for (let j = 0; j < semis.length; j++) deg.push(j);
+      seq(deg.concat(deg.slice().reverse().slice(1, -1))
+        .map((d2, j) => ({ at: j * 0.28, m: base + semis[d2], d: 0.66, g: 0.36 })));
+      $('#exoticInfo').innerHTML = `<b>${M_OF(x.id).zh}</b>　${x.use}<br>${x.d}`;
+    };
+    box.appendChild(b);
+  });
+  const m0 = M_OF(list[0].id);
+  $('#exoticInfo').innerHTML = `<b>${m0.zh}</b>　${list[0].use}<br>${list[0].d}`;
+}
+
 /* ============ 第 05 节 · 和弦与和声 ============ */
 
 function buildChords(){
@@ -410,24 +441,59 @@ function buildKey(){
     tb.appendChild(tr); });
 }
 
-/* ============ 第 10 节 · 心情 / 天气 / 温度 ============ */
+/* ============ 第 10 节 · 音乐的十二种表达维度 ============ */
+
+/* sceneCard(s)：造一张场景卡片。
+ *   药丸标签里刻意把「听感速度」和「标称 BPM」分开摆——这正是本次修复的重点：
+ *   之前只印 BPM，隐藏了真正决定快慢的音头密度，用户只能靠耳朵发现问题。 */
+function sceneCard(s){
+  const el = document.createElement('div'); el.className = 'scene';
+  const m = M_OF(s.k), T = TEX[s.tex] || TEX.block;
+  const rate = sceneRate(s);
+  const octTxt = s.oct >= 5 ? '很高' : s.oct >= 4 ? '高' : s.oct >= 3 ? '中' : '低';
+  el.innerHTML = `<h4><span class="dot" style="background:var(--${dimCol(s.g)})"></span>${s.t}</h4><p>${s.p}</p>
+    <div class="pills"><span class="tag">${m.zh}</span>
+    <span class="tag" title="每秒敲出多少个音头——这才是耳朵判断快慢的依据">听感 ${rate.toFixed(1)} 音头/秒</span>
+    <span class="tag" title="和弦周期内的音头位置决定了密度">${T.zh}</span>
+    <span class="tag">${s.b} BPM</span>
+    <span class="tag">音区 ${octTxt}</span>
+    ${s.noise && NOISES[s.noise] ? `<span class="tag">${NOISES[s.noise].tag}噪</span>` : ''}
+    <span class="tag">${s.dyn < 0.2 ? '极轻' : s.dyn < 0.3 ? '轻' : s.dyn < 0.36 ? '中强' : '强'}</span></div>`;
+  el.onclick = () => { scenePlay(s); el.classList.add('playing');
+    setTimeout(() => el.classList.remove('playing'), sceneEvents(s).dur * 1000 + 300); };
+  return el;
+}
+
+/* dimCol(g)：维度 id → 主题色变量名 */
+function dimCol(g){ const d = DIMS.find(x => x.id === g); return (d ? d.col : 'gray'); }
 
 function buildScenes(){
-  const groups = { mood: $('#moodGrid'), weather: $('#weatherGrid'), temp: $('#tempGrid') };
-  const col = { mood: 'purple', weather: 'teal', temp: 'coral' };
-  SCENES.forEach(s => {
-    const box = groups[s.g]; if (!box) return;
-    const el = document.createElement('div'); el.className = 'scene';
-    const m = M_OF(s.k);
-    el.innerHTML = `<h4><span class="dot" style="background:var(--${col[s.g]})"></span>${s.t}</h4><p>${s.p}</p>
-      <div class="pills"><span class="tag">${m.zh}</span><span class="tag">${s.b} BPM</span>
-      <span class="tag">音区 ${s.oct === 5 ? '高' : s.oct === 3 ? '低' : '中'}</span>
-      <span class="tag">${{ block: '块状', arpeggio: '琶音', pulse: '碎音', shimmer: '微光' }[s.tex]}</span>
-      <span class="tag">${s.dyn < 0.22 ? '极轻' : s.dyn < 0.32 ? '轻' : '强'}</span></div>`;
-    el.onclick = () => { scenePlay(s); el.classList.add('playing');
-      setTimeout(() => el.classList.remove('playing'), (2 * 60 / s.b) * s.prog.length * 1000 + 300); };
-    box.appendChild(el);
-  });
+  /* 维度筛选条：12 个维度一次铺开会有 71 张卡片，所以给一个可点选的过滤器，
+     默认显示「全部」，点某个维度只看它那一族 */
+  const bar = $('#dimBar');
+  const grid = $('#sceneGrid');
+  const dimBox = $('#dimTable');
+  let cur = 'all';
+  const paint = () => {
+    grid.innerHTML = '';
+    SCENES.filter(s => cur === 'all' || s.g === cur).forEach(s => grid.appendChild(sceneCard(s)));
+    $$('#dimBar .chip').forEach(c => c.classList.toggle('on', c.dataset.g === cur));
+    $('#dimCount').textContent = cur === 'all'
+      ? `${SCENES.length} 张卡片 · ${DIMS.length} 个维度`
+      : `${SCENES.filter(s => s.g === cur).length} 张 · ${(DIMS.find(d => d.id === cur) || {}).zh || ''}`;
+  };
+  bar.innerHTML = `<button class="chip on" data-g="all">全部</button>` +
+    DIMS.map(d => `<button class="chip" data-g="${d.id}">${d.zh}<span class="mini"> ${SCENES.filter(s => s.g === d.id).length}</span></button>`).join('');
+  $$('#dimBar .chip').forEach(c => c.onclick = () => { stopAll(); cur = c.dataset.g; paint(); });
+  paint();
+
+  /* 维度拆解表：把"每个维度靠什么承载"明确写出来 */
+  dimBox.innerHTML = DIMS.map(d => `<tr>
+    <td class="mini"><span class="dot" style="background:var(--${d.col})"></span> <b>${d.zh}</b></td>
+    <td class="mini">${d.q}</td>
+    <td class="mini">${d.by}</td>
+    <td class="mono">${SCENES.filter(s => s.g === d.id).length}</td></tr>`).join('');
+
   /* 通用配方表（数据在 data.js 的 RECIPES） */
   $('#recipeTable').innerHTML = RECIPES.map(r => '<tr>' + r.map(c => '<td class="mini">' + c + '</td>').join('') + '</tr>').join('');
 }

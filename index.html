@@ -5,7 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#F7F6F2">
 <meta name="color-scheme" content="light">
-<title>姐弟厨师团 --- 乐理课</title>
+<!-- favicon：ico 覆盖老浏览器，png 给现代浏览器与高分屏；apple-touch-icon 给 iOS 添加到主屏 -->
+<link rel="icon" href="assets/images/favicon.ico" sizes="any">
+<link rel="icon" href="assets/images/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/images/favicon.png">
+<title>姐弟厨师团 --- 乐理课 V1.15 [26.10.19]</title>
 <!-- 样式外链：原内联样式表已拆到 css/main.css（规则与顺序未动，仅补注释） -->
 <link rel="stylesheet" href="css/main.css">
 </head>
@@ -13,7 +17,7 @@
 
 <!-- 左侧导航：13 节课，与下方 <section> 一一对应（≤1000px 变为顶部横滚条） -->
 <aside id="nav">
-  <div class="brand">姐弟厨师团 --- 乐理课<small>点一下，就出声</small></div>
+  <div class="brand">乐理课目录 <span class="ver" data-ver><b>V1.15</b> [26.10.19]</span><small>点一下，就出声</small></div>
   <a href="#s-start">0 · 先弄响钢琴</a>
   <a href="#s-halfnote">1 · 半音与音程</a>
   <a href="#s-majmin">2 · 大调与小调</a>
@@ -24,7 +28,7 @@
   <a href="#s-tempo">7 · 速度（行板在这）</a>
   <a href="#s-meter">8 · 拍号与节奏</a>
   <a href="#s-key">9 · 移调与调号</a>
-  <a href="#s-emotion">10 · 心情 / 天气 / 温度</a>
+  <a href="#s-emotion">10 · 音乐表达</a>
   <a href="#s-advance">11 · 转调与七和弦</a>
   <a href="#s-cheat">12 · 速查表</a>
 </aside>
@@ -33,7 +37,7 @@
 
 <!-- 页头：标题 + 插画（assets/images/hero-art.png，透明底 PNG，勿加边框阴影）+ 导语 -->
 <header class="hero">
-  <h1>姐弟厨师团 --- 乐理课</h1>
+  <h1>姐弟厨师团 --- 乐理课 <span class="ver" data-ver><b>V1.15</b> [26.10.19]</span></h1>
   <div class="hero-grid">
     <div class="art"><img src="assets/images/hero-art.png" alt="姐弟二人坐在钢琴前弹奏的插图"></div>
     <p class="intro">没有枯燥的符号，这里是一个可以自由调味的声音工坊。不背公式、不看天书，每一个模块内容都能点、能听 —— 大调小调、七个调式、五声、和弦进行、行板、拍号、移调、听感配方，主流的音乐语言一次玩透。一路玩到最后你会发现：雨天的清冷、午后的松弛、某刻的心事，原来都可以用音乐说出来。我们一起创作吧，用音乐表达生活，让世界更鲜活。</p>
@@ -179,6 +183,14 @@
     <h3>五个音，五种调（换个主音就换味道）</h3>
     <div class="row" id="pentaChips" style="margin-bottom:8px"></div>
     <div class="note" id="pentaInfo">宫=do、商=re、角=mi、徵=sol、羽=la。哪个音当主音，就叫什么调。</div>
+    <div class="card" style="margin-top:14px;background:var(--card)">
+      <h3>五声之外的三个"特色音阶"</h3>
+      <p class="mini" style="line-height:1.7;margin-bottom:10px">
+        第 10 节讲「文化与风格」时要用到。它们不是七个教会调式里的任何一个，而是各有地域与流派身份的调式——
+        <b>调式选择几乎就是风格选择</b>。点一下听听。</p>
+      <div class="row" id="exoticChips" style="flex-wrap:wrap"></div>
+      <div class="note" id="exoticInfo" style="margin-top:10px"></div>
+    </div>
   </div>
 </section>
 
@@ -349,17 +361,34 @@
   </div>
 </section>
 
-<!-- ==================== 10 · 心情 / 天气 / 温度 ==================== -->
+<!-- ==================== 10 · 音乐的十二种表达维度 ==================== -->
 <section id="s-emotion">
-  <div class="sec-head"><span class="sec-num">10</span><h2>用音乐表达心情、天气和温度</h2></div>
-  <p class="lead">前面所有参数，最终都是为这个服务的。把"调式 + 速度 + 音区 + 织体 + 力度"当成五个旋钮，
-    拧出你想要的画面。下面每张卡片都是一个可播放的配方——<b>点它</b>。</p>
-  <h3>心情</h3>
-  <div class="grid3" id="moodGrid"></div>
-  <h3>天气</h3>
-  <div class="grid3" id="weatherGrid"></div>
-  <h3>温度</h3>
-  <div class="grid3" id="tempGrid"></div>
+  <div class="sec-head"><span class="sec-num">10</span><h2>音乐能表达什么：十二个维度</h2></div>
+  <p class="lead">前面所有参数，最终都是为这个服务的。音乐不只表达心情——它还能表达天气、冷热、时间、空间、
+    重量、材质、运动、事件、身体状态，甚至文化风格。<b>因为音乐模拟的不是情绪，是物理量</b>：
+    音高听起来像高低和大小，响度像重量和距离，时值像开阔还是逼仄。</p>
+
+  <div class="card">
+    <h3>为什么"速度"这件事，方块常在说谎</h3>
+    <p class="mini" style="line-height:1.7">耳朵判断快慢，靠的是<b>每秒敲出多少个音头</b>，不是方块上印的那个 BPM 数字。
+      同样是 92 BPM，一个织体一拍敲一下、另一个织体敲四下，听起来能差出好几倍。所以每张卡片上现在同时标了两个数：
+      <b>标称 BPM</b>（和弦周期有多快）和 <b>听感速度</b>（音头密度，个/秒）——后者才是耳朵真正在意的那个。</p>
+    <div class="note">卡片的音头密度按这个公式算：<span class="mono">密度 = 织体的音头数 × BPM ÷ 120</span>。
+      自动化测试会拿每一张卡片的实测值跟它自报的数字对账，对不上就构建失败。</div>
+  </div>
+
+  <div class="row" id="dimBar" style="margin:16px 0 10px;flex-wrap:wrap"></div>
+  <div class="mini" id="dimCount" style="margin-bottom:10px"></div>
+  <div class="grid3" id="sceneGrid"></div>
+
+  <div class="card" style="margin-top:16px">
+    <h3>十二个维度分别靠什么承载</h3>
+    <table><thead><tr><th style="width:15%">维度</th><th style="width:22%">它在问什么</th><th>靠什么承载</th><th style="width:6%">卡片</th></tr></thead>
+    <tbody id="dimTable"></tbody></table>
+    <div class="note">拆解的结论：一个维度通常由 3–5 个参数联合承载，任何一个单独拧到底都会失真。
+      比如「闷热」不是"快"，是"慢而黏"——低音区 + 偏属和弦 + 带风噪 + 中等密度，四件事一起才是闷热。</div>
+  </div>
+
   <div class="card" style="margin-top:16px">
     <h3>写东西时的通用配方</h3>
     <table><thead><tr><th>你想要的</th><th>调式</th><th>速度</th><th>音区</th><th>织体</th><th>力度</th></tr></thead>

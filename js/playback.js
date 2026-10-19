@@ -181,33 +181,107 @@ function playCadence(c){
 
 /* ============ 场景配方（第 10 节） ============ */
 
-/* scenePlay(cfg)：播放一张"听感配方"卡片。按 cfg.tex 织体类型组织音符：
- *   block    块状：三音齐响
- *   arpeggio 琶音：根三五 + 高八度根音，依次 pluck
- *   pulse    碎音：三个音各敲两下
- *   shimmer  微光：高八度四个碎音
- * 雨/风/微光环境声按 cfg.noise 叠一条噪声总线 */
+/* sceneEvents(cfg)：把一张卡片配置展开成一条音符时间线。**纯函数，不碰音频**。
+ *   这是本次重写的关键——原来 scenePlay 既排程又发声，测试无法验证它到底排了什么，
+ *   于是"方块上印的 BPM"和"实际听起来的速度"长期各说各话也没人发现。
+ *   现在排程单独可测：tests/ 里直接拿这个函数的输出做统计。
+ *
+ *   返回 {steps:[{at,m,d,g,kind,bend}], beats, dur}
+ *     at  = 相对起点的秒数    m = MIDI 号      d = 时值（秒）
+ *     g   = 音量             kind = 音色 id   bend = 滑音半音数
+ *
+ *   排程规则：和弦周期固定 2 拍（TEX.hits 的坐标也是"拍"）。
+ *     音头密度 = hits.length × b / 120（个/秒）——这是听感速度的唯一算法 */
+function sceneEvents(cfg){
+  const mode = M_OF(cfg.k), tex = TEX[cfg.tex] || TEX.block;
+  const spb = 60 / cfg.b, beatLen = spb * 2;      /* 和声周期 = 2 拍 */
+  /* 长音类织体（铺底/长音）一个和弦要拖好几拍，不能被 2 拍的和声周期腰斩——
+     否则"空旷""死亡"这种卡片会变回两拍一下，听感全错。
+     drone（长音）额外多给 2 拍空隙：音符只占周期的 2/3，剩下的静默
+     就是"空旷""辽阔"这条规律的物理实现——声音之间留的空即空间。 */
+  const span = tex.dur >= 4 ? tex.dur + 2 : Math.max(2, tex.dur);
+  const period = spb * span;
+  const steps = [];
+  const root = midiOct(0, cfg.oct);
+  cfg.prog.forEach((deg, ci) => {
+    const at0 = ci * period;
+    const ch = triad(root, mode, deg);
+    tex.hits.forEach((hb, hi) => {
+      const at = at0 + hb * spb;
+      const dur = Math.min(tex.dur * spb, period);   /* 不许拖过本和弦的边界 */
+      /* hit=1 的音加重——织体的重音位置就是它的"性格"所在 */
+      const acc = (hi === 0) ? 1 : 0.72;
+      if (tex.mode === 'chord'){
+        /* 块状：三个音齐响，根音最响 */
+        ch.notes.forEach((m, k) => steps.push({ at, m, d:dur, g:cfg.dyn * acc * (k === 0 ? 1 : 0.62), kind:tex.tone, bend:cfg.bend }));
+        /* 块状也补一记高八度短音，否则节奏只剩"每两拍一下"，密度上不去 */
+        if (tex.hits.length <= 2) steps.push({ at, m:ch.notes[2] + 12, d:Math.min(dur * 0.45, spb * 0.4), g:cfg.dyn * acc * 0.3, kind:'pluck' });
+      } else if (tex.mode === 'open'){
+        /* 空五度：只留和弦根音、它的纯五度、再加根音高八度。
+           全是纯五/纯八——"纯净""冰冷""空旷"这类描述最直接的物理对应：
+           纯五度听不出任何摩擦，而小二度/小三度一定听得出。
+           注意两点：① 五度相对**和弦根**算（ch.notes[0]），不是相对主音；
+                  ② 纯五度只有在调式第 4 级 = 7 个半音时才天然成立。
+                     lydian 升了四级（#4），硬叠纯五会跑出调式——
+                     那种情况退回"按调式取第 4 级"，让听感仍落在调内。 */
+        const deg4 = mode.semis[4];
+        const fifth = (deg4 === 7) ? ch.notes[0] + 7 : ch.notes[0] + (deg4 != null ? deg4 : 7);
+        steps.push({ at, m:ch.notes[0], d:dur, g:cfg.dyn * acc, kind:tex.tone, bend:cfg.bend });
+        steps.push({ at, m:fifth, d:dur, g:cfg.dyn * acc * 0.62, kind:tex.tone });
+        steps.push({ at, m:ch.notes[0] + 12, d:dur * 0.7, g:cfg.dyn * acc * 0.34, kind:tex.tone });
+      } else if (tex.mode === 'arp'){
+        /* 琶音级进：把和弦音（含高八度根音）依次弹上去 */
+        const seq = ch.notes.concat([ch.notes[0] + 12]);
+        const m = seq[hi % seq.length];
+        steps.push({ at, m, d:dur, g:cfg.dyn * acc, kind:tex.tone, bend:cfg.bend });
+      } else if (tex.mode === 'grind'){
+        /* 碾压：三十二分密集低音，音与音微微错开一点点相位。
+           这是"闷""窒息""热浪"的织体——密度到极致时，人耳不再听音高，只听压力。 */
+        const m = hi % 2 === 0 ? ch.notes[0] - 12 : ch.notes[0] - 12 + (hi % 4 === 1 ? 1 : 0);
+        steps.push({ at, m, d:dur * 0.9, g:cfg.dyn * acc * (hi % 2 === 0 ? 1 : 0.72), kind:tex.tone });
+        if (hi % 4 === 0) ch.notes.slice(1).forEach(n => steps.push({ at, m:n, d:dur * 0.7, g:cfg.dyn * acc * 0.34, kind:tex.tone }));
+      } else if (tex.mode === 'drive'){
+        /* 驱动：正拍弹完整和弦，反拍弹低八度根音，制造"踩着走"的推进感 */
+        if (hi % 2 === 0) ch.notes.forEach((m, k) => steps.push({ at, m, d:dur, g:cfg.dyn * acc * (k === 0 ? 1 : 0.55), kind:tex.tone }));
+        else steps.push({ at, m:ch.notes[0] - 12, d:dur * 0.8, g:cfg.dyn * acc * 0.7, kind:tex.tone });
+      } else {
+        /* bell：只在正拍敲钟，余音自己拖 */
+        steps.push({ at, m:ch.notes[0] + (hi ? 12 : 0), d:dur, g:cfg.dyn * acc, kind:tex.tone });
+      }
+      /* 摩擦层：与和弦根音同时叠一个上方半音 + 它的低八度（C♯/C 那种夹击）。
+         「灼热」「病痛」「紧张」「砂石」——热不是"快"，痛也不是"快"，
+         它们是**空气在摩擦**：两个音必须真的同时只差 1 个半音地响，
+         耳朵才会听到那种"嘶"。光靠调式里的降二级三和弦是不够的
+         （那个三和弦内部最小音程仍有 3 个半音，听着只是"暗"不是"痛"）。
+         摩擦音天生不属于调式——这正是它存在的意义，也是 F5 测试豁免它的原因。 */
+      if (cfg.friction && hi === 0){
+        steps.push({ at, m:ch.notes[0] + 1, d:dur * 1.15, g:cfg.dyn * acc * 0.3, kind:tex.tone });
+        steps.push({ at, m:ch.notes[0] + 13, d:dur * 0.85, g:cfg.dyn * acc * 0.17, kind:tex.tone });
+      }
+    });
+  });
+  const beats = cfg.prog.length * span;
+  return { steps, beats, dur:beats * spb, period };
+}
+
+/* sceneRate(cfg)：算出这张卡片的实际音头密度（个/秒）。
+ *   卡片上"听感速度"那一栏显示的就是它，测试也拿它跟卡片自报的 r 对账 */
+function sceneRate(cfg){
+  const tex = TEX[cfg.tex] || TEX.block;
+  return tex.hits.length * cfg.b / 120;
+}
+
+/* scenePlay(cfg)：播放一张"听感配方"卡片。排程全部交给 sceneEvents，
+ *   这里只负责把 steps 变成声音 + 铺环境噪声 */
 function scenePlay(cfg){
   stopAll();
   LIT_SEL = '';   /* 本节无示意图，不点亮任何方块（须在 stopAll 之后设，否则会被重置） */
   kbAuto = true;
-  const mode = M_OF(cfg.k), A = ac(), t0 = A.currentTime + 0.08;
-  const spb = 60 / cfg.b, durPer = 2 * spb, total = durPer * cfg.prog.length;
-  const bus = newBus((total + 3) * 1000);
+  const A = ac(), t0 = A.currentTime + 0.08;
+  const ev = sceneEvents(cfg);
+  const bus = newBus((ev.dur + 3) * 1000);
   const tok = TOKEN;
-  setTimeout(() => { if (tok === TOKEN){ kbAuto = false; kbHomeAll(500); } }, (total + 0.6) * 1000);
-  /* 第一参必须是 root（0=C），oct 只决定八度。
-     曾误写成 midiOct(cfg.oct,4)——把 oct 当成了 root：oct:3→基准 D♯3、oct:5→基准 F4，
-     21 个场景全挤在两个半音内，"低音区/高音区"的描写完全没体现 */
-  const chords = cfg.prog.map(d => triad(midiOct(0, cfg.oct), mode, d));
-  chords.forEach((c, i) => {
-    const at = t0 + i * durPer;
-    if (cfg.tex === 'block'){ c.notes.forEach((m, k) => voice(m, at, durPer * 1.05, cfg.dyn * (k === 0 ? 1 : 0.7), 'piano', bus)); }
-    else if (cfg.tex === 'arpeggio'){ c.notes.concat([c.notes[0] + 12]).forEach((m, k) => voice(m, at + k * spb / 2, spb * 0.85, cfg.dyn, 'pluck', bus)); }
-    else if (cfg.tex === 'pulse'){ [0,1,2].forEach(k => { voice(c.notes[k], at, spb * 0.35, cfg.dyn * 0.9, 'pluck', bus); voice(c.notes[k], at + spb, spb * 0.35, cfg.dyn * 0.9, 'pluck', bus); }); }
-    else { [0,1,2,3].forEach(k => voice(c.notes[k % 3] + 12, at + k * spb / 4, spb * 0.6, cfg.dyn * 0.8, 'pluck', bus)); }
-  });
-  if (cfg.noise === 'rain'){ noiseVoice(t0, total, 0.055, 'bandpass', 2400, 1800, bus); noiseVoice(t0, total, 0.03, 'highpass', 6000, null, bus); }
-  else if (cfg.noise === 'wind'){ noiseVoice(t0, total, 0.06, 'lowpass', 420, 700, bus); }
-  else if (cfg.noise === 'shimmer'){ noiseVoice(t0, total, 0.022, 'highpass', 5000, null, bus); }
+  setTimeout(() => { if (tok === TOKEN){ kbAuto = false; kbHomeAll(500); } }, (ev.dur + 0.6) * 1000);
+  ev.steps.forEach(s => voice(s.m, t0 + s.at, s.d, s.g, s.kind, bus, null, s.bend));
+  sceneNoise(cfg.noise, t0, ev.dur, bus);
 }

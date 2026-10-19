@@ -13,11 +13,31 @@
  * 改它只有两个入口：rootSel / modeSel 的 onchange（见 sections.js） */
 let state = { root: 0, mode: 'ionian' };
 
+/* ============ 版本号 ============
+ * 全站只有一个版本号，写在这里。每次更新改这一行就够了：
+ *   - 版本号 v 递增（1.15 → 1.16 → …）
+ *   - 日期同步改成当天，格式固定 YYYY.MM.DD 的简写（26.10.19 = 2026-10-19）
+ * 它会自动写到三处：浏览器标签页标题、页面大标题 H1、侧栏 brand。
+ * HTML 里也留了一份静态副本做降级（万一 JS 没跑起来，仍能看到版本号）。 */
+const VERSION = { v: '1.15', date: '26.10.19' };
+
+/* applyVersion()：把 VERSION 注入到需要的位置。
+ *   idx.html 的 <title> 是 SEO 相关的，浏览器标签页里由 JS 改同样生效；
+ *   页面上的两处用 data-ver 属性定位，HTML 里没有就跳过（不做成硬失败）。 */
+function applyVersion(){
+  const label = `${VERSION.v} [${VERSION.date}]`;
+  document.title = `姐弟厨师团 --- 乐理课 V${label}`;
+  $$('[data-ver]').forEach(el => {
+    el.innerHTML = `<b>V${VERSION.v}</b> [${VERSION.date}]`;
+  });
+}
+
 /* ============ 启动装配 ============ */
 /* 顺序即依赖：先建下拉框和键盘，再逐节装配，最后统一重画依赖主音的图 */
 buildSelects(); renderKB(); kbDragInit(); buildIV(); buildIVTable(); buildMinor3(); buildModes(); buildPenta();
 buildChords(); buildCadence(); buildProg(); buildTempo(); buildMeter(); buildKey(); buildScenes();
-buildSeventh(); buildMod(); buildCheat(); refreshAll();
+buildSeventh(); buildMod(); buildCheat(); buildExotic(); refreshAll();
+applyVersion();   /* 版本号写进标签页标题与页面两处标题（HTML 里的静态副本会被它覆盖） */
 
 /* ============ 全局事件 ============ */
 
@@ -48,5 +68,6 @@ window.__MT__ = {
   get state(){ return state; },
   get live(){ return LIVE; },
   triad, chordLabel, noteName, midiOct, f, spellUp, M_OF,
-  stopAll, seq
+  stopAll, seq, sceneEvents, sceneRate,
+  SCENES, DIMS, TEX, TONES, NOISES
 };

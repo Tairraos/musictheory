@@ -273,3 +273,13 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sa
   #dock{left:0}
   .hero{padding:28px 0 20px}
 }
+
+/* ---------- 16. 版本号（页面 H1 与侧栏 brand 共用） ----------
+   版本号与日期只作标注，不抢标题的视觉重量：字号压到 14px（比正文略小一号），
+   颜色用正文灰 --muted，斜体，版本号再加粗一点以便一眼认出当前版本。
+   放在文件末尾是因为它只覆盖上面两处的 font-size/color，与层叠顺序无关。 */
+.ver{font-size:14px;color:var(--muted);font-style:italic;font-weight:400;white-space:nowrap;letter-spacing:0}
+.ver b{font-weight:600;font-style:italic}
+/* 侧栏只有 196px 宽，版本号跟在 15px 的标题后面一定会折行且难看——
+   在侧栏里让它单独占一行、字号再小半号，读起来像署名而不是标题的一部分 */
+#nav .brand .ver{display:block;margin-top:3px;font-size:11px;line-height:1.5}

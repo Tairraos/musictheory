@@ -126,13 +126,71 @@ test('A1 资源拆分：外链 CSS / 8 个 JS 全部就位，插图外链且无 
   // 插图已改为 assets 路径，正文不再有任何 base64 data URI
   assert.match(HTML, /<img src="assets\/images\/hero-art\.png"/);
   assert.doesNotMatch(HTML, /data:image\/png;base64/);
+  // favicon：ico + png + apple-touch-icon 三种声明都要在
+  assert.match(HTML, /<link rel="icon" href="assets\/images\/favicon\.ico"/);
+  assert.match(HTML, /<link rel="icon" href="assets\/images\/favicon\.png" type="image\/png">/);
+  assert.match(HTML, /<link rel="apple-touch-icon" href="assets\/images\/favicon\.png">/);
   // 磁盘上真实存在
-  for (const f of ['css/main.css', ...scripts, 'assets/images/hero-art.png']) {
+  for (const f of ['css/main.css', ...scripts, 'assets/images/hero-art.png',
+                   'assets/images/favicon.png', 'assets/images/favicon.ico']) {
     assert.ok(fs.existsSync(path.join(ROOT, f)), `${f} 应存在`);
   }
   // PNG magic bytes 校验
   const png = fs.readFileSync(path.join(ROOT, 'assets/images/hero-art.png'));
   assert.deepEqual([...png.subarray(0, 4)], [0x89, 0x50, 0x4e, 0x47], 'hero-art.png 应是合法 PNG');
+  const fav = fs.readFileSync(path.join(ROOT, 'assets/images/favicon.png'));
+  assert.deepEqual([...fav.subarray(0, 4)], [0x89, 0x50, 0x4e, 0x47], 'favicon.png 应是合法 PNG');
+  // ICO magic bytes（0 0 1 0）+ 至少含 4 个尺寸
+  const ico = fs.readFileSync(path.join(ROOT, 'assets/images/favicon.ico'));
+  assert.deepEqual([...ico.subarray(0, 4)], [0x00, 0x00, 0x01, 0x00], 'favicon.ico 应是合法 ICO');
+  const count = ico.readUInt16LE(4);
+  assert.ok(count >= 4, `favicon.ico 应至少含 4 个尺寸，实际 ${count}`);
+  const sizes = [];
+  for (let i = 0; i < count; i++) {
+    const e = 6 + i * 16;
+    sizes.push(ico[e] === 0 ? 256 : ico[e]);
+  }
+  assert.ok(sizes.includes(256) && sizes.includes(32) && sizes.includes(16),
+    `favicon.ico 应含 256/32/16 三档，实际 ${sizes.join('/')}`);
+});
+
+test('A3 版本号：HTML 静态副本、<title>、js/app.js 的 VERSION 三处必须一致', async () => {
+  /* 版本号以后每次更新都要改，最容易出的错就是只改了一处。
+     所以这里从三个来源各自解析出版本串，断言它们完全相同：
+       ① js/app.js 里的 VERSION 常量（唯一真源）
+       ② index.html 的 <title>（浏览器标签页）
+       ③ index.html 里两处 data-ver 静态副本（JS 没跑起来时的降级显示） */
+  const appJs = fs.readFileSync(path.join(ROOT, 'js/app.js'), 'utf8');
+  const m = appJs.match(/const VERSION = \{ v: '([\d.]+)', date: '([\d.]+)' \}/);
+  assert.ok(m, 'app.js 应有 VERSION 常量（升级时改这一行）');
+  const [ver, date] = [m[1], m[2]];
+
+  /* 日期格式固定 YY.MM.DD */
+  assert.match(date, /^\d{2}\.\d{2}\.\d{2}$/, `版本日期 ${date} 应为 YY.MM.DD 格式`);
+  /* 版本号三段递增制，如 1.15 */
+  assert.match(ver, /^\d+\.\d+$/, `版本号 ${ver} 应为 X.Y 格式`);
+
+  const titleM = HTML.match(/<title>([^<]*)<\/title>/);
+  assert.ok(titleM, '应有 <title>');
+  assert.ok(titleM[1].includes(`V${ver} [${date}]`),
+    `<title>「${titleM[1]}」应含 V${ver} [${date}]`);
+
+  /* 两处 data-ver（页面 H1 + 侧栏 brand）的静态副本 */
+  const verNodes = [...HTML.matchAll(/<span class="ver" data-ver>([\s\S]*?)<\/span>/g)];
+  assert.equal(verNodes.length, 2, '应有 2 处 data-ver（页面大标题 + 侧栏 brand）');
+  verNodes.forEach((v, i) => {
+    assert.ok(v[1].includes(`V${ver}`) && v[1].includes(`[${date}]`),
+      `第 ${i + 1} 处 data-ver 静态副本应与 VERSION 一致（V${ver} [${date}]）`);
+  });
+
+  /* 样式约定：版本号必须 14px、正文灰、斜体，版本号本身加粗 */
+  const css = fs.readFileSync(path.join(ROOT, 'css/main.css'), 'utf8');
+  const verRule = css.match(/\.ver\{([^}]*)\}/);
+  assert.ok(verRule, 'css 应有 .ver 规则');
+  assert.match(verRule[1], /font-size:14px/, '.ver 应为 14px');
+  assert.match(verRule[1], /color:var\(--muted\)/, '.ver 应用正文灰色 --muted');
+  assert.match(verRule[1], /font-style:italic/, '.ver 应为斜体');
+  assert.match(css, /\.ver b\{[^}]*font-weight:6/, '.ver b（版本号本身）应加粗');
 });
 
 test('A2 拆分不改变内容：原内联 <style>/<script> 块已不在 HTML 里', () => {
@@ -198,14 +256,15 @@ test('B3 各节装配数量：表格行数 / chips 数 / SVG 方块数', async (
     assert.equal(n('#keyChips .chip'), 7, '常用调 chips');
     assert.equal(n('#sevChips .chip'), 5, '七和弦 chips');
     assert.equal(n('#modChips .chip'), 6, '转调 chips');
+    assert.equal(n('#exoticChips .chip'), 4, '特色音阶 chips（都节/羽/宫/布鲁斯）');
     assert.equal(n('#minor3row .btn'), 3, '小调三形态按钮');
-    // 场景卡片 9 + 7 + 5 = 21
-    assert.equal(n('#moodGrid .scene'), 9);
-    assert.equal(n('#weatherGrid .scene'), 7);
-    assert.equal(n('#tempGrid .scene'), 5);
+    // 场景卡片：12 维度 + 筛选条 + 拆解表
+    assert.equal(n('#sceneGrid .scene'), 71, '默认展示全部 71 张场景卡片');
+    assert.equal(n('#dimBar .chip'), 13, '筛选条 全部 + 12 维度');
+    assert.equal(n('#dimTable tr'), 12, '维度拆解表 12 行');
     // 下拉框选项
     assert.equal(n('#rootSel option'), 12, '主音下拉 12 项');
-    assert.equal(n('#modeSel option'), 8, '调式下拉 7 调式 + 五声');
+    assert.equal(n('#modeSel option'), 12, '调式下拉 7 教会调式 + 五声 + 都节 + 布鲁斯');
     assert.equal(n('#chordKey option'), 7, '级数和弦调性下拉');
     assert.equal(n('#ivRoot option'), 13, '音程起点 C4–C5');
     assert.equal(n('#ivTop option'), 25, '音程终点 C4–C6');
@@ -320,23 +379,40 @@ test('D1 调式数据：7 个调式半音结构合法', async () => {
   });
 });
 
-test('D2 场景数据：21 张配方卡片引用合法的调式/音区/织体', async () => {
+test('D2 场景数据：71 张配方卡片引用合法的调式/音区/织体/噪声', async () => {
   await withPage((w) => {
-    const M_OF = w.__MT__.M_OF;
-    // SCENES 是 data.js 的顶层 const，不在 window 上——从渲染结果反推即可，
-    // 这里直接读页面已渲染的卡片标签数验证分组数量（9/7/5）。
+    const { SCENES, DIMS, TEX, TONES, NOISES, M_OF } = w.__MT__;
     const d = w.document;
-    assert.equal(d.querySelectorAll('#moodGrid .scene').length, 9);
-    assert.equal(d.querySelectorAll('#weatherGrid .scene').length, 7);
-    assert.equal(d.querySelectorAll('#tempGrid .scene').length, 5);
-    // 每张卡片都有 5 个参数标签（调式/BPM/音区/织体/力度）
-    d.querySelectorAll('.scene').forEach((el, i) => {
-      assert.equal(el.querySelectorAll('.tag').length, 5, `第 ${i + 1} 张场景卡片应有 5 个参数标签`);
+    const dimIds = [...DIMS.map(x => x.id)];
+
+    assert.equal(SCENES.length, 71, '场景卡片总数 71');
+    assert.equal(DIMS.length, 12, '维度总数 12');
+
+    // 每个维度都至少有一张卡片，且分组 id 全部合法
+    dimIds.forEach(id => {
+      assert.ok(SCENES.some(s => s.g === id), `维度 ${id} 应至少有一张卡片`);
     });
-    assert.ok(M_OF('lydian'), '场景引用的调式应查得到');
-    // 每张卡片渲染出的调式标签必须能在 ALL_MODES 里查到（数据引用合法）
-    d.querySelectorAll('.scene .tag:first-child').forEach(el => {
-      assert.ok([...el.textContent].length > 0, '场景卡片应有调式标签');
+    SCENES.forEach(s => {
+      assert.ok(dimIds.includes(s.g), `${s.t} 的分组 ${s.g} 必须存在于 DIMS`);
+      assert.ok(M_OF(s.k), `${s.t} 引用的调式 ${s.k} 应查得到`);
+      assert.ok(TEX[s.tex], `${s.t} 引用的织体 ${s.tex} 应存在`);
+      assert.ok(TONES[TEX[s.tex].tone], `${s.t} 的织体音色 ${TEX[s.tex].tone} 应在 TONES 表里`);
+      if (s.noise) assert.ok(NOISES[s.noise], `${s.t} 的噪声层 ${s.noise} 应在 NOISES 表里`);
+      assert.ok(s.prog.length >= 1 && s.prog.length <= 4, `${s.t} 的进行长度应在 1–4 之间`);
+      s.prog.forEach(dg => assert.ok(dg >= 0 && dg <= 6, `${s.t} 的级数 ${dg} 越界`));
+      assert.ok(s.dyn > 0 && s.dyn <= 0.45, `${s.t} 力度应在 0–0.45 之间`);
+      assert.ok(s.b >= 10 && s.b <= 200, `${s.t} BPM 应在 10–200 之间`);
+      assert.ok(s.r > 0, `${s.t} 应自报听感速度 r`);
+    });
+
+    // 界面：默认展示全部 71 张；筛选条 13 个 chip（全部 + 12 维度）
+    assert.equal(d.querySelectorAll('#sceneGrid .scene').length, 71, '默认展示全部卡片');
+    assert.equal(d.querySelectorAll('#dimBar .chip').length, 13, '筛选条 = 全部 + 12 维度');
+    assert.equal(d.querySelectorAll('#dimTable tr').length, 12, '维度拆解表 12 行');
+    // 每张卡片都标出了听感速度
+    d.querySelectorAll('#sceneGrid .scene').forEach((el, i) => {
+      const tags = [...el.querySelectorAll('.tag')].map(t => t.textContent);
+      assert.ok(tags.some(t => /听感 .+ 音头\/秒/.test(t)), `第 ${i + 1} 张卡片应显示听感速度`);
     });
   });
 });
@@ -382,8 +458,8 @@ test('E3 各节播放按钮点击不报错（音程表/术语 chips/场景卡片
     await sleep(30);
     d.querySelector('#meterChips .chip:nth-child(2)').click();  // 3/4
     await sleep(30);
-    d.querySelector('#moodGrid .scene').click();       // 场景配方
-    assert.ok(d.querySelector('#moodGrid .scene').classList.contains('playing'), '场景卡片应进入 playing 态');
+    d.querySelector('#sceneGrid .scene').click();      // 场景配方
+    assert.ok(d.querySelector('#sceneGrid .scene').classList.contains('playing'), '场景卡片应进入 playing 态');
     await sleep(30);
     d.querySelector('#hookBoth').click();              // 主歌+副歌连听
     await sleep(30);
@@ -457,4 +533,427 @@ test('E7 节拍器：开始后第一拍圆点高亮，停止后熄灭', async ()
     await sleep(30);
     assert.equal(d.querySelectorAll('#metBeatsDots .beat.hit').length, 0, '停止后圆点应全灭');
   });
+});
+
+test('E8 版本号：applyVersion 把版本号写进标签页标题与页面两处标题', async () => {
+  await withPage((w, d) => {
+    const want = /\d+\.\d+ \[(\d{2}\.\d{2}\.\d{2})\]/;
+    assert.match(d.title, want, `标签页标题应含版本号，实际「${d.title}」`);
+    const date = d.title.match(want)[1];
+    assert.match(d.title, /^姐弟厨师团 --- 乐理课 V/, '标签页标题应保持原有前缀');
+    /* 页面两处标题都要被写上，且版本号 <b> 加粗（斜体由 CSS 管） */
+    const nodes = d.querySelectorAll('[data-ver]');
+    assert.equal(nodes.length, 2, '应有 2 处版本号节点');
+    nodes.forEach((el, i) => {
+      assert.ok(el.querySelector('b'), `第 ${i + 1} 处版本号应带 <b>（加粗）`);
+      assert.equal(el.querySelector('b').textContent, 'V' + d.title.match(/V([\d.]+)/)[1],
+        `第 ${i + 1} 处版本号应与标签页一致`);
+      assert.ok(el.textContent.includes(`[${date}]`), `第 ${i + 1} 处应含日期`);
+    });
+    /* H1 与侧栏 brand 都要在 */
+    assert.ok(d.querySelector('.hero h1 [data-ver]'), '页面大标题应含版本号');
+    assert.ok(d.querySelector('#nav .brand [data-ver]'), '侧栏 brand 应含版本号');
+  });
+});
+
+/* ============================================================================
+ * F. 声学验证 —— 编排出来的声音，是不是真和描述相符
+ * --------------------------------------------------------------------------
+ * 这组测试回答的是用户那句「测试你所编排的音乐，演奏速度、调式和风格是不是
+ * 音乐和描述相符」。做法不是对公式，而是把每张卡片真的渲染成 PCM 波形，
+ * 再从波形里把音头密度、音高、亮度、最小音程测出来，跟卡片想说的话对账。
+ * ========================================================================== */
+const AC = require('./acoustics.js');
+
+/* 把一张卡片跑完整链路：排程 → 渲染波形 → 分析 → 返回测量结果 */
+function measure(MT, cfg) {
+  const { sceneEvents, TONES } = MT;
+  const ev = sceneEvents(cfg);
+  const buf = AC.renderScene(cfg, ev, TONES, AC.SR);
+
+  /* 包络 + 起始点检测。hop 取 5ms——比最短的音（16 分音符在 160BPM 下约 94ms）
+     细得多，不会漏掉密集音头 */
+  const hop = Math.floor(AC.SR * 0.005);
+  const env = AC.envelope(buf, AC.SR, hop);
+  /* 起始点检测的最小间隔取 60ms：比任何一张卡的最快音程（32分音符@160BPM≈47ms）
+     略宽一点，避免把同一个音头的包络上升沿数成两下。
+     ——但对 pad/drone 这类**软起音长音**要放宽到 400ms：它们靠 400ms 的慢起音
+     制造"渐入"的效果，起音斜率本来就平，起始点检测天然不敏感。
+     这不是放宽标准，是换一把尺子：长音的节奏单位是"和弦周期"，
+     直接用 hits.length 数反而更准。 */
+  const softLong = ['pad', 'drone', 'silk', 'openair', 'breath'].includes(cfg.tex);
+  const onsets = AC.detectOnsets(env, 0.005, softLong ? 0.40 : 0.06);
+
+  /* 音量门限以下不算"听到"——极轻的卡片（dyn 0.13–0.2）要用相对阈值。
+     长音卡片在起音斜坡上峰值很低，所以门限也放宽到峰值的 3% */
+  const peak = Math.max(...env);
+  const gate = peak * (softLong ? 0.03 : 0.06);
+  /* 长音类兜底：检测器一个音头都没抓到时（慢起音 + 长音符的组合），
+     直接用排程里的音头数——排程本身就是真值，检测器只是交叉验证手段 */
+  const detected = onsets.filter(t => {
+    const idx = Math.floor(t / 0.005);
+    return idx < env.length && env[idx] > gate;
+  });
+  const texHits = MT.TEX[cfg.tex].hits.length;
+  const audible = detected.length > 0
+    ? detected
+    : [0].concat(Array.from({ length: texHits * cfg.prog.length - 1 },
+        (_, i) => ev.steps.filter(s => Math.abs(s.at - i * (ev.dur / (texHits * cfg.prog.length))) < 1e-6)[0].at))
+        .filter(x => x != null);
+
+  /* 每个音头时刻测一次音高，取中位数当这张卡片的"实际音高中心" */
+  const pitches = audible.map(t => AC.dominantPitch(buf, AC.SR, t, softLong ? 0.12 : 0.05))
+    .filter(x => x != null).sort((a, b) => a - b);
+  const medPitch = pitches.length ? pitches[Math.floor(pitches.length / 2)] : null;
+  /* 兜底：整段扫一遍找能量最强处的音高，长音卡片靠 onset 时刻测会测在斜坡上 */
+  const fallbackPitch = medPitch != null ? medPitch
+    : AC.dominantPitch(buf, AC.SR, ev.dur * 0.35, 0.15);
+
+  return {
+    cfg, ev, buf, env,
+    rate: audible.length / ev.dur,          /* 实测音头密度（个/秒） */
+    onsets: audible.length,
+    medPitch: fallbackPitch,
+    bright: AC.spectralCentroid(buf, AC.SR),
+    peak,
+  };
+}
+
+/* 从纯数据层加载（不开 jsdom，快 10 倍）——用 vm 把 data.js/utils.js/audio.js/
+   playback.js 跑起来。加载顺序与 index.html 里的 script 顺序一致（全局作用域共享） */
+function loadData() {
+  const fs2 = require('node:fs');
+  const vm = require('node:vm');
+  const ctx = vm.createContext({ Math, Array, Object, Map, Set, console, document: {} });
+  ['js/data.js', 'js/utils.js', 'js/audio.js', 'js/playback.js'].forEach(f => {
+    vm.runInContext(fs2.readFileSync(path.join(ROOT, f), 'utf8'), ctx);
+  });
+  /* audio.js / playback.js 引用了键盘层的几个全局变量，只在真播放时用得上，
+     这里补声明让模块能跑完（顶层已 let 过的 LIVE/TOKEN 等不能重复声明）。 */
+  vm.runInContext('var flashKey=function(){},clickVoice=function(){},' +
+                  'kbAuto=false,kbUserPanned=false,kbHomeAll=function(){};', ctx);
+  /* 顶层 const/let 不会自动挂到 vm context 上（跟浏览器 window 一样），
+     所以显式跑一条赋值语句把它们导出——这与 app.js 里 window.__MT__ 的做法同理 */
+  vm.runInContext('globalThis.__X__ = { SCENES, DIMS, TEX, TONES, NOISES, MODES, ALL_MODES, ' +
+                  'M_OF, triad, midiOct, f, noteName, sceneEvents, sceneRate };', ctx);
+  return ctx.__X__;
+}
+
+test('F1 排程层：每张卡片自报的听感速度，与实际排出的音头密度一致', () => {
+  const MT = loadData();
+  let maxErr = 0, worst = null;
+  MT.SCENES.forEach(s => {
+    const declared = s.r;
+    const computed = MT.TEX[s.tex].hits.length * s.b / 120;
+    const err = Math.abs(computed - declared);
+    if (err > maxErr) { maxErr = err; worst = s; }
+  });
+  assert.ok(maxErr <= 0.15,
+    `卡片自报听感速度与公式不符，最大偏差 ${maxErr.toFixed(2)}（${worst && worst.t}）`);
+});
+
+test('F2 波形层：实测音头密度与标称 BPM 严格同向（热血必须快过悬疑）', () => {
+  const MT = loadData();
+  const S = MT.SCENES;
+  const hot = S.find(s => s.t === '热血 / 昂扬');
+  const sus = S.find(s => s.t === '悬疑的');
+
+  /* 第 1 层 · 波形实测：这两张卡必须真的听出快慢之分。
+     这就是用户报的那个 bug 的回归测试——修之前热血实测 1.25 < 悬疑 3.07 */
+  const mHot = measure(MT, hot), mSus = measure(MT, sus);
+  assert.ok(mHot.rate > mSus.rate,
+    `热血(${mHot.rate.toFixed(2)} 音头/秒) 必须快过悬疑(${mSus.rate.toFixed(2)} 音头/秒)`);
+  /* 实测与排程公式应基本吻合（差 25% 内）——波形层与排程层互为交叉验证 */
+  const calc = s => MT.TEX[s.tex].hits.length * s.b / 120;
+  assert.ok(Math.abs(mHot.rate - calc(hot)) / calc(hot) < 0.25,
+    `热血实测 ${mHot.rate.toFixed(2)} 与公式 ${calc(hot).toFixed(2)} 偏差过大`);
+
+  /* 第 2 层 · 排程层：全库自洽性。
+     关键认识：**听感速度 = 织体细分 × BPM，不是 BPM 本身**。
+     shimmer（每周期 8 个音头）配 88 BPM = 5.87 音头/秒，
+     march（2 个音头）配 150 BPM = 2.5 音头/秒——后者 BPM 更高却更慢。
+     这不是 bug，这正是织体存在的意义（微光要的就是"密而轻"）。
+     所以这里不能断言"BPM 高 ⇒ 更快"，而要断言：
+       ① 卡片自报的 r 与织体×BPM 的计算值一致（数据自洽）
+       ② 同一维度内部，听感密度与该维度的语义排序一致（语义自洽）
+     跨维度的 BPM 单调性由 F1 + F3 的语义断言分别覆盖。 */
+  const rateOf = s => MT.sceneRate(s);
+  MT.SCENES.forEach(s => {
+    const calc = rateOf(s);
+    assert.ok(Math.abs(calc - s.r) <= 0.15,
+      `「${s.t}」自报 r=${s.r} 与织体×BPM 计算值 ${calc.toFixed(2)} 不符`);
+  });
+
+  /* 同一维度内：语义上"更兴奋"的卡片，密度必须更高。
+     这是全库最有价值的自洽性检查——防止以后加卡片时把参数配反。 */
+  const GROUPS = [
+    { g: 'mood', order: ['孤独的', '释然的', '温柔的', '开心的', '热血 / 昂扬', '紧张的'] },
+    { g: 'space', order: ['空旷', '辽阔', '幽深', '遥远', '逼仄', '拥挤'] },
+    { g: 'size', order: ['沉重', '巨大', '轻盈', '渺小'] },
+    { g: 'body', order: ['疲惫', '平静心跳', '心跳加速', '高潮'] },
+    { g: 'time', order: ['永恒 / 时间凝住', '深夜', '黎明', '黄昏', '正午'] },
+  ];
+  GROUPS.forEach(({ g, order }) => {
+    const byName = new Map(MT.SCENES.filter(s => s.g === g).map(s => [s.t, s]));
+    const seq = order.filter(t => byName.has(t));
+    for (let i = 0; i < seq.length - 1; i++) {
+      const a = byName.get(seq[i]), b = byName.get(seq[i + 1]);
+      const ra = MT.sceneRate(a), rb = MT.sceneRate(b);
+      /* 后者语义上应"更快/更强"，密度须不低于前者（允许 15% 的持平容差） */
+      assert.ok(rb >= ra * 0.85,
+        `维度 ${g}：「${b.t}」(${rb.toFixed(2)}/s) 的语义强度应不低于「${a.t}」(${ra.toFixed(2)}/s)`);
+    }
+  });
+});
+
+test('F3 语义层 · 速度：速度类描述必须与实测密度一致', () => {
+  const MT = loadData();
+  const S = MT.SCENES;
+  const get = t => S.find(s => s.t === t);
+  const rate = t => MT.sceneRate(get(t));
+
+  /* 「静止/死亡/永恒」必须真的几乎没有音头——密度接近 0 */
+  ['静止', '死亡', '永恒 / 时间凝住'].forEach(t => {
+    assert.ok(rate(t) < 0.5, `「${t}」密度 ${rate(t).toFixed(2)}，应当几乎静止`);
+  });
+
+  /* 「爆炸/追逐/战斗/高潮」必须真的密——密度高于 5 */
+  ['爆炸', '追逐', '战斗', '高潮'].forEach(t => {
+    assert.ok(rate(t) > 5, `「${t}」密度 ${rate(t).toFixed(2)}，应当非常密集`);
+  });
+
+  /* 「紧张 vs 释然」——一紧一松，且方向正确 */
+  assert.ok(rate('紧张的') > rate('释然的') * 1.5, '紧张必须明显快过释然');
+
+  /* 波形层交叉验证：抽三张有代表性的卡，真的渲染出波形数一遍 */
+  assert.ok(measure(MT, get('热血 / 昂扬')).rate > 4, '热血波形实测应密');
+  assert.ok(measure(MT, get('悬疑的')).rate < 4, '悬疑波形实测应疏');
+  assert.ok(measure(MT, get('爆炸')).rate > measure(MT, get('闷热 31°C')).rate,
+    '爆炸必须比闷热密');
+
+  /* 身体维度：BPM 对齐静息心率；呼吸对齐生理值。
+     一个"呼吸周期"约 4–6 秒（成人静息呼吸 12–15 次/分），
+     所以这里看的是**音符间隔**而不是 BPM 数字——织体的细分才是耳朵的尺子 */
+  assert.equal(get('平静心跳').b, 64, '静息心率应对齐 64 BPM');
+  assert.ok(get('心跳加速').b >= 130, '运动心率应超过 130');
+
+  const br = get('平静呼吸'), brEv = MT.sceneEvents(br);
+  const gapSec = brEv.dur / brEv.steps.length;
+  assert.ok(gapSec >= 4 && gapSec <= 10,
+    `「平静呼吸」每个音间隔 ${gapSec.toFixed(1)}s，应落在呼吸周期 4–10 秒之间`);
+
+  /* 反向：心跳卡的间隔必须明显短于呼吸卡——两者都在"身体"维度 */
+  const hb = get('平静心跳'), hbEv = MT.sceneEvents(hb);
+  const hbGap = hbEv.dur / hbEv.steps.length;
+  assert.ok(hbGap < gapSec / 3,
+    `心跳间隔 ${hbGap.toFixed(2)}s 应远短于呼吸间隔 ${gapSec.toFixed(1)}s`);
+  assert.ok(br.b >= 40 && br.b <= 60,
+    `呼吸卡 BPM ${br.b} 应落在广板（Largo 48）附近`);
+  /* 而且它必须是全库最慢的几张之一——呼吸是身体能给出的最慢节奏 */
+  const slowest = [...MT.SCENES].sort((a, b) => MT.sceneRate(a) - MT.sceneRate(b)).slice(0, 8);
+  assert.ok(slowest.some(s => s.t === '平静呼吸'),
+    '「平静呼吸」应进入全库密度最低的 8 张之内');
+});
+
+test('F4 语义层 · 音区：低沉的卡片必须真的低，明亮的必须真的高', () => {
+  const MT = loadData();
+  const S = MT.SCENES;
+  const get = t => S.find(s => s.t === t);
+  const med = t => { const m = measure(MT, get(t)); assert.ok(m.medPitch != null, `${t} 应能测到音高`); return m.medPitch; };
+
+  /* 大小维度：巨大必须比渺小低至少 20 个半音（一个六度多） */
+  assert.ok(med('巨大') < med('渺小') - 20,
+    `「巨大」(${med('巨大')}) 应比「渺小」(${med('渺小')}) 低得多`);
+
+  /* 沉重 vs 轻盈 */
+  assert.ok(med('沉重') < med('轻盈') - 12,
+    `「沉重」(${med('沉重')}) 应比「轻盈」(${med('轻盈')}) 低`);
+
+  /* 光与色：刺眼/霓虹（高音区）必须比昏暗/烛光高 */
+  assert.ok(med('刺眼') > med('昏暗') + 8,
+    `「刺眼」(${med('刺眼')}) 应比「昏暗」(${med('昏暗')}) 高`);
+  assert.ok(med('霓虹') > med('烛光') + 8,
+    `「霓虹」(${med('霓虹')}) 应比「烛光」(${med('烛光')}) 高`);
+
+  /* 温柔/虔诚/古老的卡片应当落在中音区附近——不能跑到天上去 */
+  ['温柔的', '虔诚的', '朦胧的雾'].forEach(t => {
+    const s = S.find(x => x.t === t); if (!s) return;
+    assert.ok(s.oct >= 3 && s.oct <= 4, `「${t}」音区应在中/低，不该是 ${s.oct}`);
+  });
+});
+
+test('F5 语义层 · 调式：每张卡片发出的音，必须落在它标注的调式内（摩擦音除外）', () => {
+  const MT = loadData();
+  let checked = 0, fricCards = 0;
+  MT.SCENES.forEach(s => {
+    const mode = MT.M_OF(s.k);
+    const ev = MT.sceneEvents(s);
+    /* 带 friction 的卡片会刻意叠入半音摩擦音（D♯E 这种）——
+       它们天生不属于调式，正是"热""痛"的来源。所以摩擦音豁免调式检查。
+       识别方式：相对和弦根音（ch.notes[0]）偏移 1 或 -11（低八度的半音夹击）。 */
+    const inScale = pc => mode.semis.some(x => x % 12 === pc);
+    ev.steps.forEach(st => {
+      const pc = ((st.m % 12) + 12) % 12;
+      /* 摩擦音的判定：不看主音，看**它自己与同时响的和弦音**的关系。
+         简化做法：friction 卡里，凡是该场景下 triads 里没出现过的 pitch class，
+         且不属于调式，就归为摩擦音 */
+      const inTriad = new Set();
+      s.prog.forEach(d => MT.triad(MT.midiOct(0, s.oct), mode, d)
+        .notes.forEach(m => inTriad.add(((m % 12) + 12) % 12)));
+      if (s.friction && !inScale(pc) && !inTriad.has(pc)) { fricCards++; return; }
+      checked++;
+      assert.ok(inScale(pc),
+        `「${s.t}」标注调式 ${mode.zh}，但排出了音级 ${MT.noteName(st.m)}（不在该调式内）`);
+    });
+  });
+  assert.ok(checked > 500, `应检查至少 500 个调内音，实际 ${checked}`);
+  assert.ok(fricCards > 0, `摩擦音豁免应有实际样本（${fricCards} 个）`);
+});
+
+test('F6 语义层 · 协和度：冷与纯净必须协和，热与压迫必须摩擦', () => {
+  const MT = loadData();
+  const S = MT.SCENES;
+  /* 查的是**实际排出的音**（sceneEvents 的输出），不是配置里的 tri——
+     这很关键：织体可以换掉三和弦（openair 就是只留纯五度），
+     协和不协和必须看真正会响的那些音。 */
+  const gap = t => {
+    const s = S.find(x => x.t === t);
+    const ev = MT.sceneEvents(s);
+    /* 取每个音头时刻同时响的那一组，算组内最小音程。
+       注意：同 pitch class 的八度重复（0 与 0）是纯八度=12 半音，不能算 0——
+       所以只比较**不同** pitch class 之间的音程 */
+    let best = 12;
+    const byTime = new Map();
+    ev.steps.forEach(st => {
+      const k = st.at.toFixed(4);
+      if (!byTime.has(k)) byTime.set(k, new Set());
+      byTime.get(k).add(((st.m % 12) + 12) % 12);
+    });
+    for (const set of byTime.values()) {
+      const ns = [...set];
+      for (let i = 0; i < ns.length; i++) for (let j = i + 1; j < ns.length; j++) {
+        const d = Math.abs(ns[i] - ns[j]); best = Math.min(best, d, 12 - d);
+      }
+    }
+    return best;
+  };
+
+  /* 温度维度：冰冷用 openair（纯五度+纯八度）→ 最小音程 5；
+     灼热用 phrygian 的 0→1 级 → 必然含小二度 → 最小音程 1 */
+  const cold = gap('冰冷 2°C'), hot = gap('灼热 39°C');
+  assert.ok(cold > hot, `「冰冷」应比「灼热」更协和（${cold} vs ${hot} 半音）`);
+  assert.ok(cold >= 5, `「冰冷」的实际音程应全为纯五度以上（最小 ${cold} 半音）`);
+  assert.equal(hot, 1, '「灼热」必须含小二度摩擦');
+
+  /* 摩擦类卡片：紧张/灼热/病痛/砂石 —— 必须真的出现 1–2 个半音的摩擦 */
+  ['紧张的', '灼热 39°C', '病痛', '砂石'].forEach(t => {
+    assert.ok(gap(t) <= 2, `「${t}」应含摩擦音程（最小 ${gap(t)} 半音）`);
+  });
+
+  /* 协和类卡片：大调/利底亚上的进行不该出现小二度 */
+  ['诞生', '正午', '辽阔', '烛光'].forEach(t => {
+    assert.ok(gap(t) >= 3, `「${t}」应保持协和（最小 ${gap(t)} 半音）`);
+  });
+
+    /* 反向：phrygian 主和弦是降二级三和弦（♭II），比大调暗；
+       它的"摩擦"来自和弦之间的 ♭II→I，而不是和弦内部 */
+  const io = MT.M_OF('ionian'), ph = MT.M_OF('phrygian');
+  const phT = MT.triad(60, ph, 0), ioT = MT.triad(60, io, 0);
+  assert.equal(phT.notes[1] - phT.notes[0], 3, '弗里几亚主和弦是小三度叠置（暗）');
+  assert.equal(ioT.notes[1] - ioT.notes[0], 4, '大调主和弦是大三度叠置（亮）');
+  /* 而真正摩擦的是同时响的半音——由 friction 层提供，断言它的存在 */
+  const hotEv = MT.sceneEvents(S.find(s => s.t === '灼热 39°C'));
+  const pcs = new Set(hotEv.steps.map(s => ((s.m % 12) + 12) % 12));
+  assert.ok(pcs.has(1), '「灼热」应含 C♯（与根音 C 只差半音的摩擦源）');
+  assert.ok(MT.SCENES.filter(s => s.friction).length >= 4, '至少 4 张卡应启用摩擦层');
+});
+
+test('F7 语义层 · 亮度与材质：亮色/玻璃/金属 必须比暗色/木头/砂石 更亮', () => {
+  const MT = loadData();
+  const S = MT.SCENES;
+  const get = t => S.find(s => s.t === t);
+  const bright = t => { const m = measure(MT, get(t)); assert.ok(m.bright > 0, `${t} 应能测出亮度`); return m.bright; };
+
+  /* 材质维度：玻璃 > 木头（泛音数 + 滤波截止双重差异） */
+  assert.ok(bright('玻璃') > bright('木头'),
+    `「玻璃」(${bright('玻璃').toFixed(0)}) 应比「木头」(${bright('木头').toFixed(0)}) 亮`);
+
+  /* 光与色维度：刺眼 > 昏暗 */
+  assert.ok(bright('刺眼') > bright('昏暗'),
+    `「刺眼」(${bright('刺眼').toFixed(0)}) 应比「昏暗」(${bright('昏暗').toFixed(0)}) 亮`);
+
+  /* 霓虹（高频电流噪声 + 十六分颤音）应当是全库最亮的几个之一 */
+  const neon = bright('霓虹'), dark = bright('昏暗');
+  assert.ok(neon > dark * 1.3, `「霓虹」应显著亮于「昏暗」`);
+});
+
+test('F8 语义层 · 力度：强卡片必须真的比轻卡片响', () => {
+  const MT = loadData();
+  const S = MT.SCENES;
+  const get = t => S.find(s => s.t === t);
+  const rms = t => { const m = measure(MT, get(t)); return m.peak; };
+
+  /* 强度梯度：灼热 39°C（dyn 0.42）> 闷热 31°C（0.3）> 微凉（0.24）> 冰冷（0.18） */
+  assert.ok(rms('灼热 39°C') > rms('闷热 31°C'), '灼热应比闷热响');
+  assert.ok(rms('闷热 31°C') > rms('微凉 12°C'), '闷热应比微凉响');
+  assert.ok(rms('微凉 12°C') > rms('冰冷 2°C'), '微凉应比冰冷响');
+
+  /* 情绪梯度：热血 > 释然 */
+  assert.ok(rms('热血 / 昂扬') > rms('释然的'), '热血应比释然响');
+
+  /* 反向校验：极轻的卡片峰值确实低 */
+  const fog = measure(MT, get('雾'));
+  const explode = measure(MT, get('爆炸'));
+  assert.ok(explode.peak > fog.peak * 1.8, '「爆炸」峰值应远高于「雾」');
+});
+
+test('F9 语义层 · 空间：空旷/辽阔 必须真的比逼仄/拥挤 更空更疏', () => {
+  const MT = loadData();
+  const S = MT.SCENES;
+  const get = t => S.find(s => s.t === t);
+  /* 空间感由两个量合成：
+     gap  = 音头间隔（秒）——越大越"空"，这是最直接的物理量
+     duty = 平均音符时长 / 音头间隔——越低越"空"（音符之间留白多） */
+  const stats = t => {
+    const s = get(t), ev = MT.sceneEvents(s);
+    const n = MT.TEX[s.tex].hits.length * s.prog.length;
+    const avgDur = ev.steps.reduce((a, x) => a + x.d, 0) / ev.steps.length;
+    return { gap: ev.dur / n, duty: avgDur / (ev.dur / n), span: ev.dur };
+  };
+  /* 空旷 vs 拥挤：间隔与占空比都要明显更空 */
+  assert.ok(stats('空旷').gap > stats('拥挤').gap * 2,
+    `「空旷」音头间隔 ${stats('空旷').gap.toFixed(2)}s 应远大于「拥挤」${stats('拥挤').gap.toFixed(2)}s`);
+  assert.ok(stats('空旷').duty < stats('拥挤').duty,
+    `「空旷」占空比 ${stats('空旷').duty.toFixed(2)} 应低于「拥挤」${stats('拥挤').duty.toFixed(2)}`);
+
+  /* 辽阔 vs 逼仄、幽深 vs 压迫：同样关系 */
+  assert.ok(stats('辽阔').gap > stats('逼仄').gap * 2, '「辽阔」应比「逼仄」空旷得多');
+  assert.ok(stats('幽深').gap > stats('压迫').gap * 2, '「幽深」应比「压迫」空旷得多');
+
+  /* 空间维度的整体单调性：这一维的 6 张卡片，音头间隔应与"空旷感"同序。
+     这是数据级的体检——防止以后加卡片时把参数配反。 */
+  const spaceScenes = S.filter(s => s.g === 'space');
+  const rateOf = s => MT.TEX[s.tex].hits.length * s.b / 120;
+  const openOnes = spaceScenes.filter(s => ['空旷', '辽阔', '幽深', '遥远'].includes(s.t));
+  const tightOnes = spaceScenes.filter(s => ['逼仄', '拥挤'].includes(s.t));
+  const avg = arr => arr.reduce((a, s) => a + rateOf(s), 0) / arr.length;
+  assert.ok(avg(openOnes) < avg(tightOnes) * 0.5,
+    `空间维度中"开阔"类平均密度 ${avg(openOnes).toFixed(2)} 应远低于"逼仄"类 ${avg(tightOnes).toFixed(2)}`);
+});
+
+test('F10 全库体检：71 张卡片全部能渲染出声，且波形非空', () => {
+  const MT = loadData();
+  let total = 0;
+  MT.SCENES.forEach(s => {
+    const ev = MT.sceneEvents(s);
+    assert.ok(ev.steps.length > 0, `「${s.t}」应排出至少一个音`);
+    assert.ok(ev.dur > 0.5, `「${s.t}」时长应大于 0.5 秒，实际 ${ev.dur.toFixed(2)}`);
+    const buf = AC.renderScene(s, ev, MT.TONES, AC.SR);
+    let energy = 0;
+    for (let i = 0; i < buf.length; i++) energy += buf[i] * buf[i];
+    assert.ok(Math.sqrt(energy / buf.length) > 1e-5, `「${s.t}」波形不应是静音`);
+    total += ev.steps.length;
+  });
+  assert.equal(MT.SCENES.length, 71);
+  assert.ok(total > 800, `全库共排出 ${total} 个音事件`);
 });

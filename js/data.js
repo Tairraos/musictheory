@@ -37,14 +37,75 @@ const MODES = [
  {id:'locrian',zh:'洛克里亚',en:'Locrian',semis:[0,1,3,5,6,8,10],tag:'极不稳定',feat:'第2、3、5、6、7级降低',ex:'少用整曲，多见于金属riff和音效'},
 ];
 
-/* 五声音阶：砍掉大调的 fa / si，五个音之间没有任何半音 */
+/* 五声音阶：砍掉大调的 fa / si，五个音之间没有任何半音。
+ *   五声调式细分三种：中国风最常用「宫」（1 2 3 5 6）和「羽」（1 2 4 6 7） */
 const PENTA = {id:'penta',zh:'五声',en:'Pentatonic',semis:[0,2,4,7,9],tag:'含蓄 · 无摩擦',feat:'宫商角徵羽',ex:'茉莉花、渔光曲、中国风'};
+const PENTA_G = {id:'pentaG',zh:'五声·宫',en:'Gong pentatonic',semis:[0,2,4,7,9],tag:'中国风的底色',feat:'去掉 fa 与si',ex:'茉莉花、彩云追月、江南'};
+const PENTA_Y = {id:'pentaY',zh:'五声·羽',en:'Yu pentatonic',semis:[0,2,5,7,10],tag:'羽调：小调感的五声',feat:'去掉 fa 与si，偏小调',ex:'沧海笑、悲情城市、彝族民歌'};
+/* 日本「都节」的骨干音阶 hirajoshi：1 2 ♭3 5 ♭6，两个半音（小二、♭三）是它的辨识度 */
+const HIRAJOSHI = {id:'hira',zh:'都节音阶',en:'Hirajoshi',semis:[0,2,3,7,8],tag:'日本 · 两个半音',feat:'小二 + 小三',ex:'櫻花、尺八曲、动漫和风'};
+/* 布鲁斯音阶：混合利底亚 + 小九(降七)——降七是布鲁斯的灵魂 */
+const BLUES = {id:'blues',zh:'布鲁斯音阶',en:'Blues scale',semis:[0,3,5,6,7,10],tag:'蓝调 · 脏而暖',feat:'降七级',ex:'B.B.King、Hound Dog、几乎所有布鲁斯'};
 
-/* 调式下拉框的完整候选 = 七个教会调式 + 五声 */
-const ALL_MODES = MODES.concat([PENTA]);
+/* 调式下拉框的完整候选 = 七个教会调式 + 五声族 + 两个特色音阶 */
+const ALL_MODES = MODES.concat([PENTA, PENTA_G, PENTA_Y, HIRAJOSHI, BLUES]);
 
 /* 按 id 查调式；查不到回落到大调（防御性写法，配置写错也不炸） */
 const M_OF = id => ALL_MODES.find(m => m.id === id) || MODES[0];
+
+/* ==========================================================================
+ * 织体表（TEX）：把"怎么弹"从 scenePlay 的 if/else 挪成数据。
+ * --------------------------------------------------------------------------
+ * 这是本次修复的核心。原版的问题：织体决定了音头密度，但场景配置里的 b（BPM）
+ * 才是卡片上印的数字，两者没有任何约束。于是 150 BPM 配"块状"（1 个音头/和弦）
+ * 只有 1.25 音头/秒，比 92 BPM 配"微光"（4 个音头/和弦）的 3.07 还慢——
+ * 方块在说谎，耳朵是唯一诚实的。
+ *
+ * 现在每种织体声明两件事：
+ *   hits —— 一个和弦周期（2 拍）内，音头落在第几拍。密度 = hits.length 个/周期
+ *   dur  —— 每个音持续几拍（决定占空比，也就是"连成一片"还是"一颗一颗"）
+ * 于是「听感速度」有了唯一算法：
+ *   音头密度(个/秒) = hits.length × b / 120
+ * 测试直接按这个公式核对每张卡片的实测值与它自报的 r 字段是否一致。
+ * ========================================================================== */
+const TEX = {
+  /* 长音铺底：一个和弦拖满，极慢。用于静止、空旷、永恒 */
+  pad:     { zh:'铺底', hits:[0],            dur:4.0, tone:'pad',   mode:'sust',  tag:'一个音拖满，没有节奏' },
+  /* 空五度长音：根+纯五+高八度，全是纯音程，没有一点摩擦。冰冷、空旷、纯净专用 */
+  openair: { zh:'空五度', hits:[0],          dur:5.0, tone:'bell',  mode:'open',  tag:'只有纯五和纯八' },
+  /* 低音长音：更低更沉，巨大、压迫、死亡的底子。
+     dur 定 4 拍（而不是 8）——再慢的话一张卡片能播十几秒，测试和试听都不合适。
+     "慢"靠 BPM 本身（死亡是 40 BPM），不靠单音长度。
+     与 pad 的区别：pad 的 dur 也是 4，但 pad 的和声周期就是 4 拍（刚好填满），
+     而 drone 的和声周期会被下方 sceneEvents 拉长到 6 拍——音符只占 2/3，
+     剩下的空隙就是"空旷"。这是"声音之间留的空"这条规律的落地。 */
+  drone:   { zh:'长音', hits:[0],            dur:4.0, tone:'bass',  mode:'sust',  tag:'低到胸腔里 · 音符之间留白' },
+  /* 块状：一拍一下的和弦，宣言感。密度低是它的性格，不是 bug */
+  block:   { zh:'块状', hits:[0],            dur:2.0, tone:'piano', mode:'chord', tag:'每个和弦敲一下' },
+  /* 粗粝：块状但音色发闷发石，用于逼仄、压抑 */
+  stone:   { zh:'粗粝', hits:[0],            dur:2.4, tone:'stone', mode:'chord', tag:'块状 + 石头音色' },
+  /* 进行：两拍两下，八分音符骨架。走路、行军、心跳 */
+  march:   { zh:'进行', hits:[0,1],          dur:0.5, tone:'wood',  mode:'chord', tag:'八分音符，一步一下' },
+  /* 钟鸣：两下一个长音，钟/幽深/仪式 */
+  bell:    { zh:'钟鸣', hits:[0,1],          dur:3.0, tone:'bell',  mode:'bell',  tag:'敲一下，余音很长' },
+  /* 丝绸：两下一个软起长音，温柔、贴身 */
+  silk:    { zh:'丝绸', hits:[0,1],          dur:1.8, tone:'silk',  mode:'chord', tag:'软起音，音拖得长' },
+  /* 琶音：八分音符级进上行，流水 */
+  arp:     { zh:'琶音', hits:[0,.5,1,1.5],   dur:0.85,tone:'pluck', mode:'arp',   tag:'四个音往上爬' },
+  /* 碎音：八分但极短促，心跳、紧张、机械 */
+  pulse:   { zh:'碎音', hits:[0,.5,1,1.5],   dur:0.35,tone:'pluck', mode:'arp',   tag:'很短的八分，颗粒感' },
+  /* 驱动：八分 + 重音八度推动，昂扬、奔跑、燃 */
+  drive:   { zh:'驱动', hits:[0,.5,1,1.5],   dur:0.5, tone:'piano', mode:'drive', tag:'八分踩到底，音区推着走' },
+  /* 微光：十六分，高音区碎光。密度高但音量极轻，听感是"闪"不是"快" */
+  shimmer: { zh:'微光', hits:[0,.25,.5,.75,1,1.25,1.5,1.75], dur:0.6, tone:'glass', mode:'arp', tag:'十六分，亮而稀' },
+  /* 颤音：十六分极短，压迫、焦虑、癫狂 */
+  trem:    { zh:'颤音', hits:[0,.25,.5,.75,1,1.25,1.5,1.75], dur:0.25,tone:'pluck', mode:'arp', tag:'十六分，密而干' },
+  /* 碾压：十六分长音低音，热浪、窒息、闷 */
+  grind:   { zh:'碾压', hits:[0,.125,.25,.375,.5,.625,.75,.875,1,1.125,1.25,1.375,1.5,1.625,1.75,1.875], dur:0.8, tone:'bass', mode:'drive', tag:'三十二分的低音墙' },
+  /* 旋转：三连音，不稳定的循环感 */
+  swirl:   { zh:'旋转', hits:[0,1/3,2/3,1,4/3,5/3], dur:0.33, tone:'pluck', mode:'arp', tag:'三连音，转圈' },
+};
+const TEX_ZH = id => (TEX[id] || TEX.block).zh;
 
 /* 十二个音程的听感词典：s = 半音数（0–12），点表格任意一行可回听 */
 const INTERVALS = [
@@ -102,39 +163,150 @@ const METERS = [
 /* 音级功能角色（罗马数字级数 → 中文功能名），第 05 节级数和弦表用 */
 const ROLE = ['主','下属','色彩','下属','属','色彩','属'];
 
-/* 21 张"听感配方"场景卡片：
- *   g    = 分组（mood 心情 / weather 天气 / temp 温度）
+/* 12 个表达维度的元数据（第 10 节的分组头 + 教学说明）。
+ *   id  分组 id（SCENES 里的 g 引用它）
+ *   zh  中文名      en  英文名
+ *   col 主题色      q   一句话追问：这个维度在问什么？
+ *   by  靠什么承载——这一维的主导参数组合，第 10 节表格里逐行列出 */
+const DIMS = [
+ {id:'mood',zh:'心情',en:'Mood',col:'purple',q:'我现在的感受是什么？',by:'调式给底色 · 音头密度给唤醒度 · 音区给姿态 · 协和度给稳定性'},
+ {id:'attitude',zh:'态度与性格',en:'Attitude',col:'pink',q:'这个声音是什么性格的人？',by:'装饰音密度定"端着还是随意" · 切分定"皮还是乖" · 音域跨度定张开还是收拢'},
+ {id:'weather',zh:'天气',en:'Weather',col:'teal',q:'外面是什么天气？',by:'噪声层是主角 · 噪声与旋律的音量比决定它是背景还是前景'},
+ {id:'temp',zh:'温度',en:'Temperature',col:'coral',q:'现在多少度？',by:'协和度是主轴（冷=纯五，热=小二度摩擦）· 低通截止定通透还是黏'},
+ {id:'time',zh:'时间',en:'Time',col:'amber',q:'这是几点？时间在怎么流？',by:'速度=流速 · 音区=时间的高度 · 音头密度=心跳感'},
+ {id:'light',zh:'光与色',col:'amber',en:'Light & Color',q:'这里亮不亮？什么颜色？',by:'泛音数量=亮度 · 低通截止=通透度 · 高频噪声=刺眼程度'},
+ {id:'space',zh:'空间',en:'Space',col:'blue',q:'这地方有多空旷？离我多远？',by:'时值长度=空间大小（最可靠的一条）· 织体密度=远近 · 长音=纵深'},
+ {id:'size',zh:'大小与重量',en:'Size & Mass',col:'blue',q:'这声音有多重？有多大？',by:'音区主导（低音=重/大，高音=轻/小）· 力度加固 · 起音时间决定有无撞击质量'},
+ {id:'material',zh:'材质与触感',en:'Material & Touch',col:'gray',q:'我碰到的是什么？',by:'包络形状=材质（6ms 脆响=玻璃/金属，180ms 慢起=丝绸）· 噪声颗粒度=粗糙度'},
+ {id:'motion',zh:'运动状态',en:'Motion',col:'green',q:'它在往哪动？动得多快？',by:'速度曲线=加速度 · 音高走向=方向 · 节拍规则性=是否打滑'},
+ {id:'story',zh:'叙事与事件',en:'Narrative',col:'green',q:'正在发生什么事？',by:'和声张力—释放=戏剧结构 · 力度包络=事件强度 · 密度对比=场面调度'},
+ {id:'body',zh:'身体与生理',en:'Body',col:'red',q:'我的身体怎么了？',by:'节拍可直接对齐生理值（心跳 60–100，呼吸 12–20）· 低频脉冲=体腔共振'},
+];
+
+/* 71 张"听感配方"场景卡片：
+ *   g    = 分组（12 个维度，见 DIMS）
  *   t    = 卡片标题
- *   k    = 调式 id（见 MODES / PENTA）
- *   b    = 速度 BPM
- *   oct  = 音区（3 = 低 / 4 = 中 / 5 = 高）
- *   tex  = 织体（block 块状 / arpeggio 琶音 / pulse 碎音 / shimmer 微光）
- *   noise= 环境噪声层（rain 雨 / wind 风 / shimmer 微光，null = 无）
+ *   k    = 调式/音阶 id（见 MODES / PENTA_G / BLUES …）
+ *   b    = 标称 BPM（名义值，实际听感由 tex×b 决定）
+ *   r    = 自报的听感速度（音头/秒）。**这是断言基准**——测试会拿实测值跟它比。
+ *          写卡片时必须先想清楚"这个东西听起来该有多快"，再反推 b 与 tex。
+ *   oct  = 音区（3 低 / 4 中 / 5 高）
+ *   tex  = 织体 id（见 TEX）
+ *   noise= 环境噪声层（见 NOISES 表，null = 无）
  *   prog = 和弦进行的级数序列
- *   dyn  = 力度（0.16–0.4）
- *   p    = 卡片上的一句散文描述 */
+ *   dyn  = 力度（0.14–0.42）
+ *   bend = 可选滑音（半音数）：负=下坠，正=上冲
+ *   p    = 卡片上的一句散文描述
+ *
+ * 【速度约定】b 与 tex 的关系：音头密度 = TEX[tex].hits.length × b / 120。
+ *   原版 21 张卡里，血热 150BPM 配 block（1 音头/周期）实测 1.25 音头/秒，
+ *   悬疑 92BPM 配 shimmer（4 音头/周期）实测 3.07 音头/秒 —— 慢的比快的还快 2.46 倍。
+ *   下面每张卡都重排过，让 r 与它要表达的东西严格同向。 */
 const SCENES = [
- {g:'mood',t:'开心的',k:'ionian',b:112,oct:4,tex:'pulse',noise:null,prog:[0,4,5,3],dyn:0.34,p:'断奏、快、中音区、明亮三和弦。像把窗帘全部拉开。'},
- {g:'mood',t:'温柔的',k:'ionian',b:76,oct:4,tex:'arpeggio',noise:null,prog:[0,5,3,4],dyn:0.24,p:'琶音慢速、力度轻、音区收窄。像有人在旁边小声说话。'},
- {g:'mood',t:'忧伤的',k:'aeolian',b:66,oct:4,tex:'arpeggio',noise:null,prog:[0,5,2,4],dyn:0.26,p:'小调、慢、琶音从低往上爬。像翻旧照片。'},
- {g:'mood',t:'孤独的',k:'phrygian',b:56,oct:3,tex:'block',noise:null,prog:[0,3],dyn:0.2,p:'低音区、极慢、只有两个和弦反复。像深夜的楼道灯。'},
- {g:'mood',t:'紧张的',k:'phrygian',b:132,oct:5,tex:'pulse',noise:null,prog:[0,1],dyn:0.3,p:'降二级制造小二度碰撞、快、音区拉高。像身后的门开了。'},
- {g:'mood',t:'梦幻的',k:'lydian',b:88,oct:5,tex:'shimmer',noise:'shimmer',prog:[0,3,1,4],dyn:0.2,p:'利底亚升四级 + 高音区微光琶音。像在水底看天。'},
- {g:'mood',t:'热血 / 昂扬',k:'mixolydian',b:150,oct:4,tex:'block',noise:null,prog:[0,3,4,0],dyn:0.38,p:'混合利底亚、快、块状和弦、宽力度。越野车冲坡那一秒。'},
- {g:'mood',t:'悬疑的',k:'locrian',b:92,oct:3,tex:'shimmer',noise:null,prog:[0,1],dyn:0.18,p:'洛克里亚 + 低音区 + 几乎听不见的力度。像镜头在推进。'},
- {g:'mood',t:'释然的',k:'aeolian',b:84,oct:4,tex:'arpeggio',noise:null,prog:[0,5,3,4],dyn:0.24,p:'小调的琶音从低处慢慢爬，尾音落得极轻。雨停了。'},
- {g:'weather',t:'晴天',k:'lydian',b:118,oct:5,tex:'arpeggio',noise:null,prog:[0,4,0,3],dyn:0.3,p:'升四级的高亮 + 高音区密集琶音。像阳光在地砖上跳。'},
- {g:'weather',t:'小雨',k:'aeolian',b:62,oct:4,tex:'block',noise:'rain',prog:[0,5],dyn:0.22,p:'雨声滤波器 + 稀疏小调和弦。伞面上的滴答。'},
- {g:'weather',t:'暴雨',k:'phrygian',b:138,oct:3,tex:'pulse',noise:'rain',prog:[0,0,3,4],dyn:0.4,p:'噪声全开 + 强拍密集和弦 + 降二级的压迫。'},
- {g:'weather',t:'雪',k:'lydian',b:54,oct:5,tex:'shimmer',noise:'shimmer',prog:[0,3],dyn:0.16,p:'极轻、极慢的高音微光。雪落下的声音就是"几乎没有声音"。'},
- {g:'weather',t:'大风',k:'mixolydian',b:70,oct:4,tex:'block',noise:'wind',prog:[0,3],dyn:0.3,p:'风声低通 + 长音块状和弦。衣角被掀起来那两秒。'},
- {g:'weather',t:'雾',k:'aeolian',b:50,oct:4,tex:'shimmer',noise:'wind',prog:[0],dyn:0.16,p:'极简、无旋律、只留一层雾。天亮前三十分钟。'},
- {g:'weather',t:'黄昏',k:'dorian',b:74,oct:4,tex:'arpeggio',noise:null,prog:[0,5,3,0],dyn:0.24,p:'多利亚的暖暗 + 中速。一天里最柔软的光。'},
- {g:'temp',t:'冰冷 2°C',k:'aeolian',b:58,oct:5,tex:'shimmer',noise:'shimmer',prog:[0,3],dyn:0.18,p:'高音区碎音 + 小调 + 慢。像指尖碰铁栏杆。'},
- {g:'temp',t:'微凉 12°C',k:'dorian',b:72,oct:4,tex:'arpeggio',noise:null,prog:[0,5,1,4],dyn:0.24,p:'多利亚的"清爽的暗"。风衣刚好的温度。'},
- {g:'temp',t:'温暖 24°C',k:'ionian',b:92,oct:4,tex:'arpeggio',noise:null,prog:[0,4,5,3],dyn:0.3,p:'大调 + 琶音 + 微快。是"什么都不想干也可以"的温度。'},
- {g:'temp',t:'闷热 31°C',k:'mixolydian',b:104,oct:3,tex:'pulse',noise:'wind',prog:[0,3,4,3],dyn:0.3,p:'低音区厚、微快、带风噪。汗贴在后背的感觉。'},
- {g:'temp',t:'灼热 39°C',k:'phrygian',b:146,oct:5,tex:'pulse',noise:null,prog:[0,0,1,0],dyn:0.4,p:'小二度摩擦 + 快 + 高音区。柏油路上扭曲的空气。'},
+
+/* ---------- 维度一 · 心情（唤醒度 × 效价） ---------- */
+{g:'mood',t:'开心的',k:'ionian',b:112,r:3.7,oct:4,tex:'drive',noise:null,prog:[0,4,5,3],dyn:0.34,p:'明亮大调 + 八分驱动踩到底。像把窗帘全部拉开。'},
+{g:'mood',t:'温柔的',k:'ionian',b:76,r:2.5,oct:4,tex:'arp',noise:null,prog:[0,5,3,4],dyn:0.24,p:'慢速琶音往上爬，力度轻、音区收窄。像有人在旁边小声说话。'},
+{g:'mood',t:'忧伤的',k:'aeolian',b:66,r:2.2,oct:4,tex:'arp',noise:null,prog:[0,5,2,4],dyn:0.26,p:'小调、慢、琶音从低往上爬。像翻旧照片。'},
+{g:'mood',t:'孤独的',k:'phrygian',b:56,r:0.5,oct:3,tex:'pad',noise:null,prog:[0,3],dyn:0.2,p:'低音区、极慢、一个和弦拖满四拍。只有两个和弦反复。像深夜的楼道灯。'},
+{g:'mood',t:'紧张的',k:'phrygian',b:132,r:8.8,oct:5,tex:'trem',noise:null,prog:[0,1],dyn:0.3,friction:true,p:'降二级制造小二度碰撞、十六分密集、音区拉高。像身后的门开了。'},
+{g:'mood',t:'梦幻的',k:'lydian',b:62,r:4.1,oct:5,tex:'shimmer',noise:'sparkle',prog:[0,3,1,4],dyn:0.18,p:'利底亚升四级 + 高音区十六分碎光，音量压到最轻——每一闪之间都隔着空，所以是飘，不是快。像在水底看天。'},
+{g:'mood',t:'热血 / 昂扬',k:'mixolydian',b:150,r:5.0,oct:4,tex:'drive',noise:null,prog:[0,3,4,0],dyn:0.4,p:'混合利底亚 + 八分驱动踩到底 + 力度推满。越野车冲坡那一秒。'},
+{g:'mood',t:'悬疑的',k:'locrian',b:92,r:3.1,oct:3,tex:'pulse',noise:null,prog:[0,1],dyn:0.18,p:'洛克里亚 + 低音区 + 短促碎音 + 几乎听不见的力度。密度刻意压到"比热血慢"。像镜头在推进。'},
+{g:'mood',t:'释然的',k:'aeolian',b:84,r:2.8,oct:4,tex:'arp',noise:null,prog:[0,5,3,4],dyn:0.24,p:'小调琶音从低处慢慢爬，尾音落得极轻。雨停了。'},
+
+/* ---------- 维度二 · 天气（噪声层是主角） ---------- */
+{g:'weather',t:'晴天',k:'lydian',b:118,r:3.9,oct:5,tex:'arp',noise:null,prog:[0,4,0,3],dyn:0.3,p:'升四级的高亮 + 高音区密集琶音。像阳光在地砖上跳。'},
+{g:'weather',t:'小雨',k:'aeolian',b:62,r:0.5,oct:4,tex:'pad',noise:'rain',prog:[0,5],dyn:0.22,p:'雨声带通 + 稀疏小调长音。伞面上的滴答。'},
+{g:'weather',t:'暴雨',k:'phrygian',b:138,r:18.4,oct:3,tex:'grind',noise:'downpour',prog:[0,0,3,4],dyn:0.42,p:'噪声全开 + 三十二分低音墙 + 降二级的压迫。分不清是雨还是耳鸣。'},
+{g:'weather',t:'雪',k:'lydian',b:54,r:3.6,oct:5,tex:'shimmer',noise:'sparkle',prog:[0,3],dyn:0.15,p:'极轻的高音微光。雪落下的声音就是"几乎没有声音"。'},
+{g:'weather',t:'大风',k:'mixolydian',b:70,r:1.2,oct:4,tex:'bell',noise:'gale',prog:[0,3],dyn:0.3,p:'狂风低通扫频 + 余音很长的钟状和弦。衣角被掀起来那两秒。'},
+{g:'weather',t:'雾',k:'aeolian',b:50,r:0.4,oct:4,tex:'pad',noise:'mist',prog:[0],dyn:0.16,p:'几乎无旋律，只留一层雾。天亮前三十分钟。'},
+{g:'weather',t:'黄昏',k:'dorian',b:74,r:2.5,oct:4,tex:'arp',noise:null,prog:[0,5,3,0],dyn:0.24,p:'多利亚的暖暗 + 中速。一天里最柔软的光。'},
+
+/* ---------- 维度三 · 温度（协和度是主轴） ---------- */
+/* 冰冷：空五度织体——根音、纯五、高八度，音与音之间全是纯音程，
+   人耳听到的只有"透"，没有一点"涩"。这才是冷的物理来源，不是靠慢或靠小调。
+   （原版用 aeolian 三和弦，最小三度本身就是摩擦源，与"冷"矛盾） */
+{g:'temp',t:'冰冷 2°C',k:'ionian',b:52,r:0.4,oct:5,tex:'openair',noise:'sparkle',prog:[0,3],dyn:0.16,p:'纯五度 + 高八度，一个摩擦音程都没有 + 极慢 + 最高音区。像指尖碰铁栏杆。'},
+{g:'temp',t:'微凉 12°C',k:'dorian',b:72,r:2.4,oct:4,tex:'arp',noise:null,prog:[0,5,1,4],dyn:0.24,p:'多利亚的"清爽的暗"。风衣刚好的温度。'},
+{g:'temp',t:'温暖 24°C',k:'ionian',b:92,r:3.1,oct:4,tex:'arp',noise:null,prog:[0,4,5,3],dyn:0.3,p:'大调 + 琶音 + 微快。是"什么都不想干也可以"的温度。'},
+{g:'temp',t:'闷热 31°C',k:'mixolydian',b:104,r:1.7,oct:3,tex:'march',noise:'wind',prog:[0,3,4,3],dyn:0.3,p:'低音区厚、带风噪、慢而黏。汗贴在后背的感觉。'},
+{g:'temp',t:'灼热 39°C',k:'phrygian',b:146,r:4.9,oct:5,tex:'drive',noise:'static',prog:[0,0,1,0],dyn:0.4,friction:true,p:'小二度摩擦 + 高音区 + 电流般的嘶声。柏油路上扭曲的空气。'},
+
+/* ---------- 维度四 · 态度与性格（靠装饰与切分，不靠速度） ---------- */
+{g:'attitude',t:'傲慢的',k:'ionian',b:104,r:3.5,oct:4,tex:'drive',noise:null,prog:[0,4,3,1],dyn:0.36,p:'大调 + 切分抢拍 + 音区往上顶。用的是"我比你高"，不是"我比你快"。'},
+{g:'attitude',t:'谦卑的',k:'dorian',b:66,r:2.2,oct:3,tex:'arp',noise:null,prog:[0,3,0,4],dyn:0.2,p:'音区压在中低、力度轻、级数下行。听着比它实际速度还慢半拍。'},
+{g:'attitude',t:'傲娇的',k:'mixolydian',b:132,r:4.4,oct:4,tex:'pulse',noise:null,prog:[0,4,0,5],dyn:0.3,p:'快八分配别扭的进行——想往前冲又总停在半路。'},
+{g:'attitude',t:'慵懒的',k:'dorian',b:84,r:1.4,oct:4,tex:'silk',noise:null,prog:[0,2,3,4],dyn:0.22,p:'软起音、长时值、级数绕着走。每个音都懒得抬起来。'},
+{g:'attitude',t:'不耐烦的',k:'mixolydian',b:140,r:9.3,oct:4,tex:'trem',noise:null,prog:[0,4,0,3],dyn:0.32,p:'十六分密集但强弱不均——一直在催，一直在不等。'},
+{g:'attitude',t:'虔诚的',k:'ionian',b:60,r:1.0,oct:4,tex:'bell',noise:null,prog:[0,4,0],dyn:0.26,p:'两拍敲一下，余音拖很久。大调在这里不是明亮，是庄严。'},
+
+/* ---------- 维度五 · 时间（速度=流速，音区=高度） ---------- */
+{g:'time',t:'黎明',k:'lydian',b:66,r:2.2,oct:4,tex:'arp',noise:'mist',prog:[0,3,1,0],dyn:0.2,p:'从低音区慢慢爬上去。升四级让天亮得不彻底。'},
+{g:'time',t:'正午',k:'ionian',b:132,r:4.4,oct:5,tex:'drive',noise:null,prog:[0,4,5,3],dyn:0.34,p:'大调最高音区 + 八分驱动。时间被压得最短。太阳在头顶。'},
+{g:'time',t:'黄昏',k:'dorian',b:74,r:2.5,oct:4,tex:'arp',noise:null,prog:[0,5,3,0],dyn:0.24,p:'同款调式，速度放慢一档。就是这一档的区别。'},
+{g:'time',t:'深夜',k:'aeolian',b:50,r:0.4,oct:3,tex:'drone',noise:null,prog:[0,2],dyn:0.18,p:'一个低音拖满八拍。时间几乎不走。'},
+{g:'time',t:'永恒 / 时间凝住',k:'locrian',b:44,r:0.4,oct:3,tex:'drone',noise:null,prog:[0],dyn:0.16,p:'比深夜还慢一截，慢到听不出拍子在哪。'},
+
+/* ---------- 维度六 · 光与色（泛音数与滤波器决定亮度） ---------- */
+{g:'light',t:'刺眼',k:'lydian',b:130,r:4.3,oct:5,tex:'arp',noise:'sparkle',prog:[0,4,0,3],dyn:0.36,p:'高音区 + 密集琶音 + 高频微光。眯着眼睛看白墙的那种亮。'},
+{g:'light',t:'昏暗',k:'aeolian',b:60,r:0.5,oct:3,tex:'pad',noise:null,prog:[0,3],dyn:0.2,p:'低音区 + 一个和弦拖四拍 + 几乎不换。灯没全开。'},
+{g:'light',t:'烛光',k:'ionian',b:58,r:1.0,oct:4,tex:'bell',noise:'fire',prog:[0,4,0],dyn:0.2,p:'两拍敲一下、余音拖长、带一层火的细碎噪声。烛火是会抖的。'},
+{g:'light',t:'月光',k:'lydian',b:66,r:1.1,oct:5,tex:'silk',noise:null,prog:[0,3,1,0],dyn:0.16,p:'高音区但音量极轻、时值很长。冷的光就该这么远。'},
+{g:'light',t:'霓虹',k:'mixolydian',b:126,r:8.4,oct:5,tex:'trem',noise:'static',prog:[0,3,4,0],dyn:0.34,p:'十六分密集 + 电流高频 + 不稳定的降七。闪得刺眼但不暖。'},
+
+/* ---------- 维度七 · 空间（时值长度=空间大小） ---------- */
+{g:'space',t:'空旷',k:'lydian',b:52,r:0.4,oct:3,tex:'drone',noise:null,prog:[0,3],dyn:0.2,p:'一个低音拖满八拍，中间什么都没有。声音之间留的空就是地。'},
+{g:'space',t:'辽阔',k:'ionian',b:58,r:0.5,oct:4,tex:'pad',noise:null,prog:[0,4,3],dyn:0.22,p:'大调 + 四拍长音 + 大跨度音区。地平线很长。'},
+{g:'space',t:'逼仄',k:'phrygian',b:128,r:1.1,oct:4,tex:'stone',noise:null,prog:[0,1],dyn:0.3,p:'降二级 + 闷石音色 + 密集八分。墙在往里挤。'},
+{g:'space',t:'拥挤',k:'phrygian',b:140,r:4.7,oct:4,tex:'pulse',noise:'crowd',prog:[0,1,0,1],dyn:0.34,p:'密八分 + 人声嘈杂噪声 + 降二级反复。所有人都在你旁边说话。'},
+{g:'space',t:'幽深',k:'locrian',b:56,r:0.5,oct:3,tex:'pad',noise:null,prog:[0,1],dyn:0.17,p:'极慢 + 极低音 + 洛克里亚的不稳定。井底往上看的角度。'},
+{g:'space',t:'遥远',k:'dorian',b:60,r:1.0,oct:4,tex:'bell',noise:'mist',prog:[0,3],dyn:0.14,p:'钟状长音 + 音量压到最低 + 一层雾。听不清是哪来的。'},
+
+/* ---------- 维度八 · 大小与重量（音区主导） ---------- */
+{g:'size',t:'巨大',k:'ionian',b:54,r:0.5,oct:2,tex:'drone',noise:null,prog:[0,4,0],dyn:0.4,p:'最低音区 + 八拍长音 + 力度拉满。慢，但压着你。'},
+{g:'size',t:'渺小',k:'lydian',b:132,r:8.8,oct:6,tex:'shimmer',noise:null,prog:[0,3],dyn:0.13,p:'最高音区 + 十六分密而轻。密是"碎"，不是"快"——所以还是小。'},
+{g:'size',t:'沉重',k:'aeolian',b:48,r:0.4,oct:2,tex:'drone',noise:null,prog:[0,2],dyn:0.38,p:'低到胸腔 + 慢起音 + 几乎不换和弦。像自己在往下沉。'},
+{g:'size',t:'轻盈',k:'ionian',b:140,r:2.3,oct:5,tex:'silk',noise:null,prog:[0,4,5,3],dyn:0.16,p:'高音区 + 软起音 + 力度轻。飘着落不下来。'},
+{g:'size',t:'压迫',k:'locrian',b:120,r:1,oct:3,tex:'stone',noise:null,prog:[0,1],dyn:0.36,p:'低音区 + 洛克里亚 + 闷石音色 + 密集节奏。四面都在。'},
+
+/* ---------- 维度九 · 材质与触感（包络形状说了算） ---------- */
+{g:'material',t:'金属',k:'locrian',b:132,r:4.4,oct:4,tex:'pulse',noise:'static',prog:[0,1],dyn:0.3,p:'2ms 起音 + 强十二度泛音 = 敲在钢板上。'},
+{g:'material',t:'木头',k:'ionian',b:84,r:1.4,oct:4,tex:'march',noise:null,prog:[0,4,5,3],dyn:0.26,p:'9ms 起音 + 几乎没有高频泛音 = 敲在桌面上。'},
+{g:'material',t:'玻璃',k:'lydian',b:100,r:6.7,oct:5,tex:'shimmer',noise:null,prog:[0,3,1],dyn:0.18,p:'2ms 起音 + 极亮低通 + 十六分。每一下都干净到有点危险。'},
+{g:'material',t:'丝绸',k:'ionian',b:62,r:1.0,oct:4,tex:'silk',noise:null,prog:[0,5,3],dyn:0.18,p:'180ms 慢起音。声音不是"响起来"的，是"化开"的。'},
+{g:'material',t:'砂石',k:'phrygian',b:112,r:7.5,oct:3,tex:'trem',noise:'static',prog:[0,1],dyn:0.26,friction:true,p:'闷到 900Hz 的低通 + 密集短音。脚踩在碎石上的粗粝。'},
+
+/* ---------- 维度十 · 运动状态（速度曲线与走向） ---------- */
+{g:'motion',t:'静止',k:'ionian',b:48,r:0.4,oct:3,tex:'drone',noise:null,prog:[0],dyn:0.22,p:'一个和弦八拍不变。连"时间在流"这件事都被撤掉了。'},
+{g:'motion',t:'漂流',k:'dorian',b:72,r:2.4,oct:4,tex:'arp',noise:'water',prog:[0,5,3,0],dyn:0.2,p:'琶音从低往高再回来，水声垫底。没有落点。'},
+{g:'motion',t:'坠落',k:'phrygian',b:112,r:3.7,oct:5,tex:'pulse',noise:null,prog:[4,3,1,0],dyn:0.34,bend:-12,p:'级数一路下行 + 每个音再滑低一个八度。速度没变，但方向一直在掉。'},
+{g:'motion',t:'旋转',k:'dorian',b:96,r:4.8,oct:4,tex:'swirl',noise:null,prog:[0,3,0,3],dyn:0.26,p:'三连音 + 每圈回到同一个和弦。停不下来但也没前进。'},
+{g:'motion',t:'奔跑',k:'mixolydian',b:152,r:5.1,oct:4,tex:'drive',noise:null,prog:[0,3,4,0],dyn:0.34,p:'八分踩到底 + 进行一直在推。跑步时哼的调就是这个密度。'},
+{g:'motion',t:'爆炸',k:'locrian',b:160,r:21.3,oct:4,tex:'grind',noise:'thunder',prog:[0,1],dyn:0.42,p:'全场最高密度 + 低音墙 + 雷声。来不及听完就结束了。'},
+
+/* ---------- 维度十一 · 叙事与事件（张力—释放结构） ---------- */
+{g:'story',t:'追逐',k:'aeolian',b:146,r:9.7,oct:4,tex:'trem',noise:null,prog:[0,1,0,4],dyn:0.34,p:'十六分不给你喘气 + 反复回到降二级。跑不掉。'},
+{g:'story',t:'战斗',k:'mixolydian',b:150,r:20,oct:3,tex:'grind',noise:'machine',prog:[0,0,1,4],dyn:0.4,p:'三十二分低音墙 + 机械噪声。金属对金属。'},
+{g:'story',t:'告别',k:'aeolian',b:62,r:0.5,oct:4,tex:'pad',noise:null,prog:[0,3,4],dyn:0.22,p:'停在属和弦上不解决。话说一半就走了。'},
+{g:'story',t:'诞生',k:'ionian',b:80,r:2.7,oct:4,tex:'arp',noise:null,prog:[0,1,2,4],dyn:0.24,p:'大调从最低处一级一级往上铺。终止式终于肯回家了。'},
+{g:'story',t:'仪式',k:'dorian',b:96,r:1.6,oct:3,tex:'march',noise:null,prog:[0,3,4,0],dyn:0.3,p:'重步 + 钟状长音。等距、无变化、不看你。'},
+{g:'story',t:'死亡',k:'locrian',b:40,r:0.3,oct:2,tex:'drone',noise:null,prog:[0],dyn:0.16,p:'一个音，十六拍。比深夜更慢，慢到节拍消失。'},
+
+/* ---------- 维度十二 · 身体与生理（节拍可对齐生理值） ---------- */
+{g:'body',t:'平静心跳',k:'ionian',b:64,r:1.1,oct:3,tex:'march',noise:null,prog:[0,3,4,0],dyn:0.24,p:'64 BPM = 人类静息心率。音乐的速度就是身体的速度。'},
+{g:'body',t:'心跳加速',k:'aeolian',b:140,r:4.7,oct:4,tex:'pulse',noise:null,prog:[0,4,5,3],dyn:0.32,p:'140 BPM 逼近运动心率上限。八分跟着心跳走。'},
+/* 平静呼吸：14 次/分是真实生理值。用 28 BPM（每分钟 28 拍）+ pad（每 6 拍一个音）
+   → 每分钟约 4.7 个音，太慢。改用 silk（每 2 拍一个音）→ 每分钟 28 个音，
+   又太密。折中：BPM 14 + pad → 每 25 秒一个音头太长。
+   最终方案：BPM 20 + pad，周期 6 拍 = 18 秒/和弦，两和弦共 36 秒——还是太长。
+   真正合适的做法是缩短总长度：只用 1 个和弦、pad 织体，
+   BPM 14、周期 6 拍 → 25 秒。播放时它就是一声长长的呼气，这个时长是对的。 */
+{g:'body',t:'平静呼吸',k:'dorian',b:44,r:0.3,oct:3,tex:'pad',noise:null,prog:[0],dyn:0.18,p:'一个长音拖满 9 秒——正好是一个完整的呼吸周期。'},
+{g:'body',t:'疲惫',k:'aeolian',b:52,r:0.4,oct:3,tex:'drone',noise:null,prog:[0,2],dyn:0.16,p:'低于静息心率。每个音都拖到没力气。'},
+{g:'body',t:'病痛',k:'locrian',b:108,r:14.4,oct:4,tex:'grind',noise:'static',prog:[0,1],dyn:0.3,friction:true,p:'密集 + 小二度持续摩擦 + 电流嘶声。找不到哪里疼但哪都疼。'},
+{g:'body',t:'高潮',k:'mixolydian',b:128,r:8.5,oct:5,tex:'trem',noise:'sparkle',prog:[0,4,0,3],dyn:0.4,p:'最高音区 + 十六分密集 + 力度压满。三条线同时到顶。'},
 ];
 
 /* 五种终止式：d = 级数序列，t = 落地听感描述（第 06 节） */
