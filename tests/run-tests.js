@@ -175,12 +175,15 @@ test('A3 版本号：HTML 静态副本、<title>、js/app.js 的 VERSION 三处�
   assert.ok(titleM[1].includes(`V${ver} [${date}]`),
     `<title>「${titleM[1]}」应含 V${ver} [${date}]`);
 
-  /* 两处 data-ver（页面 H1 + 侧栏 brand）的静态副本 */
-  const verNodes = [...HTML.matchAll(/<span class="ver" data-ver>([\s\S]*?)<\/span>/g)];
-  assert.equal(verNodes.length, 2, '应有 2 处 data-ver（页面大标题 + 侧栏 brand）');
+  /* 两处 data-ver 静态副本：侧栏 brand（<span class="ver">）与
+     页头导语下方（<p class="hero-ver ver">，右对齐）。
+     按 data-ver 属性定位，不写死标签名与类名——版面可以把版本号放在任何位置。 */
+  const verNodes = [...HTML.matchAll(/<([a-z]+) class="[^"]*\bver\b[^"]*" data-ver>([\s\S]*?)<\/\1>/g)]
+    .map(m => ({ tag: m[1], inner: m[2].replace(/<[^>]+>/g, '') }));
+  assert.equal(verNodes.length, 2, '应有 2 处 data-ver（侧栏 brand + 页头导语下方）');
   verNodes.forEach((v, i) => {
-    assert.ok(v[1].includes(`V${ver}`) && v[1].includes(`[${date}]`),
-      `第 ${i + 1} 处 data-ver 静态副本应与 VERSION 一致（V${ver} [${date}]）`);
+    assert.ok(v.inner.includes(`V${ver}`) && v.inner.includes(`[${date}]`),
+      `第 ${i + 1} 处 data-ver（<${v.tag}>）静态副本应与 VERSION 一致（V${ver} [${date}]），实际「${v.inner}」`);
   });
 
   /* 样式约定：版本号必须 14px、正文灰、斜体，版本号本身加粗 */
@@ -598,9 +601,19 @@ test('E8 版本号：applyVersion 把版本号写进标签页标题与页面两�
         `第 ${i + 1} 处版本号应与标签页一致`);
       assert.ok(el.textContent.includes(`[${date}]`), `第 ${i + 1} 处应含日期`);
     });
-    /* H1 与侧栏 brand 都要在 */
-    assert.ok(d.querySelector('.hero h1 [data-ver]'), '页面大标题应含版本号');
+    /* 页头导语下方与侧栏 brand 都要在 */
+    assert.ok(d.querySelector('.hero-ver [data-ver], .hero .hero-ver[data-ver]'),
+      '页头导语下方应有版本号');
     assert.ok(d.querySelector('#nav .brand [data-ver]'), '侧栏 brand 应含版本号');
+    /* 页头不再重复放 h1（标题已画在插图里） */
+    assert.equal(d.querySelectorAll('.hero h1').length, 0,
+      '页头不应再有 h1（标题已画在羊皮纸插图内）');
+    /* 版本号要在导语下方、右对齐 */
+    const hv = d.querySelector('.hero-ver');
+    assert.ok(hv && /right/.test(w.getComputedStyle(hv).textAlign), '页头版本号应右对齐');
+    const intro = d.querySelector('.hero .intro');
+    assert.ok(intro && hv && (intro.compareDocumentPosition(hv) & w.Node.DOCUMENT_POSITION_FOLLOWING),
+      '版本号应排在导语段落之后');
   });
 });
 

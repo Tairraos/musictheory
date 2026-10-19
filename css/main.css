@@ -70,23 +70,33 @@ body{
    正好落在同一条竖线上——两者宽度差恰好是一张卡片的左右内边距（44px）。
    改宽度时只动 :root 里的 --read / --pad-* 三个变量，别在这里写死数字 */
 .wrap{margin-left:196px; padding:0 var(--pad-w) 100px; max-width:var(--wrap-out)}
-.hero{padding:56px 0 36px}
-.hero h1{font-size:30px;font-weight:600;letter-spacing:.5px}
+.hero{padding:32px 0 36px}
+/* 插画自带标题，页面不再重复放 h1（.hero h1 规则已移除） */
+
 /* 页头两栏：左边插画、右边介绍；窄屏叠成竖排，插画居中 */
-/* 插图是透明底 PNG：不加边框/阴影/圆角/底色——任何"特效"边缘都会露出页面底色 */
-/* 插图大小随分辨率三档（方型）；文字块 stretch 到与图等高、内容垂直居中 */
-:root{--hero-art:260px}
-@media(max-width:1280px){:root{--hero-art:220px}}
-@media(max-width:1000px){:root{--hero-art:190px}}
-.hero-grid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:30px;align-items:stretch;margin-top:24px}
+/* 插图是透明底 PNG（羊皮纸轮廓），**可以**加阴影——但必须用 filter:drop-shadow，
+   不能用 box-shadow：box-shadow 画的是元素的**矩形盒**阴影，会在羊皮纸四周留下
+   一圈方形灰印；drop-shadow 按像素 alpha 通道算，阴影自然跟随羊皮纸的毛边轮廓。 */
+:root{--hero-art:300px}
+@media(max-width:1280px){:root{--hero-art:256px}}
+@media(max-width:1000px){:root{--hero-art:216px}}
+.hero-grid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:30px;align-items:center}
 .hero-grid .art{width:var(--hero-art);height:var(--hero-art);display:flex;align-items:center;justify-content:center}
-.hero-grid .art img{width:100%;height:100%;object-fit:contain}
-/* 页头介绍：与左边的插图并排，窄一点是版式需要（不是正文，不参与对齐） */
-.hero-grid .intro{align-self:stretch;display:flex;flex-direction:column;justify-content:center;
-  color:var(--muted);font-size:14.5px;line-height:1.95;max-width:560px}
+/* 投影：两道——一层贴近的深色短影把纸"压"在页面上，一层大范围柔光把它"托"起来。
+   用 drop-shadow 而非 box-shadow，原因见上方注释（box-shadow 会留方形灰印）。
+   两层都必须是同一条 filter 列表，不能拆成两条 filter 属性（后者会互相覆盖）。 */
+.hero-grid .art img{
+  width:100%;height:100%;object-fit:contain;
+  filter:drop-shadow(2px 3px 4px rgba(60,50,30,.28)) drop-shadow(0 10px 22px rgba(60,50,30,.18));
+}
+/* 介绍文字：垂直居中对齐插画（align-items:center 已让整块居中，这里只需管内部间距） */
+.hero-grid .intro-wrap{display:flex;flex-direction:column;justify-content:center;max-width:560px}
+.hero-grid .intro{color:var(--muted);font-size:14.5px;line-height:1.95}
+/* 版本号：跟在导语下面单独一行、右对齐，样式沿用 .ver（14px 灰斜体，版本号加粗） */
+.hero-ver{margin-top:14px;text-align:right}
 @media(max-width:700px){
   .hero-grid{grid-template-columns:1fr;gap:18px}
-  .hero-grid .art{width:220px;height:220px;margin:0 auto}
+  .hero-grid .art{width:var(--hero-art);height:var(--hero-art);margin:0 auto;max-width:100%}
   .hero-grid .intro{font-size:14px}
 }
 /* ---------- 5. 章节标题 / 引导语 ---------- *

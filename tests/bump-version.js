@@ -54,12 +54,20 @@ if (writeIdx > -1) {
   app = app.replace(RE, () => `const VERSION = { v: '${target}', date: '${date}' };`);
   fs.writeFileSync(APP, app);
 
-  /* 写 index.html：<title> 与两处 data-ver 静态副本 */
+  /* 写 index.html：<title> 与两处 data-ver 静态副本。
+     正则按 **data-ver 属性** 定位，不写死标签名（<span>/<p>）与类名
+     （侧栏是 class="ver"，页头是 class="hero-ver ver"）——
+     那些只是各处的排版修饰，版本号该写在哪由版面决定，工具不该关心。 */
   let html = read(HTML);
   html = html.replace(/<title>[^<]*<\/title>/, () => `<title>姐弟厨师团 --- 乐理课 ${label}</title>`);
-  const RE_VER = /<span class="ver" data-ver><b>V[\d.]+<\/b> \[[\d.]+\]<\/span>/g;
-  if (!RE_VER.test(html)) { console.error('✗ index.html 里找不到 data-ver 静态副本，未改动'); process.exit(1); }
-  html = html.replace(RE_VER, () => `<span class="ver" data-ver>${labelHtml}</span>`);
+  /* 只匹配到开标签为止（不含闭合标签），这样不关心外层是 <span> 还是 <p> */
+  const RE_VER = /(<[a-z]+ class="[^"]*\bver\b[^"]*" data-ver>)<b>V[\d.]+<\/b> \[[\d.]+\]/g;
+  const found = html.match(RE_VER);
+  if (!found || found.length !== 2) {
+    console.error(`✗ index.html 里应找到 2 处 data-ver 静态副本，实际 ${found ? found.length : 0} 处，未改动`);
+    process.exit(1);
+  }
+  html = html.replace(RE_VER, (m) => m.replace(/<b>V[\d.]+<\/b> \[[\d.]+\]/, () => labelHtml));
   fs.writeFileSync(HTML, html);
 
   /* 写后自检：确认四处真的都改了。
@@ -100,13 +108,14 @@ if (!title) problems.push('index.html 缺少 <title>');
 else if (!title[1].includes(`V${ver} [${date}]`))
   problems.push(`index.html:12 <title> 应含 V${ver} [${date}]，实际「${title[1]}」`);
 
-/* 两处 data-ver 静态副本 */
-const copies = [...html.matchAll(/<span class="ver" data-ver>([\s\S]*?)<\/span>/g)];
+/* 两处 data-ver 静态副本（按属性定位，不写死标签与类名） */
+const copies = [...html.matchAll(/<([a-z]+) class="[^"]*\bver\b[^"]*" data-ver>([\s\S]*?)<\/\1>/g)]
+  .map(m => m[2].replace(/<[^>]+>/g, ''));
 if (copies.length !== 2)
   problems.push(`index.html 应有 2 处 data-ver 静态副本，实际 ${copies.length} 处`);
-copies.forEach((m, i) => {
-  if (!m[1].includes(`V${ver}`) || !m[1].includes(`[${date}]`))
-    problems.push(`index.html 第 ${i + 1} 处 data-ver 应为 V${ver} [${date}]，实际「${m[1]}」`);
+copies.forEach((inner, i) => {
+  if (!inner.includes(`V${ver}`) || !inner.includes(`[${date}]`))
+    problems.push(`index.html 第 ${i + 1} 处 data-ver 应为 V${ver} [${date}]，实际「${inner}」`);
 });
 
 /* 日期格式 */
