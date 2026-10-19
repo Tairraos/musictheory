@@ -113,10 +113,24 @@ copies.forEach((m, i) => {
 if (!/^\d{2}\.\d{2}\.\d{2}$/.test(date))
   problems.push(`版本日期 ${date} 应为 YY.MM.DD 格式`);
 
-/* 相对上次提交是否递增 */
+/* --------------------------------------------------------------------------
+ * 「是否需要升版本」的判据
+ * --------------------------------------------------------------------------
+ * 只比工作区与 HEAD 是不够的：提交完成后再跑一次，版本号必然与 HEAD 相等，
+ * 那样每次提交后都会误报。正确的问法是：
+ *   「工作区有没有**未提交的改动**？」有的话才要求版本号比 HEAD 高。
+ *   没有未提交改动（刚提交完 / 干净仓库）→ 无所谓递增，直接放行。 */
+let dirty = false;
+try {
+  const out = execSync('git status --porcelain', { cwd: ROOT, encoding: 'utf8' }).trim();
+  /* bump-version.js 自己刚跑过不会产生改动，但测试产物可能出现；
+     只关心源码是否被改，所以过滤掉明显的非源码路径 */
+  dirty = out.split('\n').filter(l => l && !/\.workbuddy|node_modules|dist\//.test(l)).length > 0;
+} catch (e) { /* 无 git 仓库时不做要求 */ }
+
 let bumped = true, prevVer = null;
 try {
-  const prevApp = execSync(`git show HEAD:js/app.js`, { cwd: ROOT, encoding: 'utf8' });
+  const prevApp = execSync('git show HEAD:js/app.js', { cwd: ROOT, encoding: 'utf8' });
   const pm = prevApp.match(/const VERSION = \{ v: '([\d.]+)'/);
   if (pm) {
     prevVer = pm[1];
@@ -136,10 +150,14 @@ if (problems.length) {
 }
 
 console.log(`✓ 版本号四处一致：V${ver} [${date}]`);
-if (!bumped && prevVer === ver && process.env.SKIP_VERSION_BUMP !== '1') {
-  console.warn(`⚠ 版本号仍是 V${prevVer}，与上次提交相同。`);
-  console.warn('  本次有改动的话应递增（如 --write 1.17）。');
-  console.warn('  纯文档改动可显式跳过：SKIP_VERSION_BUMP=1 npm test');
+
+/* 只有「有未提交改动」且「版本号没比 HEAD 高」时才算漏升 */
+if (dirty && !bumped && process.env.SKIP_VERSION_BUMP !== '1') {
+  console.warn(`⚠ 工作区有未提交改动，但版本号仍是 V${prevVer}（与上次提交相同）。`);
+  console.warn('  按约定每次改动都要升版本，例如：npm run bump -- 1.' +
+              (String(parseInt(prevVer.split('.')[1], 10) + 1)));
+  console.warn('  若本次确为纯文档改动，可显式跳过：SKIP_VERSION_BUMP=1 npm test');
   process.exit(1);
 }
-console.log(prevVer ? `✓ 相对上次提交（V${prevVer}）已递增` : '✓ 首次提交，无递增要求');
+if (!dirty) console.log('✓ 工作区干净，无升版本要求');
+else if (prevVer) console.log(`✓ 相对上次提交（V${prevVer}）已递增`);
