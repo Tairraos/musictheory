@@ -196,6 +196,48 @@ test('A3 版本号：HTML 静态副本、<title>、js/app.js 的 VERSION 三处�
   assert.match(css, /\.ver b\{[^}]*font-weight:6/, '.ver b（版本号本身）应加粗');
 });
 
+test('A5 底栏状态条：键名方块出现/消失不得改变那一行的高度', async () => {
+  /* 用户报的抖动：「正在响」右边按键方块一显示，行就变高，方块消失又变低，
+     整行文字上下跳。根因是 .kc 带上下 padding + 边框，比纯文字高，
+     撑高了 .dbad 那行。
+     修法：.dbad 定死高度 + overflow:hidden，.dsp 改 flex 居中，方块尺寸收进行高内。
+     这条测试守住那个「定死的高度」不被人改掉。 */
+  await withPage(async (w, d) => {
+    const bad = d.querySelector('#dock .dbad');
+    const read = d.querySelector('#dockRead');
+    const h = () => w.getComputedStyle(bad).height;
+
+    const empty = h();
+    assert.equal(empty, '24px', '.dbad 应定死 24px 行高（须 ≥ .kc 的 19px 实际高度）');
+    assert.equal(w.getComputedStyle(bad).overflow, 'hidden',
+      '.dbad 应 overflow:hidden，防止方块溢出把行撑开');
+
+    /* 方块出现时高度必须不变 */
+    read.innerHTML = '<i class="kc">C4</i>';
+    assert.equal(h(), empty, '出现 1 个键名方块时行高不应变化');
+
+    read.innerHTML = ['C4', 'E4', 'G4', 'C5', 'E5'].map(n => `<i class="kc">${n}</i>`).join('');
+    assert.equal(h(), empty, '出现 5 个键名方块时行高不应变化');
+
+    /* 消失后也要回到原值 */
+    read.innerHTML = '';
+    assert.equal(h(), empty, '方块消失后行高应恢复原值');
+
+    /* 方块实际高度必须装得进 24px——否则 overflow:hidden 会把它下边框裁掉，
+       「小琴键」的造型就没了（下边框深色键檐是这个视觉的关键） */
+    const dsp = d.querySelector('#dock .dsp');
+    assert.equal(w.getComputedStyle(dsp).display, 'flex',
+      '.dsp 应为 flex 容器，让方块垂直居中而不撑行');
+    assert.equal(w.getComputedStyle(dsp).alignItems, 'center',
+      '.dsp 应让方块垂直居中');
+    /* .dsp 不能有自己的固定高度——它必须由 .dbad 的 24px 决定。
+       jsdom 不做布局，height:100% 解析不出具体值，所以只断言它没写死别的值。
+       真正的守卫是上面那条：.dbad 恒为 24px，而 .dsp 是 .dbad 的直接子元素。 */
+    const dspParent = dsp.parentElement;
+    assert.equal(dspParent, bad, '.dsp 应是 .dbad 的直接子元素（高度由 .dbad 决定）');
+  });
+});
+
 test('A4 版面宽度：段落与卡片内文字必须齐平（宽屏下右边缘都是 --read）', () => {
   /* 这条防的是"宽屏下元素右边缘对不齐"的老毛病：
      曾经 .lead 是 790 而 .card 撑到 976，同一条内容带上出现两条右边界。 */
