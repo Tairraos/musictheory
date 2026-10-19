@@ -28,6 +28,16 @@
   --green:#3B6D11; --green-bg:#EAF3DE;
   --red:#A32D2D; --red-bg:#FCEBEB;
   --gray-bg:#F1EFE8;
+  /* 版面宽度：三者必须联动，否则右边缘对不齐（详见下方 .wrap 的注释）。
+     --read  = 正文可读宽度，段落一律不超过它（14px 中文约 56 字/行，再宽就要串行）
+     --pad-c = .card 的左右内边距，卡片文字区 = 卡片外宽 - 2×--pad-c
+     --pad-w = .wrap 的左右内边距
+     卡片外宽定为 --read + 2×--pad-c，这样卡片的右边缘正好落在段落的右边缘上 */
+  --read:790px;
+  --pad-c:22px;
+  --pad-w:32px;
+  --card-out:calc(var(--read) + var(--pad-c) * 2);   /* 834px */
+  --wrap-out:calc(var(--card-out) + var(--pad-w) * 2); /* 898px */
 }
 
 /* ---------- 2. Reset 与基础排版 ---------- */
@@ -56,7 +66,10 @@ body{
 #nav a.on{background:var(--purple-bg);color:var(--purple);font-weight:500}
 
 /* ---------- 4. 主内容区与页头 ---------- */
-.wrap{margin-left:196px; padding:0 32px 100px; max-width:1040px}
+/* 内容区宽度 = --wrap-out（898）。这样 .card 的右边缘与 .lead 段落的右边缘
+   正好落在同一条竖线上——两者宽度差恰好是一张卡片的左右内边距（44px）。
+   改宽度时只动 :root 里的 --read / --pad-* 三个变量，别在这里写死数字 */
+.wrap{margin-left:196px; padding:0 var(--pad-w) 100px; max-width:var(--wrap-out)}
 .hero{padding:56px 0 36px}
 .hero h1{font-size:30px;font-weight:600;letter-spacing:.5px}
 /* 页头两栏：左边插画、右边介绍；窄屏叠成竖排，插画居中 */
@@ -68,6 +81,7 @@ body{
 .hero-grid{display:grid;grid-template-columns:auto minmax(0,1fr);gap:30px;align-items:stretch;margin-top:24px}
 .hero-grid .art{width:var(--hero-art);height:var(--hero-art);display:flex;align-items:center;justify-content:center}
 .hero-grid .art img{width:100%;height:100%;object-fit:contain}
+/* 页头介绍：与左边的插图并排，窄一点是版式需要（不是正文，不参与对齐） */
 .hero-grid .intro{align-self:stretch;display:flex;flex-direction:column;justify-content:center;
   color:var(--muted);font-size:14.5px;line-height:1.95;max-width:560px}
 @media(max-width:700px){
@@ -75,16 +89,23 @@ body{
   .hero-grid .art{width:220px;height:220px;margin:0 auto}
   .hero-grid .intro{font-size:14px}
 }
-/* scroll-margin-top 要大于手机端顶部横滚导航的高度（~48px），否则点导航跳转后标题被遮住 */
+/* ---------- 5. 章节标题 / 引导语 ---------- *
+   内容左缘（--pad-c = 22px）：标题、引导语、h3、卡片内文字、场景卡内文字
+   全部从这条线开始，于是整条内容带在视觉上是一条直线；
+   而卡片/场景卡的**边框**从 0 开始（比内容左缘突出 --pad-c），
+   这正是"卡片是个容器、正文在容器里"的正确表达。
+   常见站点（Medium / Stripe 等）都是这个做法。 */
 section{padding:34px 0 8px; scroll-margin-top:64px}
-.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin:0 0 6px var(--pad-c)}
 .sec-num{font-size:12px;color:var(--faint);font-family:ui-monospace,monospace}
 h2{font-size:21px;font-weight:600;letter-spacing:.3px}
-.lead{color:var(--muted);margin:6px 0 18px;max-width:790px}
-h3{font-size:15px;font-weight:600;margin:22px 0 8px}
+/* 引导语：宽度 = --read，与卡片文字区等宽；左缩进使右边缘也重合 */
+.lead{color:var(--muted);margin:6px 0 18px var(--pad-c);max-width:var(--read)}
+h3{font-size:15px;font-weight:600;margin:22px 0 8px var(--pad-c)}
 
 /* ---------- 6. 卡片与网格 ---------- */
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:16px}
+/* 卡片内边距用变量，与 :root 的 --card-out 联动 */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px var(--pad-c);margin-bottom:16px}
 .card.tight{padding:16px 18px}
 .card h3:first-child{margin-top:0}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -204,7 +225,10 @@ tr.click:hover td{background:#FAF9F5}
 /* ---------- 12. 场景卡片 / 示意图容器 / 工具类 ---------- */
 /* .ladder = 所有 SVG 示意图的通用类（由 js/svg.js 生成） */
 .ladder{width:100%;display:block;margin:6px 0}
-.scene{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--card);cursor:pointer;transition:.15s}
+/* 场景卡片：padding 与 .card 一样用 --pad-c，这样它的文字右边缘
+   和引导语段落、其他 .card 内的文字完全落在同一条竖线上（790px）。
+   卡片自身是 834 外框，右边多出的 44px 是 padding，语义上与 .card 一致 */
+.scene{border:1px solid var(--line);border-radius:12px;padding:14px var(--pad-c);background:var(--card);cursor:pointer;transition:.15s}
 .scene:hover{border-color:var(--purple);box-shadow:0 2px 10px rgba(82,74,183,.08)}
 .scene.playing{border-color:var(--purple);background:var(--purple-bg)}
 .scene h4{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
@@ -223,7 +247,8 @@ ul.plain li:before{content:"";position:absolute;left:2px;top:9px;width:5px;heigh
 .sw.on{background:var(--purple)}
 .sw:after{content:"";position:absolute;left:2px;top:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}
 .sw.on:after{left:20px}
-.footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:var(--faint);font-size:12px}
+/* 页脚：分隔线从内容区左缘起，文字缩进到内容左缘（与卡片文字同一条线） */
+.footer{margin-top:60px;padding:22px 0 0 var(--pad-c);border-top:1px solid var(--line);color:var(--faint);font-size:12px}
 
 /* ---------- 13. 常驻底栏钢琴：滚到哪都能看见发声反馈 ---------- */
 #dock{position:fixed;left:196px;right:0;bottom:0;z-index:60;background:#fff;border-top:1px solid var(--line2);
@@ -269,6 +294,8 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sa
   #nav .brand{white-space:nowrap;font-size:13px;padding-right:8px}
   #nav .brand small{display:none}
   #nav a{white-space:nowrap;padding:5px 9px;font-size:12px}
+  /* 窄屏：视口本来就撑不满 898，max-width 自然不生效，这里只需换更小的 padding。
+     .lead 的 790 限宽在窄屏也不再起作用（视口 < 790），段落自动撑满——这是对的 */
   .wrap{margin-left:0;padding:0 18px 140px}
   #dock{left:0}
   .hero{padding:28px 0 20px}

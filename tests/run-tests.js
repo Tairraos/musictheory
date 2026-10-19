@@ -193,6 +193,54 @@ test('A3 版本号：HTML 静态副本、<title>、js/app.js 的 VERSION 三处�
   assert.match(css, /\.ver b\{[^}]*font-weight:6/, '.ver b（版本号本身）应加粗');
 });
 
+test('A4 版面宽度：段落与卡片内文字必须齐平（宽屏下右边缘都是 --read）', () => {
+  /* 这条防的是"宽屏下元素右边缘对不齐"的老毛病：
+     曾经 .lead 是 790 而 .card 撑到 976，同一条内容带上出现两条右边界。 */
+  const css = fs.readFileSync(path.join(ROOT, 'css/main.css'), 'utf8');
+
+  /* 三个版宽变量必须存在，且数值在合理范围 */
+  /* 注意：正则的捕获组要用 [1] 取，不能把整个 match 数组直接丢给 parseInt */
+  const read = parseInt(css.match(/--read:(\d+)px/)[1], 10);
+  const padC = parseInt(css.match(/--pad-c:(\d+)px/)[1], 10);
+  const padW = parseInt(css.match(/--pad-w:(\d+)px/)[1], 10);
+  assert.ok(read >= 600 && read <= 900, `--read ${read}px 应在 600–900 之间（中文每行 43–64 字）`);
+  assert.ok(padC >= 12 && padC <= 32, `--pad-c ${padC}px 卡片内边距应在 12–32`);
+  assert.ok(padW >= 16 && padW <= 48, `--pad-w ${padW}px 容器内边距应在 16–48`);
+
+  /* --card-out 与 --wrap-out 必须用 calc 从上面三者推导，不能写死数字 */
+  assert.match(css, /--card-out:calc\(var\(--read\) \+ var\(--pad-c\) \* 2\)/,
+    '--card-out 应由 --read 与 --pad-c 推导');
+  assert.match(css, /--wrap-out:calc\(var\(--card-out\) \+ var\(--pad-w\) \* 2\)/,
+    '--wrap-out 应由 --card-out 与 --pad-w 推导');
+
+  /* 关键不变式：内容区宽度 = 卡片文字区 + 2×卡片内边距，
+     所以「段落右边缘」与「卡片内文字右边缘」必然重合 */
+  const inner = read + padC * 2;                 /* .wrap 内容区（= 卡片外框宽） */
+  assert.equal(inner - padC * 2, read,
+    '卡片内文字宽应恰好等于 --read，段落与卡片内文字才能齐平');
+
+  /* .lead / .card / .scene 三者都必须引用变量，不许出现游离的写死数字 */
+  assert.match(css, /\.lead\{[^}]*max-width:var\(--read\)/, '.lead 应引用 var(--read)');
+  assert.match(css, /\.card\{[^}]*padding:22px var\(--pad-c\)/, '.card 应引用 var(--pad-c)');
+  assert.match(css, /\.scene\{[^}]*padding:14px var\(--pad-c\)/, '.scene 应引用 var(--pad-c)');
+  /* .wrap 也要引用，不能写死 max-width */
+  assert.match(css, /\.wrap\{[^}]*max-width:var\(--wrap-out\)/, '.wrap 应引用 var(--wrap-out)');
+
+  /* 左缘不变式：标题/引导语/h3 必须缩进 --pad-c，否则右边缘永远对不上卡片文字。
+     （段落是 .wrap 直接子、左缘 0；卡片文字有 --pad-c 的左内边距。只对齐宽度没用，
+       起点不同 → 右边缘必然错开一个 --pad-c。这是本次踩过的坑） */
+  assert.match(css, /\.lead\{[^}]*margin:[^}]*var\(--pad-c\)/,
+    '.lead 左缘必须缩进 var(--pad-c)，否则与卡片内文字右边缘错开');
+  assert.match(css, /\.sec-head\{[^}]*margin:[^}]*var\(--pad-c\)/,
+    '.sec-head 左缘应与卡片文字一致');
+  assert.match(css, /^h3\{[^}]*margin:[^}]*var\(--pad-c\)/m,
+    'h3 左缘应与卡片文字一致');
+
+  /* 常见游离写法（段落与卡片用不同写死宽度）直接判失败 */
+  assert.doesNotMatch(css, /\.lead\{[^}]*max-width:\d+px/, '.lead 不应写死像素宽度');
+  assert.doesNotMatch(css, /\.wrap\{[^}]*max-width:\d+px/, '.wrap 不应写死 max-width');
+});
+
 test('A2 拆分不改变内容：原内联 <style>/<script> 块已不在 HTML 里', () => {
   // 只允许出现"外链"形态：<link> 与 <script src=...>，不允许内联样式/脚本块
   assert.doesNotMatch(HTML, /<style>[\s\S]*?<\/style>/, '不应再有内联 <style> 块');
