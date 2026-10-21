@@ -352,7 +352,7 @@ test('B3 各节装配数量：表格行数 / chips 数 / SVG 方块数', async (
     assert.equal(n('#exoticChips .chip'), 9, '特色音阶 chips（和风 4 + 国风 4 + 布鲁斯 1）');
     assert.equal(n('#minor3row .btn'), 3, '小调三形态按钮');
     // 场景卡片：12 维度 + 筛选条 + 拆解表
-    assert.equal(n('#sceneGrid .scene'), 86, '默认展示全部 86 张场景卡片');
+    assert.equal(n('#sceneGrid .scene'), 91, '默认展示全部 91 张场景卡片');
     assert.equal(n('#dimBar .chip'), 14, '筛选条 全部 + 13 维度');
     assert.equal(n('#dimTable tr'), 13, '维度拆解表 13 行');
     // 下拉框选项
@@ -534,13 +534,13 @@ test('D1 调式数据：7 个调式半音结构合法', async () => {
   });
 });
 
-test('D2 场景数据：86 张配方卡片引用合法的调式/音区/织体/噪声', async () => {
+test('D2 场景数据：91 张配方卡片引用合法的调式/音区/织体/噪声', async () => {
   await withPage((w) => {
     const { SCENES, DIMS, TEX, TONES, NOISES, M_OF } = w.__MT__;
     const d = w.document;
     const dimIds = [...DIMS.map(x => x.id)];
 
-    assert.equal(SCENES.length, 86, '场景卡片总数 86（含文化与风格维度 15 张）');
+    assert.equal(SCENES.length, 91, '场景卡片总数 91（新增《沧海》情绪 5 张）');
     assert.equal(DIMS.length, 13, '维度总数 13（新增文化与风格）');
 
     // 每个维度都至少有一张卡片，且分组 id 全部合法
@@ -561,7 +561,7 @@ test('D2 场景数据：86 张配方卡片引用合法的调式/音区/织体/�
     });
 
     // 界面：默认展示全部 86 张；筛选条 14 个 chip（全部 + 13 维度）
-    assert.equal(d.querySelectorAll('#sceneGrid .scene').length, 86, '默认展示全部卡片');
+    assert.equal(d.querySelectorAll('#sceneGrid .scene').length, 91, '默认展示全部卡片');
     assert.equal(d.querySelectorAll('#dimBar .chip').length, 14, '筛选条 = 全部 + 13 维度');
     assert.equal(d.querySelectorAll('#dimTable tr').length, 13, '维度拆解表 13 行');
     // 每张卡片都标出了听感速度
@@ -1106,7 +1106,7 @@ test('F9 语义层 · 空间：空旷/辽阔 必须真的比逼仄/拥挤 更空
     `空间维度中"开阔"类平均密度 ${avg(openOnes).toFixed(2)} 应远低于"逼仄"类 ${avg(tightOnes).toFixed(2)}`);
 });
 
-test('F10 全库体检：86 张卡片全部能渲染出声，且波形非空', () => {
+test('F10 全库体检：91 张卡片全部能渲染出声，且波形非空', () => {
   const MT = loadData();
   let total = 0;
   MT.SCENES.forEach(s => {
@@ -1119,7 +1119,7 @@ test('F10 全库体检：86 张卡片全部能渲染出声，且波形非空', (
     assert.ok(Math.sqrt(energy / buf.length) > 1e-5, `「${s.t}」波形不应是静音`);
     total += ev.steps.length;
   });
-  assert.equal(MT.SCENES.length, 86);
+  assert.equal(MT.SCENES.length, 91);
   assert.ok(total > 800, `全库共排出 ${total} 个音事件`);
 });
 
