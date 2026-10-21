@@ -9,7 +9,7 @@
 <link rel="icon" href="assets/images/favicon.ico" sizes="any">
 <link rel="icon" href="assets/images/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/images/favicon.png">
-<title>姐弟厨师团 --- 乐理课 V1.18 [26.10.19]</title>
+<title>姐弟厨师团 --- 乐理课 V1.19 [26.10.21]</title>
 <!-- 样式外链：原内联样式表已拆到 css/main.css（规则与顺序未动，仅补注释） -->
 <link rel="stylesheet" href="css/main.css">
 </head>
@@ -17,7 +17,7 @@
 
 <!-- 左侧导航：13 节课，与下方 <section> 一一对应（≤1000px 变为顶部横滚条） -->
 <aside id="nav">
-  <div class="brand">乐理课目录 <span class="ver" data-ver><b>V1.18</b> [26.10.19]</span><small>点一下，就出声</small></div>
+  <div class="brand">乐理课目录 <span class="ver" data-ver><b>V1.19</b> [26.10.21]</span><small>点一下，就出声</small></div>
   <a href="#s-start">0 · 先弄响钢琴</a>
   <a href="#s-halfnote">1 · 半音与音程</a>
   <a href="#s-majmin">2 · 大调与小调</a>
@@ -42,7 +42,7 @@
     <div class="art"><img src="assets/images/hero-art.png" alt="姐弟二人坐在钢琴前弹奏的插图，画在羊皮纸上"></div>
     <div class="intro-wrap">
       <p class="intro">没有枯燥的符号，这里是一个可以自由调味的声音工坊。不背公式、不看天书，每一个模块内容都能点、能听 —— 大调小调、七个调式、五声、和弦进行、行板、拍号、移调、听感配方，主流的音乐语言一次玩透。一路玩到最后你会发现：雨天的清冷、午后的松弛、某刻的心事，原来都可以用音乐说出来。我们一起创作吧，用音乐表达生活，让世界更鲜活。</p>
-      <p class="hero-ver ver" data-ver><b>V1.18</b> [26.10.19]</p>
+      <p class="hero-ver ver" data-ver><b>V1.19</b> [26.10.21]</p>
     </div>
   </div>
 </header>
@@ -187,10 +187,24 @@
     <div class="row" id="pentaChips" style="margin-bottom:8px"></div>
     <div class="note" id="pentaInfo">宫=do、商=re、角=mi、徵=sol、羽=la。哪个音当主音，就叫什么调。</div>
     <div class="card" style="margin-top:14px;background:var(--card)">
-      <h3>五声之外的三个"特色音阶"</h3>
+      <h3>国风与和风：两套音阶的"家规"</h3>
       <p class="mini" style="line-height:1.7;margin-bottom:10px">
         第 10 节讲「文化与风格」时要用到。它们不是七个教会调式里的任何一个，而是各有地域与流派身份的调式——
         <b>调式选择几乎就是风格选择</b>。点一下听听。</p>
+
+      <p class="mini" style="line-height:1.75;margin-bottom:12px">
+        <b>中国</b>：五声（宫商角徵羽）是同一组五个音换起点，所以你会了宫调，另外四个免费；
+        要更丰富的色彩就请两个「偏音」进屋——清角与变徵（第 4 级）、变宫与闰（第 7 级），
+        请哪两位决定气质：<b>雅乐</b>（变徵+变宫）庄重、<b>清乐</b>（清角+变宫）明快、<b>燕乐</b>（清角+闰）悲怆。
+        秦腔把这套用到了极致：<b>欢音</b>徵调、<b>苦音</b>把本位 si 压成闰并用清角。</p>
+
+      <p class="mini" style="line-height:1.75;margin-bottom:10px">
+        <b>日本</b>：音乐学家小泉文夫发现，邦乐音阶都符合<b>同一个公式</b>——
+        两段「完全四度」骨架叠起来，每段里各放一个中间音；中间音放低一点或高一点，就成了不同的调式。
+        所以 Japanese 的四种基本调式只是<b>同一个滑杆的四个位置</b>：律（小二）、都节（更低）、
+        民谣（小三度）、琉球（最高）。都节把中间音放得最低，两个半音因此挨得最近，
+        那就是"一耳朵听出日本"的原因。</p>
+
       <div class="row" id="exoticChips" style="flex-wrap:wrap"></div>
       <div class="note" id="exoticInfo" style="margin-top:10px"></div>
     </div>
@@ -366,7 +380,7 @@
 
 <!-- ==================== 10 · 音乐的十二种表达维度 ==================== -->
 <section id="s-emotion">
-  <div class="sec-head"><span class="sec-num">10</span><h2>音乐能表达什么：十二个维度</h2></div>
+  <div class="sec-head"><span class="sec-num">10</span><h2>音乐能表达什么：十三个维度</h2></div>
   <p class="lead">前面所有参数，最终都是为这个服务的。音乐不只表达心情——它还能表达天气、冷热、时间、空间、
     重量、材质、运动、事件、身体状态，甚至文化风格。<b>因为音乐模拟的不是情绪，是物理量</b>：
     音高听起来像高低和大小，响度像重量和距离，时值像开阔还是逼仄。</p>
@@ -378,6 +392,44 @@
       <b>标称 BPM</b>（和弦周期有多快）和 <b>听感速度</b>（音头密度，个/秒）——后者才是耳朵真正在意的那个。</p>
     <div class="note">卡片的音头密度按这个公式算：<span class="mono">密度 = 织体的音头数 × BPM ÷ 120</span>。
       自动化测试会拿每一张卡片的实测值跟它自报的数字对账，对不上就构建失败。</div>
+  </div>
+
+  <div class="card">
+    <h3>第十三个维度：文化与风格——调式就是文化的载体</h3>
+    <p class="mini" style="line-height:1.75">
+      前十二个维度回答"这是什么感觉"，这一个回答"这是哪里的音乐"。它由三层叠成：
+      <b>调式定地域</b>（五声=中国，都节=日本）、<b>偏音定流派</b>（秦腔的苦音）、<b>音色定腔调</b>（竹笛还是尺八）。</p>
+    <p class="mini" style="line-height:1.75">
+      最能说明问题的一组对照是<b>秦腔的苦音与欢音</b>：苦音是燕乐七声（把本位 si 压成闰、用清角），
+      欢音是干净的徵调式——只差两个偏音，一个听起来是泣，一个听起来是喜。
+      <b>这不是"像不像中国风"的问题，而是物理上的差异</b>：五声族相邻音最小音程是全音（无摩擦，含蓄），
+      七声族与都节族有半音（有摩擦，有张力）。测试会拿这个数值对账。</p>
+    <p class="mini" style="line-height:1.75">
+      日本那边还有个漂亮的发现：音乐学家<b>小泉文夫</b>指出，邦乐音阶都符合<b>同一个公式</b>——
+      两段「完全四度」骨架，每段里各放一个「中间音」；中间音放低一点或高一点就成了不同的调式。
+      所以律音阶、都节、民谣、琉球其实只是<b>同一个滑杆的四个位置</b>。都节把中间音放得最低，
+      两个半音因此挨得最近——这就是为什么它最像"日本"。</p>
+  </div>
+
+  <div class="card">
+    <h3>一个具体例子：《沧海一声笑》到底用了几个音？</h3>
+    <p class="mini" style="line-height:1.75">
+      很多人知道《沧海一声笑》（黄霑词曲、顾嘉辉编曲，1990 年电影《笑傲江湖》主题曲）简单得出奇，
+      常见说法是"<b>七个键就能弹</b>"。实际查证下来，这个说法站不住：它用的是<b>纯五声音阶</b>，
+      而黄霑自己说过主旋律是「<b>宫商角徵羽反过来用</b>」——也就是 la–sol–mi–re–do 这一串下行，
+      <b>五个音</b>就够了。首句级数大致是 <span class="mono">6 5 3 2 1 | 3 2 1 6 5 | …</span>，
+      通篇不出现 fa 与 si（清角、变宫），所以既没有导音的急切，也没有小二度摩擦。</p>
+    <p class="mini" style="line-height:1.75">
+      至于它算宫调式还是羽调式，<b>学界有两种记法</b>。这里有个容易搞混的地方值得说清：
+      <b>宫调式与羽调式的音集其实不同</b>（宫是 do-re-mi-sol-la，羽是 la-si-do-mi-re），
+      所以"同一串音既是宫又是羽"字面上并不成立。真正的差别是——
+      <b>同一串物理音高，你把哪个音当"家"</b>：底下铺 do，落音恰是主音，听感明亮开阔；
+      底下换成 la，落音变成徵音，立刻暗下来、沉思起来。
+      学界归到"羽调式色彩"，说的正是后一种"以 la 为支点"的感觉。
+      下面两个按钮就是这两种框法，旋律一个音都没改：</p>
+
+    <div class="row" id="canghaiChips" style="margin-top:12px;flex-wrap:wrap"></div>
+    <div class="note" id="canghaiInfo" style="margin-top:8px"></div>
   </div>
 
   <div class="row" id="dimBar" style="margin:16px 0 10px;flex-wrap:wrap"></div>

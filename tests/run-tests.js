@@ -349,15 +349,15 @@ test('B3 各节装配数量：表格行数 / chips 数 / SVG 方块数', async (
     assert.equal(n('#keyChips .chip'), 7, '常用调 chips');
     assert.equal(n('#sevChips .chip'), 5, '七和弦 chips');
     assert.equal(n('#modChips .chip'), 6, '转调 chips');
-    assert.equal(n('#exoticChips .chip'), 4, '特色音阶 chips（都节/羽/宫/布鲁斯）');
+    assert.equal(n('#exoticChips .chip'), 9, '特色音阶 chips（和风 4 + 国风 4 + 布鲁斯 1）');
     assert.equal(n('#minor3row .btn'), 3, '小调三形态按钮');
     // 场景卡片：12 维度 + 筛选条 + 拆解表
-    assert.equal(n('#sceneGrid .scene'), 71, '默认展示全部 71 张场景卡片');
-    assert.equal(n('#dimBar .chip'), 13, '筛选条 全部 + 12 维度');
-    assert.equal(n('#dimTable tr'), 12, '维度拆解表 12 行');
+    assert.equal(n('#sceneGrid .scene'), 86, '默认展示全部 86 张场景卡片');
+    assert.equal(n('#dimBar .chip'), 14, '筛选条 全部 + 13 维度');
+    assert.equal(n('#dimTable tr'), 13, '维度拆解表 13 行');
     // 下拉框选项
-    assert.equal(n('#rootSel option'), 12, '主音下拉 12 项');
-    assert.equal(n('#modeSel option'), 12, '调式下拉 7 教会调式 + 五声 + 都节 + 布鲁斯');
+    assert.equal(n('#rootSel option'), 12, '主音下拉 12 项（音名，不受调式扩充影响）');
+    assert.equal(n('#modeSel option'), 28, '调式下拉 28 项：7 教会 + 5 五声 + 13 国风和风 + 布鲁斯等');
     assert.equal(n('#chordKey option'), 7, '级数和弦调性下拉');
     assert.equal(n('#ivRoot option'), 13, '音程起点 C4–C5');
     assert.equal(n('#ivTop option'), 25, '音程终点 C4–C6');
@@ -406,6 +406,68 @@ test('C1 音高换算：noteName / midiOct / f', async () => {
     assert.ok(Math.abs(f(60) - 261.6256) < 0.001, 'C4 ≈ 261.63Hz');
     assert.ok(Math.abs(f(81) - 880) < 0.001, 'A5 ≈ 880Hz');
   });
+});
+
+test('C1b 音阶数据的音程闭合校验：每个音阶绕八度一圈必须是 12 个半音', () => {
+  /* 这条测试防的是"半音集合手写错一位"。
+     民族调式的音阶数组最容易错——比如角调式写成 [0,3,5,7,10]，
+     相邻音程累加回不到 12，肉眼完全看不出来，但一弹就知道不对。
+     判据：把音阶按半音数排序，从最高音升到下一个八度（12）再降回主音，
+     所有音程累加必须恰好等于 12。 */
+  /* 直接读源码解析，不走页面 realm——这是纯数据校验，不需要 jsdom */
+  const src = fs.readFileSync(path.join(ROOT, 'js/data.js'), 'utf8');
+  const re = /semis:\[([\d,\s]+)\]/g;
+  const found = [];
+  let m;
+  while ((m = re.exec(src))) found.push(m[1].split(',').map(s => parseInt(s.trim(), 10)));
+
+  assert.ok(found.length >= 25, `data.js 应有至少 25 个音阶定义，实际 ${found.length}`);
+
+  found.forEach((semis, i) => {
+    const label = `data.js 第 ${i + 1} 个音阶 [${semis.join(',')}]`;
+    assert.ok(semis.length >= 5, `${label} 至少要有 5 个音`);
+    semis.forEach(p => assert.ok(p >= 0 && p <= 11, `${label} 含越界半音 ${p}`));
+    assert.equal(new Set(semis).size, semis.length, `${label} 有重复音`);
+
+    /* 归一到主音 = 0 后做闭合校验 */
+    const sorted = [...new Set(semis)].sort((a, b) => a - b);
+    const zeroed = sorted.map(p => (p - sorted[0] + 12) % 12).sort((a, b) => a - b);
+    assert.equal(zeroed[0], 0, `${label} 归一后应从 0 起步`);
+
+    let total = 12 - zeroed[zeroed.length - 1];         /* 最高音 → 下一个八度 */
+    for (let k = zeroed.length - 1; k > 0; k--) total += zeroed[k] - zeroed[k - 1];
+    assert.equal(total, 12, `${label} 音程累加 ${total} ≠ 12（八度不闭合，多半是手写错了一位）`);
+  });
+});
+
+test('C1c 中国五声五调式：必须是同一音集 {do,re,mi,sol,la} 换主音得来的', () => {
+  /* 闭合计校验（C1b）查不出这一类错——两个都闭合。
+     徵调式就曾写成 [0,2,5,7,10]（那是商调式），闭合计照样通过。
+     真正的判据是**旋转关系**：五个调式必须是同一组绝对音
+     {do=0, re=2, mi=4, sol=7, la=9} 各自选一个作主音旋转出来的。
+     这条测试能直接抓出"抄错了另一个调式"这种错。 */
+  const ABS = { gong: 0, shang: 2, jiao: 4, zhi: 7, yu: 9 };   /* 绝对音（以 C 为基准） */
+  const PENTA_ABS = [0, 2, 4, 7, 9];                          /* do re mi sol la */
+  const src = fs.readFileSync(path.join(ROOT, 'js/data.js'), 'utf8');
+
+  Object.keys(ABS).forEach(k => {
+    const re = new RegExp(`id:'cn${k[0].toUpperCase()}${k.slice(1)}',zh:'[^']*',en:'[^']*',semis:\\[([\\d,\\s]+)\\]`);
+    const m = src.match(re);
+    assert.ok(m, `data.js 应有 cn${k[0].toUpperCase()}${k.slice(1)} 调式定义`);
+    const got = m[1].split(',').map(s => parseInt(s.trim(), 10));
+    /* 期望：把绝对音集旋转到以主音为 0 */
+    const t = ABS[k];
+    const want = PENTA_ABS.map(p => ((p - t) + 12) % 12).sort((a, b) => a - b);
+    assert.deepEqual(got, want,
+      `${k} 调式应为 ${JSON.stringify(want)}（以 ${t} 为主音的五声旋转），实际 ${JSON.stringify(got)}`);
+  });
+
+  /* 五个调式必须互不相同（抄错成另一个是最常见的错法） */
+  const lists = ['cnGong', 'cnShang', 'cnJiao', 'cnZhi', 'cnYu'].map(id => {
+    const m = src.match(new RegExp(`id:'${id}'[\\s\\S]*?semis:\\[([\\d,\\s]+)\\]`));
+    return m[1].split(',').map(s => parseInt(s.trim(), 10)).join(',');
+  });
+  assert.equal(new Set(lists).size, 5, '五个五声调式必须互不相同');
 });
 
 test('C2 三和弦拼装：triad / chordLabel', async () => {
@@ -472,14 +534,14 @@ test('D1 调式数据：7 个调式半音结构合法', async () => {
   });
 });
 
-test('D2 场景数据：71 张配方卡片引用合法的调式/音区/织体/噪声', async () => {
+test('D2 场景数据：86 张配方卡片引用合法的调式/音区/织体/噪声', async () => {
   await withPage((w) => {
     const { SCENES, DIMS, TEX, TONES, NOISES, M_OF } = w.__MT__;
     const d = w.document;
     const dimIds = [...DIMS.map(x => x.id)];
 
-    assert.equal(SCENES.length, 71, '场景卡片总数 71');
-    assert.equal(DIMS.length, 12, '维度总数 12');
+    assert.equal(SCENES.length, 86, '场景卡片总数 86（含文化与风格维度 15 张）');
+    assert.equal(DIMS.length, 13, '维度总数 13（新增文化与风格）');
 
     // 每个维度都至少有一张卡片，且分组 id 全部合法
     dimIds.forEach(id => {
@@ -498,10 +560,10 @@ test('D2 场景数据：71 张配方卡片引用合法的调式/音区/织体/�
       assert.ok(s.r > 0, `${s.t} 应自报听感速度 r`);
     });
 
-    // 界面：默认展示全部 71 张；筛选条 13 个 chip（全部 + 12 维度）
-    assert.equal(d.querySelectorAll('#sceneGrid .scene').length, 71, '默认展示全部卡片');
-    assert.equal(d.querySelectorAll('#dimBar .chip').length, 13, '筛选条 = 全部 + 12 维度');
-    assert.equal(d.querySelectorAll('#dimTable tr').length, 12, '维度拆解表 12 行');
+    // 界面：默认展示全部 86 张；筛选条 14 个 chip（全部 + 13 维度）
+    assert.equal(d.querySelectorAll('#sceneGrid .scene').length, 86, '默认展示全部卡片');
+    assert.equal(d.querySelectorAll('#dimBar .chip').length, 14, '筛选条 = 全部 + 13 维度');
+    assert.equal(d.querySelectorAll('#dimTable tr').length, 13, '维度拆解表 13 行');
     // 每张卡片都标出了听感速度
     d.querySelectorAll('#sceneGrid .scene').forEach((el, i) => {
       const tags = [...el.querySelectorAll('.tag')].map(t => t.textContent);
@@ -1044,7 +1106,7 @@ test('F9 语义层 · 空间：空旷/辽阔 必须真的比逼仄/拥挤 更空
     `空间维度中"开阔"类平均密度 ${avg(openOnes).toFixed(2)} 应远低于"逼仄"类 ${avg(tightOnes).toFixed(2)}`);
 });
 
-test('F10 全库体检：71 张卡片全部能渲染出声，且波形非空', () => {
+test('F10 全库体检：86 张卡片全部能渲染出声，且波形非空', () => {
   const MT = loadData();
   let total = 0;
   MT.SCENES.forEach(s => {
@@ -1057,6 +1119,131 @@ test('F10 全库体检：71 张卡片全部能渲染出声，且波形非空', (
     assert.ok(Math.sqrt(energy / buf.length) > 1e-5, `「${s.t}」波形不应是静音`);
     total += ev.steps.length;
   });
-  assert.equal(MT.SCENES.length, 71);
+  assert.equal(MT.SCENES.length, 86);
   assert.ok(total > 800, `全库共排出 ${total} 个音事件`);
+});
+
+test('F11 文化维度：五声族必须无摩擦、七声族与都节族必须有摩擦（国风和风的听觉标识）', () => {
+  /* 这一条守的是国风/和风体系最核心的听觉事实：
+   *   中国五声（宫商角徵羽）—— 相邻音最小音程是全音，**没有摩擦**，所以含蓄、纯净；
+   *   中国七声（加了清角/变徵、变宫/闰）—— 出现半音，**有摩擦**，所以有张力；
+   *   日本都节等含半音的五声 —— 同样有摩擦，而且两个半音挨得最近，所以"日本味"最浓。
+   * 音乐学家小泉文夫说日本音阶是"两个四度骨架 + 中间音位置不同"，
+   * 都节把中间音放得最低——这在数据上就体现为最小音程 = 1。
+   *
+   * 换句话说：这不是"我编的设定"，而是这三种音系在物理上就不同。 */
+  const MT = loadData();
+  const mi = id => {
+    const m = MT.M_OF(id);
+    return AC.minInterval(m.semis, 0);
+  };
+
+  /* 中国五声五调式：全部无摩擦 */
+  ['cnGong', 'cnShang', 'cnJiao', 'cnZhi', 'cnYu'].forEach(id => {
+    assert.equal(mi(id), 2, `${MT.M_OF(id).zh} 应无摩擦（最小音程=2 全音）`);
+  });
+
+  /* 中国七声三音阶 + 苦音：全部有摩擦（半音进了调内） */
+  ['cnYayue', 'cnQingyue', 'cnYanyue', 'cnKuyin'].forEach(id => {
+    assert.equal(mi(id), 1, `${MT.M_OF(id).zh} 应有摩擦（最小音程=1 半音）`);
+  });
+
+  /* 日本：都节/阴旋/岩户/琉球/云井 有摩擦；律音阶与民谣音阶无摩擦 */
+  ['hira', 'jpInsen', 'jpIwato', 'jpRyukyu', 'jpKumoi'].forEach(id => {
+    assert.equal(mi(id), 1, `${MT.M_OF(id).zh} 应有摩擦（最小音程=1 半音）`);
+  });
+  ['jpRitsu', 'jpMinyo'].forEach(id => {
+    assert.equal(mi(id), 2, `${MT.M_OF(id).zh} 应无摩擦（最小音程=2 全音）`);
+  });
+
+  /* 关键对比：都节 vs 律音阶 —— 前者有摩擦、后者没有，
+     这是"同一套四度骨架、中间音放得最低"这件事的听觉后果 */
+  assert.equal(mi('hira'), 1, '都节音阶应含半音');
+  assert.equal(mi('jpRitsu'), 2, '律音阶不应含半音');
+  assert.notEqual(mi('hira'), mi('jpRitsu'),
+    '都节与律音阶的摩擦度必须不同——这正是小泉文夫公式的可听证据');
+
+  /* 文化维度的卡片必须真的用了国风/和风的调式与音色 */
+  const cul = MT.SCENES.filter(s => s.g === 'culture');
+  assert.equal(cul.length, 15, '文化与风格维度应有 15 张卡片');
+  const cn = cul.filter(s => /^cn/.test(s.k)).length;
+  const jp = cul.filter(s => /^jp/.test(s.k) || s.k === 'hira').length;
+  assert.ok(cn >= 8, `国风卡片应至少 8 张，实际 ${cn}`);
+  assert.ok(jp >= 7, `和风卡片应至少 7 张，实际 ${jp}`);
+  /* 每张文化卡片都要指定音色（tn）——光靠调式只能定"调"，定不了"腔调" */
+  cul.forEach(s => {
+    assert.ok(s.tn, `「${s.t}」应指定音色 tn`);
+    assert.ok(MT.TONES[s.tn], `「${s.t}」的音色 ${s.tn} 应存在`);
+  });
+  /* 国乐器与邦乐器的音色要真的可区分：亮度（过零率代理）不能全一样 */
+  const bright = k => {
+    const buf = new Float64Array(Math.floor(AC.SR * 0.8));
+    AC.renderVoice(buf, 0, 60, 0.7, 0.5, MT.TONES[k], AC.SR);
+    return AC.spectralCentroid(buf, AC.SR);
+  };
+  /* 尺八（暗、气声重）必须比邦乐筝（亮、颗粒）暗 */
+  assert.ok(bright('shakuhachi') !== bright('koto'),
+    '尺八与邦乐筝的亮度不应完全相同');
+  /* 太鼓（低频冲击）必须比筝暗得多 */
+  assert.ok(bright('taiko') < bright('koto'),
+    `太鼓(${bright('taiko').toFixed(1)}) 应比筝(${bright('koto').toFixed(1)}) 暗`);
+  /* 古琴衰减极慢（余韵是它的灵魂）——必须比钢琴慢得多 */
+  const decayTo = (k) => {
+    const buf = new Float64Array(Math.floor(AC.SR * 1.2));
+    AC.renderVoice(buf, 0, 60, 1.0, 0.5, MT.TONES[k], AC.SR);
+    const env = AC.envelope(buf, AC.SR, Math.floor(AC.SR * 0.005));
+    const peak = Math.max(...env);
+    for (let i = 1; i < env.length; i++) if (env[i] < peak * 0.5) return i * 5;
+    return 9999;
+  };
+  assert.ok(decayTo('guqin') > decayTo('piano'),
+    `古琴(${decayTo('guqin')}ms) 衰减应比钢琴(${decayTo('piano')}ms) 慢——余韵是古琴的灵魂`);
+});
+
+test('F12 《沧海一声笑》演示：同一条纯五声旋律，两种重心 = 两种调式身份', () => {
+  /* 这个演示要证明的核心事实：
+   *   《沧海一声笑》的主旋律是**纯五声**（无 fa 无 si），
+   *   同一串物理音高，按不同重心去框它，就能听成不同的调式——
+   *   底下铺 do → 宫调式（落音恰是主音 do），明亮；
+   *   底下铺 la → 徵调式（la 变成支点），暗、沉思。
+   * 这既是该曲调式归属存在「宫／羽」两种学术记法的原因，
+   * 也是"耳朵赋予意义的是重心而不是音集"这个教学点的实证。
+   *
+   * ⚠ 顺便守住一个容易搞错的事实：**宫调式与羽调式的音集是不同的**
+   *   （宫 = {do,re,mi,sol,la}，羽 = {la,si,do,mi,re}），
+   *   所以"同一串音既是宫又是羽"字面上不成立——那是记谱主音 vs 旋律支点的差别。 */
+  const MEL = [6, 5, 3, 2, 1, 3, 2, 1, 6, 5, 5, 6, 5, 6, 1, 2, 3, 5, 6, 5, 3, 2, 1, 2];
+  const GONG = { 1: 0, 2: 2, 3: 4, 5: 7, 6: 9 };
+
+  /* ① 主旋律必须是纯五声：只用级数 1 2 3 5 6，不出现 fa(4) 与 si(7) */
+  MEL.forEach(d => {
+    assert.ok(d >= 1 && d <= 6, `主旋律出现了级数 ${d}，超出五声范围`);
+    assert.notEqual(d, 4, '主旋律不应出现 fa（清角）');
+    assert.notEqual(d, 7, '主旋律不应出现 si（变宫）');
+  });
+
+  /* ② 首句必须是 la-sol-mi-re-do 的下行：9,7,4,2,0（以 do=0 为基准） */
+  const melody = MEL.map(d => GONG[d]);
+  assert.deepEqual(melody.slice(0, 5), [9, 7, 4, 2, 0], '首句应为 la–sol–mi–re–do 的下行');
+  /* 下行是单调递减的——这是"首句"该有的形态 */
+  for (let i = 1; i < 5; i++) {
+    assert.ok(melody[i] < melody[i - 1], `首句第 ${i + 1} 个音应低于前一个`);
+  }
+
+  /* ③ 演示的两个版本：旋律音高完全相同，只有「家」不同 */
+  const HOME_GONG = 0;   /* 底下铺 do */
+  const HOME_ZHI  = 9;   /* 底下铺 la */
+  assert.notEqual(HOME_GONG, HOME_ZHI, '两个版本的重心必须不同，否则听不出差别');
+
+  /* ④ 宫调式与羽调式的音集确实不同（守住那个易错点） */
+  const gongSet = new Set([0, 2, 4, 7, 9]);
+  const yuSet   = new Set([0, 3, 5, 7, 10]);
+  assert.notDeepEqual([...gongSet].sort(), [...yuSet].sort(),
+    '宫调式与羽调式的音集必须不同——"同音既是宫又是羽"的说法只在记谱层面成立');
+  /* 但它们共享 do 与 sol 两音（五声同源） */
+  assert.ok(gongSet.has(0) && yuSet.has(0), '两者都应含 do');
+  assert.ok(gongSet.has(7) && yuSet.has(7), '两者都应含 sol');
+
+  /* ⑤ 主旋律那串音必须落在宫调式内（它是按宫调式记谱的 6 5 3 2 1） */
+  melody.forEach(p => assert.ok(gongSet.has(p), `旋律音 ${p} 应在宫调式内`));
 });

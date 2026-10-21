@@ -194,6 +194,10 @@ function playCadence(c){
  *     音头密度 = hits.length × b / 120（个/秒）——这是听感速度的唯一算法 */
 function sceneEvents(cfg){
   const mode = M_OF(cfg.k), tex = TEX[cfg.tex] || TEX.block;
+  /* 音色：默认跟着织体走（织体自带最合适的音色），
+     但场景可以自己指定 tn 覆盖——国风/和风那批卡片要用竹笛、尺八这些乐器音色，
+     光靠调式只能定「调」，定不了「腔调」。 */
+  const tone = (cfg.tn && TONES[cfg.tn]) ? cfg.tn : tex.tone;
   const spb = 60 / cfg.b, beatLen = spb * 2;      /* 和声周期 = 2 拍 */
   /* 长音类织体（铺底/长音）一个和弦要拖好几拍，不能被 2 拍的和声周期腰斩——
      否则"空旷""死亡"这种卡片会变回两拍一下，听感全错。
@@ -213,7 +217,7 @@ function sceneEvents(cfg){
       const acc = (hi === 0) ? 1 : 0.72;
       if (tex.mode === 'chord'){
         /* 块状：三个音齐响，根音最响 */
-        ch.notes.forEach((m, k) => steps.push({ at, m, d:dur, g:cfg.dyn * acc * (k === 0 ? 1 : 0.62), kind:tex.tone, bend:cfg.bend }));
+        ch.notes.forEach((m, k) => steps.push({ at, m, d:dur, g:cfg.dyn * acc * (k === 0 ? 1 : 0.62), kind:tone, bend:cfg.bend }));
         /* 块状也补一记高八度短音，否则节奏只剩"每两拍一下"，密度上不去 */
         if (tex.hits.length <= 2) steps.push({ at, m:ch.notes[2] + 12, d:Math.min(dur * 0.45, spb * 0.4), g:cfg.dyn * acc * 0.3, kind:'pluck' });
       } else if (tex.mode === 'open'){
@@ -226,27 +230,27 @@ function sceneEvents(cfg){
                      那种情况退回"按调式取第 4 级"，让听感仍落在调内。 */
         const deg4 = mode.semis[4];
         const fifth = (deg4 === 7) ? ch.notes[0] + 7 : ch.notes[0] + (deg4 != null ? deg4 : 7);
-        steps.push({ at, m:ch.notes[0], d:dur, g:cfg.dyn * acc, kind:tex.tone, bend:cfg.bend });
-        steps.push({ at, m:fifth, d:dur, g:cfg.dyn * acc * 0.62, kind:tex.tone });
-        steps.push({ at, m:ch.notes[0] + 12, d:dur * 0.7, g:cfg.dyn * acc * 0.34, kind:tex.tone });
+        steps.push({ at, m:ch.notes[0], d:dur, g:cfg.dyn * acc, kind:tone, bend:cfg.bend });
+        steps.push({ at, m:fifth, d:dur, g:cfg.dyn * acc * 0.62, kind:tone });
+        steps.push({ at, m:ch.notes[0] + 12, d:dur * 0.7, g:cfg.dyn * acc * 0.34, kind:tone });
       } else if (tex.mode === 'arp'){
         /* 琶音级进：把和弦音（含高八度根音）依次弹上去 */
         const seq = ch.notes.concat([ch.notes[0] + 12]);
         const m = seq[hi % seq.length];
-        steps.push({ at, m, d:dur, g:cfg.dyn * acc, kind:tex.tone, bend:cfg.bend });
+        steps.push({ at, m, d:dur, g:cfg.dyn * acc, kind:tone, bend:cfg.bend });
       } else if (tex.mode === 'grind'){
         /* 碾压：三十二分密集低音，音与音微微错开一点点相位。
            这是"闷""窒息""热浪"的织体——密度到极致时，人耳不再听音高，只听压力。 */
         const m = hi % 2 === 0 ? ch.notes[0] - 12 : ch.notes[0] - 12 + (hi % 4 === 1 ? 1 : 0);
-        steps.push({ at, m, d:dur * 0.9, g:cfg.dyn * acc * (hi % 2 === 0 ? 1 : 0.72), kind:tex.tone });
-        if (hi % 4 === 0) ch.notes.slice(1).forEach(n => steps.push({ at, m:n, d:dur * 0.7, g:cfg.dyn * acc * 0.34, kind:tex.tone }));
+        steps.push({ at, m, d:dur * 0.9, g:cfg.dyn * acc * (hi % 2 === 0 ? 1 : 0.72), kind:tone });
+        if (hi % 4 === 0) ch.notes.slice(1).forEach(n => steps.push({ at, m:n, d:dur * 0.7, g:cfg.dyn * acc * 0.34, kind:tone }));
       } else if (tex.mode === 'drive'){
         /* 驱动：正拍弹完整和弦，反拍弹低八度根音，制造"踩着走"的推进感 */
-        if (hi % 2 === 0) ch.notes.forEach((m, k) => steps.push({ at, m, d:dur, g:cfg.dyn * acc * (k === 0 ? 1 : 0.55), kind:tex.tone }));
-        else steps.push({ at, m:ch.notes[0] - 12, d:dur * 0.8, g:cfg.dyn * acc * 0.7, kind:tex.tone });
+        if (hi % 2 === 0) ch.notes.forEach((m, k) => steps.push({ at, m, d:dur, g:cfg.dyn * acc * (k === 0 ? 1 : 0.55), kind:tone }));
+        else steps.push({ at, m:ch.notes[0] - 12, d:dur * 0.8, g:cfg.dyn * acc * 0.7, kind:tone });
       } else {
         /* bell：只在正拍敲钟，余音自己拖 */
-        steps.push({ at, m:ch.notes[0] + (hi ? 12 : 0), d:dur, g:cfg.dyn * acc, kind:tex.tone });
+        steps.push({ at, m:ch.notes[0] + (hi ? 12 : 0), d:dur, g:cfg.dyn * acc, kind:tone });
       }
       /* 摩擦层：与和弦根音同时叠一个上方半音 + 它的低八度（C♯/C 那种夹击）。
          「灼热」「病痛」「紧张」「砂石」——热不是"快"，痛也不是"快"，
@@ -255,8 +259,8 @@ function sceneEvents(cfg){
          （那个三和弦内部最小音程仍有 3 个半音，听着只是"暗"不是"痛"）。
          摩擦音天生不属于调式——这正是它存在的意义，也是 F5 测试豁免它的原因。 */
       if (cfg.friction && hi === 0){
-        steps.push({ at, m:ch.notes[0] + 1, d:dur * 1.15, g:cfg.dyn * acc * 0.3, kind:tex.tone });
-        steps.push({ at, m:ch.notes[0] + 13, d:dur * 0.85, g:cfg.dyn * acc * 0.17, kind:tex.tone });
+        steps.push({ at, m:ch.notes[0] + 1, d:dur * 1.15, g:cfg.dyn * acc * 0.3, kind:tone });
+        steps.push({ at, m:ch.notes[0] + 13, d:dur * 0.85, g:cfg.dyn * acc * 0.17, kind:tone });
       }
     });
   });
