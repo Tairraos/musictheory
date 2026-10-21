@@ -1247,3 +1247,81 @@ test('F12 《沧海一声笑》演示：同一条纯五声旋律，两种重心 
   /* ⑤ 主旋律那串音必须落在宫调式内（它是按宫调式记谱的 6 5 3 2 1） */
   melody.forEach(p => assert.ok(gongSet.has(p), `旋律音 ${p} 应在宫调式内`));
 });
+
+test('F13 长音卡片的调式必须听得出来：mg 旋律 + 和弦进行不得产生三全音', () => {
+  /* 这条测试来自一次真实的用户反馈：「樱花都节」「幽玄阴旋」听起来很怪，
+     「敦煌盛世」也不太确定。查下来是两个独立的 bug：
+
+   *  ① **长音织体只弹根音 → 调式特征音一个都不响**
+   *     pad/drone 只取 triad 的根音，一张 12 秒的卡片可能只有 2 个音。
+   *     都节音阶 [0,2,3,7,8] 的辨识度全在那两个小二度上，可只用根音的话
+   *     它们一个都不出现——听起来就是个与调式无关的空长音。
+   *     **换调式却听不出差别，这张卡就白做了。**
+   *     修法：新增 mg（调式内旋律）字段，让长音卡片也能"唱出"辨识音。
+   *     这条测试守住「长音卡片必须覆盖调式的全部音」。
+
+   *  ② **雅乐七声的徵位（deg3）产生三全音**
+   *     triad 是"隔一级取一个"的三度叠置。对七声音阶（尤其含变徵 #4 的雅乐）
+   *     这会跨出三度框架：雅乐 deg3 = 6,9,12 = 小三度 + **三全音**，
+   *     三全音是最刺耳的不协和音程之一，听起来就是"哪里不对但说不清"。
+   *     修法：敦煌的 prog 从 [0,3,1,4] 改成 [0,1,4,5]，避开 deg3。
+   *     这条测试守住「任何卡片的和弦进行都不得含三全音」。 */
+
+  const MT = loadData();
+
+  /* ① 长音卡片必须真的响出调式特征音
+     *
+     *  只对**文化维度**这么要求，不对全库要求——
+     *  「空旷」「死亡」「静止」这些老卡片用长音织体是有意的：
+     *  它们要的正是「只剩一个音」的空。至于它听不出调式，
+     *  那是因为这些卡片的语义由「空间/大小/时间」定义，不是由调式定义。
+     *  但文化维度不一样：那张卡片标题就叫「樱花 · 都节」，
+     *  调式是它的**卖点**，听不出来等于这张卡没做。 */
+  const LONG_TEX = ['pad', 'drone', 'bell'];
+  MT.SCENES.filter(s => s.g === 'culture' && LONG_TEX.includes(s.tex)).forEach(s => {
+    const ev = MT.sceneEvents(s);
+    const semis = MT.M_OF(s.k).semis;
+    const used = new Set(ev.steps.map(st => ((st.m % 12) + 12) % 12));
+    /* 一张长音卡片至少要覆盖调式的一半音，否则"调式"只是标签 */
+    const covered = semis.filter(p => used.has(p)).length;
+    assert.ok(covered >= semis.length / 2,
+      `「${s.t}」是长音卡片（${s.tex}），只响出 ${used.size} 个音、覆盖调式 ${covered}/${semis.length}——`
+      + '调式特征音没出现，听起来就与调式无关。给它加 mg（调式内旋律）字段');
+
+    /* mg 必须在合理音区：不能飙到 root + 两个八度以上 */
+    const root = 60;   /* midiOct(0, 4) = C4 */
+    const hi = Math.max(...ev.steps.map(st => st.m));
+    assert.ok(hi <= root + 24,
+      `「${s.t}」的最高音 ${MT.noteName(hi)} 超过 C4 两个八度——旋律的八度换算八成是错的`);
+  });
+
+  /* ② 任何卡片的和弦进行都不得含三全音（6 半音）或小二度（1 半音）
+     ——除非它显式声明了 friction:true（那是"摩擦音"层，是刻意为之） */
+  /* 同样只对文化维度：西方调式的升四级/降七级天生带摩擦，那是它们的性格。
+     「梦幻的」用利底亚 IV 就是刻意要那点闪烁——不是 bug。 */
+  MT.SCENES.filter(s => s.g === 'culture' && !s.friction).forEach(s => {
+    const semis = MT.M_OF(s.k).semis, n = semis.length;
+    const get = i => semis[((i % n) + n) % n] + Math.floor(i / n) * 12;
+    const bad = s.prog.filter(deg => {
+      const rootPc = get(deg);
+      const ivs = [get(deg), get(deg + 2), get(deg + 4)].map(p => (p - rootPc) % 12);
+      return ivs.some(v => v === 1 || v === 6);
+    });
+    assert.equal(bad.length, 0,
+      `「${s.t}」（${MT.M_OF(s.k).zh}）的 prog 含会产生三全音/小二度摩擦的度数 [${bad}]——`
+      + '换个 prog，或显式加 friction:true 说明这是刻意为之');
+  });
+
+  /* ③ mg 旋律不得与底下长音同音叠加（同音叠加只是变响，不会变丰富） */
+  MT.SCENES.filter(s => s.mg).forEach(s => {
+    const ev = MT.sceneEvents(s);
+    const seen = new Set();
+    ev.steps.forEach(st => {
+      const k = st.at.toFixed(3) + ':' + st.m;
+      assert.ok(!seen.has(k),
+        `「${s.t}」在 t=${st.at.toFixed(2)}s 有 ${MT.noteName(st.m)} 同音叠加（旋律与长音撞在一起）——`
+        + '把 mgOct 抬一个八度让旋律浮出来');
+      seen.add(k);
+    });
+  });
+});

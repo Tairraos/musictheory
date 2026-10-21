@@ -264,6 +264,38 @@ function sceneEvents(cfg){
       }
     });
   });
+
+  /* 调式内旋律（mg）：让长音卡片也能"唱出"调式。
+   *
+   *   为什么需要它：pad/drone/bell 这类织体只弹**根音**，一张 12 秒的卡片
+   *   可能只有 2 个音在响。问题来了——都节音阶 [0,2,3,7,8] 的辨识度全在
+   *   2 与 3（那两个小二度）上，可只用根音的话，这两个音一个都不会出现，
+   *   听起来就是个与调式无关的空长音。**换调式却听不出差别，这张卡就白做了。**
+   *
+   *   mg 是一串**音级下标**（相对主音，用 mode.semis 取音），走的是
+   *   调式内部的音，所以既保证不跑调，又能让辨识音真的响起来。
+   *   写法：{ mg:[0,1,2,1,0], mgGain:0.6 } —— 每个音相隔一拍，力度是 dyn 的 mgGain 倍。
+   *   不写 mg 的卡片行为完全不变（向后兼容）。 */
+  if (cfg.mg && cfg.mg.length){
+    const sem = mode.semis, n = sem.length;
+    const mgGain = (cfg.mgGain == null ? 0.55 : cfg.mgGain);
+    /* 音级下标 -> 半音偏移。超出 [0,n) 的部分按八度换算
+       （与 triad 里 get() 是同一套规则：i>=n 就是高八度） */
+    const off = i => sem[((i % n) + n) % n] + Math.floor(i / n) * 12;
+    /* mgOct：旋律整体抬几个八度，默认 1。
+       为什么默认抬一档：底下的 pad/drone 已经在 root 上响了，
+       旋律若也在同一音高，两者同音叠加只是"更响"不会"更丰富"——
+       抬一个八度后旋律才真正浮在长音之上，形成"低吟高唱"的层次。 */
+    const mOct = (cfg.mgOct == null ? 1 : cfg.mgOct) * 12;
+    cfg.mg.forEach((deg, gi) => {
+      /* 一拍一个音；mgStep 可调（0.5 = 半拍一个，更密） */
+      const at = gi * spb * (cfg.mgStep || 1);
+      steps.push({ at, m: root + off(deg) + mOct,
+                   d:Math.min(spb * 0.9, period * 0.5),
+                   g:cfg.dyn * mgGain, kind:tone });
+    });
+  }
+
   const beats = cfg.prog.length * span;
   return { steps, beats, dur:beats * spb, period };
 }
