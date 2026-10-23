@@ -1325,3 +1325,63 @@ test('F13 长音卡片的调式必须听得出来：mg 旋律 + 和弦进行不�
     });
   });
 });
+
+test('E9 端到端：把所有可交互元素都点一遍，不得有任何脚本错误', async () => {
+  /* 之前所有测试都是"点一个、看一眼"，从没把整页点完过。
+     结果漏掉了 buildCanghai 在页面加载时就 play() 的问题——
+     它会经 stopAll → killBuses → ac() 把 AudioContext 在加载期就建出来，
+     违背 audio.js 里"第一次播放/点键时才建"的懒建设计，
+     而且页面一打开就试图发声（浏览器通常也会拦掉自动播放）。
+     这条测试把整页点完，任何一处抛错都会被抓到。 */
+  await withPage(async (w, d) => {
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+    /* ⓿ 加载期不得建 AudioContext —— 懒建设计的守卫。
+     *   必须在任何点击**之前**检查：一旦点了什么，ac() 就被触发，AC 不再是 null。
+     *   如果某个 build* 函数在装配时调了 play()，这里就会失败。 */
+    assert.equal(w.__MT__.acIsNull, true,
+      '页面加载期不应创建 AudioContext（应等用户第一次播放/点键才建）——'
+      + '某个 build* 函数在装配时调用了 play()');
+
+    /* ① 所有场景卡片 —— 每张都要能真的排出声音。
+     *    必须在点 chip **之前**做：chip 会切换维度筛选，
+     *    点完最后一轮时场景网格只剩当前维度的十几张。 */
+    const scenes = [...d.querySelectorAll('#sceneGrid .scene')];
+    assert.ok(scenes.length >= 90, `场景卡片应不少于 90 张，实际 ${scenes.length}`);
+    for (const s of scenes) { s.click(); await sleep(2); }
+
+    /* ② 所有 chip（维度筛选 + 特色音阶 + 沧海两种重心） */
+    const chips = [...d.querySelectorAll('.chip')];
+    assert.ok(chips.length > 60, `chip 数量应超过 60，实际 ${chips.length}`);
+    for (const c of chips) { c.click(); await sleep(3); }
+
+    /* ③ 所有播放按钮 */
+    const plays = [...d.querySelectorAll('button')].filter(b => /▶/.test(b.textContent));
+    assert.ok(plays.length > 25, `播放按钮应超过 25 个，实际 ${plays.length}`);
+    for (const b of plays) { b.click(); await sleep(3); }
+
+    /* ④ 所有下拉框的所有选项（换调、换主音、换拍号…） */
+    const sels = [...d.querySelectorAll('select')];
+    assert.ok(sels.length >= 5, `下拉框应不少于 5 个，实际 ${sels.length}`);
+    for (const sel of sels) {
+      for (const o of [...sel.options]) {
+        sel.value = o.value;
+        sel.dispatchEvent(new w.Event('change'));
+        await sleep(2);
+      }
+    }
+
+    /* ⑤ 键盘快捷键 */
+    for (const key of [' ', '1', '2', '3', '4', '5', 'Escape', 'ArrowUp', 'ArrowDown']) {
+      d.dispatchEvent(new w.KeyboardEvent('keydown', { key, bubbles: true }));
+      await sleep(2);
+    }
+
+    /* ⑥ 音乐键盘上的琴键 */
+    const keys = [...d.querySelectorAll('.kb [data-m]')];
+    assert.ok(keys.length > 30, `琴键应超过 30 个，实际 ${keys.length}`);
+    for (const k of keys.slice(0, 40)) k.click();
+    await sleep(30);
+
+  });
+});

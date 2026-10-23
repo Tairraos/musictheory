@@ -287,7 +287,14 @@ function buildCanghai(){
   const b1 = mk('重心在 do · 宫调式', 0, '宫调式（重心在 do）', NOTE_GONG);
   const b2 = mk('重心在 la · 徵调式', 9, '徵调式（重心在 la）', NOTE_ZHI);
   b1.classList.add('on');
-  play(0, '宫调式（重心在 do）', NOTE_GONG);
+  /* 装配时**不自动播放**——与 buildExotic 保持一致。
+     早先这里调了 play()，后果有二：
+       ① 页面一打开就发声（浏览器通常也会拦掉自动播放，白白触发一次）；
+       ② play() 开头会 stopAll() → killBuses() → ac()，
+          把 AudioContext 在页面加载时就建了出来——
+          这违背了 audio.js 里"第一次播放/点键时才建"的懒建设计。
+     只填说明文字，等用户点 chip 再响。 */
+  $('#canghaiInfo').innerHTML = `<b>宫调式（重心在 do）</b>　${NOTE_GONG}`;
 }
 
 /* ============ 第 05 节 · 和弦与和声 ============ */

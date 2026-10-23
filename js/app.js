@@ -19,7 +19,7 @@ let state = { root: 0, mode: 'ionian' };
  *   - 日期同步改成当天，格式固定 YYYY.MM.DD 的简写（26.10.19 = 2026-10-19）
  * 它会自动写到：浏览器标签页标题 + 页面上所有带 data-ver 的位置。
  * HTML 里也留了静态副本做降级（万一 JS 没跑起来，仍能看到版本号）。 */
-const VERSION = { v: '1.21', date: '26.10.21' };
+const VERSION = { v: '1.22', date: '26.10.23' };
 
 /* applyVersion()：把 VERSION 注入到需要的位置。
  *   <title> 是 SEO 相关的，浏览器标签页里由 JS 改同样生效；
@@ -68,6 +68,10 @@ document.addEventListener('keydown', e => { if (e.code === 'Space'){ e.preventDe
 window.__MT__ = {
   get state(){ return state; },
   get live(){ return LIVE; },
+  /* AudioContext 是否还没建。懒建设计的守卫：
+     它必须等到用户第一次播放/点键才建——页面加载期就建，
+     一是违背设计，二是浏览器通常也会拦掉加载期的自动播放。 */
+  get acIsNull(){ return AC === null; },
   triad, chordLabel, noteName, midiOct, f, spellUp, M_OF,
   stopAll, seq, sceneEvents, sceneRate,
   SCENES, DIMS, TEX, TONES, NOISES
