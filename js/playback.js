@@ -321,3 +321,86 @@ function scenePlay(cfg){
   ev.steps.forEach(s => voice(s.m, t0 + s.at, s.d, s.g, s.kind, bus, null, s.bend));
   sceneNoise(cfg.noise, t0, ev.dur, bus);
 }
+
+/* ============ 词曲咬合（第 09 节） ============
+ * 这一节的声音和前面所有节都不一样：前面是"乐器在响"，这里是"字在被念出来"。
+ * 做法是**一个字配一个音 + 一条滑音（bend）**——人声念字的本质就是
+ * 一个音节内部音高在动，所以滑音比两个离散音更像"说话"。
+ * 音色统一用二胡：它起音慢、音区贴人声，是这套合成器里最接近人声的一档。
+ * ========================================================================== */
+
+/* toneEvents(words, flip, spb)：把一句词排成逐字滑音的时间线。**纯函数，不碰音频**。
+ *
+ *   words = [[汉字, 声调], ...]
+ *   flip  = false 顺字（走向跟着字调走） / true 倒字（走向取反）
+ *   spb   = 每个字占多少秒（默认 0.46，接近说话的字速）
+ *
+ * 返回 {steps, dur}。每个字一步：m = 起音，bend = 字内滑动量。
+ * 测试 D3 会拿它验证"倒字必须是把顺字翻过来"——所以这里的算法不能随便改，
+ * 也别把 TONE_SHAPE 的数值改成浮点（bend 会变成小数，滑音听起来反而糊）。 */
+function toneEvents(words, flip, spb){
+  spb = spb || 0.46;
+  const base = midiOct(0, 4), steps = [];
+  words.forEach((w, i) => {
+    const [a, b] = (TONE_SHAPE[w[1]] || TONE_SHAPE[1])[flip ? 'flip' : 'fit'];
+    steps.push({ at: i * spb, m: base + a, d: spb * 0.92, g: 0.44, kind: 'erhu', bend: b - a });
+  });
+  return { steps, dur: words.length * spb };
+}
+
+/* lyricTone(words, flip)：播放顺字版或倒字版。
+ * 图里没有 rect，所以第 2 个参数传 'lyricFig' 只是把点亮范围收在本节——
+ * 真正会亮的是底部钢琴的键（音高走得对不对，看键盘比看图更直接）。 */
+function lyricTone(words, flip){
+  const ev = toneEvents(words, flip);
+  seq(ev.steps, 'lyricFig');
+}
+
+/* lyricStress(ver)：重音对位。三个版本的**音高完全相同**，只改拍位与时值——
+ * 所以听出来的差别一定来自"重音给了谁"，不是"换了条旋律"。
+ * 底下铺一层拍点（4/4，第 1、3 拍重），否则"落在第几拍"根本听不出来。 */
+function lyricStress(ver){
+  const base = midiOct(0, 4), spb = 60 / 72, st = [];
+  for (let i = 0; i < 8; i++) st.push({ at: i * spb, c: 1, strong: i % 4 === 0, dot: i % 4 });
+  LYRIC_STRESS.w.forEach((w, i) => {
+    const a = (TONE_SHAPE[w[1]] || TONE_SHAPE[1]).fit[0];
+    st.push({ at: ver.at[i] * spb, m: base + a, d: ver.dur[i] * spb * 0.95, g: 0.46, kind: 'erhu' });
+  });
+  seq(st, '');
+}
+
+/* lyricPhrase(mode)：一字一音 vs 拖腔。同一句词、同样 4 拍。
+ *   'speech' 每字半拍平均分完（8 字 × 0.5 = 4 拍）→ 像说话
+ *   'sing'   前七字挤在 0.22 拍内，末字拐三个音吃掉剩下的 2.46 拍 → 才像"唱"
+ * 末字三个音走 2→4→2 半音（上挑再回来），这是中文歌最典型的拖腔拐法。 */
+function lyricPhrase(mode){
+  const P = LYRIC_PHRASE, base = midiOct(0, 4), spb = 60 / P.bpm;
+  const n = P.w.length, st = [];
+  const hi = w => base + (TONE_SHAPE[w[1]] || TONE_SHAPE[1]).fit[0];
+  if (mode === 'speech'){
+    const per = P.beats / n;
+    P.w.forEach((w, i) => st.push({ at: i * per * spb, m: hi(w), d: per * spb * 0.9, g: 0.44, kind: 'erhu' }));
+  } else {
+    const head = 0.22;                       /* 前七字各占 0.22 拍 */
+    P.w.forEach((w, i) => {
+      if (i < n - 1) st.push({ at: i * head * spb, m: hi(w), d: head * spb * 0.85, g: 0.44, kind: 'erhu' });
+      else {
+        const t0 = (n - 1) * head, span = P.beats - t0;
+        [2, 4, 2].forEach((iv, k) => st.push({ at: (t0 + k * span / 3) * spb, m: base + iv, d: span / 3 * spb * 0.98, g: 0.44, kind: 'erhu' }));
+      }
+    });
+  }
+  seq(st, '');
+}
+
+/* lyricBreath(line)：气口。把一句话均匀塞进 LYRIC_BREATH.beats 拍里，
+ * 每字分到几拍就是"有没有地方喘气"。
+ * 音高按字序在 3 个音之间循环——只为让句子可听，不承担任何表达。 */
+function lyricBreath(line){
+  const B = LYRIC_BREATH, spb = 60 / B.bpm, n = line.n;
+  const per = B.beats / n, cyc = [5, 7, 8];
+  const st = [];
+  for (let i = 0; i < B.beats; i++) st.push({ at: i * spb, c: 1, strong: i % 4 === 0, dot: i % 4 });
+  for (let i = 0; i < n; i++) st.push({ at: i * per * spb, m: midiOct(0, 4) + cyc[i % 3], d: per * spb * 0.88, g: 0.44, kind: 'erhu' });
+  seq(st, '');
+}

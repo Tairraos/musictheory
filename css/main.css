@@ -337,3 +337,52 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sa
 /* 侧栏只有 196px 宽，版本号跟在 15px 的标题后面一定会折行且难看——
    在侧栏里让它单独占一行、字号再小半号，读起来像署名而不是标题的一部分 */
 #nav .brand .ver{display:block;margin-top:3px;font-size:11px;line-height:1.5}
+
+/* ---------- 17. 第 09 节 · 词曲咬合的时间轴 ----------
+   这里没有用 SVG 而用 div：时间轴的全部信息就是"每个字占多宽、离左边缘多远"，
+   百分比布局比换算成 SVG 坐标更短也更抗缩放。
+   拍刻度用 background-size 铺竖线——每拍一格，--beats 由内联样式给出。 */
+.lyr-row{display:flex;align-items:center;gap:12px;margin:8px 0}
+.lyr-lab{width:128px;flex:none;font-size:12px;color:var(--muted);text-align:right;line-height:1.4}
+.lyr-tl{
+  position:relative;flex:1;height:34px;border-radius:8px;border:1px solid var(--line);
+  background-color:#FAF9F5;
+  background-image:linear-gradient(to right, rgba(44,44,42,.10) 1px, transparent 1px);
+  background-size:calc(100% / var(--beats, 4)) 100%;
+}
+.lyr-b{
+  position:absolute;top:4px;bottom:4px;border-radius:5px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;line-height:1;overflow:hidden;white-space:nowrap;
+  background:var(--purple-bg);border:1px solid #AFA9EC;color:#3C3489;
+}
+.lyr-b.good{background:var(--teal-bg);border-color:#5DCAA5;color:#04342C}
+.lyr-b.bad{background:var(--red-bg);border-color:#F09595;color:#501313}
+.lyr-b.mid{background:var(--amber-bg);border-color:#EF9F27;color:#412402}
+.lyr-b.long{background:var(--amber-bg);border-color:#EF9F27;color:#412402}
+.lyr-verdict{width:46px;flex:none;font-size:12px;text-align:center;color:var(--muted)}
+.lyr-verdict.bad{color:var(--red);font-weight:600}
+.lyr-verdict.mid{color:var(--amber)}
+/* 十三辙的响度圆点：实心 = 响，空心 = 暗。用字符而非图形，省一层 DOM */
+.dots-cell{white-space:nowrap}
+.ld{color:var(--purple);letter-spacing:2px;font-size:11px}
+.ld.off{color:#D6D2C6}
+@media(max-width:700px){
+  .lyr-lab{width:74px;font-size:11px}
+  .lyr-verdict{width:36px;font-size:11px}
+  .lyr-b{font-size:11px}
+  /* 十三辙表有五列，430px 下会把"中东"压成竖排、例字压成一条竖线。
+     窄屏砍掉信息量最低的"例字"（韵母列已经说明了它收哪些字），
+     剩下四列才读得下去 */
+  #rhymeTable th:nth-child(5),#rhymeTable td:nth-child(5){display:none}
+  #rhymeTable th,#rhymeTable td{padding:7px 5px}
+  #rhymeTable td:nth-child(2){font-size:11px;line-height:1.45}
+  /* 不锁列宽的话，长韵母列会抢走宽度，把"江阳"挤成两行竖排 */
+  #rhymeTable th:nth-child(1){width:46px}
+  #rhymeTable td:nth-child(1){white-space:nowrap}
+  #rhymeTable th:nth-child(3){width:72px}
+  #rhymeTable .ld{letter-spacing:1px}
+  /* 专辑表的"辙"列只有 12%，窄屏下"江阳"会折成两行 */
+  #albumTable th:nth-child(2){width:66px}
+  #albumTable .pill{padding:1px 5px}
+}

@@ -6,7 +6,7 @@
  * 用 jsdom 从磁盘真实加载 index.html（连带 css/main.css 与 js/ 下全部脚本），
  * 在接近真实的 DOM 环境里验证：
  *   A. 资源拆分完整：外链 CSS/JS 全部就位、插图已外链、无残留 base64
- *   B. 页面装配结果：13 节导航、两架键盘的键数、各表格/卡片数量、SVG 方块数
+ *   B. 页面装配结果：14 节导航、两架键盘的键数、各表格/卡片数量、SVG 方块数
  *   C. 乐理核心函数：音名 / MIDI / 频率 / 三和弦 / 和弦标记 / 音名拼写
  *   D. 课程数据完整性：调式半音结构、五声无半音、场景配置引用合法
  *   E. 交互冒烟：用桩 AudioContext 点播放按钮，验证出声链路 + 点亮链路不炸
@@ -297,12 +297,12 @@ test('A2 拆分不改变内容：原内联 <style>/<script> 块已不在 HTML �
  * B. 页面装配结果（真实执行全部脚本后的 DOM）
  * -------------------------------------------------------------------------- */
 
-test('B1 导航与章节：13 个导航链接与 13 个 section 一一对应', async () => {
+test('B1 导航与章节：14 个导航链接与 14 个 section 一一对应', async () => {
   await withPage((w, d) => {
     const links = [...d.querySelectorAll('#nav a')];
     const sections = [...d.querySelectorAll('section')];
-    assert.equal(links.length, 13);
-    assert.equal(sections.length, 13);
+    assert.equal(links.length, 14);
+    assert.equal(sections.length, 14);
     for (const l of links) {
       const id = l.getAttribute('href').slice(1);
       assert.ok(d.getElementById(id), `导航目标 #${id} 应存在`);
@@ -335,8 +335,8 @@ test('B3 各节装配数量：表格行数 / chips 数 / SVG 方块数', async (
     assert.equal(n('#ivTable tr'), 13, '音程表 12+1 行');
     assert.equal(n('#modesTable tr'), 7, '调式表 7 行');
     assert.equal(n('#degTable tr'), 7, '级数和弦表 7 行');
-    assert.equal(n('#termTable tr'), 22, '术语速查 22 行');
-    assert.equal(n('#checkList tr'), 8, '自查清单 8 行');
+    assert.equal(n('#termTable tr'), 27, '术语速查 27 行（含 5 条歌词术语）');
+    assert.equal(n('#checkList tr'), 11, '自查清单 11 行（含 3 条歌词检查）');
     assert.equal(n('#keyTable tr'), 7, '常用调表 7 行');
     assert.equal(n('#recipeTable tr'), 9, '通用配方 9 行');
     // chips / 按钮
@@ -351,6 +351,15 @@ test('B3 各节装配数量：表格行数 / chips 数 / SVG 方块数', async (
     assert.equal(n('#modChips .chip'), 6, '转调 chips');
     assert.equal(n('#exoticChips .chip'), 9, '特色音阶 chips（和风 4 + 国风 4 + 布鲁斯 1）');
     assert.equal(n('#minor3row .btn'), 3, '小调三形态按钮');
+    // 第 09 节 · 词曲咬合
+    assert.equal(n('#lyricChips .chip'), 3, '倒字例句 chips');
+    assert.equal(n('#stressChips .chip'), 3, '重音版本 chips');
+    assert.equal(n('#breathChips .chip'), 3, '气口例句 chips');
+    assert.equal(n('#rhymeTable tr'), 13, '十三辙表 13 行');
+    assert.equal(n('#albumTable tr'), 10, '专辑辙口表 10 行');
+    assert.equal(n('#stressFig .lyr-b'), 18, '重音三条时间轴 × 6 字');
+    assert.equal(n('#phraseFig .lyr-b'), 16, '一字多音两条时间轴 × 8 字');
+    assert.equal(n('#breathFig .lyr-b'), 27, '气口三句共 6+9+12 个字块');
     // 场景卡片：12 维度 + 筛选条 + 拆解表
     assert.equal(n('#sceneGrid .scene'), 91, '默认展示全部 91 张场景卡片');
     assert.equal(n('#dimBar .chip'), 14, '筛选条 全部 + 13 维度');
@@ -379,6 +388,8 @@ test('B4 SVG 示意图方块数量与结构', async () => {
     assert.equal(rects('#sevStrip'), 4, '七和弦 4 音');
     assert.equal(rects('#keyLadder'), 9, '移调示范旋律 9 音');
     assert.equal(rects('#modLadder'), 9, '转调示范旋律 9 音');
+    // 声调对照图没有 rect，用 circle 数：每个字上下两行各 2 个端点，默认 8 字
+    assert.equal(d.querySelectorAll('#lyricFig circle').length, 32, '声调对照图 8 字 × 2 行 × 2 端点');
     // 拍点圆点
     assert.equal(d.querySelectorAll('#tempoBeats .beat').length, 4);
     assert.equal(d.querySelectorAll('#metBeatsDots .beat').length, 4);
@@ -569,6 +580,88 @@ test('D2 场景数据：91 张配方卡片引用合法的调式/音区/织体/�
       const tags = [...el.querySelectorAll('.tag')].map(t => t.textContent);
       assert.ok(tags.some(t => /听感 .+ 音头\/秒/.test(t)), `第 ${i + 1} 张卡片应显示听感速度`);
     });
+  });
+});
+
+test('D3 歌词数据：十三辙合法、声调严格镜像、倒字必须是把顺字翻过来', async () => {
+  /* 这一节的教学点全部依赖两条守恒关系，肉眼都看不出来：
+   *   ① 倒字版 = 顺字版的镜像（起点与终点对调）
+   *   ② 两版平均音高差 ≤1 半音（否则听众会把"倒字"误认成"换了个调"）
+   * 数据一改就可能悄悄破坏它们，所以必须拿函数输出对账，而不是看注释。 */
+  await withPage((w) => {
+    const { RHYMES, TONE_SHAPE, LYRIC_LINES, LYRIC_BREATH, ALBUM_RHYMES, toneEvents, midiOct } = w.__MT__;
+
+    /* ① 十三辙：13 个、名字不重复、按响度单调不增 */
+    assert.equal(RHYMES.length, 13, '十三辙就是十三类');
+    assert.equal(new Set(RHYMES.map(r => r.n)).size, 13, '辙名不得重复');
+    for (let i = 1; i < RHYMES.length; i++) {
+      assert.ok(RHYMES[i].lo <= RHYMES[i - 1].lo,
+        `响度必须单调不增：${RHYMES[i - 1].n}(${RHYMES[i - 1].lo}) → ${RHYMES[i].n}(${RHYMES[i].lo})`);
+    }
+    RHYMES.forEach(r => {
+      assert.ok(r.lo >= 1 && r.lo <= 5, `${r.n} 响度应在 1–5`);
+      assert.ok(r.fm && r.mood && r.ex, `${r.n} 的韵母/情绪/例字都不能空`);
+    });
+    /* 言前必须同时收 an 与 ian——这是"押韵单位是辙不是韵母"的唯一实证，
+       数据里漏掉 ian，这条教学点就没了 */
+    assert.match(RHYMES.find(r => r.n === '言前').fm, /an[\s\S]*ian/, '言前辙必须同时收 an 与 ian');
+
+    /* ② 声调：2/3/4 声严格镜像，1 声必须人为上挑 */
+    [2, 3, 4].forEach(t => {
+      const { fit, flip } = TONE_SHAPE[t];
+      assert.equal(flip[0], fit[1], `${t} 声 flip 起点应等于 fit 终点`);
+      assert.equal(flip[1], fit[0], `${t} 声 flip 终点应等于 fit 起点`);
+    });
+    assert.ok(TONE_SHAPE[1].flip[0] < TONE_SHAPE[1].flip[1],
+      '1 声本来是平的，要唱倒必须人为加一次上挑，否则 flip 等于 fit，倒了也没变化');
+    [1, 2, 3, 4].forEach(t => {
+      const { fit, flip } = TONE_SHAPE[t];
+      const gap = Math.abs((fit[0] + fit[1]) / 2 - (flip[0] + flip[1]) / 2);
+      assert.ok(gap <= 1, `${t} 声两版平均音高差 ${gap} 半音，超过 1 就无法把差异归因于"字"`);
+    });
+
+    /* ③ 例句：4–8 字，声调在 0–4 */
+    assert.ok(LYRIC_LINES.length >= 3, '至少三个例句');
+    LYRIC_LINES.forEach(L => {
+      assert.ok(L.w.length >= 4 && L.w.length <= 8, `${L.t} 字数应在 4–8`);
+      L.w.forEach(([ch, tone]) => {
+        assert.equal(ch.length, 1, `${L.t} 的「${ch}」应是单个汉字`);
+        assert.ok(tone >= 0 && tone <= 4, `${L.t} 的「${ch}」声调 ${tone} 越界`);
+      });
+    });
+
+    /* ④ toneEvents 排程必须严格按 TONE_SHAPE 来，且整句走向相反 */
+    const base = midiOct(0, 4);
+    LYRIC_LINES.forEach(L => {
+      const a = toneEvents(L.w, false), b = toneEvents(L.w, true);
+      assert.equal(a.steps.length, L.w.length, `${L.t} 顺字版应一字一步`);
+      assert.equal(b.steps.length, L.w.length, `${L.t} 倒字版应一字一步`);
+      L.w.forEach(([ch, tone], i) => {
+        const sh = TONE_SHAPE[tone];
+        assert.equal(a.steps[i].m, base + sh.fit[0], `${L.t}「${ch}」顺字起音`);
+        assert.equal(a.steps[i].bend, sh.fit[1] - sh.fit[0], `${L.t}「${ch}」顺字滑音`);
+        assert.equal(b.steps[i].m, base + sh.flip[0], `${L.t}「${ch}」倒字起音`);
+        assert.equal(b.steps[i].bend, sh.flip[1] - sh.flip[0], `${L.t}「${ch}」倒字滑音`);
+      });
+      const dirA = a.steps[a.steps.length - 1].m - a.steps[0].m;
+      const dirB = b.steps[b.steps.length - 1].m - b.steps[0].m;
+      assert.notEqual(Math.sign(dirA), Math.sign(dirB),
+        `${L.t}：顺字与倒字的整句走向必须相反（${dirA} vs ${dirB}）`);
+    });
+
+    /* ⑤ 气口例句：n 必须等于句子的实际字数（去掉空格后）。
+       这条是补上的——早先 #8 那句写成了 11 字，实际 12 字，
+       界面就少画一个字块、最后一个方块空着。靠肉眼数中文字太容易错，
+       只能让数据自己跟自己对账。 */
+    LYRIC_BREATH.lines.forEach(L => {
+      const real = L.line.replace(/\s/g, '').length;
+      assert.equal(L.n, real, `气口例句「${L.line}」标了 ${L.n} 字，实际 ${real} 字`);
+    });
+
+    /* ⑥ 专辑十首的辙口必须都在十三辙里 */
+    assert.equal(ALBUM_RHYMES.length, 10, '专辑十首');
+    const names = new Set(RHYMES.map(r => r.n));
+    ALBUM_RHYMES.forEach(a => assert.ok(names.has(a.r), `《${a.t}》的辙「${a.r}」不在十三辙里`));
   });
 });
 
@@ -1383,5 +1476,44 @@ test('E9 端到端：把所有可交互元素都点一遍，不得有任何脚�
     for (const k of keys.slice(0, 40)) k.click();
     await sleep(30);
 
+  });
+});
+
+test('E10 第 09 节：四个可听模块与两张表全部可用', async () => {
+  await withPage(async (w, d) => {
+    /* ① 换例句 → 图与说明跟换，圆点数随字数变化 */
+    const lc = [...d.querySelectorAll('#lyricChips .chip')];
+    assert.equal(lc.length, 3, '三个倒字例句');
+    lc[1].click();
+    await sleep(20);
+    assert.match(d.querySelector('#lyricInfo').textContent, /让一步给风/);
+    assert.equal(d.querySelectorAll('#lyricFig circle').length, 20, '5 字 × 2 行 × 2 端点');
+
+    /* ② 顺字 / 倒字都要真的出声 */
+    d.querySelector('#lyricFit').click();
+    await sleep(150);
+    assert.ok(w.__MT__.live.size > 0, '顺字版应出声并点亮钢琴');
+    d.querySelector('#lyricFlip').click();
+    await sleep(150);
+    assert.ok(w.__MT__.live.size > 0, '倒字版应出声');
+
+    /* ③ 重音三版：切到第三版，说明与 bad 高亮都要换 */
+    const sc = [...d.querySelectorAll('#stressChips .chip')];
+    sc[2].click();
+    await sleep(20);
+    assert.match(d.querySelector('#stressInfo').textContent, /重心错给/);
+    assert.ok(d.querySelector('#stressFig .lyr-b.bad'), '第三版方块应标成 bad');
+
+    /* ④ 一字多音两版 */
+    d.querySelector('#phraseSpeech').click(); await sleep(60);
+    d.querySelector('#phraseSing').click();   await sleep(60);
+    assert.equal(d.querySelectorAll('#phraseFig .lyr-b').length, 16, '两行 × 8 字');
+
+    /* ⑤ 气口：判定随密度变化，必须是 从容/正常/赶 三档 */
+    const bc = [...d.querySelectorAll('#breathChips .chip')];
+    assert.equal(bc.length, 3);
+    bc[2].click(); await sleep(60);
+    const verdicts = [...d.querySelectorAll('#breathFig .lyr-verdict')].map(e => e.textContent.trim());
+    assert.deepEqual(verdicts, ['从容', '正常', '赶'], '6/9/12 字应分别判为从容/正常/赶');
   });
 });

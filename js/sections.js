@@ -14,8 +14,8 @@
 
 /* 各交互区"当前选中项"的索引（chip 高亮 + 播放时读取） */
 let cadIdx = 0;    /* 第 06 节：选中的终止式 */
-let sevIdx = 0;    /* 第 11 节：选中的七和弦 */
-let modIdx = 0;    /* 第 11 节：选中的转调目标 */
+let sevIdx = 0;    /* 第 12 节：选中的七和弦 */
+let modIdx = 0;    /* 第 12 节：选中的转调目标 */
 
 /* ============ 第 00 节 · 先弄响一架钢琴 ============ */
 
@@ -186,7 +186,7 @@ function buildPenta(){
 
 /* 「国风 · 和风」音阶试听。
    它们不是七个教会调式里的任何一个，而是各有地域与流派身份的调式——
-   第 10 节的"文化与风格"维度要靠它们。
+   第 11 节的"文化与风格"维度要靠它们。
    讲解要点：
      · 中国五声：同一组五个音，换起音就是不同调式（宫商角徵羽）
      · 中国七声：在五声上加两个偏音（清角/变徵、变宫/闰），请谁进屋决定气质
@@ -485,7 +485,150 @@ function playMeter(m){
   setTimeout(() => { dots.forEach(d => d.classList.remove('hit')); kbAuto = false; kbHomeAll(500); }, m.b.length * spb * 1000 + 400);
 }
 
-/* ============ 第 09 节 · 移调与调号 ============ */
+/* ============ 第 09 节 · 词曲咬合 ============ */
+
+/* 本节两个"当前选中"的索引：倒字例句、重音版本（只用于高亮与播放） */
+let lyrIdx = 0;
+let stIdx = 0;
+
+/* renderLyricFig()：重画声调对照图（换例句时调用） */
+function renderLyricFig(){
+  const L = LYRIC_LINES[lyrIdx];
+  $('#lyricFig').innerHTML = toneLineSVG(L.w);
+  const tones = L.w.map(w => TONE_SHAPE[w[1]] ? TONE_SHAPE[w[1]].qu.slice(0, 2) : '轻声');
+  /* 声调序列是这一节最该被看见的一行字：4-3-4-4-1-2-1-2 念起来就是那句词 */
+  $('#lyricInfo').innerHTML = `例句取自 <b>${L.src}</b>。` +
+    `声调序列 <span class="mono">${L.w.map(w => w[1] === 0 ? '轻' : w[1]).join('-')}</span>（${tones.join('、')}）。` +
+    `上半是顺字版——旋律的每一次滑动都和字的调值同向，唱出来就是这句话；` +
+    `下半把每一根线翻过来，字就"倒"了，听到的很可能是别的字。`;
+}
+
+/* 时间轴的一格：一个字占 left% 到 (left+width)%，宽度即时值。
+ * 全部用百分比，所以窄屏也不会错位（时间轴是等分的，不需要像素精度）。 */
+function lyrBox(ch, at, dur, total, cls){
+  const L = at / total * 100, W = dur / total * 100;
+  return `<div class="lyr-b${cls ? ' ' + cls : ''}" style="left:${L}%;width:${W}%">${ch}</div>`;
+}
+
+/* renderStress()：重音对位的三条时间轴。
+ * 三条的音高完全一样，只有方块的位置和宽度不同——差别一眼可见、一耳可听。 */
+function renderStress(){
+  const S = LYRIC_STRESS, TOT = 5;
+  $('#stressFig').innerHTML = S.vers.map((v, i) => `
+    <div class="lyr-row">
+      <div class="lyr-lab">${v.n}</div>
+      <div class="lyr-tl" style="--beats:${TOT}">${S.w.map((w, k) => lyrBox(w[0], v.at[k], v.dur[k], TOT, i === 2 ? 'bad' : (i === 0 ? 'good' : ''))).join('')}</div>
+    </div>`).join('');
+  $('#stressInfo').innerHTML = `<b>${S.vers[stIdx].n}</b> · ${S.src}<br>${S.vers[stIdx].note}`;
+}
+
+/* renderPhrase()：一字一音 / 拖腔 两条时间轴（同样 4 拍，同样的字） */
+function renderPhrase(){
+  const P = LYRIC_PHRASE, TOT = P.beats, n = P.w.length, head = 0.22;
+  const a = P.w.map((w, i) => lyrBox(w[0], i * (TOT / n), TOT / n, TOT)).join('');
+  const b = P.w.map((w, i) => i < n - 1
+    ? lyrBox(w[0], i * head, head, TOT)
+    : lyrBox(w[0], (n - 1) * head, TOT - (n - 1) * head, TOT, 'long')).join('');
+  $('#phraseFig').innerHTML = `
+    <div class="lyr-row"><div class="lyr-lab">说话版 · 一字一音</div><div class="lyr-tl" style="--beats:${TOT}">${a}</div></div>
+    <div class="lyr-row"><div class="lyr-lab">抒情版 · 末字拖腔</div><div class="lyr-tl" style="--beats:${TOT}">${b}</div></div>`;
+  $('#phraseInfo').innerHTML = `同样八个字、同样四拍。上面每字半拍，密度和说话一样，所以听着像念词；` +
+    `下面把七个字挤进不到一拍半，"摇"字一个人吃掉两拍半，还拐了三个音——` +
+    `<b>一个字配几个音符，本身就是一种表情</b>。`;
+}
+
+/* renderBreath()：气口。每句一行，方块数＝字数，宽度＝每个字分到的时间。
+ * 判定只用一个数：每字几拍（8 拍 ÷ 字数）。 */
+function renderBreath(){
+  const B = LYRIC_BREATH, TOT = B.beats;
+  $('#breathFig').innerHTML = B.lines.map(L => {
+    const per = TOT / L.n;
+    const cls = per < 0.75 ? 'bad' : per < 0.9 ? 'mid' : 'good';
+    const word = per < 0.75 ? '赶' : per < 0.9 ? '正常' : '从容';
+    const boxes = Array.from({ length: L.n }, (_, i) => lyrBox(L.line.replace(/\s/g, '')[i] || '·', i * per, per, TOT)).join('');
+    return `<div class="lyr-row">
+      <div class="lyr-lab">${L.t}　<span class="mini">${per.toFixed(2)} 拍/字</span></div>
+      <div class="lyr-tl" style="--beats:${TOT}">${boxes}</div>
+      <div class="lyr-verdict ${cls}">${word}</div>
+    </div>
+    <div class="mini" style="margin:-2px 0 8px 132px">${L.line}　<span style="color:var(--faint)">${L.src}</span></div>`;
+  }).join('');
+  $('#breathInfo').innerHTML = `同样一口气（8 拍，76 BPM ≈ 6.3 秒），字数越多每个字分到的时间越少。` +
+    `<b>低于 0.75 拍/字</b>（约 0.6 秒/字）就开始赶，后半句换不上气——` +
+    `这时删字永远比加气有效：把"城市里的屋顶"删成"城市屋顶"，一句话立刻顺了。`;
+}
+
+/* buildLyric()：四个可听模块 + 两张表。
+ * 数据全部来自 data.js（RHYMES / TONE_SHAPE / LYRIC_LINES / LYRIC_STRESS /
+ * LYRIC_PHRASE / LYRIC_BREATH / ALBUM_RHYMES），本函数只管装配与绑定。 */
+function buildLyric(){
+  if (!$('#lyricChips')) return;
+
+  /* ① 倒字 —— 选例句 + 顺/倒两个播放键 */
+  const box = $('#lyricChips');
+  LYRIC_LINES.forEach((L, i) => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (i === 0 ? ' on' : '');
+    b.textContent = L.t;
+    b.onclick = () => {
+      stopAll();
+      $$('#lyricChips .chip').forEach(c => c.classList.remove('on'));
+      b.classList.add('on'); lyrIdx = i; renderLyricFig();
+    };
+    box.appendChild(b);
+  });
+  $('#lyricFit').onclick = () => lyricTone(LYRIC_LINES[lyrIdx].w, false);
+  $('#lyricFlip').onclick = () => lyricTone(LYRIC_LINES[lyrIdx].w, true);
+  renderLyricFig();
+
+  /* ② 重音 —— 三个版本各一个 chip，点了就播，同时高亮时间轴那一行 */
+  const sBox = $('#stressChips');
+  LYRIC_STRESS.vers.forEach((v, i) => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (i === 0 ? ' on' : '');
+    b.textContent = v.n;
+    b.onclick = () => {
+      $$('#stressChips .chip').forEach(c => c.classList.remove('on'));
+      b.classList.add('on'); stIdx = i; renderStress(); lyricStress(v);
+    };
+    sBox.appendChild(b);
+  });
+  renderStress();
+
+  /* ③ 一字一音 / 拖腔 */
+  $('#phraseSpeech').onclick = () => lyricPhrase('speech');
+  $('#phraseSing').onclick = () => lyricPhrase('sing');
+  renderPhrase();
+
+  /* ④ 气口 —— 三句各一个 chip，播完看方块宽度 */
+  const bBox = $('#breathChips');
+  LYRIC_BREATH.lines.forEach((L, i) => {
+    const b = document.createElement('button');
+    b.className = 'chip';
+    b.textContent = `${L.n} 字`;
+    b.onclick = () => {
+      $$('#breathChips .chip').forEach(c => c.classList.remove('on'));
+      b.classList.add('on'); lyricBreath(L);
+    };
+    bBox.appendChild(b);
+  });
+  renderBreath();
+
+  /* ⑤ 十三辙表：响度用五颗圆点表示，一眼看出哪几辙能唱高音 */
+  $('#rhymeTable').innerHTML = RHYMES.map(r => `<tr>
+    <td><b>${r.n}</b></td>
+    <td class="mini mono">${r.fm}</td>
+    <td class="dots-cell"><span class="ld">${'●'.repeat(r.lo)}</span><span class="ld off">${'●'.repeat(5 - r.lo)}</span></td>
+    <td class="mini">${r.mood}</td>
+    <td class="mini">${r.ex}</td></tr>`).join('');
+
+  /* ⑥ 专辑辙口分布：把"辙"从知识点变成创作工具 */
+  $('#albumTable').innerHTML = ALBUM_RHYMES.map(a => `<tr>
+    <td><b>${a.t}</b></td><td><span class="pill">${a.r}</span></td>
+    <td class="mini">${a.note}</td></tr>`).join('');
+}
+
+/* ============ 第 10 节 · 移调与调号 ============ */
 
 /* keyDesc(s)：按半音位移描述当前调号（F♯/G♭ 位单独处理——6 升 6 降最尴尬） */
 function keyDesc(s){
@@ -523,7 +666,7 @@ function buildKey(){
     tb.appendChild(tr); });
 }
 
-/* ============ 第 10 节 · 音乐的十二种表达维度 ============ */
+/* ============ 第 11 节 · 音乐的十二种表达维度 ============ */
 
 /* sceneCard(s)：造一张场景卡片。
  *   药丸标签里刻意把「听感速度」和「标称 BPM」分开摆——这正是本次修复的重点：
@@ -580,7 +723,7 @@ function buildScenes(){
   $('#recipeTable').innerHTML = RECIPES.map(r => '<tr>' + r.map(c => '<td class="mini">' + c + '</td>').join('') + '</tr>').join('');
 }
 
-/* ============ 第 11 节 · 七和弦与转调 ============ */
+/* ============ 第 12 节 · 七和弦与转调 ============ */
 
 function buildSeventh(){
   const box = $('#sevChips');
@@ -620,7 +763,7 @@ function buildMod(){
     seq(st, 'modLadder'); };
 }
 
-/* ============ 第 12 节 · 速查表 ============ */
+/* ============ 第 13 节 · 速查表 ============ */
 
 /* buildCheat()：术语表 + 顺口溜 + 自查清单（数据在 data.js） */
 function buildCheat(){

@@ -204,6 +204,65 @@ function hookSVG(mel){
   return s;
 }
 
+/* 声调 vs 旋律对照图（第 09 节）：同一句词，两行旋律——
+ *   上行跟着字调走（顺字），下行拧着字调走（倒字）。
+ * 每列一条**竖线段** = 一个字内部的音高滑动（这就是声调的物理形态）；
+ * 段与段之间的虚线 = 整句的旋律轮廓。
+ *
+ * ⚠ 两行的平均音高被刻意做成相同（见 data.js 的 TONE_SHAPE），
+ *   只有滑动方向相反。这样听到的差别全部来自"字"，而不是"换了个调"——
+ *   否则听众会把倒字误认成"唱高了"，教学点就跑了。
+ *
+ * words = [[汉字, 声调], ...]；0 声（轻声）按 1 声的形状画，仅用于兜底。 */
+function toneLineSVG(words){
+  const n = words.length, W = TOTW / n;
+  const cx = i => X0 + W * i + W / 2;
+  const fitY = v => 110 - (v - 2) * 8;      /* 顺字行：v 越大越高 */
+  const flipY = v => 256 - (v - 2) * 8;     /* 倒字行：同样的刻度，整体下移 146 */
+  const shape = t => TONE_SHAPE[t] || TONE_SHAPE[1];
+
+  let s = `<svg viewBox="0 0 680 292" width="100%" class="ladder" role="img">`;
+  s += `<text x="${X0}" y="24" font-size="12" font-weight="600" fill="#534AB7">顺字 · 旋律跟着字调走</text>`;
+  s += `<text x="${X0}" y="176" font-size="12" font-weight="600" fill="#D85A30">倒字 · 旋律拧着字调走</text>`;
+
+  /* 画一行（flip=false 顺字 / true 倒字） */
+  const row = (yOf, color, flip) => {
+    let g = '';
+    words.forEach((w, i) => {
+      const [a, b] = shape(w[1])[flip ? 'flip' : 'fit'];
+      const x = cx(i);
+      if (a === b){
+        /* 平声（阴平的顺字版）画成**横杠**——"平着走"就该是水平的。
+           早先这里画的是起止两点重合的竖线，长度 0，渲染出来只剩一个点，
+           看着像"这一列漏画了"。横杠既补上了这个视觉缺口，也正好是它的含义。 */
+        g += `<line x1="${x - 9}" y1="${yOf(a)}" x2="${x + 9}" y2="${yOf(a)}" stroke="${color}" stroke-width="3" stroke-linecap="round"/>`;
+      } else {
+        g += `<line x1="${x}" y1="${yOf(a)}" x2="${x}" y2="${yOf(b)}" stroke="${color}" stroke-width="3" stroke-linecap="round"/>`;
+      }
+      g += `<circle cx="${x}" cy="${yOf(a)}" r="3.4" fill="${color}"/>`;
+      g += `<circle cx="${x}" cy="${yOf(b)}" r="2.6" fill="${color}" opacity=".5"/>`;
+      if (i < n - 1){
+        const nx = cx(i + 1), na = shape(words[i + 1][1])[flip ? 'flip' : 'fit'][0];
+        g += `<line x1="${x}" y1="${yOf(b)}" x2="${nx}" y2="${yOf(na)}" stroke="${color}" stroke-width="1" stroke-dasharray="3 3" opacity=".45"/>`;
+      }
+    });
+    return g;
+  };
+  s += row(fitY, '#534AB7', false);
+  s += row(flipY, '#D85A30', true);
+
+  /* 两行之间：汉字 + 声调号 */
+  words.forEach((w, i) => {
+    const x = cx(i);
+    s += `<text x="${x}" y="134" font-size="14" font-weight="600" text-anchor="middle" fill="#2C2C2A">${w[0]}</text>`;
+    s += `<text x="${x}" y="150" font-size="10" text-anchor="middle" fill="#6F6C62">${w[1] === 0 ? '轻声' : w[1] + '声'}</text>`;
+  });
+
+  s += `<text x="${X0}" y="282" font-size="11" fill="#57554E">竖线＝一个字内部的音高滑动，虚线＝整句轮廓。两行平均音高相同，只有滑动方向相反——差别全部来自"字"，不是"调"。</text>`;
+  s += '</svg>';
+  return s;
+}
+
 /* 七和弦图：方块按音高排列，最后一个（新叠上去的七音）用粉色高亮 */
 function sevSVG(s){
   const step = 16, top = 54, H = 272, BW = Math.min(56, 600 / 4 - 14);
