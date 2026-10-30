@@ -179,7 +179,7 @@ function playCadence(c){
   setTimeout(() => { if (tok === TOKEN){ kbAuto = false; kbHomeAll(500); } }, spb * chords.length * 2 * 1000 + 300);
 }
 
-/* ============ 场景配方（第 10 节） ============ */
+/* ============ 场景配方（第 12 节） ============ */
 
 /* sceneEvents(cfg)：把一张卡片配置展开成一条音符时间线。**纯函数，不碰音频**。
  *   这是本次重写的关键——原来 scenePlay 既排程又发声，测试无法验证它到底排了什么，
@@ -322,7 +322,7 @@ function scenePlay(cfg){
   sceneNoise(cfg.noise, t0, ev.dur, bus);
 }
 
-/* ============ 词曲咬合（第 09 节） ============
+/* ============ 词曲咬合（第 10 节） ============
  * 这一节的声音和前面所有节都不一样：前面是"乐器在响"，这里是"字在被念出来"。
  * 做法是**一个字配一个音 + 一条滑音（bend）**——人声念字的本质就是
  * 一个音节内部音高在动，所以滑音比两个离散音更像"说话"。
@@ -403,4 +403,89 @@ function lyricBreath(line){
   for (let i = 0; i < B.beats; i++) st.push({ at: i * spb, c: 1, strong: i % 4 === 0, dot: i % 4 });
   for (let i = 0; i < n; i++) st.push({ at: i * per * spb, m: midiOct(0, 4) + cyc[i % 3], d: per * spb * 0.88, g: 0.44, kind: 'erhu' });
   seq(st, '');
+}
+
+/* ============ 语言计时法（第 10 节 ⑦） ============
+ * 三条时间轴都是 8 拍。**这里唯一要听出来的东西是"每格多宽"**：
+ * 中文每字一样宽；英文只有重音宽，虚词被挤窄。
+ * 音高只负责让字站得住（中文按字调走，英文重音高、虚词低），
+ * 不承担表达——所以强弱只有 s（重音）这一个维度，没有渐强渐弱。 */
+function langTiming(id){
+  const L = LANG_TIMING, spb = 60 / L.bpm, base = midiOct(0, 4);
+  const row = L.rows.find(r => r.id === id) || L.rows[0];
+  const st = [];
+  for (let i = 0; i < L.beats; i++) st.push({ at: i * spb, c: 1, strong: i % 4 === 0, dot: i % 4 });
+  row.syl.forEach((s, i) => {
+    const sh = s.tg != null ? (TONE_SHAPE[s.tg] || TONE_SHAPE[1]).fit : null;
+    const m = sh ? sh[0] : s.m;
+    /* 最短 0.08 秒：英文长句里 "gon / na" 只有 0.16 拍，再短就变成一个咔哒声了 */
+    st.push({ at: s.b * spb, m: base + m, d: Math.max(0.08, s.d * spb * 0.92),
+              g: s.s ? 0.5 : 0.34, kind: 'erhu', bend: sh ? sh[1] - sh[0] : 0, lit: 'lt' + id + '_' + i });
+  });
+  seq(st, 'langFig');
+}
+
+/* ============ 粤语入声（第 10 节 ⑧） ============
+ * 演示的不是发音，是**时值**：一个 -p 收尾的入声字，
+ *   hold=true  硬拖满两拍 —— 塞音被拉开，字听不出来
+ *   hold=false 一拍就断开 —— 尾音收住，字还在
+ * 合成器发不出 -p，所以第二版用"主音 1 拍 + 一个极短的木声收尾"示意"收住"。
+ * 这是一个示意图，不是粤语示范——文案里也这么写。 */
+function cantonPlay(hold){
+  const C = CANTON, spb = 60 / C.bpm, base = midiOct(0, 4);
+  const st = [];
+  for (let i = 0; i < C.beats; i++) st.push({ at: i * spb, c: 1, strong: i % 4 === 0, dot: i % 4 });
+  if (hold){
+    st.push({ at: 0, m: base + 4, d: C.demo.err.d * spb * 0.96, g: 0.5, kind: 'erhu', lit: 'ctErr' });
+  } else {
+    st.push({ at: 0, m: base + 4, d: spb * 0.72, g: 0.5, kind: 'erhu', lit: 'ctOk' });
+    st.push({ at: spb * 0.74, m: base + 4, d: spb * 0.1, g: 0.32, kind: 'wood', lit: 'ctOk' });
+  }
+  seq(st, 'cantonFig');
+}
+
+/* ============ 12 小节布鲁斯（第 09 节） ============
+ * 这一节要听两件事：① 十二格的和声怎么走 ② 词的三行落在哪四格上。
+ *
+ * 律动是 shuffle：每拍的八分音符不是均分的，后半个往后挪到 2/3 处
+ * （三连音里的"长—短"）。这就是布鲁斯听起来"拖"的原因，
+ * 少这一下就变成了直的进行曲。
+ *
+ * 低音在每格的第 1、3 拍（根音 + 五度），和弦在三个后半拍上短促一戳。
+ * 低音的每一步都带 lit:bar{n} —— 十二格里当前那一格随之亮起，
+ * 于是"第 9 格第一次变成 V7"这件事是能看见的，不只是一句话。 */
+function bluesEvents(withWords){
+  const B = BLUES_FORM, spb = 60 / B.bpm, base = midiOct(0, 3), st = [];
+  B.chords.forEach((c, bar) => {
+    const t0 = bar * B.beats * spb;
+    st.push({ at: t0, m: base + c.deg, d: spb * 1.5, g: 0.44, kind: 'bass', lit: 'bar' + bar });
+    st.push({ at: t0 + 2 * spb, m: base + c.deg + 7, d: spb * 1.2, g: 0.34, kind: 'bass' });
+    /* 三个后半拍：2/3、1+2/3、3（第 4 拍的后半留给下一格的低音） */
+    [2 / 3, 1 + 2 / 3, 3].forEach(off => {
+      [0, 4, 7, 10].forEach((iv, k) => {
+        st.push({ at: t0 + off * spb, m: base + 12 + c.deg + iv, d: spb * 0.34,
+                  g: k === 0 ? 0.19 : 0.15, kind: 'wood' });
+      });
+    });
+  });
+  if (withWords){
+    B.lines.forEach((L, li) => {
+      const t0 = L.at * B.beats * spb;
+      L.w.forEach((w, i) => {
+        const sh = (TONE_SHAPE[w[1]] || TONE_SHAPE[1]).fit;
+        const last = i === L.w.length - 1;
+        st.push({ at: t0 + i * spb, m: base + 24 + sh[0], d: spb * (last ? 1.9 : 0.92),
+                  g: 0.46, kind: 'erhu', bend: sh[1] - sh[0] });
+      });
+    });
+  }
+  return { steps: st, dur: B.bars * B.beats * spb };
+}
+
+/* playBlues(withWords)：播放整段（或只播和声）。
+ * 词的每一行由它自己的第一个音点亮 —— 一句亮一次，不是一字亮一次：
+ * 这一卡讲的是"行与格"的关系，逐字高亮会把注意力拉到字上。 */
+function playBlues(withWords){
+  const ev = bluesEvents(withWords);
+  seq(ev.steps, 'bluesFig');
 }

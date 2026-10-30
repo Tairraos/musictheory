@@ -14,8 +14,8 @@
 
 /* 各交互区"当前选中项"的索引（chip 高亮 + 播放时读取） */
 let cadIdx = 0;    /* 第 06 节：选中的终止式 */
-let sevIdx = 0;    /* 第 12 节：选中的七和弦 */
-let modIdx = 0;    /* 第 12 节：选中的转调目标 */
+let sevIdx = 0;    /* 第 13 节：选中的七和弦 */
+let modIdx = 0;    /* 第 13 节：选中的转调目标 */
 
 /* ============ 第 00 节 · 先弄响一架钢琴 ============ */
 
@@ -186,7 +186,7 @@ function buildPenta(){
 
 /* 「国风 · 和风」音阶试听。
    它们不是七个教会调式里的任何一个，而是各有地域与流派身份的调式——
-   第 11 节的"文化与风格"维度要靠它们。
+   第 12 节的"文化与风格"维度要靠它们。
    讲解要点：
      · 中国五声：同一组五个音，换起音就是不同调式（宫商角徵羽）
      · 中国七声：在五声上加两个偏音（清角/变徵、变宫/闰），请谁进屋决定气质
@@ -485,7 +485,24 @@ function playMeter(m){
   setTimeout(() => { dots.forEach(d => d.classList.remove('hit')); kbAuto = false; kbHomeAll(500); }, m.b.length * spb * 1000 + 400);
 }
 
-/* ============ 第 09 节 · 词曲咬合 ============ */
+/* ============ 第 09 节 · 曲式：12 小节布鲁斯 ============ */
+
+/* buildForm()：一张图 + 两个播放键 + 一张对照表。
+ * 图的全部说服力在于"和声的颜色"和"词的行"画在同一张图上（见 svg.js 的 bluesGridSVG），
+ * 所以这里只负责把图挂上去，不重新组织版面。 */
+function buildForm(){
+  if (!$('#bluesFig')) return;
+  $('#bluesFig').innerHTML = bluesGridSVG();
+  $('#bluesPlay').onclick = () => playBlues(true);
+  $('#bluesHarm').onclick = () => playBlues(false);
+  $('#formTable').innerHTML = FORM_TABLE.map(f => `<tr>
+    <td><b>${f.n}</b><br><span class="pill">${f.tag}</span></td>
+    <td class="mini">${f.lines}</td>
+    <td class="mini mono" style="font-size:11px">${f.h}</td>
+    <td class="mini">${f.how}</td></tr>`).join('');
+}
+
+/* ============ 第 10 节 · 词曲咬合 ============ */
 
 /* 本节两个"当前选中"的索引：倒字例句、重音版本（只用于高亮与播放） */
 let lyrIdx = 0;
@@ -626,9 +643,106 @@ function buildLyric(){
   $('#albumTable').innerHTML = ALBUM_RHYMES.map(a => `<tr>
     <td><b>${a.t}</b></td><td><span class="pill">${a.r}</span></td>
     <td class="mini">${a.note}</td></tr>`).join('');
+
+  /* ⑦ 语言计时法 —— 三条轴一直同屏显示，这是这一卡的全部说服力：
+     光听会以为是"节奏不同"，并排看才知道是"每格多宽"不同 */
+  buildLangTiming();
+
+  /* ⑧ 粤语九声 + 入声 */
+  buildCanton();
 }
 
-/* ============ 第 10 节 · 移调与调号 ============ */
+/* ============ 第 10 节 ⑦ · 语言计时法 ============ */
+
+/* 三条时间轴的说明文字：写在代码里而不是 data.js，
+ * 因为它们是"解释"，不是"数据"——改阈值不需要动它们，改数据却必须重读一遍 */
+const LANG_NOTE = {
+  zh: '8 拍，8 个字，每个字正好一格。中文里<b>一个字就是时间的一个单位</b>——' +
+      '字数定了，句子的长度基本就定了。所以写中文词的第一件事是数<b>字数</b>。',
+  'en-s': '8 拍，8 个音节，可只有 4 个重音吃到大格，另外 4 个被压进缝里。' +
+      '英文的时间单位是<b>重音</b>，不是音节——重音等距，中间的虚词能塞几个塞几个。',
+  'en-l': '还是 8 拍、还是那 4 个重音、还是同样的四个位置，却塞进了 11 个音节。' +
+      '多出来的 was / gon / na 几乎听不见，但整句立刻口语了。' +
+      '<b>英文写得松不松，看的是重音数，不是字数</b>——照中文的字数直觉写，一定唱不动。',
+};
+
+/* 窄到写不进字的音节，框里就不写字，画成细条（class sq）——细条本身就是"被压缩"的样子。
+ * 阈值 0.30 拍：桌面上时间轴约 92px/拍，0.30 拍 ≈ 27px，"the" 11px 字刚好放得下；
+ * 再窄就只能露出半个词，比留空更像画错了。悬停有 title，能查到是哪个词。 */
+const NARROW_BEAT = 0.30;
+const countSq = id => (LANG_TIMING.rows.find(r => r.id === id) || { syl: [] })
+  .syl.filter(s => !s.s && s.d < NARROW_BEAT).length;
+
+function buildLangTiming(){
+  const L = LANG_TIMING, TOT = L.beats;
+  if (!$('#langFig')) return;
+
+  $('#langFig').innerHTML = L.rows.map(r => {
+    const boxes = r.syl.map(s => {
+      const sq = !s.s && s.d < NARROW_BEAT;
+      const cls = s.s ? 'str' : (r.id === 'zh' ? '' : 'wk') + (sq ? ' sq' : '');
+      return `<div class="lyr-b ${cls}" style="left:${s.b / TOT * 100}%;width:${s.d / TOT * 100}%" title="${s.t}">${sq ? '' : s.t}</div>`;
+    }).join('');
+    return `<div class="lyr-row">
+        <div class="lyr-lab">${r.n}</div>
+        <div class="lyr-tl" style="--beats:${TOT}">${boxes}</div>
+      </div>
+      <div class="mini" style="margin:-4px 0 10px 140px;color:var(--faint)">${r.sub}</div>`;
+  }).join('');
+
+  /* 细条这件事必须解释一次，否则读者会以为是没画出来 */
+  $('#langFig').innerHTML += `<div class="mini" style="margin:2px 0 10px 140px;color:var(--faint)">` +
+    `↕ 窄到写不进字的音节画成细条，悬停可查是哪个词——` +
+    `第二行 ${countSq('en-s')} 条，第三行 ${countSq('en-l')} 条，拍数完全一样。</div>`;
+
+  const box = $('#langChips');
+  L.rows.forEach((r, i) => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (i === 0 ? ' on' : '');
+    b.textContent = r.chip;
+    b.onclick = () => {
+      $$('#langChips .chip').forEach(c => c.classList.remove('on'));
+      b.classList.add('on');
+      $('#langInfo').innerHTML = LANG_NOTE[r.id] || '';
+      langTiming(r.id);
+    };
+    box.appendChild(b);
+  });
+  $('#langInfo').innerHTML = LANG_NOTE.zh;
+}
+
+/* ============ 第 10 节 ⑧ · 粤语 ============ */
+
+function buildCanton(){
+  const C = CANTON, TOT = C.beats;
+  if (!$('#cantonFig')) return;
+
+  /* 九声表："能不能拖长"只有两档，所以用文字而不是圆点——这不是程度问题，是能不能 */
+  $('#cantonTable').innerHTML = C.tones.map(t => `<tr>
+    <td><b>${t.n}</b></td>
+    <td class="mini mono">${t.v}</td>
+    <td>${t.ex}</td>
+    <td>${t.hold
+      ? '<span class="q maj">可以</span>'
+      : '<span class="q dim">不可以</span>'}</td></tr>`).join('');
+
+  /* 两条时间轴：同一个字、同一个音高，只有长度不同 */
+  const row = (lab, d, cls) => `<div class="lyr-row">
+      <div class="lyr-lab">${lab}</div>
+      <div class="lyr-tl" style="--beats:${TOT}">
+        <div class="lyr-b ${cls}" style="left:0;width:${d / TOT * 100}%">${C.demo.ch}</div>
+        ${d < TOT ? `<div class="lyr-b wk" style="left:${d / TOT * 100}%;width:${(1 - d / TOT) * 100}%">停住</div>` : ''}
+      </div>
+    </div>`;
+  $('#cantonFig').innerHTML = row(C.demo.err.label, C.demo.err.d, 'bad') +
+                              row(C.demo.ok.label, C.demo.ok.d, 'good');
+
+  $('#cantonErr').onclick = () => { toast(C.demo.err.note); cantonPlay(true); };
+  $('#cantonOk').onclick = () => { toast(C.demo.ok.note); cantonPlay(false); };
+}
+
+
+/* ============ 第 11 节 · 移调与调号 ============ */
 
 /* keyDesc(s)：按半音位移描述当前调号（F♯/G♭ 位单独处理——6 升 6 降最尴尬） */
 function keyDesc(s){
@@ -666,7 +780,7 @@ function buildKey(){
     tb.appendChild(tr); });
 }
 
-/* ============ 第 11 节 · 音乐的十二种表达维度 ============ */
+/* ============ 第 12 节 · 音乐的十二种表达维度 ============ */
 
 /* sceneCard(s)：造一张场景卡片。
  *   药丸标签里刻意把「听感速度」和「标称 BPM」分开摆——这正是本次修复的重点：
@@ -723,7 +837,7 @@ function buildScenes(){
   $('#recipeTable').innerHTML = RECIPES.map(r => '<tr>' + r.map(c => '<td class="mini">' + c + '</td>').join('') + '</tr>').join('');
 }
 
-/* ============ 第 12 节 · 七和弦与转调 ============ */
+/* ============ 第 13 节 · 七和弦与转调 ============ */
 
 function buildSeventh(){
   const box = $('#sevChips');
@@ -763,7 +877,7 @@ function buildMod(){
     seq(st, 'modLadder'); };
 }
 
-/* ============ 第 13 节 · 速查表 ============ */
+/* ============ 第 14 节 · 速查表 ============ */
 
 /* buildCheat()：术语表 + 顺口溜 + 自查清单（数据在 data.js） */
 function buildCheat(){

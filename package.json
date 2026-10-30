@@ -7,7 +7,7 @@
   "scripts": {
     "start": "python3 -m http.server 8000",
     "serve": "python3 -m http.server 8000",
-    "build": "mkdir -p dist && cp index.html dist/ && cp -R css js assets dist/",
+    "build": "mkdir -p dist && cp index.html lyric.html dist/ && cp -R css js assets dist/",
     "version": "node tests/bump-version.js",
     "bump": "node tests/bump-version.js --write",
     "pretest": "node tests/bump-version.js",

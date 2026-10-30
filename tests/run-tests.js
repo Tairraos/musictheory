@@ -67,14 +67,14 @@ function makeAudioStub() {
  * 收集 jsdomError——"Not implemented" 类是 jsdom 环境缺口（布局/getBBox），
  * 不算应用错误，过滤掉；其余一律视为失败。
  */
-async function loadPage() {
+async function loadPage(file) {
   const pageErrors = [];
   const vc = new VirtualConsole();
   vc.on('jsdomError', e => {
     const msg = String(e && e.detail && e.detail.message || e && e.message || e);
     if (!/Not implemented/i.test(msg)) pageErrors.push(new Error(msg));
   });
-  const dom = await JSDOM.fromFile(path.join(ROOT, 'index.html'), {
+  const dom = await JSDOM.fromFile(path.join(ROOT, file || 'index.html'), {
     runScripts: 'dangerously',     // 执行 js/*.js
     resources: 'usable',           // 加载 css/main.css 与插图
     pretendToBeVisual: true,       // 提供 requestAnimationFrame
@@ -104,6 +104,17 @@ async function withPage(fn) {
   try {
     await fn(dom.window, dom.window.document);
     assert.deepEqual(errors, [], '页面执行期间不应有脚本错误');
+  } finally {
+    dom.window.close();
+  }
+}
+
+/** 作词课（lyric.html）专用：同一套装载流程，换一个入口文件 */
+async function withLyricPage(fn) {
+  const { dom, errors } = await loadPage('lyric.html');
+  try {
+    await fn(dom.window, dom.window.document);
+    assert.deepEqual(errors, [], '作词课页面执行期间不应有脚本错误');
   } finally {
     dom.window.close();
   }
@@ -297,12 +308,12 @@ test('A2 拆分不改变内容：原内联 <style>/<script> 块已不在 HTML �
  * B. 页面装配结果（真实执行全部脚本后的 DOM）
  * -------------------------------------------------------------------------- */
 
-test('B1 导航与章节：14 个导航链接与 14 个 section 一一对应', async () => {
+test('B1 导航与章节：15 个导航链接与 15 个 section 一一对应', async () => {
   await withPage((w, d) => {
     const links = [...d.querySelectorAll('#nav a')];
     const sections = [...d.querySelectorAll('section')];
-    assert.equal(links.length, 14);
-    assert.equal(sections.length, 14);
+    assert.equal(links.length, 15);
+    assert.equal(sections.length, 15);
     for (const l of links) {
       const id = l.getAttribute('href').slice(1);
       assert.ok(d.getElementById(id), `导航目标 #${id} 应存在`);
@@ -360,6 +371,22 @@ test('B3 各节装配数量：表格行数 / chips 数 / SVG 方块数', async (
     assert.equal(n('#stressFig .lyr-b'), 18, '重音三条时间轴 × 6 字');
     assert.equal(n('#phraseFig .lyr-b'), 16, '一字多音两条时间轴 × 8 字');
     assert.equal(n('#breathFig .lyr-b'), 27, '气口三句共 6+9+12 个字块');
+    // 第 10 节 ⑦⑧ · 语言计时法与粤语
+    assert.equal(n('#langChips .chip'), 3, '计时法三条：普通话 / 英文短 / 英文长');
+    assert.equal(n('#langFig .lyr-row'), 3, '三条时间轴同屏');
+    assert.equal(n('#langFig .lyr-b'), 27, '8 + 8 + 11 个音节块');
+    // 窄音节只画细条、不写字：写不下的时候硬塞会被 overflow 裁成半个词，比留空更像画错
+    assert.equal(n('#langFig .lyr-b.sq'), 5, '窄到写不进字的音节 5 条（短行 1 + 长行 4）');
+    assert.deepEqual(
+      [...d.querySelectorAll('#langFig .lyr-b.sq')].map(el => el.textContent.trim()),
+      ['', '', '', '', ''], '细条里一律不写字');
+    assert.equal(n('#langFig .lyr-b.str'), 8, '重音块 = 两行各 4 个（位置必须一样）');
+    assert.equal(n('#cantonTable tr'), 9, '粤语九声表 9 行');
+    assert.equal(n('#cantonFig .lyr-b'), 4, '两条时间轴：各有一个字块 + 一个留白/停住块');
+    // 第 09 节 · 曲式
+    assert.equal(n('#formTable tr'), 4, '四种曲式对照 4 行');
+    assert.equal(n('#bluesFig rect[data-lit^="bar"]'), 12, '十二格和声');
+    assert.equal(n('#bluesFig rect[data-lit^="ln"]'), 3, '三行词');
     // 场景卡片：12 维度 + 筛选条 + 拆解表
     assert.equal(n('#sceneGrid .scene'), 91, '默认展示全部 91 张场景卡片');
     assert.equal(n('#dimBar .chip'), 14, '筛选条 全部 + 13 维度');
@@ -1479,7 +1506,7 @@ test('E9 端到端：把所有可交互元素都点一遍，不得有任何脚�
   });
 });
 
-test('E10 第 09 节：四个可听模块与两张表全部可用', async () => {
+test('E10 第 10 节：四个可听模块与两张表全部可用', async () => {
   await withPage(async (w, d) => {
     /* ① 换例句 → 图与说明跟换，圆点数随字数变化 */
     const lc = [...d.querySelectorAll('#lyricChips .chip')];
@@ -1515,5 +1542,242 @@ test('E10 第 09 节：四个可听模块与两张表全部可用', async () => 
     bc[2].click(); await sleep(60);
     const verdicts = [...d.querySelectorAll('#breathFig .lyr-verdict')].map(e => e.textContent.trim());
     assert.deepEqual(verdicts, ['从容', '正常', '赶'], '6/9/12 字应分别判为从容/正常/赶');
+  });
+});
+
+/* -------------------------------------------------------------------------- *
+ * G. 曲式与计时法（第 09 / 10 节新增）
+ * -------------------------------------------------------------------------- */
+
+test('G1 布鲁斯十二格：前八格不许出现 V7，A 行必须字字重复', async () => {
+  await withPage((w) => {
+    const B = w.__MT__.BLUES_FORM;
+    assert.equal(B.chords.length, 12, '十二格');
+    assert.equal(B.bars, 12);
+
+    /* 前八格只有 I7 与 IV7 —— 这是"A 行为什么能重复"的全部依据。
+       只要第 9 格之前混进一个 V7，歌词重复就失去了和声上的理由，
+       这一节的教学点也就塌了 */
+    const before = B.chords.slice(0, 8).map(c => c.deg);
+    assert.ok(!before.includes(7), '第 1–8 格不得出现 V7（deg 7）');
+    assert.deepEqual([...new Set(before)].sort((a, b) => a - b), [0, 5], '前八格只有 I7 与 IV7');
+    assert.equal(B.chords[8].deg, 7, '第 9 格必须第一次出现 V7');
+    assert.equal(B.chords.slice(8).filter(c => c.deg === 7).length, 2, '12 格一共两处 V7（第 9、12 格）');
+
+    /* 三行词的守恒：A 行字字相同（连声调一起），B 行更长 */
+    assert.deepEqual([...B.lines.map(l => l.tag)], ['A', 'A', 'B']);
+    assert.deepEqual([...B.lines[0].w], [...B.lines[1].w], 'A 行必须原样重复，不是改写');
+    assert.ok(B.lines[2].w.length > B.lines[0].w.length, 'B 行字数必须多于 A 行（转折处信息量更大）');
+    assert.deepEqual([...B.lines.map(l => l.at)], [0, 4, 8], '三行各占四格');
+  });
+});
+
+test('G2 布鲁斯排程：21 个词的音 + 每格一个负责点亮的低音', async () => {
+  await withPage((w) => {
+    const M = w.__MT__, B = M.BLUES_FORM;
+    const withW = M.bluesEvents(true), only = M.bluesEvents(false);
+    const nWords = B.lines.reduce((a, l) => a + l.w.length, 0);
+    assert.equal(nWords, 21, '6 + 6 + 9 = 21 个字');
+    assert.equal(withW.steps.filter(s => s.kind === 'erhu').length, 21, '词的音一个不少');
+    assert.equal(only.steps.filter(s => s.kind === 'erhu').length, 0, '只听和声时不许有词的音');
+    assert.equal(only.steps.filter(s => s.lit && s.lit.indexOf('bar') === 0).length, 12,
+      '十二格各有一个低音负责点亮');
+    assert.ok(Math.abs(withW.dur - 12 * 4 * 60 / B.bpm) < 1e-6, '总时长 = 12 小节');
+    withW.steps.forEach(s => assert.ok(s.at >= 0 && s.at <= withW.dur, '排程越界：' + s.at));
+  });
+});
+
+test('G3 语言计时法：三条都是 8 拍，英文两行的重音位置必须完全一致', async () => {
+  await withPage((w) => {
+    const L = w.__MT__.LANG_TIMING, [zh, enS, enL] = L.rows;
+    L.rows.forEach(r => r.syl.forEach(s => {
+      assert.ok(s.b >= 0 && s.b + s.d <= L.beats + 1e-9, `${r.id} 越界：${s.t}`);
+    }));
+    /* 中文：8 个字、每字占满 1 拍、没有轻重之分 —— 这就是"按字计时" */
+    assert.equal(zh.syl.length, 8);
+    zh.syl.forEach(s => { assert.equal(s.d, 1); assert.ok(!s.s, '中文字不该有轻重'); });
+    /* 英文：重音位置逐拍相同，重音数相同，音节数不同 */
+    const st = r => [...r.syl.filter(s => s.s).map(s => s.b)];
+    assert.deepEqual(st(enS), st(enL), '长句的四个重音必须落在和短句完全相同的四拍上');
+    assert.equal(st(enS).length, 4, '4 个重音');
+    assert.equal(enS.syl.length, 8);
+    assert.equal(enL.syl.length, 11);
+    assert.ok(Math.min(...enL.syl.map(s => s.d)) < 0.25, '长句的虚词必须真的被压缩');
+  });
+});
+
+test('G4 粤语：九声里恰好三个入声，且入声一律不可拖长', async () => {
+  await withPage((w) => {
+    const C = w.__MT__.CANTON;
+    assert.equal(C.tones.length, 9, '九声');
+    const ru = C.tones.filter(t => t.n.slice(-1) === '入');
+    assert.equal(ru.length, 3, '阴入 / 中入 / 阳入');
+    ru.forEach(t => assert.equal(t.hold, false, `${t.n} 是入声，不许拖长`));
+    C.tones.filter(t => t.n.slice(-1) !== '入')
+      .forEach(t => assert.equal(t.hold, true, `${t.n} 应可拖长`));
+    assert.ok(C.demo.err.d > C.demo.ok.d, '"硬拖"必须真的比"断开"更长，否则这一卡什么都没演示');
+  });
+});
+
+test('E11 第 10 节 ⑦⑧ 与第 09 节：三档计时、两版粤语、布鲁斯都真的出声', async () => {
+  await withPage(async (w, d) => {
+    /* 音符之间有缝（不是每个时刻都"正在响"），所以不能固定睡一段时间再断言，
+       要轮询到第一次出声为止 */
+    const waitSound = async (ms) => {
+      const t0 = Date.now();
+      while (Date.now() - t0 < ms) {
+        if (w.__MT__.live.size > 0) return true;
+        await sleep(25);
+      }
+      return false;
+    };
+
+    const chips = [...d.querySelectorAll('#langChips .chip')];
+    assert.equal(chips.length, 3, '三条时间轴各一个 chip');
+    for (const c of chips) {
+      c.click();
+      assert.ok(await waitSound(700), '点了应出声：' + c.textContent);
+      w.__MT__.stopAll();
+    }
+
+    d.querySelector('#cantonErr').click();
+    assert.ok(await waitSound(700), '硬拖版应出声');
+    w.__MT__.stopAll();
+    d.querySelector('#cantonOk').click();
+    assert.ok(await waitSound(700), '断开版应出声');
+    w.__MT__.stopAll();
+
+    d.querySelector('#bluesPlay').click();
+    assert.ok(await waitSound(700), '布鲁斯应出声');
+    assert.ok(d.querySelector('#bluesFig rect.lit'), '十二格里应有一格被点亮');
+    w.__MT__.stopAll();
+    d.querySelector('#bluesHarm').click();
+    assert.ok(await waitSound(700), '只听和声也应出声');
+    w.__MT__.stopAll();
+  });
+});
+
+/* -------------------------------------------------------------------------- *
+ * L. 作词课（lyric.html）
+ * --------------------------------------------------------------------------
+ * 这一页没有音频，所以测的不是"听得出差别"，而是：
+ *   ① 页面真的装配起来了（13 节、每张表都有行）
+ *   ② 体裁联动是不是真的把方案换成那一档
+ *   ③ 自检器的判定方向对不对（有禁用词必须报，干净的必须放过）
+ * 第三条最容易写成"跑通就行"，所以两个方向都要测。
+ * -------------------------------------------------------------------------- */
+
+test('L1 作词课装配：13 节导航 + 每张表都有行', async () => {
+  await withLyricPage((w, d) => {
+    const links = [...d.querySelectorAll('#nav a')];
+    const sections = [...d.querySelectorAll('section')];
+    assert.equal(links.length, 13, '13 个导航链接');
+    assert.equal(sections.length, 13, '13 个 section');
+    for (const l of links) {
+      const id = l.getAttribute('href').slice(1);
+      assert.ok(d.getElementById(id), `导航目标 #${id} 应存在`);
+    }
+
+    const rows = sel => d.querySelectorAll(sel).length;
+    assert.equal(rows('#genreChips .chip'), 13, '13 个体裁');
+    assert.equal(rows('#rhymeTypeTable tr'), 5, '韵脚五型');
+    assert.equal(rows('#schemeTable tr'), 8, '八种押韵方案');
+    assert.equal(rows('#cnPatternTable tr'), 7, '句式切分 7 行');
+    assert.equal(rows('#enElegance .card'), 5, '英文优雅五条');
+    assert.equal(rows('#enFixTable tr'), 5, '英文改词五动作');
+    assert.equal(rows('#imgTable tr'), 5, '五类素材');
+    assert.equal(rows('#hookTable tr'), 7, '钩子七型');
+    assert.equal(rows('#schoolGrid .school'), 8, '八派');
+    assert.equal(rows('#schoolGrid .school li'), 24, '每派三条动作');
+    assert.equal(rows('#symptomTable tr'), 8, '症状速查 8 行');
+    assert.equal(rows('#frameTable tr'), 5, '五种框景');
+    assert.equal(rows('#banZhTable tr'), 6, '中文黑名单 6 类');
+    assert.equal(rows('#banEnTable tr'), 3, '英文黑名单 3 类');
+    assert.equal(rows('#fixTable tr'), 5, '改词五动作');
+    assert.equal(rows('#albumBriefTable tr'), 9, '专辑九项必问');
+    assert.equal(rows('#albumStruct .card'), 3, '序章 / 主体 / 收尾');
+    assert.equal(rows('#selfCheck li'), 11, '人读清单 11 条');
+    assert.ok(d.querySelector('#genrePanel .schg'), '体裁面板默认就要有方案网格');
+  });
+});
+
+test('L2 体裁联动：换体裁必须换掉方案、严格度与纪律', async () => {
+  await withLyricPage(async (w, d) => {
+    const chips = [...d.querySelectorAll('#genreChips .chip')];
+    const first = d.querySelector('#genrePanel').textContent;
+
+    /* 古风/国风 在表尾，方案是 ABBA —— 和第一条（流行 XAXA）必须完全不同 */
+    const guofeng = chips.length - 1;
+    chips[guofeng].click();
+    await sleep(10);
+    const cells = [...d.querySelectorAll('#genrePanel .sch')].map(e => e.textContent);
+    assert.deepEqual(cells, ['A', 'B', 'B', 'A'], '古风的默认方案是抱韵 ABBA');
+    assert.match(d.querySelector('#genrePanel').textContent, /古风/);
+    assert.notEqual(d.querySelector('#genrePanel').textContent, first, '面板内容必须真的换了');
+
+    /* 布鲁斯必须是 AAB —— 乐理课第 09 节讲的就是这个结构，两页口径要一致 */
+    const bi = chips.findIndex(c => c.textContent === '布鲁斯');
+    assert.ok(bi >= 0, '体裁表里要有布鲁斯');
+    chips[bi].click();
+    await sleep(10);
+    assert.deepEqual([...d.querySelectorAll('#genrePanel .sch')].map(e => e.textContent), ['A', 'A', 'B']);
+  });
+});
+
+test('L3 自检器：有问题的词必须报，干净的词必须放过', async () => {
+  await withLyricPage(async (w, d) => {
+    const inp = d.querySelector('#scanIn');
+    const fire = v => { inp.value = v; inp.dispatchEvent(new w.Event('input')); };
+    const txt = () => d.querySelector('#scanOut').textContent;
+
+    /* 反面样本：撞禁用词（霓虹 / 破碎）+ 抽象名词超 2 个 + 超长句 */
+    fire('霓虹亮着 我一个人走在这座破碎的城市的边缘');
+    await sleep(10);
+    assert.match(txt(), /命中 .*个/, '禁用词应被报出来');
+    assert.match(txt(), /霓虹/);
+    assert.match(txt(), /破碎/);
+    assert.match(txt(), /超过 11 字/, '超长句应提示要念一遍');
+
+    /* 正面样本：具体、短句、有钩子，抽象名词 0 个 */
+    fire('把伞留在门口\n钥匙压在花盆下\n雨停了你还没回来');
+    await sleep(10);
+    assert.match(txt(), /没撞中文黑名单/);
+    assert.match(txt(), /一个都没有/, '抽象名词应为 0');
+    assert.match(txt(), /落在 3–10 字/, '应认出钩子句');
+
+    /* 清空后必须回到空态，不能留着上一次的结论 */
+    d.querySelector('#scanClear').click();
+    await sleep(10);
+    assert.match(txt(), /还没有输入/);
+  });
+});
+
+test('L4 作词课数据：八派只有三种力，每派三条动作，钩子七型各带踩雷点', async () => {
+  await withLyricPage((w) => {
+    const L = w.__LC__;
+    assert.equal(L.SCHOOLS.length, 8);
+    const forces = [...new Set(L.SCHOOLS.map(s => s.force))].sort();
+    assert.deepEqual(forces, ['raise', 'seen', 'told'], '八派只归到三种力');
+    L.SCHOOLS.forEach(s => {
+      assert.equal(s.acts.length, 3, `${s.n} 应有三条动作`);
+      assert.ok(s.bad && s.bad.length > 6, `${s.n} 必须写清会写坏成什么`);
+    });
+
+    assert.equal(L.HOOKS.length, 7);
+    L.HOOKS.forEach(h => assert.ok(h.warn, `${h.n} 缺踩雷点`));
+
+    assert.equal(L.FRAMES.length, 5);
+    assert.equal(L.SCHEMES.length, 8);
+    assert.equal(L.ALBUM_BRIEF.length, 9);
+    assert.equal(L.SELF_CHECK.length, 11);
+
+    /* scanText 是纯函数，直接喂字符串验证判定方向（不经过 DOM） */
+    const dirty = L.scanText('霓虹 破碎 永远 命运 时光');
+    assert.ok(dirty.banHits.length >= 2, '禁用词应被识别');
+    assert.ok(dirty.abs.length >= 3, '抽象名词应被数出来');
+    const clean = L.scanText('把伞留在门口\n钥匙压在花盆下');
+    assert.equal(clean.banHits.length, 0);
+    assert.equal(clean.abs.length, 0);
+    assert.equal(clean.lines.length, 2);
   });
 });

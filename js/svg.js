@@ -263,6 +263,47 @@ function toneLineSVG(words){
   return s;
 }
 
+/* 十二格布鲁斯（第 09 节）：上面一格一个和弦，下面三行词各占四格。
+ *
+ * 全部画在同一张图里，因为这张图要证明的是一件事：
+ * **词的行数是被和声逼出来的**——前八格和声在原地打转，词也就重复；
+ * 第九格第一次出现 V7，词也正好在那里换内容。分开画就看不出来了。
+ *
+ * 词块的下划线 = 这一句真正唱出来的长度（一字一拍，6 字 = 1.5 格），
+ * 剩下的部分是"乐器接话"。B 行多三个字，所以要挤进第三格——
+ * 转折处信息量更大，这件事在图上是有宽度的，不是形容词。 */
+function bluesGridSVG(){
+  const B = BLUES_FORM, col = TOTW / B.bars, fill = { 0:'#EEEDFE', 5:'#E1F5EE', 7:'#FAEEDA' },
+        line = { 0:'#534AB7', 5:'#0F6E56', 7:'#BA7517' },
+        ink  = { 0:'#3C3489', 5:'#04342C', 7:'#412402' };
+  let s = `<svg viewBox="0 0 680 240" width="100%" class="ladder" role="img">`;
+  s += `<text x="${X0}" y="14" font-size="11" fill="#57554E">十二格 · 三行词：前八格和声在原地打转，第九格才第一次离开家</text>`;
+
+  /* 格号 + 和弦 */
+  B.chords.forEach((c, i) => {
+    const x = X0 + i * col;
+    s += `<text x="${x + col / 2}" y="34" font-size="9.5" text-anchor="middle" fill="#6F6C62">${i + 1}</text>`;
+    s += `<rect data-lit="bar${i}" x="${x + 1}" y="40" width="${col - 2}" height="26" rx="4" fill="${fill[c.deg]}" stroke="${line[c.deg]}" stroke-width="1"/>`;
+    s += `<text x="${x + col / 2}" y="57" font-size="10.5" font-weight="600" text-anchor="middle" fill="${ink[c.deg]}">${c.iv}</text>`;
+  });
+
+  /* 三行词：每行占四格，标签 A / A / B 在左侧 */
+  B.lines.forEach((L, li) => {
+    const x = X0 + li * col * 4, y = 82 + li * 42;
+    const sung = L.w.length * (col / B.beats);        /* 一字一拍 => 一格 = 4 字 */
+    s += `<text x="${X0 - 14}" y="${y + 21}" font-size="12" font-weight="700" fill="#2C2C2A">${L.tag}</text>`;
+    s += `<rect data-lit="ln${li}" x="${x + 1}" y="${y}" width="${col * 4 - 2}" height="32" rx="5" fill="#FBFAF6" stroke="#E5E2D9" stroke-width="1"/>`;
+    s += `<rect x="${x + 7}" y="${y + 23}" width="${Math.max(4, sung)}" height="3" rx="1.5" fill="${li === 2 ? '#D85A30' : '#534AB7'}"/>`;
+    s += `<text x="${x + 8}" y="${y + 16}" font-size="12" fill="#2C2C2A">${L.w.map(w => w[0]).join('')}</text>`;
+    s += `<text x="${x + 12 + sung}" y="${y + 16}" font-size="9.5" fill="#6F6C62">乐器接话</text>`;
+    s += `<text x="${x + col * 4 - 10}" y="${y + 16}" font-size="9" text-anchor="end" fill="#6F6C62">${L.w.length} 字</text>`;
+  });
+
+  s += `<text x="${X0}" y="232" font-size="10.5" fill="#57554E">下划线＝真正唱出来的长度（一字一拍）；剩下的空档是留给乐器的。B 行多三个字，所以会挤进第三格。</text>`;
+  s += '</svg>';
+  return s;
+}
+
 /* 七和弦图：方块按音高排列，最后一个（新叠上去的七音）用粉色高亮 */
 function sevSVG(s){
   const step = 16, top = 54, H = 272, BW = Math.min(56, 600 / 4 - 14);

@@ -9,15 +9,15 @@
 <link rel="icon" href="assets/images/favicon.ico" sizes="any">
 <link rel="icon" href="assets/images/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/images/favicon.png">
-<title>姐弟厨师团 --- 乐理课 V1.23 [26.10.29]</title>
+<title>姐弟厨师团 --- 乐理课 V1.24 [26.10.30]</title>
 <!-- 样式外链：原内联样式表已拆到 css/main.css（规则与顺序未动，仅补注释） -->
 <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 
-<!-- 左侧导航：14 节课，与下方 <section> 一一对应（≤1000px 变为顶部横滚条） -->
+<!-- 左侧导航：15 节课，与下方 <section> 一一对应（≤1000px 变为顶部横滚条） -->
 <aside id="nav">
-  <div class="brand">乐理课目录 <span class="ver" data-ver><b>V1.23</b> [26.10.29]</span><small>点一下，就出声</small></div>
+  <div class="brand">乐理课目录 <span class="ver" data-ver><b>V1.24</b> [26.10.30]</span><small>点一下，就出声</small></div>
   <a href="#s-start">0 · 先弄响钢琴</a>
   <a href="#s-halfnote">1 · 半音与音程</a>
   <a href="#s-majmin">2 · 大调与小调</a>
@@ -27,11 +27,12 @@
   <a href="#s-cadence">6 · 终止式与副歌抬升</a>
   <a href="#s-tempo">7 · 速度（行板在这）</a>
   <a href="#s-meter">8 · 拍号与节奏</a>
-  <a href="#s-lyric">9 · 词曲咬合</a>
-  <a href="#s-key">10 · 移调与调号</a>
-  <a href="#s-emotion">11 · 音乐表达</a>
-  <a href="#s-advance">12 · 转调与七和弦</a>
-  <a href="#s-cheat">13 · 速查表</a>
+  <a href="#s-form">9 · 曲式：布鲁斯</a>
+  <a href="#s-lyric">10 · 词曲咬合</a>
+  <a href="#s-key">11 · 移调与调号</a>
+  <a href="#s-emotion">12 · 音乐表达</a>
+  <a href="#s-advance">13 · 转调与七和弦</a>
+  <a href="#s-cheat">14 · 速查表</a>
 </aside>
 
 <div class="wrap">
@@ -43,7 +44,7 @@
     <div class="art"><img src="assets/images/hero-art.png" alt="姐弟二人坐在钢琴前弹奏的插图，画在羊皮纸上"></div>
     <div class="intro-wrap">
       <p class="intro">没有枯燥的符号，这里是一个可以自由调味的声音工坊。不背公式、不看天书，每一个模块内容都能点、能听 —— 大调小调、七个调式、五声、和弦进行、行板、拍号、词曲咬合、移调、听感配方，主流的音乐语言一次玩透。一路玩到最后你会发现：雨天的清冷、午后的松弛、某刻的心事，原来都可以用音乐说出来。我们一起创作吧，用音乐表达生活，让世界更鲜活。</p>
-      <p class="hero-ver ver" data-ver><b>V1.23</b> [26.10.29]</p>
+      <p class="hero-ver ver" data-ver><b>V1.24</b> [26.10.30]</p>
     </div>
   </div>
 </header>
@@ -190,7 +191,7 @@
     <div class="card" style="margin-top:14px;background:var(--card)">
       <h3>国风与和风：两套音阶的"家规"</h3>
       <p class="mini" style="line-height:1.7;margin-bottom:10px">
-        第 11 节讲「文化与风格」时要用到。它们不是七个教会调式里的任何一个，而是各有地域与流派身份的调式——
+        第 12 节讲「文化与风格」时要用到。它们不是七个教会调式里的任何一个，而是各有地域与流派身份的调式——
         <b>调式选择几乎就是风格选择</b>。点一下听听。</p>
 
       <p class="mini" style="line-height:1.75;margin-bottom:12px">
@@ -355,13 +356,68 @@
   </div>
 </section>
 
-<!-- ==================== 09 · 词曲咬合 ==================== -->
+<!-- ==================== 09 · 曲式：12 小节布鲁斯 ==================== -->
+<section id="s-form">
+  <div class="sec-head"><span class="sec-num">09</span><h2>曲式：12 小节布鲁斯</h2></div>
+  <p class="lead">前面都在讲"一句话怎么落点"（第 06 节终止式）。这一节讲<b>几句怎么拼成一首</b>。
+    最小的完整曲式是 12 小节布鲁斯：三个和弦、十二格。它值得单独一节，是因为这里有一件反直觉的事——
+    <b>歌词的三行结构不是歌手约好的，是被和声逼出来的</b>。</p>
+
+  <div class="card">
+    <h3>① 十二格：前八格在原地打转，第九格才离开家</h3>
+    <p class="mini" style="margin-bottom:10px">按播放，格子会一格一格亮过去。别看词，先看<b>颜色什么时候变</b>：
+      前四格是同一条 I7，第五格转到 IV7，<b>第九格才第一次出现 V7</b>。</p>
+    <div id="bluesFig"></div>
+    <div class="row" style="margin-top:8px">
+      <button class="btn pri" id="bluesPlay"><span class="tri">▶</span> 和声 + 词</button>
+      <button class="btn" id="bluesHarm"><span class="tri">▶</span> 只听和声</button>
+    </div>
+    <div class="note">布鲁斯的三个和弦全是<b>属七</b>。大调里只有 V 级是属七，它把 I 和 IV 也做成了属七——
+      每个和弦都带一个小七度，永远不干净，永远想往前走。这才是"布鲁斯味"的和声来源，不是节奏。</div>
+  </div>
+
+  <div class="card">
+    <h3>② 为什么前两句必须一模一样</h3>
+    <p class="mini" style="margin-bottom:12px">三行词各占四格。把"和声有没有动"和"词有没有动"两件事并排看，
+      就会发现它们是同一件事：</p>
+    <div class="grid3">
+      <div class="card tight" style="margin:0;background:var(--purple-bg);border-color:#AFA9EC">
+        <div class="mini" style="color:var(--purple)">第 1–4 格 · A 行</div>
+        <div style="font-weight:600;margin:4px 0">I7 一动不动</div>
+        <div class="mini">和声原地踏步，词也只能原地踏步——<b>重复是被允许的，因为它本来就没走</b>。</div>
+      </div>
+      <div class="card tight" style="margin:0;background:var(--teal-bg);border-color:#5DCAA5">
+        <div class="mini" style="color:var(--teal)">第 5–8 格 · A 行再来一次</div>
+        <div style="font-weight:600;margin:4px 0">出去两格又回来了</div>
+        <div class="mini">IV7 只待两格就回 I7——它还是"家"。</div>
+      </div>
+      <div class="card tight" style="margin:0;background:var(--amber-bg);border-color:#EF9F27">
+        <div class="mini" style="color:var(--amber)">第 9–12 格 · B 行</div>
+        <div style="font-weight:600;margin:4px 0">V7 第一次出现</div>
+        <div class="mini">全曲唯一一次真正离开主和弦。<b>词必须在这里给新东西</b>，否则这一下白费。</div>
+      </div>
+    </div>
+    <div class="note">所以"重复"在这里的功能不是偷懒，是<b>把不动的和声填满</b>；B 行之所以是全曲最重的一句，
+      因为它是唯一有新和声的地方。<b>写不出 B 行，往往不是词的问题，是那一段和声本来就没给你新东西。</b></div>
+  </div>
+
+  <div class="card">
+    <h3>③ 四种曲式：词的行数不是习惯，是除法</h3>
+    <p class="mini" style="margin-bottom:8px">曲式＝段落怎么排。段落长度定下来，词要写几行、哪几行要重复，
+      基本就被算出来了——所以"这一首写几行"不该拍脑袋定。</p>
+    <table><thead><tr><th style="width:20%">曲式</th><th style="width:16%">词的行数</th><th style="width:26%">和声怎么走</th><th>怎么一眼认出它</th></tr></thead>
+    <tbody id="formTable"></tbody></table>
+  </div>
+</section>
+
+<!-- ==================== 10 · 词曲咬合 ==================== -->
 <section id="s-lyric">
-  <div class="sec-head"><span class="sec-num">09</span><h2>词曲咬合：歌词怎么长在旋律上</h2></div>
+  <div class="sec-head"><span class="sec-num">10</span><h2>词曲咬合：歌词怎么长在旋律上</h2></div>
   <p class="lead">歌词不是"写完再配曲"。汉语每个字自带一条<b>音高曲线</b>——四声就是四条不同的曲线，
     旋律要是拧着它走，字就<b>倒</b>了：听众听到的是另一个字。这一节只讲一件事：
     <b>词和旋律接在哪、怎么接才不打架</b>。押韵只是其中一个接口，而且是最不吃音乐的那一个——
-    押错了顶多不够顺耳；重音和字调错了，意思直接变。</p>
+    押错了顶多不够顺耳；重音和字调错了，意思直接变。最后两张卡会把这套规则搬到英文和粤语：
+    <b>三种语言，三套计时法</b>——同一条旋律换种语言就不成立。</p>
 
   <div class="card">
     <h3>① 倒字：旋律拧着字调走</h3>
@@ -429,11 +485,38 @@
       言前是十三辙里最宽的，能押的字最多，最不容易写坏；<b>宽辙适合高频使用，窄辙留给必须出彩的那首</b>。
       而 #2 是 an、#4 是 ian，听起来像两个韵，其实同一个辙。</div>
   </div>
+
+  <div class="card">
+    <h3>⑦ 计时法：中文数「字」，英文数「重音」</h3>
+    <p class="mini" style="margin-bottom:10px">上面全在讲汉语。换一种语言，最先失效的不是押韵，是<b>计时</b>。
+      三条时间轴都是 <b>8 拍</b>——时间一样长，装进去的字数却完全不同。先看宽度，再听。</p>
+    <div id="langFig"></div>
+    <div class="row" style="margin-top:8px" id="langChips"></div>
+    <div class="note" id="langInfo"></div>
+  </div>
+
+  <div class="card">
+    <h3>⑧ 粤语：九声六调，而且入声不许落长音</h3>
+    <p class="mini" style="margin-bottom:10px">粤语不是"另一种普通话"。它有 <b>9 个声调</b>，其中三个是<b>入声</b>——
+      韵尾 -p / -t / -k，发音时口腔先"塞住"。塞音自带一个长度：<b>入声字在语言里就是短的</b>。
+      所以给粤语写词，第一关不是押韵，是协音；协音里最硬的一条是<b>别把入声拖长</b>。</p>
+    <table><thead><tr><th>调</th><th>调值</th><th>例字</th><th>能不能拖长</th></tr></thead>
+    <tbody id="cantonTable"></tbody></table>
+    <div class="row" style="margin-top:12px">
+      <button class="btn" id="cantonErr"><span class="tri">▶</span> 硬拖两拍（错）</button>
+      <button class="btn pri" id="cantonOk"><span class="tri">▶</span> 一拍断开（对）</button>
+    </div>
+    <div id="cantonFig"></div>
+    <div class="note">听的不是发音，是<b>时值</b>：两次都是同一个字——<b>十</b>（sap6，阳入，-p 收尾），
+      同一个音高，只有长度不同。
+      合成器发不出 -p，所以"对"的那一版用一个极短的收尾示意"收住"。
+      <b>入声被拖长时，听到的不再是那个字，是一声堵住的气。</b></div>
+  </div>
 </section>
 
-<!-- ==================== 10 · 移调与调号 ==================== -->
+<!-- ==================== 11 · 移调与调号 ==================== -->
 <section id="s-key">
-  <div class="sec-head"><span class="sec-num">10</span><h2>移调与调号</h2></div>
+  <div class="sec-head"><span class="sec-num">11</span><h2>移调与调号</h2></div>
   <p class="lead">把一首歌整体抬高或压低，旋律一个音都没改，但情绪会变——唱不上去是实际问题，听起来"更亮更开阔"是审美问题。
     "<b>调号</b>"就是记这件事的记号：升号降号越多，离 C 大调越远。</p>
   <div class="card">
@@ -455,9 +538,9 @@
   </div>
 </section>
 
-<!-- ==================== 11 · 音乐的十二种表达维度 ==================== -->
+<!-- ==================== 12 · 音乐的十三种表达维度 ==================== -->
 <section id="s-emotion">
-  <div class="sec-head"><span class="sec-num">11</span><h2>音乐能表达什么：十三个维度</h2></div>
+  <div class="sec-head"><span class="sec-num">12</span><h2>音乐能表达什么：十三个维度</h2></div>
   <p class="lead">前面所有参数，最终都是为这个服务的。音乐不只表达心情——它还能表达天气、冷热、时间、空间、
     重量、材质、运动、事件、身体状态，甚至文化风格。<b>因为音乐模拟的不是情绪，是物理量</b>：
     音高听起来像高低和大小，响度像重量和距离，时值像开阔还是逼仄。</p>
@@ -554,9 +637,9 @@
   </div>
 </section>
 
-<!-- ==================== 12 · 转调与七和弦 ==================== -->
+<!-- ==================== 13 · 转调与七和弦 ==================== -->
 <section id="s-advance">
-  <div class="sec-head"><span class="sec-num">12</span><h2>再往上一步：转调与七和弦</h2></div>
+  <div class="sec-head"><span class="sec-num">13</span><h2>再往上一步：转调与七和弦</h2></div>
   <p class="lead">这两个是"从顺口到动人"最关键的两级台阶。转调负责<b>把情绪炸开</b>，七和弦负责<b>让色彩从三原色变成水彩</b>。</p>
 
   <div class="card">
@@ -586,9 +669,9 @@
   </div>
 </section>
 
-<!-- ==================== 13 · 速查表 ==================== -->
+<!-- ==================== 14 · 速查表 ==================== -->
 <section id="s-cheat">
-  <div class="sec-head"><span class="sec-num">13</span><h2>全部速查</h2></div>
+  <div class="sec-head"><span class="sec-num">14</span><h2>全部速查</h2></div>
   <div class="grid2">
     <div class="card">
       <h3>术语速查</h3>

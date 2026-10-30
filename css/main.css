@@ -386,3 +386,14 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sa
   #albumTable th:nth-child(2){width:66px}
   #albumTable .pill{padding:1px 5px}
 }
+
+/* ---------- 18. 第 10 节 · 语言计时法与粤语（追加于 V1.24） ----------
+   这两张小节靠"格子宽不宽"说话，所以重音格和虚词格必须在视觉上分得开：
+   重音＝实心紫，虚词＝浅灰且字更小。
+   再窄一档（< 0.30 拍，见 sections.js 的 NARROW_BEAT）就不写字了，只留一条细条——
+   硬塞进去的字会被 overflow 裁成半个词，看着像画错了；留一条缝反而正好是
+   "这个音节被挤没了"的样子。要查是哪个词，悬停有 title。 */
+.lyr-b.str{background:var(--purple);border-color:#3C3489;color:#fff;font-weight:600}
+.lyr-b.wk{background:#F4F2EC;border-color:#DDD9CD;color:var(--faint);font-size:11px;font-weight:400}
+.lyr-b.sq{background:#EFECE3;border-color:#DDD9CD;min-width:0}
+
