@@ -204,7 +204,7 @@ function hookSVG(mel){
   return s;
 }
 
-/* 声调 vs 旋律对照图（第 09 节）：同一句词，两行旋律——
+/* 声调 vs 旋律对照图（第 11 节）：同一句词，两行旋律——
  *   上行跟着字调走（顺字），下行拧着字调走（倒字）。
  * 每列一条**竖线段** = 一个字内部的音高滑动（这就是声调的物理形态）；
  * 段与段之间的虚线 = 整句的旋律轮廓。
@@ -263,7 +263,7 @@ function toneLineSVG(words){
   return s;
 }
 
-/* 十二格布鲁斯（第 09 节）：上面一格一个和弦，下面三行词各占四格。
+/* 十二格布鲁斯（第 10 节）：上面一格一个和弦，下面三行词各占四格。
  *
  * 全部画在同一张图里，因为这张图要证明的是一件事：
  * **词的行数是被和声逼出来的**——前八格和声在原地打转，词也就重复；
@@ -395,6 +395,42 @@ function albumCurveSVG(){
     });
   });
   s += `<text x="${X0}" y="300" font-size="10" fill="#6F6C62">纵轴＝听感密度（音头/秒）· 珊瑚红的点＝与上一首同调（连续同调最容易疲）</text>`;
+  s += '</svg>';
+  return s;
+}
+
+/* ---- 动机轮廓图：同一形状被横向拉长（第 14 节收尾）-----------------------
+ * 这张图只画两件事：横轴是拍、纵轴是音高（半音）。
+ * 两条线**纵向完全重合、横向差一倍**——图本身就是论点：
+ * 呼应靠的是"轮廓不动"，变形靠的是"时值变"，两件事必须分开看。
+ */
+function motifContourSVG(){
+  const M = MOTIF, X0 = 70, per = 70, Y0 = 140, K = 8;
+  const X = b => X0 + b * per;
+  const Y = s => Y0 - s * K;
+  const pts = arr => arr.map(n => `${X(n.b)},${Y(n.s)}`).join(' ');
+
+  let s = `<svg viewBox="0 0 680 200" width="100%" class="ladder" role="img">`;
+  for (let i = 0; i <= 8; i++){
+    s += `<line x1="${X(i)}" y1="30" x2="${X(i)}" y2="150" stroke="#EAE7DC" stroke-width="1"/>`;
+    if (i < 8) s += `<text x="${X(i) + per / 2}" y="166" font-size="11" text-anchor="middle" fill="#A8A59B">${i + 1}</text>`;
+  }
+  s += `<text x="40" y="166" font-size="11" fill="#A8A59B">拍</text>`;
+  s += `<line x1="${X0}" y1="${Y0}" x2="${X(8)}" y2="${Y0}" stroke="#DDD9CD" stroke-width="1"/>`;
+
+  /* 原形：细、浅；回来：粗、深。两者起点完全重合，之后一路分开 */
+  s += `<polyline fill="none" stroke="#AFA9EC" stroke-width="3" points="${pts(M.versions[0].notes)}"/>`;
+  s += `<polyline fill="none" stroke="#534AB7" stroke-width="3" points="${pts(M.versions[1].notes)}"/>`;
+  M.versions.forEach((v, vi) => {
+    v.notes.forEach(n => {
+      s += `<circle cx="${X(n.b)}" cy="${Y(n.s)}" r="4.5" fill="${vi ? '#534AB7' : '#AFA9EC'}"/>`;
+    });
+  });
+
+  s += `<rect x="${X0}" y="186" width="26" height="3" rx="1.5" fill="#AFA9EC"/>`;
+  s += `<text x="${X0 + 34}" y="192" font-size="11" fill="#6F6C62">动机原形：4 拍走完，只有一层长垫</text>`;
+  s += `<rect x="330" y="186" width="26" height="3" rx="1.5" fill="#534AB7"/>`;
+  s += `<text x="364" y="192" font-size="11" fill="#6F6C62">第 8 首：同一个轮廓，8 拍才走完</text>`;
   s += '</svg>';
   return s;
 }

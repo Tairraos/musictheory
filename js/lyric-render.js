@@ -220,6 +220,26 @@ function buildAlbum(){
         <div class="mini" style="line-height:1.6">${s.d}</div>
       </div>`).join('');
   }
+
+  /* 叙事功能表：八首串行，功能只有起/承/转/合四种（L5 有断言） */
+  const story = $('#storyTable');
+  if (story){
+    story.innerHTML = STORY_BEATS.map(b => `<tr>
+      <td class="mono">${b.n}</td>
+      <td><b class="v-ok">${b.fn}</b></td>
+      <td class="mini">${b.what}</td>
+      <td class="mini" style="color:var(--faint)">${b.q}</td></tr>`).join('');
+  }
+
+  /* 意象复现表：同一个词、两个位置、含义翻面 */
+  const call = $('#imageTable');
+  if (call){
+    call.innerHTML = IMAGE_CALLBACK.map(c => `<tr>
+      <td><b>${c.img}</b></td>
+      <td class="mini">${c.first}</td>
+      <td class="mini">${c.later}</td>
+      <td class="mini" style="color:var(--faint)">${c.turn}</td></tr>`).join('');
+  }
 }
 
 /* ---------- 12 自检 ---------- */

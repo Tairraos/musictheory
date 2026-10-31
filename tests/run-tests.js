@@ -6,7 +6,7 @@
  * 用 jsdom 从磁盘真实加载 index.html（连带 css/main.css 与 js/ 下全部脚本），
  * 在接近真实的 DOM 环境里验证：
  *   A. 资源拆分完整：外链 CSS/JS 全部就位、插图已外链、无残留 base64
- *   B. 页面装配结果：14 节导航、两架键盘的键数、各表格/卡片数量、SVG 方块数
+ *   B. 页面装配结果：17 节导航、两架键盘的键数、各表格/卡片数量、SVG 方块数
  *   C. 乐理核心函数：音名 / MIDI / 频率 / 三和弦 / 和弦标记 / 音名拼写
  *   D. 课程数据完整性：调式半音结构、五声无半音、场景配置引用合法
  *   E. 交互冒烟：用桩 AudioContext 点播放按钮，验证出声链路 + 点亮链路不炸
@@ -367,7 +367,7 @@ test('B3 各节装配数量：表格行数 / chips 数 / SVG 方块数', async (
     assert.equal(n('#modChips .chip'), 6, '转调 chips');
     assert.equal(n('#exoticChips .chip'), 9, '特色音阶 chips（和风 4 + 国风 4 + 布鲁斯 1）');
     assert.equal(n('#minor3row .btn'), 3, '小调三形态按钮');
-    // 第 09 节 · 词曲咬合
+    // 第 11 节 · 词曲咬合
     assert.equal(n('#lyricChips .chip'), 3, '倒字例句 chips');
     assert.equal(n('#stressChips .chip'), 3, '重音版本 chips');
     assert.equal(n('#breathChips .chip'), 3, '气口例句 chips');
@@ -376,7 +376,7 @@ test('B3 各节装配数量：表格行数 / chips 数 / SVG 方块数', async (
     assert.equal(n('#stressFig .lyr-b'), 18, '重音三条时间轴 × 6 字');
     assert.equal(n('#phraseFig .lyr-b'), 16, '一字多音两条时间轴 × 8 字');
     assert.equal(n('#breathFig .lyr-b'), 27, '气口三句共 6+9+12 个字块');
-    // 第 10 节 ⑦⑧ · 语言计时法与粤语
+    // 第 11 节 ⑦⑧ · 语言计时法与粤语
     assert.equal(n('#langChips .chip'), 3, '计时法三条：普通话 / 英文短 / 英文长');
     assert.equal(n('#langFig .lyr-row'), 3, '三条时间轴同屏');
     assert.equal(n('#langFig .lyr-b'), 27, '8 + 8 + 11 个音节块');
@@ -388,7 +388,7 @@ test('B3 各节装配数量：表格行数 / chips 数 / SVG 方块数', async (
     assert.equal(n('#langFig .lyr-b.str'), 8, '重音块 = 两行各 4 个（位置必须一样）');
     assert.equal(n('#cantonTable tr'), 9, '粤语九声表 9 行');
     assert.equal(n('#cantonFig .lyr-b'), 4, '两条时间轴：各有一个字块 + 一个留白/停住块');
-    // 第 09 节 · 曲式
+    // 第 10 节 · 曲式
     assert.equal(n('#formTable tr'), 4, '四种曲式对照 4 行');
     assert.equal(n('#bluesFig rect[data-lit^="bar"]'), 12, '十二格和声');
     assert.equal(n('#bluesFig rect[data-lit^="ln"]'), 3, '三行词');
@@ -396,12 +396,18 @@ test('B3 各节装配数量：表格行数 / chips 数 / SVG 方块数', async (
     assert.equal(n('#grooveChips .chip'), 5, '五种织体 chips');
     assert.equal(n('#grooveTable tr'), 6, '选型表 6 行（含"留白"那一行）');
     assert.equal(n('#grooveGrid rect[data-hit]'), 1, '默认选中"块状"：两拍一个音头');
-    assert.equal(n('#grooveGrid svg > rect'), 10, '八格网格 + 一个音头块 + 一条音长尾巴');    // 第 14 节 · 配器与专辑（新）
+    assert.equal(n('#grooveGrid svg > rect'), 10, '八格网格 + 一个音头块 + 一条音长尾巴');
+    // 第 14 节 · 配器与专辑（新）
     assert.equal(n('#ensChips .chip'), 3, '三种编制 chips');
     assert.equal(n('#ensMel .lyr-b'), 10, '旋律条 = 10 个音');
     assert.equal(n('#ensTable tr'), 3, '三层分工（主乐/和声/铺底）各一行');
     assert.equal(n('#albumFig polyline'), 2, '专辑曲线两块（原序 / 重排）');
     assert.equal(n('#albumFig circle'), 16, '八首 × 两种排法');
+    // 第 14 节 ④ · 跨曲动机
+    assert.equal(n('#motifChips .chip'), 2, '两版：原形 / 回来');
+    assert.equal(n('#motifTable tr'), 3, '三个把手各一行');
+    assert.equal(n('#motifFig polyline'), 2, '两条轮廓叠在同一张图上');
+    assert.equal(n('#motifFig circle'), 8, '两版各四个音');
     // 场景卡片：12 维度 + 筛选条 + 拆解表
     assert.equal(n('#sceneGrid .scene'), 91, '默认展示全部 91 张场景卡片');
     assert.equal(n('#dimBar .chip'), 14, '筛选条 全部 + 13 维度');
@@ -1734,6 +1740,43 @@ test('G6 配器：每版有且只有一位主乐，主乐在最上面，专辑�
 });
 
 
+test('G7 跨曲动机：两版轮廓一个音都不能改，只准改时值与层数', async () => {
+  await withPage((w) => {
+    const { MOTIF, MOTIF_HANDLES, motifEvents, TONES } = w.__MT__;
+    const [a, b] = MOTIF.versions;
+    assert.equal(MOTIF.versions.length, 2, '只有"原形"与"回来"两版');
+
+    /* ① 轮廓：音高序列必须完全相同——这是"听众认得出是它"的唯一依据。
+       改了轮廓还叫呼应，是最常见的假呼应，所以这条守得比什么都紧。 */
+    assert.deepEqual(a.notes.map(n => n.s), b.notes.map(n => n.s),
+      '音高轮廓必须一个音都不改');
+    /* ② 时值：回来版必须整体一倍，起点也随之一倍（节奏型不许换） */
+    assert.deepEqual(b.notes.map(n => n.d), a.notes.map(n => n.d * 2), '时值必须全部加倍');
+    assert.deepEqual(b.notes.map(n => n.b), a.notes.map(n => n.b * 2), '起点也必须整体后移一倍');
+    /* ③ 配器：层数必须有差别，否则"规模变大"听不出来 */
+    assert.ok(b.layers > a.layers, `回来版层数应更多（${a.layers} → ${b.layers}）`);
+
+    /* ④ 排程：两版摆在同样长的格子里，但最后一音正好晚一倍 */
+    const ea = motifEvents(a), eb = motifEvents(b);
+    assert.equal(eb.dur, ea.dur, '两版都要能塞进同样长的一段（8 拍）');
+    const lastAt = v => Math.max(...motifEvents(v).steps.map(s => s.at));
+    assert.ok(Math.abs(lastAt(b) - lastAt(a) * 2) < 1e-6, '最后一个音必须正好晚一倍');
+    assert.ok(eb.steps.length > ea.steps.length, '回来版的音数必须更多（多了和声与高音）');
+
+    /* ⑤ 用到的音色必须真实存在，否则点了没声 */
+    [a, b].forEach(v => ['pad', 'harm', 'bell'].forEach(k => {
+      if (v[k]) assert.ok(TONES[v[k].tone], `音色 ${v[k].tone} 必须存在`);
+    }));
+
+    /* ⑥ 三个把手：每条都必须写出"怎么动 / 听出什么 / 做错了"，缺一列就只剩口号 */
+    assert.equal(MOTIF_HANDLES.length, 3, '三个把手');
+    MOTIF_HANDLES.forEach(h => {
+      assert.ok(h.how && h.hear && h.wrong, `${h.n} 三列都不能空`);
+    });
+  });
+});
+
+
 test('E11 第 11 节 ⑦⑧ 与第 10 节：三档计时、两版粤语、布鲁斯都真的出声', async () => {
   await withPage(async (w, d) => {
     /* 音符之间有缝（不是每个时刻都"正在响"），所以不能固定睡一段时间再断言，
@@ -1805,6 +1848,20 @@ test('E12 第 09 节律动与第 14 节配器：五张织体、三种编制都�
     }
     /* 第一次主乐换了音区，音名必须跟着变——否则"音区"这一格就没被演示到 */
     assert.ok(seen.size >= 2, `主乐换音区后音名应变（实际 ${[...seen].join(' / ')}）`);
+
+    /* 跨曲动机：两版都要出声，且"回来"版铺得更厚（层数写进了说明文字里） */
+    const mchips = [...d.querySelectorAll('#motifChips .chip')];
+    assert.equal(mchips.length, 2, '动机两版 chip');
+    const layerTxt = [];
+    for (const c of mchips) {
+      c.click();
+      layerTxt.push(d.querySelector('#motifInfo').textContent);
+      d.querySelector('#motifPlay').click();
+      assert.ok(await waitSound(700), '应出声：' + c.textContent);
+      w.__MT__.stopAll();
+    }
+    assert.ok(/1 层/.test(layerTxt[0]) && /4 层/.test(layerTxt[1]),
+      '两版的层数必须不同：' + layerTxt.join(' | '));
   });
 });
 
@@ -1847,6 +1904,8 @@ test('L1 作词课装配：13 节导航 + 每张表都有行', async () => {
     assert.equal(rows('#fixTable tr'), 5, '改词五动作');
     assert.equal(rows('#albumBriefTable tr'), 9, '专辑九项必问');
     assert.equal(rows('#albumStruct .card'), 3, '序章 / 主体 / 收尾');
+    assert.equal(rows('#storyTable tr'), 8, '叙事专辑八个阶段');
+    assert.equal(rows('#imageTable tr'), 3, '三个跨曲复现的意象');
     assert.equal(rows('#selfCheck li'), 11, '人读清单 11 条');
     assert.ok(d.querySelector('#genrePanel .schg'), '体裁面板默认就要有方案网格');
   });
@@ -1930,5 +1989,37 @@ test('L4 作词课数据：八派只有三种力，每派三条动作，钩子�
     assert.equal(clean.banHits.length, 0);
     assert.equal(clean.abs.length, 0);
     assert.equal(clean.lines.length, 2);
+  });
+});
+
+
+test('L5 叙事专辑：八个阶段串行、功能只有四种、每个意象都必须翻面', async () => {
+  await withLyricPage((w) => {
+    const L = w.__LC__;
+
+    /* ① 阶段：八首一首不落，且功能只有起/承/转/合四种，每种恰好两次。
+       这不是格式洁癖——多出一种功能就说明故事多了一条线，八首装不下。 */
+    assert.equal(L.STORY_BEATS.length, 8, '八个阶段对应八首');
+    const fns = L.STORY_BEATS.map(b => b.fn);
+    assert.deepEqual([...new Set(fns)].sort(), ['合', '承', '起', '转'], '功能只有四种');
+    ['起', '承', '转', '合'].forEach(f => {
+      assert.equal(fns.filter(x => x === f).length, 2, `「${f}」应恰好两首`);
+    });
+    L.STORY_BEATS.forEach((b, i) => {
+      assert.equal(b.n, `第 ${i + 1} 首`, '位置必须按顺序排，串行不许跳号');
+      assert.ok(b.what && b.q, `${b.n} 必须写清做什么、以及交稿前问什么`);
+    });
+    /* ② 顺序不变式：真相（转的第一首）必须早于崩塌，选择（合的第一首）必须晚于崩塌。
+       把"选择"提到"崩塌"之前，故事就散了——这是这张表唯一的硬约束。 */
+    assert.equal(fns[4], '转', '第 5 首必须交付真相');
+    assert.equal(fns[7], '合', '第 8 首必须是回望');
+
+    /* ③ 意象：每个都要有"第一次 / 后来 / 翻的是哪一格"三段，缺一段就退化成复述 */
+    assert.equal(L.IMAGE_CALLBACK.length, 3, '三个意象');
+    L.IMAGE_CALLBACK.forEach(c => {
+      assert.ok(c.img && c.first && c.later && c.turn, `${c.img} 三段都要有`);
+      assert.notEqual(c.first, c.later, `${c.img} 两次出现不能是同一句话（那就是复述）`);
+      assert.ok(c.turn.length >= 4, `${c.img} 必须说清翻的是哪一个维度`);
+    });
   });
 });

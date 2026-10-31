@@ -28,7 +28,7 @@ function toast(m){
  *   js/app.js       → 乐理课
  *   js/lyric-app.js → 作词课
  * tests/bump-version.js 一次写两处，两页永远同版。 */
-const VERSION = { v: '1.26', date: '26.10.31' };
+const VERSION = { v: '1.27', date: '26.10.31' };
 
 function applyVersion(){
   const label = `V${VERSION.v} [${VERSION.date}]`;
@@ -61,4 +61,5 @@ window.__LC__ = {
   get version(){ return VERSION; },
   GENRES, RHYME_TYPES, SCHEMES, CN_PATTERNS, HOOKS, SCHOOLS, FRAMES,
   BAN_ZH, BAN_EN, FIX_STEPS, ALBUM_BRIEF, SELF_CHECK, scanText,
+  ALBUM_LAYERS, ALBUM_WORD_JOBS, ALBUM_STRUCT, STORY_BEATS, IMAGE_CALLBACK,
 };

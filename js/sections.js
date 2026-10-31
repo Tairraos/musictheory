@@ -1001,3 +1001,43 @@ function buildEnsemble(){
   if ($('#albumFig')) $('#albumFig').innerHTML = albumCurveSVG();
   if ($('#albumWhy')) $('#albumWhy').innerHTML = ALBUM_CURVE.why;
 }
+
+/* ==================== 第 14 节 ④ 跨曲的那根线 ==================== */
+let motIdx = 0;
+
+/* renderMotif()：换版本只改两行文字——图不变，因为图说的就是"轮廓没变"。
+ * 这一点很关键：如果换版本图也跟着变，就等于在图里承认"改了轮廓"。 */
+function renderMotif(){
+  const V = MOTIF.versions[motIdx];
+  $('#motifInfo').innerHTML =
+    `<b>${V.n}</b>（${V.chip}，${V.layers} 层）<br><span class="mini">${V.say}</span>`;
+}
+
+function buildMotif(){
+  if (!$('#motifChips')) return;
+
+  const box = $('#motifChips');
+  MOTIF.versions.forEach((v, i) => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (i === 0 ? ' on' : '');
+    b.textContent = v.chip;
+    b.onclick = () => {
+      $$('#motifChips .chip').forEach(c => c.classList.remove('on'));
+      b.classList.add('on'); motIdx = i; renderMotif();
+    };
+    box.appendChild(b);
+  });
+  renderMotif();
+
+  if ($('#motifFig')) $('#motifFig').innerHTML = motifContourSVG();
+  if ($('#motifPlay')) $('#motifPlay').onclick = () => playMotif(MOTIF.versions[motIdx]);
+
+  const tb = $('#motifTable');
+  if (tb){
+    tb.innerHTML = MOTIF_HANDLES.map(h => `<tr>
+      <td><b>${h.n}</b></td>
+      <td class="mini">${h.how}</td>
+      <td class="mini">${h.hear}</td>
+      <td class="mini" style="color:var(--coral)">${h.wrong}</td></tr>`).join('');
+  }
+}

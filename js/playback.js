@@ -179,7 +179,7 @@ function playCadence(c){
   setTimeout(() => { if (tok === TOKEN){ kbAuto = false; kbHomeAll(500); } }, spb * chords.length * 2 * 1000 + 300);
 }
 
-/* ============ 场景配方（第 12 节） ============ */
+/* ============ 场景配方（第 13 节） ============ */
 
 /* sceneEvents(cfg)：把一张卡片配置展开成一条音符时间线。**纯函数，不碰音频**。
  *   这是本次重写的关键——原来 scenePlay 既排程又发声，测试无法验证它到底排了什么，
@@ -322,7 +322,7 @@ function scenePlay(cfg){
   sceneNoise(cfg.noise, t0, ev.dur, bus);
 }
 
-/* ============ 词曲咬合（第 10 节） ============
+/* ============ 词曲咬合（第 11 节） ============
  * 这一节的声音和前面所有节都不一样：前面是"乐器在响"，这里是"字在被念出来"。
  * 做法是**一个字配一个音 + 一条滑音（bend）**——人声念字的本质就是
  * 一个音节内部音高在动，所以滑音比两个离散音更像"说话"。
@@ -405,7 +405,7 @@ function lyricBreath(line){
   seq(st, '');
 }
 
-/* ============ 语言计时法（第 10 节 ⑦） ============
+/* ============ 语言计时法（第 11 节 ⑦） ============
  * 三条时间轴都是 8 拍。**这里唯一要听出来的东西是"每格多宽"**：
  * 中文每字一样宽；英文只有重音宽，虚词被挤窄。
  * 音高只负责让字站得住（中文按字调走，英文重音高、虚词低），
@@ -425,7 +425,7 @@ function langTiming(id){
   seq(st, 'langFig');
 }
 
-/* ============ 粤语入声（第 10 节 ⑧） ============
+/* ============ 粤语入声（第 11 节 ⑧） ============
  * 演示的不是发音，是**时值**：一个 -p 收尾的入声字，
  *   hold=true  硬拖满两拍 —— 塞音被拉开，字听不出来
  *   hold=false 一拍就断开 —— 尾音收住，字还在
@@ -444,7 +444,7 @@ function cantonPlay(hold){
   seq(st, 'cantonFig');
 }
 
-/* ============ 12 小节布鲁斯（第 09 节） ============
+/* ============ 12 小节布鲁斯（第 10 节） ============
  * 这一节要听两件事：① 十二格的和声怎么走 ② 词的三行落在哪四格上。
  *
  * 律动是 shuffle：每拍的八分音符不是均分的，后半个往后挪到 2/3 处
@@ -556,5 +556,37 @@ function ensembleEvents(row){
 
 function playEnsemble(row){
   const ev = ensembleEvents(row);
+  seq(ev.steps, '');
+}
+
+/* ---- 跨曲动机：同一轮廓的两个版本（第 14 节收尾）------------------------
+ * 与 ensembleEvents 同一套写法：纯函数，不碰音频，返回可被测试直接对账的
+ * 事件表。旋律音只认 `s`（半音偏移），pad / harm / bell 是三个可选层，
+ * 都是"主音和弦的第 0 级反复打点"。缺哪个层就跳过——这决定了"几个声音"。
+ */
+function motifEvents(ver){
+  const M = MOTIF, spb = 60 / M.bpm, mode = M_OF(M.k), base = midiOct(0, M.oct);
+  const steps = [];
+  ver.notes.forEach(n => steps.push({
+    at: n.b * spb, m: base + n.s, d: n.d * spb * 0.96, g: .70, kind: 'piano',
+  }));
+  ['pad', 'harm', 'bell'].forEach(key => {
+    const L = ver[key];
+    if (!L) return;
+    const ch = triad(midiOct(0, L.oct), mode, 0);
+    L.hit.forEach(h => {
+      const at = h * spb;
+      const dur = Math.min(L.dur * spb, M.beats * spb - at);
+      ch.notes.forEach((m, k) => steps.push({
+        at, m, d: dur, g: L.dyn * (k === 0 ? 1 : .62), kind: L.tone,
+      }));
+    });
+  });
+  steps.sort((a, b) => a.at - b.at || a.m - b.m);
+  return { steps, beats: M.beats, dur: M.beats * spb };
+}
+
+function playMotif(ver){
+  const ev = motifEvents(ver);
   seq(ev.steps, '');
 }
