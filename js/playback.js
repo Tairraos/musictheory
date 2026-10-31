@@ -489,3 +489,72 @@ function playBlues(withWords){
   const ev = bluesEvents(withWords);
   seq(ev.steps, 'bluesFig');
 }
+
+/* ============ 第 09 节 · 律动 ============ */
+
+/* grooveCfg(row)：把一行律动翻译成一张"场景配方"的配置。
+ * 为什么能这样借：织体表 TEX 本来就是"音头落在第几拍"，
+ * 而律动要问的正是这三件事（密度/重音/音长），所以不需要新的合成器。 */
+function grooveCfg(row){
+  const G = GROOVE;
+  return { k:G.k, b:G.bpm, oct:G.oct, tex:row.tex, prog:G.prog, dyn:0.5 };
+}
+
+/* grooveEvents / grooveRate：排程与密度都直接复用场景那套纯函数。
+ * 测试拿 grooveRate 和"hits 数 ÷ 每和弦拍数"对账，保证表格里的数字不是手写的。 */
+function grooveEvents(row){ return sceneEvents(grooveCfg(row)); }
+function grooveRate(row){ return sceneRate(grooveCfg(row)); }
+
+/* playGroove(row)：同一段和声（i–VI–III–VII），只换织体。
+ * 听感的差别全部来自节奏型本身——这是"节奏型决定性格"最干净的对照实验。 */
+function playGroove(row){
+  const ev = grooveEvents(row);
+  seq(ev.steps, '');
+}
+
+/* ============ 第 14 节 · 配器 ============ */
+
+/* ensembleEvents(row)：把三种"角色"叠在同一段时间上。
+ *
+ *   主乐层（mel:true）—— 永远弹 ENSEMBLE.melody 那一条，一音不改。
+ *   和声层 / 铺底层   —— 按 hit（单位：拍）打和弦音，dur 是音长。
+ *
+ * 关键约定：**旋律写成"相对主音的半音数"而不是调式级数**。
+ * 级数会跟着和声变形（同一个级数在不同和弦上是不同音），
+ * 半音数不会——所以换编制、换音区，听到的都是同一条旋律。
+ * 这条是本节全部说服力的来源：旋律不变，只有"谁在说"在变。 */
+function ensembleEvents(row){
+  const E = ENSEMBLE, spb = 60 / E.bpm, mode = M_OF(E.k), bar = spb * 2;
+  const steps = [];
+  row.layers.forEach(L => {
+    /* 主乐 */
+    if (L.mel){
+      const base = midiOct(0, L.oct);
+      E.melody.forEach(n => steps.push({
+        at: n.b * spb, m: base + n.s, d: n.d * spb * 0.96,
+        g: L.dyn, kind: L.tone,
+      }));
+      return;
+    }
+    /* 和声 / 铺底：一个和弦 2 拍 */
+    E.prog.forEach((deg, ci) => {
+      const ch = triad(midiOct(0, L.oct), mode, deg);
+      L.hit.forEach(h => {
+        const at = ci * bar + h * spb;
+        const dur = Math.min((L.dur || 1) * spb, bar - h * spb);
+        ch.notes.forEach((m, k) => steps.push({
+          at, m, d:dur, g:L.dyn * (k === 0 ? 1 : 0.62), kind:L.tone,
+        }));
+      });
+    });
+  });
+  /* 排程按时间排序：seq 内部逐条 setTimeout，顺序不影响发声，
+     但保持有序能让测试和信息面板读起来更像"谱面" */
+  steps.sort((a, b) => a.at - b.at || a.m - b.m);
+  return { steps, beats:E.beats, dur:E.beats * spb };
+}
+
+function playEnsemble(row){
+  const ev = ensembleEvents(row);
+  seq(ev.steps, '');
+}

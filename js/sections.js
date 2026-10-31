@@ -14,8 +14,8 @@
 
 /* 各交互区"当前选中项"的索引（chip 高亮 + 播放时读取） */
 let cadIdx = 0;    /* 第 06 节：选中的终止式 */
-let sevIdx = 0;    /* 第 13 节：选中的七和弦 */
-let modIdx = 0;    /* 第 13 节：选中的转调目标 */
+let sevIdx = 0;    /* 第 15 节：选中的七和弦 */
+let modIdx = 0;    /* 第 15 节：选中的转调目标 */
 
 /* ============ 第 00 节 · 先弄响一架钢琴 ============ */
 
@@ -186,7 +186,7 @@ function buildPenta(){
 
 /* 「国风 · 和风」音阶试听。
    它们不是七个教会调式里的任何一个，而是各有地域与流派身份的调式——
-   第 12 节的"文化与风格"维度要靠它们。
+   第 13 节的"文化与风格"维度要靠它们。
    讲解要点：
      · 中国五声：同一组五个音，换起音就是不同调式（宫商角徵羽）
      · 中国七声：在五声上加两个偏音（清角/变徵、变宫/闰），请谁进屋决定气质
@@ -485,7 +485,7 @@ function playMeter(m){
   setTimeout(() => { dots.forEach(d => d.classList.remove('hit')); kbAuto = false; kbHomeAll(500); }, m.b.length * spb * 1000 + 400);
 }
 
-/* ============ 第 09 节 · 曲式：12 小节布鲁斯 ============ */
+/* ============ 第 10 节 · 曲式：12 小节布鲁斯 ============ */
 
 /* buildForm()：一张图 + 两个播放键 + 一张对照表。
  * 图的全部说服力在于"和声的颜色"和"词的行"画在同一张图上（见 svg.js 的 bluesGridSVG），
@@ -502,7 +502,7 @@ function buildForm(){
     <td class="mini">${f.how}</td></tr>`).join('');
 }
 
-/* ============ 第 10 节 · 词曲咬合 ============ */
+/* ============ 第 11 节 · 词曲咬合 ============ */
 
 /* 本节两个"当前选中"的索引：倒字例句、重音版本（只用于高亮与播放） */
 let lyrIdx = 0;
@@ -652,7 +652,7 @@ function buildLyric(){
   buildCanton();
 }
 
-/* ============ 第 10 节 ⑦ · 语言计时法 ============ */
+/* ============ 第 11 节 ⑦ · 语言计时法 ============ */
 
 /* 三条时间轴的说明文字：写在代码里而不是 data.js，
  * 因为它们是"解释"，不是"数据"——改阈值不需要动它们，改数据却必须重读一遍 */
@@ -711,7 +711,7 @@ function buildLangTiming(){
   $('#langInfo').innerHTML = LANG_NOTE.zh;
 }
 
-/* ============ 第 10 节 ⑧ · 粤语 ============ */
+/* ============ 第 11 节 ⑧ · 粤语 ============ */
 
 function buildCanton(){
   const C = CANTON, TOT = C.beats;
@@ -742,7 +742,7 @@ function buildCanton(){
 }
 
 
-/* ============ 第 11 节 · 移调与调号 ============ */
+/* ============ 第 12 节 · 移调与调号 ============ */
 
 /* keyDesc(s)：按半音位移描述当前调号（F♯/G♭ 位单独处理——6 升 6 降最尴尬） */
 function keyDesc(s){
@@ -780,7 +780,7 @@ function buildKey(){
     tb.appendChild(tr); });
 }
 
-/* ============ 第 12 节 · 音乐的十二种表达维度 ============ */
+/* ============ 第 13 节 · 音乐的十三种表达维度 ============ */
 
 /* sceneCard(s)：造一张场景卡片。
  *   药丸标签里刻意把「听感速度」和「标称 BPM」分开摆——这正是本次修复的重点：
@@ -837,7 +837,7 @@ function buildScenes(){
   $('#recipeTable').innerHTML = RECIPES.map(r => '<tr>' + r.map(c => '<td class="mini">' + c + '</td>').join('') + '</tr>').join('');
 }
 
-/* ============ 第 13 节 · 七和弦与转调 ============ */
+/* ============ 第 15 节 · 七和弦与转调 ============ */
 
 function buildSeventh(){
   const box = $('#sevChips');
@@ -877,7 +877,7 @@ function buildMod(){
     seq(st, 'modLadder'); };
 }
 
-/* ============ 第 14 节 · 速查表 ============ */
+/* ============ 第 16 节 · 速查表 ============ */
 
 /* buildCheat()：术语表 + 顺口溜 + 自查清单（数据在 data.js） */
 function buildCheat(){
@@ -897,4 +897,107 @@ function refreshAll(){
   /* 节奏对比演示的拍点圆点：8 个，偶数号为重拍 */
   const rb = $('#rhythmDots'); rb.innerHTML = '';
   for (let i = 0; i < 8; i++){ const d = document.createElement('div'); d.className = 'beat' + (i % 2 === 0 ? ' strong' : ''); d.textContent = i + 1; rb.appendChild(d); }
+}
+
+/* ============ 第 09 节 · 律动：节奏型怎么设计 ============ */
+
+/* 当前选中的律动行（只用于重画与播放） */
+let groIdx = 0;
+
+/* renderGroove()：换织体时重画网格 + 三行读数。
+ * 读数的三个数字全部算出来，没有一个是手写的：
+ *   每拍音头 = hits.length ÷ 和弦拍数（2）
+ *   听感密度 = grooveRate()——和场景卡片用的是同一个函数
+ *   音长     = TEX.dur */
+function renderGroove(){
+  const G = GROOVE, row = G.rows[groIdx], T = TEX[row.tex] || TEX.block;
+  $('#grooveGrid').innerHTML = grooveGridSVG(row);
+  const perBeat = (T.hits.length / 2).toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1');
+  $('#grooveInfo').innerHTML =
+    `<b>${row.n}</b>（织体 <span class="mono">${row.tex}</span>）· ` +
+    `每拍 <b>${perBeat}</b> 个音头 · 听感 <b>${grooveRate(row).toFixed(2)}</b> 音头/秒 · ` +
+    `每个音长 <b>${T.dur}</b> 拍<br>` +
+    `<span class="mini">重音落在：${row.accent}</span><br>` +
+    `<span class="mini">性格：${row.feel} · 什么时候用：${row.when}</span>`;
+}
+
+function buildGroove(){
+  if (!$('#grooveGrid')) return;
+  const box = $('#grooveChips');
+  GROOVE.rows.forEach((r, i) => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (i === 0 ? ' on' : '');
+    b.textContent = r.n + ' · ' + r.tex;
+    b.onclick = () => {
+      $$('#grooveChips .chip').forEach(c => c.classList.remove('on'));
+      b.classList.add('on'); groIdx = i; renderGroove();
+    };
+    box.appendChild(b);
+  });
+  renderGroove();
+  $('#groovePlay').onclick = () => playGroove(GROOVE.rows[groIdx]);
+  $('#grooveTable').innerHTML = GROOVE_PICK.map(p => {
+    const T = TEX[p.tex] || TEX.block;
+    return `<tr>
+      <td class="mini">${p.need}</td>
+      <td><b>${T.zh}</b><br><span class="pill mono">${p.tex}</span></td>
+      <td class="mini mono">${T.hits.length} / 2 拍<br><span style="color:#6F6C62">${(T.hits.length * GROOVE.bpm / 120).toFixed(2)} 音头/秒</span></td>
+      <td class="mini">${p.why}</td></tr>`;
+  }).join('');
+}
+
+/* ============ 第 14 节 · 配器：谁唱主、谁铺底 ============ */
+
+let ensIdx = 0;
+
+/* renderEnsemble()：换编制时重画"旋律条"与三层分工表。
+ * 旋律条刻意复用歌词那套百分比时间轴（.lyr-tl/.lyr-b）——
+ * 它就是"谁占多少时间"的图，和这一节要说的"三层各占一格"是同一件事。 */
+function renderEnsemble(){
+  const E = ENSEMBLE, row = E.rows[ensIdx], TOT = E.beats;
+  const lead = row.layers.find(l => l.mel) || row.layers[0];
+  const base = midiOct(0, lead.oct);
+  $('#ensMel').innerHTML = `<div class="lyr-row">
+      <div class="lyr-lab">旋律 · ${TOT} 拍</div>
+      <div class="lyr-tl" style="--beats:${TOT}">` +
+    E.melody.map(n =>
+      `<div class="lyr-b str" style="left:${n.b / TOT * 100}%;width:${n.d / TOT * 100}%">${noteName(base + n.s)}</div>`
+    ).join('') + `</div></div>`;
+
+  /* 三层分工表：音区 / 密度 / 起音——判断"会不会打架"就看这三列 */
+  const perSec = L => (L.mel ? E.melody.length : (L.hit.length * E.prog.length))
+                    / (E.beats * 60 / E.bpm);
+  $('#ensTable').innerHTML = row.layers.map(L => {
+    const t = TONES[L.tone] || TONES.piano;
+    const lo = noteName(midiOct(0, L.oct));
+    return `<tr>
+      <td><b>${L.role}</b></td>
+      <td>${t.tag} <span class="pill mono">${L.tone}</span></td>
+      <td class="mini mono">${lo} 起</td>
+      <td class="mini mono">${perSec(L).toFixed(1)} 音头/秒</td>
+      <td class="mini mono">${Math.round(t.atk * 1000)} ms</td></tr>`;
+  }).join('');
+
+  $('#ensInfo').innerHTML = `<b>${row.n}</b>（${row.chip}）<br><span class="mini">${row.say}</span>`;
+}
+
+function buildEnsemble(){
+  if (!$('#ensMel')) return;
+  const box = $('#ensChips');
+  ENSEMBLE.rows.forEach((r, i) => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (i === 0 ? ' on' : '');
+    b.textContent = r.chip;
+    b.onclick = () => {
+      $$('#ensChips .chip').forEach(c => c.classList.remove('on'));
+      b.classList.add('on'); ensIdx = i; renderEnsemble();
+    };
+    box.appendChild(b);
+  });
+  renderEnsemble();
+  $('#ensPlay').onclick = () => playEnsemble(ENSEMBLE.rows[ensIdx]);
+
+  /* 专辑收尾：曲线 + 一句判据 */
+  if ($('#albumFig')) $('#albumFig').innerHTML = albumCurveSVG();
+  if ($('#albumWhy')) $('#albumWhy').innerHTML = ALBUM_CURVE.why;
 }

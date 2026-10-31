@@ -309,12 +309,16 @@ test('A2 拆分不改变内容：原内联 <style>/<script> 块已不在 HTML �
  * B. 页面装配结果（真实执行全部脚本后的 DOM）
  * -------------------------------------------------------------------------- */
 
-test('B1 导航与章节：15 个导航链接与 15 个 section 一一对应', async () => {
+test('B1 导航与章节：17 个导航链接与 17 个 section 一一对应', async () => {
   await withPage((w, d) => {
     const links = [...d.querySelectorAll('#nav a')];
     const sections = [...d.querySelectorAll('section')];
-    assert.equal(links.length, 15);
-    assert.equal(sections.length, 15);
+    assert.equal(links.length, 17);
+    assert.equal(sections.length, 17);
+    /* 节号必须从 00 数到 16、无重号：插节时最容易漏改的就是这里 */
+    assert.deepEqual([...d.querySelectorAll('.sec-num')].map(e => e.textContent),
+      ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16'],
+      '正文节号必须 00–16 连续');
     for (const l of links) {
       const id = l.getAttribute('href').slice(1);
       assert.ok(d.getElementById(id), `导航目标 #${id} 应存在`);
@@ -388,6 +392,16 @@ test('B3 各节装配数量：表格行数 / chips 数 / SVG 方块数', async (
     assert.equal(n('#formTable tr'), 4, '四种曲式对照 4 行');
     assert.equal(n('#bluesFig rect[data-lit^="bar"]'), 12, '十二格和声');
     assert.equal(n('#bluesFig rect[data-lit^="ln"]'), 3, '三行词');
+    // 第 09 节 · 律动（新）
+    assert.equal(n('#grooveChips .chip'), 5, '五种织体 chips');
+    assert.equal(n('#grooveTable tr'), 6, '选型表 6 行（含"留白"那一行）');
+    assert.equal(n('#grooveGrid rect[data-hit]'), 1, '默认选中"块状"：两拍一个音头');
+    assert.equal(n('#grooveGrid svg > rect'), 10, '八格网格 + 一个音头块 + 一条音长尾巴');    // 第 14 节 · 配器与专辑（新）
+    assert.equal(n('#ensChips .chip'), 3, '三种编制 chips');
+    assert.equal(n('#ensMel .lyr-b'), 10, '旋律条 = 10 个音');
+    assert.equal(n('#ensTable tr'), 3, '三层分工（主乐/和声/铺底）各一行');
+    assert.equal(n('#albumFig polyline'), 2, '专辑曲线两块（原序 / 重排）');
+    assert.equal(n('#albumFig circle'), 16, '八首 × 两种排法');
     // 场景卡片：12 维度 + 筛选条 + 拆解表
     assert.equal(n('#sceneGrid .scene'), 91, '默认展示全部 91 张场景卡片');
     assert.equal(n('#dimBar .chip'), 14, '筛选条 全部 + 13 维度');
@@ -1651,7 +1665,76 @@ test('G4 粤语：九声里恰好三个入声，且入声一律不可拖长', as
   });
 });
 
-test('E11 第 10 节 ⑦⑧ 与第 09 节：三档计时、两版粤语、布鲁斯都真的出声', async () => {
+test('G5 律动：五种织体都真实存在，密度单调，表格里的数字不是手写的', async () => {
+  await withPage((w) => {
+    const { GROOVE, GROOVE_PICK, TEX, grooveRate } = w.__MT__;
+    assert.equal(GROOVE.rows.length, 5, '五种打法');
+
+    /* ① 引用的织体必须真的存在——否则按钮点下去没声音，而且不会报错 */
+    GROOVE.rows.forEach(r => assert.ok(TEX[r.tex], `织体 ${r.tex} 必须在 TEX 里`));
+    GROOVE_PICK.forEach(p => assert.ok(TEX[p.tex], `选型表引用的 ${p.tex} 必须存在`));
+
+    /* ② 每个可播织体都要在选型表里出现一次，否则"能播但不知道什么时候用" */
+    GROOVE.rows.forEach(r =>
+      assert.ok(GROOVE_PICK.some(p => p.tex === r.tex), `${r.tex} 应出现在选型表里`));
+
+    /* ③ 每组的第一个音头必须落在拍点上（重音要在正拍，否则"重音"无从谈起） */
+    GROOVE.rows.forEach(r => assert.equal(TEX[r.tex].hits[0], 0, `${r.tex} 的第一下应在拍点`));
+
+    /* ④ 密度必须单调递增：块状 < 进行 < 琶音/碎音/驱动。
+          这条是本节全部教学意义——如果两个织体密度一样，"从稀到密"就讲不成了 */
+    const hits = GROOVE.rows.map(r => TEX[r.tex].hits.length);
+    assert.deepEqual([...hits], [1, 2, 4, 4, 4], '音头数必须是 1 → 2 → 4 → 4 → 4');
+
+    /* ⑤ 表格里显示的密度必须来自 grooveRate（同一个函数），不能手写 */
+    GROOVE.rows.forEach(r => {
+      const want = TEX[r.tex].hits.length * GROOVE.bpm / 120;
+      assert.ok(Math.abs(grooveRate(r) - want) < 1e-9,
+        `${r.tex} 的听感密度应等于 hits × BPM / 120`);
+    });
+  });
+});
+
+test('G6 配器：每版有且只有一位主乐，主乐在最上面，专辑重排必须减少同调相邻', async () => {
+  await withPage((w) => {
+    const { ENSEMBLE, ALBUM_CURVE, ensembleEvents, TONES } = w.__MT__;
+    assert.equal(ENSEMBLE.rows.length, 3, '三种编制');
+    assert.equal(ENSEMBLE.melody.length, 10, '旋律共 10 个音');
+
+    ENSEMBLE.rows.forEach(row => {
+      /* ① 一版只能有一位主乐——两位主乐等于没有主乐 */
+      const leads = row.layers.filter(l => l.mel);
+      assert.equal(leads.length, 1, `${row.id} 应恰好有一位主乐`);
+      /* ② 三层角色不能重复，否则分工表讲不通 */
+      const roles = row.layers.map(l => l.role);
+      assert.equal(new Set(roles).size, roles.length, `${row.id} 三层角色不能重名`);
+      /* ③ 主乐的音区必须高于铺底：这是"谁在上面说话"最硬的判据 */
+      const bed = row.layers.find(l => l.role === '铺底');
+      assert.ok(leads[0].oct > bed.oct, `${row.id} 主乐应在铺底之上`);
+      /* ④ 用到的音色必须真实存在 */
+      row.layers.forEach(l => assert.ok(TONES[l.tone], `音色 ${l.tone} 必须存在`));
+      /* ⑤ 排程真的产出了音，而且主乐那 10 个音一个不少 */
+      const ev = ensembleEvents(row);
+      assert.ok(ev.steps.length > 10, `${row.id} 应排出整段`);
+      const leadSteps = ev.steps.filter(s => s.kind === leads[0].tone && s.g === leads[0].dyn);
+      assert.equal(leadSteps.length, 10, `${row.id} 主乐必须弹满 10 个音（旋律不改）`);
+    });
+
+    /* 专辑：两种排法必须是同一批歌的不同顺序 */
+    const A = ALBUM_CURVE;
+    const key = i => A.tracks[i].key;
+    const dups = order => order.reduce((n, ti, i) =>
+      n + (i > 0 && key(order[i - 1]) === key(ti) ? 1 : 0), 0);
+    assert.equal(A.tracks.length, 8, '八首');
+    assert.deepEqual([...A.order1].sort((a, b) => a - b), [0,1,2,3,4,5,6,7], '原序是 0–7 的排列');
+    assert.deepEqual([...A.order2].sort((a, b) => a - b), [0,1,2,3,4,5,6,7], '重排也是同一批歌');
+    assert.ok(dups(A.order2) < dups(A.order1),
+      `重排必须真的减少"相邻同调"（原序 ${dups(A.order1)} 处，重排 ${dups(A.order2)} 处）`);
+  });
+});
+
+
+test('E11 第 11 节 ⑦⑧ 与第 10 节：三档计时、两版粤语、布鲁斯都真的出声', async () => {
   await withPage(async (w, d) => {
     /* 音符之间有缝（不是每个时刻都"正在响"），所以不能固定睡一段时间再断言，
        要轮询到第一次出声为止 */
@@ -1686,6 +1769,42 @@ test('E11 第 10 节 ⑦⑧ 与第 09 节：三档计时、两版粤语、布鲁
     d.querySelector('#bluesHarm').click();
     assert.ok(await waitSound(700), '只听和声也应出声');
     w.__MT__.stopAll();
+  });
+});
+
+test('E12 第 09 节律动与第 14 节配器：五张织体、三种编制都真的出声', async () => {
+  await withPage(async (w, d) => {
+    const waitSound = async (ms) => {
+      const t0 = Date.now();
+      while (Date.now() - t0 < ms) {
+        if (w.__MT__.live.size > 0) return true;
+        await sleep(25);
+      }
+      return false;
+    };
+    /* 律动：每个 chip 换一次织体，点播放都要出声 */
+    const gchips = [...d.querySelectorAll('#grooveChips .chip')];
+    assert.equal(gchips.length, 5, '五个织体 chip');
+    for (const c of gchips) {
+      c.click();
+      d.querySelector('#groovePlay').click();
+      assert.ok(await waitSound(700), '应出声：' + c.textContent);
+      w.__MT__.stopAll();
+    }
+    /* 配器：三种编制轮流当主乐，都要出声，且旋律条上的音名会跟着音区变 */
+    const echips = [...d.querySelectorAll('#ensChips .chip')];
+    assert.equal(echips.length, 3, '三种编制 chip');
+    const firstNote = () => d.querySelector('#ensMel .lyr-b').textContent;
+    const seen = new Set();
+    for (const c of echips) {
+      c.click();
+      seen.add(firstNote());
+      d.querySelector('#ensPlay').click();
+      assert.ok(await waitSound(700), '应出声：' + c.textContent);
+      w.__MT__.stopAll();
+    }
+    /* 第一次主乐换了音区，音名必须跟着变——否则"音区"这一格就没被演示到 */
+    assert.ok(seen.size >= 2, `主乐换音区后音名应变（实际 ${[...seen].join(' / ')}）`);
   });
 });
 

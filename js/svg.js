@@ -323,3 +323,78 @@ function sevSVG(s){
   s2 += '</svg>';
   return s2;
 }
+
+/* ============ 第 09 节 · 律动的十六分网格 ============
+ * 一个和弦 = 2 拍 = 8 个十六分格。
+ * 实心块＝重音（每组第一下，也是最容易听出来的那一下），
+ * 浅色块＝弱拍音头，块右边那条尾巴＝音长（dur）。
+ * 为什么不画成"音符"：读者要比较的是"格子空不空"，不是认记谱。 */
+function grooveGridSVG(row){
+  const T = TEX[row.tex] || TEX.block;
+  const cell = TOTW / 8, y = 20, h = 32;
+  let s = `<svg viewBox="0 0 680 104" width="100%" class="ladder" role="img">`;
+  /* 八个格子：每四格（一拍）换一次底色的深浅，拍头那格再深一点 */
+  for (let i = 0; i < 8; i++){
+    const x = X0 + i * cell;
+    const bg = (i % 4 === 0) ? '#F1EFE8' : '#FAF9F5';
+    s += `<rect x="${x}" y="${y}" width="${cell - 1}" height="${h}" rx="4" fill="${bg}" stroke="#D6D2C6" stroke-width="1"/>`;
+  }
+  /* 两拍之间的分隔线：让人一眼看出"这是 2 拍" */
+  s += `<line x1="${X0 + TOTW / 2}" y1="${y - 5}" x2="${X0 + TOTW / 2}" y2="${y + h + 5}" stroke="#B4B2A9" stroke-width="1"/>`;
+  /* 音头在格子里，音长单独画在格子下面的一条轨道上——两者必须分开：
+     画在一起时，块状（音长 2 拍）的尾巴会横穿整条网格，把八个格子全盖住，
+     读者看到的就是一根长条，而不是"两拍一个音头"。 */
+  const trackY = y + h + 6;
+  T.hits.forEach((hb, hi) => {
+    const slot = Math.round(hb * 4), x = X0 + slot * cell, w = 26, accent = hi === 0;
+    s += `<rect data-hit="1" x="${x + 7}" y="${y + 8}" width="${w}" height="16" rx="4" fill="${accent ? '#534AB7' : '#CECBF6'}"/>`;
+    const tailSlots = Math.min(8 - slot, Math.max(1, (T.dur || .5) * 4));
+    const tail = tailSlots * cell - 16;
+    if (tail > 3){
+      s += `<rect x="${x + 7}" y="${trackY}" width="${tail}" height="4" rx="2" fill="${accent ? '#7F77DD' : '#CECBF6'}"/>`;
+    }
+  });
+  s += `<text x="${X0 + TOTW / 4}" y="${trackY + 20}" font-size="10.5" text-anchor="middle" fill="#6F6C62">拍 1</text>`;
+  s += `<text x="${X0 + TOTW * 3 / 4}" y="${trackY + 20}" font-size="10.5" text-anchor="middle" fill="#6F6C62">拍 2</text>`;
+  s += `<text x="${X0}" y="${trackY + 36}" font-size="10" fill="#6F6C62">一格＝十六分 · 实心块＝音头（深色那下是重音）· 格下细条＝音长（${(T.dur).toFixed(2)} 拍）</text>`;
+  s += '</svg>';
+  return s;
+}
+
+/* ============ 第 14 节 · 专辑能量曲线 ============
+ * 上下两块，同样的八首、同样的坐标，只有顺序不同。
+ * 点的高度＝听感密度（音头/秒），点下面的字＝调；
+ * 和上一个点同调时，那个点画成珊瑚红——"相邻同调"是听众疲劳的第一来源。 */
+function albumCurveSVG(){
+  const A = ALBUM_CURVE, W = TOTW / 8, PH = 76;
+  /* 两块之间的间距必须留够：第一块下面有两行小字（调 / 密度），
+     第二块的标题若贴着它，字会叠字。每块占 76 + 两行字 ≈ 100px，故取 142 的间距。 */
+  const panels = [
+    { order: A.order1, tag: '按写出来的顺序', col: '#888780', fill: '#F1EFE8', y: 34 },
+    { order: A.order2, tag: '按能量曲线重排', col: '#534AB7', fill: '#EEEDFE', y: 176 },
+  ];
+  let s = `<svg viewBox="0 0 680 316" width="100%" class="ladder" role="img">`;
+  panels.forEach(P => {
+    const y0 = P.y, base = y0 + PH;
+    s += `<text x="${X0}" y="${y0 - 8}" font-size="11" font-weight="600" fill="${P.col}">${P.tag}</text>`;
+    /* 底板与基准线 */
+    s += `<rect x="${X0}" y="${y0}" width="${TOTW}" height="${PH}" rx="8" fill="${P.fill}" stroke="#E5E2D9" stroke-width="1"/>`;
+    const pts = P.order.map((ti, i) => {
+      const t = A.tracks[ti];
+      const x = X0 + i * W + W / 2;
+      const y = base - (t.r / A.rMax) * (PH - 14) - 6;
+      return { x, y, t, i };
+    });
+    s += `<polyline fill="none" stroke="${P.col}" stroke-width="1.6" points="${pts.map(p => `${p.x},${p.y}`).join(' ')}"/>`;
+    pts.forEach(p => {
+      const prev = p.i > 0 ? A.tracks[P.order[p.i - 1]] : null;
+      const sameKey = prev && prev.key === p.t.key;
+      s += `<circle cx="${p.x}" cy="${p.y}" r="4" fill="${sameKey ? '#D85A30' : P.col}"/>`;
+      s += `<text x="${p.x}" y="${base + 12}" font-size="9.5" text-anchor="middle" fill="${sameKey ? '#D85A30' : '#6F6C62'}">${p.t.key}</text>`;
+      s += `<text x="${p.x}" y="${base + 25}" font-size="9" text-anchor="middle" fill="#A8A59B">${p.t.r}</text>`;
+    });
+  });
+  s += `<text x="${X0}" y="300" font-size="10" fill="#6F6C62">纵轴＝听感密度（音头/秒）· 珊瑚红的点＝与上一首同调（连续同调最容易疲）</text>`;
+  s += '</svg>';
+  return s;
+}
