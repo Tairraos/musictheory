@@ -143,6 +143,7 @@ test('A1 资源拆分：外链 CSS / 8 个 JS 全部就位，插图外链且无 
   assert.match(HTML, /<link rel="apple-touch-icon" href="assets\/images\/favicon\.png">/);
   // 磁盘上真实存在
   for (const f of ['css/main.css', ...scripts, 'assets/images/hero-art.png',
+                   'assets/images/hero-lyrics.png',
                    'assets/images/favicon.png', 'assets/images/favicon.ico']) {
     assert.ok(fs.existsSync(path.join(ROOT, f)), `${f} 应存在`);
   }
@@ -838,6 +839,37 @@ test('E8 版本号：applyVersion 把版本号写进标签页标题与页面两�
     const intro = d.querySelector('.hero .intro');
     assert.ok(intro && hv && (intro.compareDocumentPosition(hv) & w.Node.DOCUMENT_POSITION_FOLLOWING),
       '版本号应排在导语段落之后');
+  });
+});
+
+test('A6 双页互链：两页各在页头之上指对方，且作词课用上了自己的插图', async () => {
+  /* 乐理课 → 作词课 */
+  await withPage((w, d) => {
+    const link = d.querySelector('.wrap > .pageswitch a');
+    assert.ok(link, '乐理课顶部应有互链');
+    assert.equal(link.getAttribute('href'), 'lyric.html', '应指向 lyric.html');
+    assert.equal(d.querySelectorAll('.pageswitch').length, 1, '每页只放一条互链');
+    const hero = d.querySelector('.hero');
+    assert.ok(link.compareDocumentPosition(hero) & w.Node.DOCUMENT_POSITION_FOLLOWING,
+      '互链必须排在页头之前（页面最顶上）');
+    assert.match(d.querySelector('.hero img').getAttribute('src'), /hero-art\.png$/,
+      '乐理课页头仍用自己的插图');
+  });
+  /* 作词课 → 乐理课 */
+  await withLyricPage((w, d) => {
+    const link = d.querySelector('.wrap > .pageswitch a');
+    assert.ok(link, '作词课顶部应有互链');
+    assert.equal(link.getAttribute('href'), 'index.html', '应指回 index.html');
+    const hero = d.querySelector('.hero');
+    assert.ok(link.compareDocumentPosition(hero) & w.Node.DOCUMENT_POSITION_FOLLOWING,
+      '互链必须排在页头之前');
+    /* 页头插图：两页各有自己的那一张，标题都画在图里 */
+    const img = d.querySelector('.hero img');
+    assert.ok(img, '作词课页头应有插图');
+    assert.match(img.getAttribute('src'), /hero-lyrics\.png$/, '应使用 hero-lyrics.png');
+    assert.equal(d.querySelectorAll('.hero h1').length, 0,
+      '标题已画在插图里，页头不应再有 h1（与乐理课一致）');
+    assert.ok(d.querySelector('.hero .hero-ver[data-ver]'), '页头版本号不能因为换版式丢掉');
   });
 });
 

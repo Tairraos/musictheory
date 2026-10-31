@@ -397,3 +397,18 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sa
 .lyr-b.wk{background:#F4F2EC;border-color:#DDD9CD;color:var(--faint);font-size:11px;font-weight:400}
 .lyr-b.sq{background:#EFECE3;border-color:#DDD9CD;min-width:0}
 
+/* ---------- 19. 顶部互链（追加于 V1.25） ----------
+   两页在页面最顶上互指一条，让"乐理课 / 作词课是一对"这件事在首屏就说清楚。
+   做成右对齐的小药丸而不是横条：它不是本页的章节，抢戏就错了。
+   `.pageswitch + .hero` 把页头原来自带的 32px 上边距压到 18px ——
+   否则药丸下面会空出一大截，看着像两段互不相干的内容。 */
+.pageswitch{display:flex;justify-content:flex-end;padding-top:20px}
+.pageswitch + .hero{padding-top:18px}
+.pageswitch a{
+  display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+  font-size:12.5px;line-height:1.4;color:var(--muted);
+  padding:5px 13px;border-radius:999px;background:#fff;border:1px solid var(--line);
+  transition:.15s;
+}
+.pageswitch a:hover{color:var(--purple);border-color:var(--purple);background:var(--purple-bg)}
+

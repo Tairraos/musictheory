@@ -76,11 +76,9 @@
 .termnote b{color:#412402}
 
 /* ---------- 5. 页头 ----------
-   作词课没有插图，页头是纯文字标题。main.css 当年把 `.hero h1` 删掉了
-   （乐理课的标题画在羊皮纸插画里），这里补回一条，且只影响本页——
-   乐理课页面没有 h1，不会被波及。
-   版本号沿用 main.css 的右对齐，但要跟导语同宽（640），否则会飘到整页最右边，
-   看着像"另一个元素"。 */
-.hero h1{font-size:26px;font-weight:600;letter-spacing:.4px;margin-bottom:12px}
-.hero .intro{max-width:640px}
-.hero .hero-ver{max-width:640px}
+   作词课现在也有插图了（assets/images/hero-lyrics.png），页头结构与乐理课
+   完全一致：.hero-grid = 左插画 + 右导语 + 右下版本号，标题都画在图里。
+   所以这里不再需要 `.hero h1` 那条一次性规则（V1.25 删掉）——
+   两页的页头从此由 main.css 的同一套规则管，改一处两页一起变。
+   导语宽度交给 main.css 的 `.hero-grid .intro-wrap{max-width:560px}`，
+   这里不再另设 640，否则版本号的右对齐基线会比乐理课往外多飘 80px。 */
