@@ -1005,10 +1005,10 @@ const MOTIF_HANDLES = [
 const SHUFFLE = {
   bpm: 96, beats: 8, k:'minor', oct:3, prog:[0, 3, 4, 0],
   kinds: [
-    { id:'straight', n:'直的八分', chip:'直的：落 ½', fig:'后半落在两根格线正中间',
+    { id:'straight', n:'直的八分', chip:'直的：落 ½', fig:'后半悬在 ½ 处，两根格线之间',
       offs:[0, 1/2],
       say:'每拍两下等分，后半正好在一半的位置。听起来是进行曲、是正步——干净，但一步也不晃。' },
-    { id:'shuffle',  n:'shuffle', chip:'shuffle：落 ⅔', fig:'后半正好踩在第三根格线上',
+    { id:'shuffle',  n:'shuffle', chip:'shuffle：落 ⅔', fig:'后半正好踩在 ⅔ 那根格线上',
       offs:[0, 2/3],
       say:'后半挪到 ⅔，前长后短，正好压在三连音的第三格上。听起来像拖着一条腿走——这就是布鲁斯的步子。' },
   ],
