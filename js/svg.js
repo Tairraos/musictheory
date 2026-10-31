@@ -361,6 +361,47 @@ function grooveGridSVG(row){
   return s;
 }
 
+/* ============ 第 10 节 ② · shuffle：第二下落在一半还是三分之二 ============
+ * 两行画同一段两拍，网格按**三连音**分（每拍 3 格），于是：
+ *   直的八分 → 第二下落在两根格线正中间（看着"悬空"）
+ *   shuffle  → 第二下正好压在第三根格线上
+ * 这张图的说服力全在"块与格线对没对齐"，所以格线一定要画出来，
+ * 且拍线（实线）与三连音线（虚线）必须区分——否则读不出"三格一拍"。
+ * 格下的细条＝这个音有多长：直的两条一样长，shuffle 一长一短。
+ */
+function shuffleFigSVG(){
+  const S = SHUFFLE, cell = TOTW / 6, w = 30;
+  const rows = [
+    { k: S.kinds[0], y: 40, col:'#8A8880', line:'#C8C4B8' },
+    { k: S.kinds[1], y: 118, col:'#534AB7', line:'#CECBF6' },
+  ];
+  let s = `<svg viewBox="0 0 680 202" width="100%" class="ladder" role="img">`;
+  rows.forEach(R => {
+    const h = 30, trackY = R.y + h + 6;
+    s += `<text x="${X0}" y="${R.y - 9}" font-size="11.5" font-weight="600" fill="${R.col}">${R.k.n}</text>`;
+    s += `<text x="${X0 + 88}" y="${R.y - 9}" font-size="10.5" fill="#8A8880">${R.k.fig}</text>`;
+    /* 七根竖线：拍线实线、三连音格线虚线 */
+    for (let u = 0; u <= 6; u++){
+      const x = X0 + u * cell, isBeat = u % 3 === 0;
+      s += `<line x1="${x}" y1="${R.y - 3}" x2="${x}" y2="${trackY + 4}" stroke="${isBeat ? '#B4B2A9' : '#E3E0D6'}" stroke-width="1"${isBeat ? '' : ' stroke-dasharray="3 3"'}/>`;
+    }
+    for (let b = 0; b < 2; b++){
+      R.k.offs.forEach((off, i) => {
+        const x = X0 + (b * 3 + off * 3) * cell;
+        s += `<rect data-hit="1" x="${x - w / 2}" y="${R.y}" width="${w}" height="${h}" rx="5" fill="${i ? R.line : R.col}"/>`;
+        /* 音长：从本音到下一个音（第二下走到拍尾），长度＝相邻 offs 之差 */
+        const len = (i ? 1 - R.k.offs[1] : R.k.offs[1] - R.k.offs[0]) * 3 * cell;
+        s += `<rect x="${x - w / 2}" y="${trackY}" width="${Math.max(6, len - 6)}" height="4" rx="2" fill="${i ? R.line : R.col}"/>`;
+      });
+    }
+    s += `<text x="${X0 + 1.5 * cell}" y="${trackY + 18}" font-size="10.5" text-anchor="middle" fill="#6F6C62">拍 1</text>`;
+    s += `<text x="${X0 + 4.5 * cell}" y="${trackY + 18}" font-size="10.5" text-anchor="middle" fill="#6F6C62">拍 2</text>`;
+  });
+  s += `<text x="${X0}" y="192" font-size="10" fill="#6F6C62">虚线＝三连音的格线（每拍三格）· 格下细条＝这个音多长 · 音高一模一样，只有位置和长短不同</text>`;
+  s += '</svg>';
+  return s;
+}
+
 /* ============ 第 14 节 · 专辑能量曲线 ============
  * 上下两块，同样的八首、同样的坐标，只有顺序不同。
  * 点的高度＝听感密度（音头/秒），点下面的字＝调；

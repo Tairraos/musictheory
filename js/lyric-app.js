@@ -28,7 +28,7 @@ function toast(m){
  *   js/app.js       → 乐理课
  *   js/lyric-app.js → 作词课
  * tests/bump-version.js 一次写两处，两页永远同版。 */
-const VERSION = { v: '1.29', date: '26.10.31' };
+const VERSION = { v: '1.30', date: '26.10.31' };
 
 function applyVersion(){
   const label = `V${VERSION.v} [${VERSION.date}]`;
@@ -38,7 +38,7 @@ function applyVersion(){
 
 /* ---------- 启动装配 ---------- */
 buildGenres(); buildRhyme(); buildCN(); buildEN(); buildImage();
-buildHooks(); buildSchools(); buildFrames(); buildBan();
+buildParts(); buildHooks(); buildSchools(); buildFrames(); buildBan();
 buildFix(); buildAlbum(); buildCheck();
 applyVersion();
 
@@ -63,4 +63,7 @@ window.__LC__ = {
   GENRES, RHYME_TYPES, SCHEMES, CN_PATTERNS, HOOKS, SCHOOLS, FRAMES,
   BAN_ZH, BAN_EN, FIX_STEPS, ALBUM_BRIEF, SELF_CHECK, scanText,
   ALBUM_LAYERS, ALBUM_WORD_JOBS, ALBUM_STRUCT, STORY_BEATS, IMAGE_CALLBACK,
+  /* 05/06 的三张新表：L6 要守「七种修辞只有两种层级」「六组国风各八个词」
+     「段落九行、人称四种」这几条——数量对不上就是数据加了文案没跟 */
+  RHETORIC, GUFENG, PARTS, PERSON,
 };

@@ -19,7 +19,7 @@ let state = { root: 0, mode: 'ionian' };
  *   - 日期同步改成当天，格式固定 YYYY.MM.DD 的简写（26.10.19 = 2026-10-19）
  * 它会自动写到：浏览器标签页标题 + 页面上所有带 data-ver 的位置。
  * HTML 里也留了静态副本做降级（万一 JS 没跑起来，仍能看到版本号）。 */
-const VERSION = { v: '1.29', date: '26.10.31' };
+const VERSION = { v: '1.30', date: '26.10.31' };
 
 /* applyVersion()：把 VERSION 注入到需要的位置。
  *   <title> 是 SEO 相关的，浏览器标签页里由 JS 改同样生效；
@@ -36,7 +36,7 @@ function applyVersion(){
 /* ============ 启动装配 ============ */
 /* 顺序即依赖：先建下拉框和键盘，再逐节装配，最后统一重画依赖主音的图 */
 buildSelects(); renderKB(); kbDragInit(); buildIV(); buildIVTable(); buildMinor3(); buildModes(); buildPenta();
-buildChords(); buildCadence(); buildProg(); buildTempo(); buildMeter(); buildGroove(); buildForm(); buildLyric(); buildKey(); buildScenes();
+buildChords(); buildCadence(); buildProg(); buildTempo(); buildMeter(); buildGroove(); buildForm(); buildShuffle(); buildLyric(); buildKey(); buildScenes();
 buildEnsemble(); buildMotif(); buildSeventh(); buildMod(); buildCheat(); buildExotic(); buildCanghai(); refreshAll();
 applyVersion();   /* 版本号写进标签页标题与页面两处标题（HTML 里的静态副本会被它覆盖） */
 
@@ -82,6 +82,9 @@ window.__MT__ = {
   RHYMES, TONE_SHAPE, LYRIC_LINES, LYRIC_STRESS, LYRIC_BREATH, ALBUM_RHYMES,
   /* 第 10 节的曲式与第 11 节的计时法：G 组要验证 12 小节、AAB、重音位置这些守恒关系 */
   BLUES_FORM, FORM_TABLE, LANG_TIMING, CANTON, bluesEvents,
+  /* 第 10 节 ②：G8 靠 offs 反推音长——两个版本的音高与条数必须完全一致，
+     只有"第二下落哪儿"不同，所以变的是位置不是别的东西 */
+  SHUFFLE, shuffleEvents,
   /* 第 09 节律动与第 14 节配器：G5/G6 要验证"表格里的密度不是手写的"、"
      主乐只有一条旋律、三层不能抢同一格"这几件事 */
   GROOVE, GROOVE_PICK, ENSEMBLE, ALBUM_CURVE, MOTIF, MOTIF_HANDLES,

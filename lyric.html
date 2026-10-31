@@ -9,7 +9,7 @@
 <link rel="icon" href="assets/images/favicon.ico" sizes="any">
 <link rel="icon" href="assets/images/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/images/favicon.png">
-<title>姐弟厨师团 --- 作词课 V1.29 [26.10.31]</title>
+<title>姐弟厨师团 --- 作词课 V1.30 [26.10.31]</title>
 <!-- 样式：主样式表与乐理课共用（设计令牌、版面、卡片、表格全部复用），
      lyric.css 只补作词课独有的三样：押韵方案网格、八派卡片、自检器 -->
 <link rel="stylesheet" href="css/main.css">
@@ -19,7 +19,7 @@
 
 <!-- 左侧导航：13 节，与下方 <section> 一一对应（≤1000px 变为顶部横滚条） -->
 <aside id="nav">
-  <div class="brand">作词课目录 <span class="ver" data-ver><b>V1.29</b> [26.10.31]</span><small>先查表，再动笔</small></div>
+  <div class="brand">作词课目录 <span class="ver" data-ver><b>V1.30</b> [26.10.31]</span><small>先查表，再动笔</small></div>
   <!-- 互链的第二个入口：与顶部那一条同一个目标，但目录固定，随时可切 -->
   <a class="navswitch" href="index.html">← 回《乐理课》</a>
   <a href="#s-rule">0 · 词不是诗</a>
@@ -28,13 +28,14 @@
   <a href="#s-cn">3 · 中文：字数与顿点</a>
   <a href="#s-en">4 · 英文：数重音</a>
   <a href="#s-image">5 · 意象</a>
-  <a href="#s-hook">6 · 钩子七型</a>
-  <a href="#s-school">7 · 八派</a>
-  <a href="#s-frame">8 · 五种框景</a>
-  <a href="#s-ban">9 · 黑名单</a>
-  <a href="#s-fix">10 · 怎么改词</a>
-  <a href="#s-album">11 · 专辑规划</a>
-  <a href="#s-check">12 · 自检</a>
+  <a href="#s-parts">6 · 段落</a>
+  <a href="#s-hook">7 · 钩子七型</a>
+  <a href="#s-school">8 · 八派</a>
+  <a href="#s-frame">9 · 五种框景</a>
+  <a href="#s-ban">10 · 黑名单</a>
+  <a href="#s-fix">11 · 怎么改词</a>
+  <a href="#s-album">12 · 专辑规划</a>
+  <a href="#s-check">13 · 自检</a>
 </aside>
 
 <div class="wrap">
@@ -56,7 +57,7 @@
         所以这一页<b>没有播放键</b>——不是省事，是这些判据本来就不长在耳朵上。
         从体裁表开始，一路到专辑规划与自检器，把"凭感觉写"变成"照着判据改"。
       </p>
-      <p class="hero-ver ver" data-ver><b>V1.29</b> [26.10.31]</p>
+      <p class="hero-ver ver" data-ver><b>V1.30</b> [26.10.31]</p>
     </div>
   </div>
 </header>
@@ -112,6 +113,14 @@
     <div class="gpanel" id="genrePanel"></div>
     <div class="note">严格度不是"好不好"，是<b>这套体裁对"预期被满足"的容忍度</b>：
       说唱要塞满韵脚才撑得住 flow，R&B 押松了才不打断转音。同一段词换个体裁，可能完全不合格。</div>
+    <div class="termnote">
+      <b>三个词要解释，因为中文里常被混着用：</b>
+      <b>ballad</b> 是"民谣叙事曲"——它靠讲故事推进，所以押韵可以疏（ABCB），
+      不等于中文口语里的"抒情慢歌"（后者更接近 <span class="mono">power ballad</span>）。
+      <b>flow</b> 是说唱里字落在拍子上的流动感：韵脚越密、句内韵越多，flow 越站得住；
+      词写得再漂亮，落不到拍子上就没有 flow。
+      <b>R&B</b> 是节奏布鲁斯，唱腔转音多，所以词必须松——每个字都咬死就没法转了。
+    </div>
   </div>
 
   <div class="card">
@@ -133,12 +142,15 @@
 
   <div class="card">
     <h3>韵脚五型</h3>
-    <table><thead><tr><th style="width:16%">类型</th><th style="width:14%">英文</th><th style="width:26%">定义</th><th style="width:20%">例</th><th>怎么用</th></tr></thead>
+    <table><thead><tr><th style="width:13%">类型</th><th style="width:30%">英文（为什么叫这个）</th><th style="width:21%">定义</th><th style="width:15%">例</th><th>怎么用</th></tr></thead>
     <tbody id="rhymeTypeTable"></tbody></table>
     <div class="note">全韵密集会像儿歌，全是斜韵会显得懒。<b>全韵留在一两个关键位置</b>，
       其余用斜韵托着——那个"没解决"的张力才是成熟的听感。</div>
     <div class="termnote">
-      <b>一个术语要纠正：</b>有些资料把 assonance 叫「头韵」，那是笔误。
+      <b>两个英文词要拆开看：</b><b>perfect</b> 是"完全的"——韵母一模一样，严丝合缝；
+      <b>slant</b> 是"斜的"——擦着边、没对准。所以全韵／斜韵不是"好／坏"两档，
+      是<b>对准与没对准</b>。同理 <b>assonance 管元音、consonance 管辅音</b>（首字母 A / C 就是记法）。
+      <br><b>一个术语要纠正：</b>有些资料把 assonance 叫「头韵」，那是笔误。
       <b>头韵（alliteration）</b>指词首辅音相同，如 <span class="mono">helplessly hoping</span>；
       <b>元音韵（assonance）</b>才是韵母相同，如 <span class="mono">lake / fate</span>。
       叫混了会在跟人讨论时露怯。
@@ -210,6 +222,13 @@
     </div>
     <div class="note">完整十三辙表（含每辙收哪些韵母、响度几颗点）在<b>乐理课第 11 节</b>——
       那边是表格加声学解释，这边不重复造一遍。</div>
+    <div class="termnote">
+      <b>两个声学术语，一句话讲完：</b>一个音节分成<b>韵头 + 韵腹 + 韵尾</b>，
+      <b>韵腹</b>是中间最响的那个元音（"江"<span class="mono">jiang</span> 里是 <span class="mono">a</span>），
+      <b>韵尾</b>是它后面的收音（<span class="mono">ng</span>）。
+      开口度说的就是韵腹：<span class="mono">a</span> 嘴张得最大，<span class="mono">i / u</span> 几乎闭着。
+      押韵押的是<b>韵腹 + 韵尾</b>这一整段，所以"江 / 光"能押，"江 / 机"不能。
+    </div>
   </div>
 
   <div class="card">
@@ -285,44 +304,95 @@
   </div>
 
   <div class="card">
-    <h3>两个修辞：通感与矛盾</h3>
+    <h3>七种修辞：五种管一句，两种管一段</h3>
+    <p class="mini" style="margin-bottom:10px">只讲通感和矛盾是不够的——那是两种"听起来聪明"的技法，
+      用多了整首词像同一个人在同一个展厅来回走。下面七种按<b>责任范围</b>分两层：
+      句内的用错了废一句，跨句的用错了废一段。</p>
+    <table><thead><tr><th style="width:13%">修辞</th><th style="width:9%">层级</th><th style="width:28%">怎么用</th><th style="width:22%">例</th><th>踩雷点</th></tr></thead>
+    <tbody id="rhetTable"></tbody></table>
+    <div class="note"><b>选哪几个不是口味问题。</b>一首词里句内修辞 2–3 种就够，
+      跨句修辞最多一种——顶真和反讽同时用，整段会变成"作者在表演修辞"。
+      而比喻是唯一可以反复用的（人话里本来就有），但每次都要<b>远取譬</b>：
+      喻体和本体差得越远越好，前提是那个共同点能被指出来。</div>
+  </div>
+
+  <div class="card">
+    <h3>国风意象库：48 个词，按情绪分成六组</h3>
+    <p class="mini" style="margin-bottom:10px">国风真正的坑不是词少，是<b>四个意象服务四种情绪，一句也没立住</b>。
+      所以这张表不按"山水 / 人事 / 器物"分（那是词性分类，帮不上忙），
+      而是按<b>这一组只服务哪一种情绪</b>分，每组配一组只属于它的动词。
+      <b>拿错了组，立刻就变成堆辞藻。</b></p>
+    <div id="gufengBox"></div>
+    <div class="note">⚠ 库里的词只是<b>可信的名词</b>。情绪不由名词给，由动词给——
+      "江月"本身没有情绪，"江月照着我喝了第三杯"才有。
+      <b>一次只选一组</b>：思念的词配到江湖里，前半句还端着，后半句就散了。</div>
+  </div>
+</section>
+
+<!-- ==================== 06 · 段落 ==================== -->
+<section id="s-parts">
+  <div class="sec-head"><span class="sec-num">06</span><h2>段落：主歌铺、副歌砸、桥段翻</h2></div>
+  <p class="lead">一首歌不是"一段词重复几遍"。它是<b>几个职责不同、长度不同的段落拼起来的</b>，
+    每一段只干一件事。写词之前先画这张表，比先想句子有用得多——
+    因为<b>"这一句放哪儿"决定它该写成什么样</b>。同样一句"我一个人吃饭"，
+    放在主歌一是交代处境，放在副歌是自怜，放在桥段是对照。</p>
+
+  <div class="card">
+    <h3>九段：每一段只干一件事</h3>
+    <p class="mini" style="margin-bottom:10px">下面按<b>实际出现的顺序</b>排，不是按重要性排——
+      你可以拿它对着一首你熟的歌逐段核对。第四列是判据，答不出来就说明这一段没干自己的活。</p>
+    <table><thead><tr><th style="width:16%">段</th><th style="width:26%">这一段干什么</th><th style="width:28%">词要交什么</th><th>判据</th></tr></thead>
+    <tbody id="partsTable"></tbody></table>
+    <div class="note">中文流行最常见的拼法是 <b class="mono">V-C-V-C-B-C</b>（主歌–副歌各两遍，桥段，尾副歌）。
+      布鲁斯是另一套：<b>12 小节一轮，AAB 三句</b>，没有副歌也没有桥段——
+      所以它的"重复"由和声管，不由段落管（那套在<a href="index.html#s-form">乐理课第 10 节</a>）。</div>
+  </div>
+
+  <div class="card">
+    <h3>四条纪律：按顺序错都不会错</h3>
     <div class="grid2">
-      <div>
-        <div style="font-weight:600;margin-bottom:6px">通感（一种感官写成另一种）</div>
-        <ul class="plain">
-          <li>心跳声像秒针敲打玻璃 ＝ 听觉 → 触觉</li>
-          <li>思念是苦中带甜的柠檬茶 ＝ 情感 → 味觉</li>
-          <li>消毒水的味道让我想起医院 ＝ 嗅觉 → 记忆</li>
-        </ul>
-        <div class="note">一首歌里 1–2 处即可，多了会腻。</div>
+      <div class="card tight" style="margin:0;background:var(--purple-bg);border-color:#AFA9EC">
+        <div style="font-weight:600;margin-bottom:4px">① 主歌二换证据，不换形容词</div>
+        <div class="mini">"更孤独了"不是发展，"他开始把两只杯子都洗了"才是。
+          主歌二的唯一任务，是发生<b>一件主歌一没有的具体的事</b>。</div>
       </div>
-      <div>
-        <div style="font-weight:600;margin-bottom:6px">矛盾修辞（副歌张力的来源）</div>
-        <ul class="plain">
-          <li>拥挤的孤独</li>
-          <li>最温柔的伤口</li>
-          <li>说好不哭的人哭了</li>
-        </ul>
-        <div class="note"><b>只在副歌用</b>——主歌用会显得用力过猛。</div>
+      <div class="card tight" style="margin:0;background:var(--teal-bg);border-color:#5DCAA5">
+        <div style="font-weight:600;margin-bottom:4px">② 预副歌只做预告，不做总结</div>
+        <div class="mini">把副歌第一句提前说一半，让听众在副歌真到的时候"认出它"。
+          写成"所以啊人生就是这样"就废了——那是总结，不是预告。</div>
+      </div>
+      <div class="card tight" style="margin:0;background:var(--amber-bg);border-color:#EF9F27">
+        <div style="font-weight:600;margin-bottom:4px">③ 桥段只准换一样</div>
+        <div class="mini">换人、换时间、换地点——三样里挑一样。<b>换两样听众就跟丢</b>，
+          而且桥段之后必须回得来：它的功能是"翻一下"，不是"另起一首"。</div>
+      </div>
+      <div class="card tight" style="margin:0;background:var(--gray-bg);border-color:var(--line)">
+        <div style="font-weight:600;margin-bottom:4px">④ 尾副歌必须改一句</div>
+        <div class="mini">一个字也算。原样重复第三遍＝把前面攒的全扔掉。
+          通常改末句，因为末句是全曲的落点——改完要让前面某一句<b>回头变成另一个意思</b>。</div>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <h3>国风意象库（用前先问：它服务哪种情绪）</h3>
-    <div class="grid3">
-      <div><div class="mini">山水</div>江月 · 孤雁 · 长亭 · 渡口 · 晚风 · 暮雪</div>
-      <div><div class="mini">人事</div>红笺 · 青衫 · 烛火 · 旧檐 · 流年 · 浮生</div>
-      <div><div class="mini">器物</div>铜镜 · 孤舟 · 油纸伞 · 折扇 · 旧信封</div>
-    </div>
-    <div class="note">⚠ 国风最大避雷点：<b>不要堆砌辞藻。</b>所有古典画面必须服务<b>一种</b>情绪
-      （思念 / 遗憾 / 江湖洒脱），否则空洞廉价。四个意象各服务四种情绪＝一句也没立住。</div>
+    <h3>术语：这几个词写歌的人天天挂在嘴上</h3>
+    <table><thead><tr><th style="width:22%">英文</th><th style="width:20%">中文</th><th>一句人话</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">verse</td><td>主歌</td><td class="mini">"叙事段"：每遍词都不一样，负责推进。缩写 <span class="mono">V</span></td></tr>
+      <tr><td class="mono">chorus</td><td>副歌</td><td class="mini">"重复段"：每遍词一样，负责被记住。<b>hook 就住在这一段里</b></td></tr>
+      <tr><td class="mono">pre-chorus</td><td>预副歌</td><td class="mini">副歌前面那段"爬坡"，缩写 <span class="mono">PC</span>；中文也写作"导歌"</td></tr>
+      <tr><td class="mono">bridge</td><td>桥段</td><td class="mini">"桥"是从副歌走回副歌的那一截，所以它两头都得接得上。缩写 <span class="mono">B</span></td></tr>
+      <tr><td class="mono">hook</td><td>钩子</td><td class="mini">全曲最容易被记住的那一下（可以是一句、一个词、一个音型）。<b>不等于副歌</b>：钩子是副歌里最尖的那一点</td></tr>
+      <tr><td class="mono">outro</td><td>尾奏</td><td class="mini">"出口"。相对的 <span class="mono">intro</span> 是入口</td></tr>
+    </tbody></table>
+    <div class="note">这些词不是黑话，<b>但用错会露怯</b>：最常见的是把 hook 当成"副歌"的同义词说——
+      副歌可以没有钩子（那样的歌通常记不住），钩子也可以提前出现在主歌里。</div>
   </div>
 </section>
 
 <!-- ==================== 06 · 钩子七型 ==================== -->
 <section id="s-hook">
-  <div class="sec-head"><span class="sec-num">06</span><h2>钩子七型</h2></div>
+  <div class="sec-head"><span class="sec-num">07</span><h2>钩子七型</h2></div>
   <p class="lead">副歌是钩子的载体。<b>先定钩子，再写副歌</b>——反过来做，副歌会变成"把主歌的话再说一遍"。
     七型里前四型通用，后三型各挂一个派别：选了哪一派，就优先从该派对应的那一型里找。</p>
 
@@ -347,11 +417,36 @@
     <div class="note">第三条是声学的：开口元音的第一共振峰高，唱到高音时不用挤嗓子。
       这条和乐理课第 11 节的十三辙响度是同一个道理。</div>
   </div>
+
+  <div class="card">
+    <h3>歌名：钩子的最短版本</h3>
+    <p class="mini" style="margin-bottom:10px">歌名不属于正文，却决定别人点不点开——它几乎总是<b>从钩子里掐出来的那一截</b>。
+      写完之后再做这一步，别一开始就取名字：先取名字会逼着你往那个词上凑。</p>
+    <div class="grid3">
+      <div class="card tight" style="margin:0;background:var(--purple-bg);border-color:#AFA9EC">
+        <div style="font-weight:600;margin-bottom:4px">从钩子里剪</div>
+        <div class="mini">副歌里最能独立站住的那 2–5 个字。剪完要还读得通——
+          "说好不哭的人哭了"→《说好不哭》，剪掉的正是解释部分。</div>
+      </div>
+      <div class="card tight" style="margin:0;background:var(--teal-bg);border-color:#5DCAA5">
+        <div style="font-weight:600;margin-bottom:4px">用物件，不用情绪</div>
+        <div class="mini">《外套》《六楼的灯》比《思念》《遗憾》好——
+          <b>歌名是搜索结果，不是心情标签</b>：情绪词重名率极高，物件不会。</div>
+      </div>
+      <div class="card tight" style="margin:0;background:var(--amber-bg);border-color:#EF9F27">
+        <div style="font-weight:600;margin-bottom:4px">不许剧透结尾</div>
+        <div class="mini">名字要把人勾进来，不能替他把话说完。桥段才交出去的真相，
+          别写进标题——那是把门票和结局一起卖了。</div>
+      </div>
+    </div>
+    <div class="note"><b>一条检验：</b>把歌名单独发给一个没听过这首歌的人，问他"你觉得这是讲什么的"。
+      答得出方向、但答不出结局，就是对的；答"不知道"太虚，答得太准就剧透了。</div>
+  </div>
 </section>
 
 <!-- ==================== 07 · 八派 ==================== -->
 <section id="s-school">
-  <div class="sec-head"><span class="sec-num">07</span><h2>八派：这一句靠什么成立</h2></div>
+  <div class="sec-head"><span class="sec-num">08</span><h2>八派：这一句靠什么成立</h2></div>
   <p class="lead">词写得没毛病，但不动人——问题几乎总在"用力用错了路"。
     打动人只有三条路：<b>被看见、被说破、被抬高</b>。认错路，再努力也白费。</p>
 
@@ -409,7 +504,7 @@
 
 <!-- ==================== 08 · 五种框景 ==================== -->
 <section id="s-frame">
-  <div class="sec-head"><span class="sec-num">08</span><h2>五种框景：先定从哪儿切进去</h2></div>
+  <div class="sec-head"><span class="sec-num">09</span><h2>五种框景：先定从哪儿切进去</h2></div>
   <p class="lead">不要直接写词。先给<b>五个切入角度</b>，每个只出一句方向。
     框景一旦定下，全篇不会飘——因为"谁在什么处境里说话"被锁住了。</p>
 
@@ -417,6 +512,17 @@
     <table><thead><tr><th style="width:8%">#</th><th style="width:26%">框景</th><th>说明</th></tr></thead>
     <tbody id="frameTable"></tbody></table>
     <div class="note"><b>锁定纪律：</b>选定后锁死框景，主歌一必须在这里；主歌二换场景但<b>不换情绪核心</b>。</div>
+  </div>
+
+  <div class="card">
+    <h3>人称：决定了听众站在哪儿</h3>
+    <p class="mini" style="margin-bottom:10px">框景管"在哪个处境里"，人称管"离听众多远"。
+      同样一件事，换成"他"就变成别人的故事，换成"你"就变成一次当面质问——
+      <b>句子一个字都没改，听感全变了</b>。所以人称必须在动笔前定，不能写着看。</p>
+    <table><thead><tr><th style="width:14%">人称</th><th style="width:26%">听感</th><th style="width:28%">什么时候用</th><th>踩雷点</th></tr></thead>
+    <tbody id="personTable"></tbody></table>
+    <div class="note"><b>一段之内不许换人称</b>（换人称＝换说话人，等同换视角，那是桥段的特权）。
+      要换就在段落边界换，且只换一样——第 06 节第③条纪律管的就是这个。</div>
   </div>
 
   <div class="card">
@@ -429,7 +535,7 @@
 
 <!-- ==================== 09 · 黑名单 ==================== -->
 <section id="s-ban">
-  <div class="sec-head"><span class="sec-num">09</span><h2>黑名单：这些词一出现，就像机器写的</h2></div>
+  <div class="sec-head"><span class="sec-num">10</span><h2>黑名单：这些词一出现，就像机器写的</h2></div>
   <p class="lead">黑名单不是为了"禁止"，是为了<b>逼出具体</b>。
     只禁用会把词逼进剩下的空地说套话，所以它必须和<b>必需物清单</b>配对使用。</p>
 
@@ -465,7 +571,7 @@
 
 <!-- ==================== 10 · 怎么改词 ==================== -->
 <section id="s-fix">
-  <div class="sec-head"><span class="sec-num">10</span><h2>怎么改词：五个动作，按顺序做</h2></div>
+  <div class="sec-head"><span class="sec-num">11</span><h2>怎么改词：五个动作，按顺序做</h2></div>
   <p class="lead">改词不是重写。重写的代价是前面调好的也要重调。
     五个动作按优先级排，<b>能靠第 1 个解决就别动第 2 个</b>。</p>
 
@@ -489,7 +595,7 @@
 
 <!-- ==================== 11 · 专辑规划 ==================== -->
 <section id="s-album">
-  <div class="sec-head"><span class="sec-num">11</span><h2>专辑规划：从"写一首"到"做一张"</h2></div>
+  <div class="sec-head"><span class="sec-num">12</span><h2>专辑规划：从"写一首"到"做一张"</h2></div>
   <p class="lead">先回答一个该问的问题：<b>专辑规划算作词范畴吗？</b>
     答案是<b>一半</b>。它属于「专辑策划」，比作词大一圈——但它和词直接相关的四件事
     （主题分工、辙口分布、钩子密度、命名）确实是作词的延伸。
@@ -567,7 +673,7 @@
 
 <!-- ==================== 12 · 自检 ==================== -->
 <section id="s-check">
-  <div class="sec-head"><span class="sec-num">12</span><h2>自检：把能数的先数掉</h2></div>
+  <div class="sec-head"><span class="sec-num">13</span><h2>自检：把能数的先数掉</h2></div>
   <p class="lead">下面这个框能替你数三件事：<b>禁用词、抽象名词、句长与钩子</b>。
     它<b>不查押韵</b>——押韵要拼音和韵母归并，而且人耳比脚本快。
     也不查"画面成不成立"，那是人读层的事。</p>

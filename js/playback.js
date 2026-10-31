@@ -590,3 +590,40 @@ function playMotif(ver){
   const ev = motifEvents(ver);
   seq(ev.steps, '');
 }
+
+/* ---- shuffle：同一段和声，只把第二下挪个位置（第 10 节 ②）-----------------
+ * 两个版本的**音高、音头数、和弦进行完全一样**，唯一变量是 kind.offs：
+ *   straight [0, ½]  —— 第二下在一半
+ *   shuffle  [0, ⅔]  —— 第二下在三分之二
+ * 所以两个事件表逐条对得上（条数相同、音高相同），只有 at 和音长不同。
+ * 测试（G8）就靠这个对称性来证明"变的是位置，不是别的东西"。
+ *
+ * 编配上用 boogie 的老办法：第 1 下走低音（根音 / 五度交替），
+ * 第 2 下给一个和弦短刷——后半拍那一下正是 shuffle 最容易听出来的地方。
+ */
+function shuffleEvents(kind){
+  const S = SHUFFLE, spb = 60 / S.bpm, base = midiOct(0, S.oct), st = [];
+  const mode = M_OF(S.k), per = S.beats / S.prog.length;   /* 一个和弦几拍 */
+  const lens = [kind.offs[1] - kind.offs[0], 1 - kind.offs[1]];   /* 两下各多长 */
+  S.prog.forEach((deg, ci) => {
+    for (let b = 0; b < per; b++){
+      const t0 = (ci * per + b) * spb;
+      kind.offs.forEach((off, i) => {
+        const at = t0 + off * spb, d = lens[i] * spb * 0.94;
+        st.push({ at, m: base + deg + (i ? 7 : 0), d, g: i ? 0.34 : 0.46, kind: 'bass' });
+        if (i === 1){
+          const ch = triad(midiOct(0, S.oct + 1), mode, deg);
+          ch.notes.forEach((m, k) => st.push({ at, m, d: Math.min(d, spb * 0.3),
+                                               g: k === 0 ? 0.26 : 0.19, kind: 'wood' }));
+        }
+      });
+    }
+  });
+  st.sort((a, b) => a.at - b.at || a.m - b.m);
+  return { steps: st, beats: S.beats, dur: S.beats * spb };
+}
+
+function playShuffle(kind){
+  const ev = shuffleEvents(kind);
+  seq(ev.steps, '');
+}

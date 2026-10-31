@@ -60,7 +60,8 @@ function buildRhyme(){
   const t = $('#rhymeTypeTable');
   if (!t) return;
   t.innerHTML = RHYME_TYPES.map(r => `<tr>
-    <td><b>${r.n}</b></td><td class="mini mono">${r.en}</td>
+    <td><b>${r.n}</b></td>
+    <td class="mini"><span class="mono">${r.en}</span><br><span style="color:var(--faint)">${r.enZh}</span></td>
     <td class="mini">${r.d}</td><td class="mini">${r.ex}</td>
     <td class="mini">${r.use}</td></tr>`).join('');
 
@@ -110,13 +111,51 @@ function buildEN(){
   }
 }
 
-/* ---------- 05 意象 ---------- */
+/* ---------- 05 意象 / 修辞 / 国风 ---------- */
 function buildImage(){
   const t = $('#imgTable');
   if (!t) return;
   t.innerHTML = IMG_MATERIALS.map(m => `<tr>
     <td><b>${m.c}</b></td><td class="mini">${m.ex}</td>
     <td class="mini">${starN(m.star)}</td><td class="mini">${m.note}</td></tr>`).join('');
+
+  /* 七种修辞。第二列的「句内 / 跨句」不是分类癖：
+     句内用错了废一句，跨句用错了废一段，责任范围根本不同。 */
+  const r = $('#rhetTable');
+  if (r) r.innerHTML = RHETORIC.map(x => `<tr>
+    <td><b>${x.n}</b><br><span class="mono mini">${x.en}</span></td>
+    <td class="mini">${x.lvl === 's' ? '<span class="pill">句内</span>' : '<span class="pill">跨句</span>'}</td>
+    <td class="mini">${x.d}</td>
+    <td class="mini" style="color:var(--purple)">${x.ex}</td>
+    <td class="mini" style="color:var(--faint)">${x.warn}</td></tr>`).join('');
+
+  /* 国风库按情绪分组——分组方式本身就是论点：
+     不是"山水/人事/器物"（词性分类，帮不上忙），是"这一组只服务这一种情绪"。 */
+  const g = $('#gufengBox');
+  if (g) g.innerHTML = GUFENG.map(x => `
+    <div class="gu-row">
+      <div class="gu-emo">${x.emo}</div>
+      <div class="gu-items">${x.items.join(' · ')}</div>
+      <div class="gu-act"><b>配这些动作：</b>${x.act}<br><span style="color:var(--faint)">${x.why}</span></div>
+    </div>`).join('');
+}
+
+/* ---------- 06 段落 / 人称 ---------- */
+function buildParts(){
+  const t = $('#partsTable');
+  if (!t) return;
+  t.innerHTML = PARTS.map(p => `<tr>
+    <td><b>${p.n}</b><br><span class="mono mini">${p.en}</span><br><span class="mini" style="color:var(--faint)">${p.len}</span></td>
+    <td class="mini">${p.what}</td>
+    <td class="mini">${p.job}</td>
+    <td class="mini" style="color:var(--purple)">${p.q}</td></tr>`).join('');
+
+  const pt = $('#personTable');
+  if (pt) pt.innerHTML = PERSON.map(x => `<tr>
+    <td><b>${x.n}</b><br><span class="mono mini">${x.en}</span></td>
+    <td class="mini">${x.feel}</td>
+    <td class="mini">${x.use}</td>
+    <td class="mini" style="color:var(--faint)">${x.warn}</td></tr>`).join('');
 }
 
 /* ---------- 06 钩子 ---------- */

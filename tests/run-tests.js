@@ -394,6 +394,9 @@ test('B3 各节装配数量：表格行数 / chips 数 / SVG 方块数', async (
     assert.equal(n('#formTable tr'), 4, '四种曲式对照 4 行');
     assert.equal(n('#bluesFig rect[data-lit^="bar"]'), 12, '十二格和声');
     assert.equal(n('#bluesFig rect[data-lit^="ln"]'), 3, '三行词');
+    // 第 10 节 ② · shuffle 对比图：两行 × 两拍 × 两下
+    assert.equal(n('#shuffleChips .chip'), 2, '直的 / shuffle 各一个 chip');
+    assert.equal(n('#shuffleFig rect[data-hit]'), 8, '两行各 4 个音头');
     // 第 09 节 · 律动（新）
     assert.equal(n('#grooveChips .chip'), 5, '五种织体 chips');
     assert.equal(n('#grooveTable tr'), 6, '选型表 6 行（含"留白"那一行）');
@@ -1837,6 +1840,55 @@ test('G7 跨曲动机：两版轮廓一个音都不能改，只准改时值与�
 });
 
 
+test('G8 shuffle：音高一个不改，只有第二下落哪儿与音长不同', async () => {
+  await withPage((w, d) => {
+    const { SHUFFLE, shuffleEvents, TONES } = w.__MT__;
+    const [st, sh] = SHUFFLE.kinds;
+    const spb = 60 / SHUFFLE.bpm;
+
+    /* ① 位置就是全部论点：½ vs ⅔，差正好 1/6 拍 */
+    assert.equal(st.offs[1], 0.5, '直的八分后半落一半');
+    assert.ok(Math.abs(sh.offs[1] - 2 / 3) < 1e-12, 'shuffle 后半必须落三分之二');
+    assert.ok(Math.abs((sh.offs[1] - st.offs[1]) - 1 / 6) < 1e-12, '两者只差 1/6 拍');
+
+    /* ② 音头数与音高序列必须完全一致——否则听出差别的原因就不止"位置" */
+    const es = shuffleEvents(st), eh = shuffleEvents(sh);
+    assert.equal(eh.steps.length, es.steps.length, '音头数必须一样（每拍还是两下）');
+    assert.deepEqual(eh.steps.map(s => s.m), es.steps.map(s => s.m), '音高序列必须一个不差');
+
+    /* ③ 每一拍内部：第二下与第一下的距离 */
+    const bassAt = e => e.steps.filter(s => s.kind === 'bass').map(s => s.at);
+    const gs = bassAt(es), gh = bassAt(eh);
+    assert.equal(gs.length, 4 * 2 * 2, '4 个和弦 × 2 拍 × 每拍 2 下');
+    const gap = arr => arr.filter((_, i) => i % 2 === 1).map((t, i) => t - arr[i * 2]);
+    gap(gs).forEach(g => assert.ok(Math.abs(g - 0.5 * spb) < 1e-9, '直的：两下相隔半拍'));
+    gap(gh).forEach(g => assert.ok(Math.abs(g - 2 / 3 * spb) < 1e-9, 'shuffle：两下相隔三分之二拍'));
+
+    /* ④ 音长必须由 offs 推出来（长—短），但一拍的总长不许变——挪位置不是改长度 */
+    const db = e => e.steps.filter(s => s.kind === 'bass').map(s => s.d);
+    const ds = db(es), dh = db(eh);
+    for (let i = 0; i < ds.length; i += 2){
+      assert.ok(dh[i] > ds[i], 'shuffle 第一下必须比直的更长');
+      assert.ok(dh[i + 1] < ds[i + 1], 'shuffle 第二下必须比直的更短');
+      assert.ok(Math.abs((ds[i] + ds[i + 1]) - (dh[i] + dh[i + 1])) < 1e-9, '一拍总长不许变');
+    }
+
+    /* ⑤ 和弦刷只落在后半拍——那一下正是 shuffle 最容易听出来的地方 */
+    const brush = eh.steps.filter(s => s.kind === 'wood').map(s => s.at);
+    assert.ok(brush.length > 0, '后半拍必须有和弦刷');
+    brush.forEach(t => assert.ok(Math.abs((t / spb) % 1 - 2 / 3) < 1e-9, '和弦刷必须全落在 ⅔ 上'));
+
+    /* ⑥ 用到的音色必须真实存在 */
+    [es, eh].forEach(e => e.steps.forEach(s => assert.ok(TONES[s.kind], `音色 ${s.kind} 必须存在`)));
+
+    /* ⑦ 图必须两行同时在场（对比不能靠切换看），且两版 chip 文案不重名 */
+    assert.equal(d.querySelectorAll('#shuffleFig svg rect[data-hit]').length, 8, '两行 × 2 拍 × 2 下');
+    assert.notEqual(st.chip, sh.chip);
+    SHUFFLE.kinds.forEach(k => assert.ok(k.chip && k.fig && k.say, `${k.n} 三处文案都不能空`));
+  });
+});
+
+
 test('E11 第 11 节 ⑦⑧ 与第 10 节：三档计时、两版粤语、布鲁斯都真的出声', async () => {
   await withPage(async (w, d) => {
     /* 音符之间有缝（不是每个时刻都"正在响"），所以不能固定睡一段时间再断言，
@@ -1925,6 +1977,33 @@ test('E12 第 09 节律动与第 14 节配器：五张织体、三种编制都�
   });
 });
 
+test('E13 第 10 节 ② shuffle：两版都出声，且换 chip 会换说明与音长读数', async () => {
+  await withPage(async (w, d) => {
+    const waitSound = async (ms) => {
+      const t0 = Date.now();
+      while (Date.now() - t0 < ms){
+        if (w.__MT__.live.size > 0) return true;
+        await sleep(25);
+      }
+      return false;
+    };
+    const schips = [...d.querySelectorAll('#shuffleChips .chip')];
+    assert.equal(schips.length, 2, '直的 / shuffle 各一个 chip');
+    const infos = [];
+    for (const c of schips){
+      c.click();
+      infos.push(d.querySelector('#shuffleInfo').textContent);
+      d.querySelector('#shufflePlay').click();
+      assert.ok(await waitSound(700), '应出声：' + c.textContent);
+      w.__MT__.stopAll();
+    }
+    /* 说明必须真的换了内容——两版都念同一句话就等于没切 */
+    assert.notEqual(infos[0], infos[1], '两版的读数必须不同');
+    assert.match(infos[0], /50%/, '直的应读 50%');
+    assert.match(infos[1], /67%/, 'shuffle 应读 67%');
+  });
+});
+
 /* -------------------------------------------------------------------------- *
  * L. 作词课（lyric.html）
  * --------------------------------------------------------------------------
@@ -1935,17 +2014,22 @@ test('E12 第 09 节律动与第 14 节配器：五张织体、三种编制都�
  * 第三条最容易写成"跑通就行"，所以两个方向都要测。
  * -------------------------------------------------------------------------- */
 
-test('L1 作词课装配：13 节导航 + 每张表都有行', async () => {
+test('L1 作词课装配：14 节导航 + 每张表都有行', async () => {
   await withLyricPage((w, d) => {
     /* 同 B1：排除 .navswitch 那条外链，只数章节锚点 */
     const links = [...d.querySelectorAll('#nav a[href^="#"]')];
     const sections = [...d.querySelectorAll('section')];
-    assert.equal(links.length, 13, '13 个导航链接');
-    assert.equal(sections.length, 13, '13 个 section');
+    assert.equal(links.length, 14, '14 个导航链接');
+    assert.equal(sections.length, 14, '14 个 section');
     for (const l of links) {
       const id = l.getAttribute('href').slice(1);
       assert.ok(d.getElementById(id), `导航目标 #${id} 应存在`);
     }
+    /* 与乐理课 B1 同一条守卫：节号必须 00–13 连续。
+       插一节忘了顺延后面，只靠数 section 是查不出来的。 */
+    assert.deepEqual(sections.map(s => s.querySelector('.sec-num').textContent),
+      ['00','01','02','03','04','05','06','07','08','09','10','11','12','13'],
+      '节号必须从 00 到 13 连续');
 
     const rows = sel => d.querySelectorAll(sel).length;
     assert.equal(rows('#genreChips .chip'), 13, '13 个体裁');
@@ -1955,6 +2039,10 @@ test('L1 作词课装配：13 节导航 + 每张表都有行', async () => {
     assert.equal(rows('#enElegance .card'), 5, '英文优雅五条');
     assert.equal(rows('#enFixTable tr'), 5, '英文改词五动作');
     assert.equal(rows('#imgTable tr'), 5, '五类素材');
+    assert.equal(rows('#rhetTable tr'), 7, '七种修辞');
+    assert.equal(rows('#gufengBox .gu-row'), 6, '国风意象六组');
+    assert.equal(rows('#partsTable tr'), 9, '九个段落');
+    assert.equal(rows('#personTable tr'), 4, '四种人称');
     assert.equal(rows('#hookTable tr'), 7, '钩子七型');
     assert.equal(rows('#schoolGrid .school'), 8, '八派');
     assert.equal(rows('#schoolGrid .school li'), 24, '每派三条动作');
@@ -2082,5 +2170,75 @@ test('L5 叙事专辑：八个阶段串行、功能只有四种、每个意象�
       assert.notEqual(c.first, c.later, `${c.img} 两次出现不能是同一句话（那就是复述）`);
       assert.ok(c.turn.length >= 4, `${c.img} 必须说清翻的是哪一个维度`);
     });
+  });
+});
+
+test('L6 术语与扩充表：英文名必须带释义、六组国风各八个词、段落与人称都要落到数据里', async () => {
+  await withLyricPage((w, d) => {
+    const L = w.__LC__;
+
+    /* ① 韵脚五型的英文词是**读者一律不认识**的那一类，所以每个都必须带一句
+       "为什么叫这个"。只给 perfect / slant 两个单词，等于换个写法的不懂。 */
+    assert.equal(L.RHYME_TYPES.length, 5, '韵脚五型');
+    L.RHYME_TYPES.forEach(r => {
+      assert.ok(/[a-z]/i.test(r.en), `${r.n} 必须有英文名`);
+      assert.ok(r.enZh && r.enZh.length >= 8, `${r.n} 的英文名必须有一句解释（enZh）`);
+    });
+    /* perfect 与 slant 这一对必须把"完全 / 斜"讲出来——这是用户点名要的两条 */
+    assert.match(L.RHYME_TYPES[0].enZh, /完全/, 'perfect 要解释成"完全的"');
+    assert.match(L.RHYME_TYPES[1].enZh, /斜/, 'slant 要解释成"斜的"');
+
+    /* ② 七种修辞：只有"句内 / 跨句"两种层级，且两种都要有。
+       句内的错了废一句，跨句的错了废一段——层级是这张表的教学点，不能全是同一档。 */
+    assert.equal(L.RHETORIC.length, 7, '七种修辞');
+    const lvls = L.RHETORIC.map(x => x.lvl);
+    assert.deepEqual([...new Set(lvls)].sort(), ['p', 's'], '层级只有句内(s) / 跨句(p)');
+    assert.equal(lvls.filter(x => x === 'p').length, 2, '跨句的恰好两种（顶真、反讽）');
+    L.RHETORIC.forEach(x => {
+      assert.ok(x.n && x.en && x.d && x.ex && x.warn, `${x.n} 五列都不能空`);
+      assert.notEqual(x.ex, x.warn, `${x.n} 的例子与踩雷点不能是同一句话`);
+    });
+    /* 跨 realm 的数组不能直接 deepEqual（原型不同），先 spread 成本地数组 */
+    assert.deepEqual([...L.RHETORIC.map(x => x.n)].sort(),
+      ['比喻','借代','反讽','矛盾','移就','顶真','通感'].sort(), '七种一个不多一个不少');
+
+    /* ③ 国风库：六组，每组恰好八个词，且六种情绪不重名。
+       数量必须对得上——"库太小"正是这张表被加出来的原因，再缩回去就是白做。 */
+    assert.equal(L.GUFENG.length, 6, '六组情绪');
+    const emos = L.GUFENG.map(g => g.emo);
+    assert.equal(new Set(emos).size, 6, '六种情绪不重名');
+    L.GUFENG.forEach(g => {
+      assert.equal(g.items.length, 8, `${g.emo} 组必须恰好八个词`);
+      assert.equal(new Set(g.items).size, 8, `${g.emo} 组内不许有重复词`);
+      assert.ok(g.act && g.why, `${g.emo} 必须写清配什么动作、为什么`);
+    });
+    /* 全库不许有跨组重复：同一个词服务两种情绪，就等于没分组 */
+    const all = L.GUFENG.flatMap(g => g.items);
+    assert.equal(all.length, 48, '48 个词');
+    assert.equal(new Set(all).size, 48, '跨组不许重复');
+
+    /* ④ 段落：九段的英文名必须给（V/C/PC/B 是行话，不解释就是黑话），
+       且每一段都要有"词要交什么 + 判据"两列，否则又变成一张结构图。 */
+    assert.equal(L.PARTS.length, 9, '九个段落');
+    L.PARTS.forEach(p => {
+      assert.ok(/[a-z]/i.test(p.en), `${p.n} 必须有英文名`);
+      assert.ok(p.len && p.what && p.job && p.q, `${p.n} 四列都不能空`);
+    });
+    /* 主歌 / 副歌 / 桥段这三个是骨架，缺一个这节就不成立 */
+    ['verse 1','chorus','bridge'].forEach(en => {
+      assert.ok(L.PARTS.some(p => p.en === en), `必须包含 ${en}`);
+    });
+
+    /* ⑤ 人称四种：我 / 你 / 他 / 我们，各有听感与踩雷 */
+    assert.equal(L.PERSON.length, 4, '四种人称');
+    L.PERSON.forEach(x => assert.ok(x.feel && x.use && x.warn, `${x.n} 三列都不能空`));
+
+    /* ⑥ 渲染层：这些表必须真的画到页面上（数据加了、DOM 没跟是最常见的漏） */
+    assert.equal(d.querySelectorAll('#rhetTable tr').length, 7);
+    assert.equal(d.querySelectorAll('#gufengBox .gu-row').length, 6);
+    assert.equal(d.querySelectorAll('#partsTable tr').length, 9);
+    assert.equal(d.querySelectorAll('#personTable tr').length, 4);
+    /* 英文释义必须真的显示出来，不能只存在数据里 */
+    assert.match(d.querySelector('#rhymeTypeTable').textContent, /严丝合缝/);
   });
 });

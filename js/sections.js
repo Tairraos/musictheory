@@ -946,6 +946,42 @@ function buildGroove(){
   }).join('');
 }
 
+/* ============ 第 10 节 ② · shuffle ============ */
+
+let shufIdx = 0;
+
+/* renderShuffle()：图是两行同时画的（对比不能靠切换看），
+ * chip 只决定"放哪一版"，info 里的两个音长是从 offs 现算的，不写死。 */
+function renderShuffle(){
+  const k = SHUFFLE.kinds[shufIdx];
+  const a = k.offs[1].toFixed(2), b = (1 - k.offs[1]).toFixed(2);
+  const pct = Math.round(k.offs[1] * 100);
+  const late = k.offs[1] - 0.5;
+  const tail = late < 1e-9 ? '正好均分' : `比均分晚 <b>${late.toFixed(2)}</b> 拍`;
+  $('#shuffleInfo').innerHTML =
+    `<b>${k.n}</b>：${k.say}<br>` +
+    `<span class="mini">第 1 下 <b>${a}</b> 拍 · 第 2 下 <b>${b}</b> 拍 · ` +
+    `第 2 下落在一拍的 <b>${pct}%</b> 处（${tail}）</span>`;
+}
+
+function buildShuffle(){
+  if (!$('#shuffleFig')) return;
+  $('#shuffleFig').innerHTML = shuffleFigSVG();
+  const box = $('#shuffleChips');
+  SHUFFLE.kinds.forEach((k, i) => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (i === 0 ? ' on' : '');
+    b.textContent = k.chip;
+    b.onclick = () => {
+      $$('#shuffleChips .chip').forEach(c => c.classList.remove('on'));
+      b.classList.add('on'); shufIdx = i; renderShuffle();
+    };
+    box.appendChild(b);
+  });
+  renderShuffle();
+  $('#shufflePlay').onclick = () => playShuffle(SHUFFLE.kinds[shufIdx]);
+}
+
 /* ============ 第 14 节 · 配器：谁唱主、谁铺底 ============ */
 
 let ensIdx = 0;

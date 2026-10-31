@@ -82,3 +82,21 @@
    两页的页头从此由 main.css 的同一套规则管，改一处两页一起变。
    导语宽度交给 main.css 的 `.hero-grid .intro-wrap{max-width:560px}`，
    这里不再另设 640，否则版本号的右对齐基线会比乐理课往外多飘 80px。 */
+
+/* ---------- 6. 国风意象库（V1.30） ----------
+   48 个词按情绪分六组渲染。为什么不用三栏网格（旧版就是三栏）：
+   三栏会让人横着读成"山水一组、人事一组"，那还是词性分类；
+   这里一行就是一组，左边情绪、右边八个词、下面一句动作提示——
+   **一行必须一次读完**，否则"这一组只服务一种情绪"这句话就白写了。 */
+.gu-row{
+  display:grid;grid-template-columns:62px 1fr;gap:3px 14px;
+  padding:11px 0;border-bottom:1px solid #F0EEE7;
+}
+.gu-row:last-child{border-bottom:none}
+.gu-emo{font-weight:600;font-size:13px;color:var(--purple);padding-top:2px}
+.gu-items{font-size:13.5px;line-height:1.9;color:var(--text)}
+.gu-act{grid-column:2;font-size:11.5px;color:var(--muted);line-height:1.7}
+@media(max-width:700px){
+  .gu-row{grid-template-columns:1fr}
+  .gu-act{grid-column:1}
+}

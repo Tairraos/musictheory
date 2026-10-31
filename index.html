@@ -9,7 +9,7 @@
 <link rel="icon" href="assets/images/favicon.ico" sizes="any">
 <link rel="icon" href="assets/images/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/images/favicon.png">
-<title>姐弟厨师团 --- 乐理课 V1.29 [26.10.31]</title>
+<title>姐弟厨师团 --- 乐理课 V1.30 [26.10.31]</title>
 <!-- 样式外链：原内联样式表已拆到 css/main.css（规则与顺序未动，仅补注释） -->
 <link rel="stylesheet" href="css/main.css">
 </head>
@@ -17,7 +17,7 @@
 
 <!-- 左侧导航：17 节课，与下方 <section> 一一对应（≤1000px 变为顶部横滚条） -->
 <aside id="nav">
-  <div class="brand">乐理课目录 <span class="ver" data-ver><b>V1.29</b> [26.10.31]</span><small>点一下，就出声</small></div>
+  <div class="brand">乐理课目录 <span class="ver" data-ver><b>V1.30</b> [26.10.31]</span><small>点一下，就出声</small></div>
   <!-- 互链的第二个入口：目录是 fixed 的，滚到任何一节都够得着。
        与顶部 .pageswitch 同一个目标，但样式刻意不同——它必须一眼看出"不是本页的章节"。 -->
   <a class="navswitch" href="lyric.html">去《作词课》 →</a>
@@ -54,7 +54,7 @@
     <div class="art"><img src="assets/images/hero-art.png" alt="姐弟二人坐在钢琴前弹奏的插图，画在羊皮纸上"></div>
     <div class="intro-wrap">
       <p class="intro">没有枯燥的符号，这里是一个可以自由调味的声音工坊。不背公式、不看天书，每一个模块内容都能点、能听 —— 大调小调、七个调式、五声、和弦进行、行板、拍号、词曲咬合、移调、听感配方，主流的音乐语言一次玩透。一路玩到最后你会发现：雨天的清冷、午后的松弛、某刻的心事，原来都可以用音乐说出来。我们一起创作吧，用音乐表达生活，让世界更鲜活。</p>
-      <p class="hero-ver ver" data-ver><b>V1.29</b> [26.10.31]</p>
+      <p class="hero-ver ver" data-ver><b>V1.30</b> [26.10.31]</p>
     </div>
   </div>
 </header>
@@ -447,11 +447,33 @@
       <button class="btn" id="bluesHarm"><span class="tri">▶</span> 只听和声</button>
     </div>
     <div class="note">布鲁斯的三个和弦全是<b>属七</b>。大调里只有 V 级是属七，它把 I 和 IV 也做成了属七——
-      每个和弦都带一个小七度，永远不干净，永远想往前走。这才是"布鲁斯味"的和声来源，不是节奏。</div>
+      每个和弦都带一个小七度，永远不干净，永远想往前走。这是"布鲁斯味"的<b>第一个</b>来源：和声。
+      第二个来源在下一卡——它不在和弦里，在两个八分音符的<b>间距</b>里。</div>
   </div>
 
   <div class="card">
-    <h3>② 为什么前两句必须一模一样</h3>
+    <h3>② 布鲁斯的另一半：两个八分音符不是均分的</h3>
+    <p class="mini" style="margin-bottom:10px">谱子上写"每拍两个八分"，可它没写<b>第二个到底落在哪儿</b>。
+      古典的默认是均分：落在一半。布鲁斯把后半往后拖到 <b>⅔</b>——这个位置正好是三连音的第三格，
+      于是每一拍变成"长—短、长—短"，像拖着一条腿走路。底下两行是同一段两拍，
+      音高一个没改，只有第二下的位置不同：上下对比着看，注意<b>块有没有踩在虚线上</b>。</p>
+    <div id="shuffleFig"></div>
+    <div class="row" id="shuffleChips" style="margin:10px 0"></div>
+    <div class="row" style="margin-bottom:10px">
+      <button class="btn pri" id="shufflePlay"><span class="tri">▶</span> 听这一版</button>
+    </div>
+    <div class="note" id="shuffleInfo"></div>
+    <div class="note">别小看这 1/6 拍。它不改速度、不改重音、不改音头数——每拍还是两下，
+      <b>变的只是两下之间的距离</b>。所以"快"和"晃"是两件事：把 BPM 拉到 160 也不会晃，
+      把后半挪到 ⅔ 立刻就晃了。<br>
+      这也是为什么谱子上写不出它：五线谱没有"一半偏后"的记号，只能标一个 <span class="mono">shuffle</span>
+      或 <span class="mono">swing</span> 的字样，或者干脆改写成 12/8。<b>写不出来，就只能听。</b><br>
+      爵士里的 swing 是同一件事，只是"拖多少"更自由（⅔ 到 ¾ 都有人用）；而鼓和贝斯要是<b>一个直一个 shuffle</b>，
+      整首歌会听起来打架——那不是演奏不准，是两套网格没对齐。</div>
+  </div>
+
+  <div class="card">
+    <h3>③ 为什么前两句必须一模一样</h3>
     <p class="mini" style="margin-bottom:12px">三行词各占四格。把"和声有没有动"和"词有没有动"两件事并排看，
       就会发现它们是同一件事：</p>
     <div class="grid3">
@@ -476,7 +498,7 @@
   </div>
 
   <div class="card">
-    <h3>③ 四种曲式：词的行数不是习惯，是除法</h3>
+    <h3>④ 四种曲式：词的行数不是习惯，是除法</h3>
     <p class="mini" style="margin-bottom:8px">曲式＝段落怎么排。段落长度定下来，词要写几行、哪几行要重复，
       基本就被算出来了——所以"这一首写几行"不该拍脑袋定。</p>
     <table><thead><tr><th style="width:20%">曲式</th><th style="width:16%">词的行数</th><th style="width:26%">和声怎么走</th><th>怎么一眼认出它</th></tr></thead>
