@@ -412,3 +412,23 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sa
 }
 .pageswitch a:hover{color:var(--purple);border-color:var(--purple);background:var(--purple-bg)}
 
+
+/* ---------- 20. 目录里的互链（追加于 V1.28） ----------
+   顶部那条 `.pageswitch` 只在页面最顶端看得见；滚到第 9 节以后想换课，
+   就得先滚回顶端。目录是 fixed 的，所以在这里再放一份——任何位置都够得着。
+
+   它和章节链接必须一眼分得开：章节链接是"灰字 + 悬停变深"，
+   这一条反过来——**常驻紫底 + 细描边**，字号比章节小半号。
+   所以不能只靠 `#nav a` 的默认样式，要单独覆盖颜色与边框（写在文件末尾，
+   同权重下后写的胜出，因此不必加 !important）。 */
+#nav a.navswitch{
+  display:block; margin:2px 0 12px; padding:7px 10px;
+  border-radius:8px; border:1px solid #DEDAF8; background:var(--purple-bg);
+  color:var(--purple); font-size:12.5px; font-weight:500; text-align:center;
+}
+#nav a.navswitch:hover{background:#E4E2FB;color:var(--purple);border-color:#C9C3F6}
+/* 窄屏目录变成横向滚动条：取消下边距、按章节链接的盒模型缩一档，
+   否则这一条会比旁边的章节链接高出一圈，横条看着不齐。 */
+@media(max-width:1000px){
+  #nav a.navswitch{margin:0 8px 0 0; padding:5px 10px; font-size:12px; flex:0 0 auto}
+}

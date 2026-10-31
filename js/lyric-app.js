@@ -28,7 +28,7 @@ function toast(m){
  *   js/app.js       → 乐理课
  *   js/lyric-app.js → 作词课
  * tests/bump-version.js 一次写两处，两页永远同版。 */
-const VERSION = { v: '1.27', date: '26.10.31' };
+const VERSION = { v: '1.28', date: '26.10.31' };
 
 function applyVersion(){
   const label = `V${VERSION.v} [${VERSION.date}]`;
@@ -42,8 +42,9 @@ buildHooks(); buildSchools(); buildFrames(); buildBan();
 buildFix(); buildAlbum(); buildCheck();
 applyVersion();
 
-/* ---------- 导航高亮（与乐理课同一套逻辑：找最后一个越过 180px 线的 section） ---------- */
-const navLinks = $$('#nav a');
+/* ---------- 导航高亮（与乐理课同一套逻辑：找最后一个越过 180px 线的 section）----------
+   同样要带 `[href^="#"]`：`.navswitch` 是外链，不指向本页任何一节。 */
+const navLinks = $$('#nav a[href^="#"]');
 window.addEventListener('scroll', () => {
   let cur = navLinks[0];
   $$('section').forEach(sec => {

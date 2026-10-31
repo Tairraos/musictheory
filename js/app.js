@@ -19,7 +19,7 @@ let state = { root: 0, mode: 'ionian' };
  *   - 日期同步改成当天，格式固定 YYYY.MM.DD 的简写（26.10.19 = 2026-10-19）
  * 它会自动写到：浏览器标签页标题 + 页面上所有带 data-ver 的位置。
  * HTML 里也留了静态副本做降级（万一 JS 没跑起来，仍能看到版本号）。 */
-const VERSION = { v: '1.27', date: '26.10.31' };
+const VERSION = { v: '1.28', date: '26.10.31' };
 
 /* applyVersion()：把 VERSION 注入到需要的位置。
  *   <title> 是 SEO 相关的，浏览器标签页里由 JS 改同样生效；
@@ -52,8 +52,10 @@ $('#dockBtn').onclick = () => { const d = $('#dock'); d.classList.toggle('hide')
 /* 窗口尺寸变化：键盘键宽 = 容器宽 / 14，必须重绘 */
 window.addEventListener('resize', () => renderKB());
 
-/* 滚动时高亮当前节的导航链接（找最后一个越过 180px 线的 section） */
-const links = $$('#nav a');
+/* 滚动时高亮当前节的导航链接（找最后一个越过 180px 线的 section）
+   选择器必须带 `[href^="#"]`：目录里还有一条指向姊妹篇的外链（.navswitch），
+   它不指向本页任何一节，混进来会被当成"当前节"点亮。 */
+const links = $$('#nav a[href^="#"]');
 window.addEventListener('scroll', () => { let cur = links[0];
   $$('section').forEach(sec => { if (sec.getBoundingClientRect().top < 180) cur = links.find(l => l.getAttribute('href') === '#' + sec.id) || cur; });
   links.forEach(l => l.classList.toggle('on', l === cur)); }, { passive: true });

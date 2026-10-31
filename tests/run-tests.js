@@ -311,7 +311,9 @@ test('A2 拆分不改变内容：原内联 <style>/<script> 块已不在 HTML �
 
 test('B1 导航与章节：17 个导航链接与 17 个 section 一一对应', async () => {
   await withPage((w, d) => {
-    const links = [...d.querySelectorAll('#nav a')];
+    /* 只数指向本页的锚点链接：目录里还有一条 .navswitch 指向姊妹篇，
+       它不是章节，混进来会让"17 对 17"这条守恒律失效 */
+    const links = [...d.querySelectorAll('#nav a[href^="#"]')];
     const sections = [...d.querySelectorAll('section')];
     assert.equal(links.length, 17);
     assert.equal(sections.length, 17);
@@ -890,6 +892,33 @@ test('A6 双页互链：两页各在页头之上指对方，且作词课用上�
     assert.equal(d.querySelectorAll('.hero h1').length, 0,
       '标题已画在插图里，页头不应再有 h1（与乐理课一致）');
     assert.ok(d.querySelector('.hero .hero-ver[data-ver]'), '页头版本号不能因为换版式丢掉');
+  });
+});
+
+test('A7 目录互链：两页的目录里各有一条指对方的入口，且不会被当成当前节点亮', async () => {
+  /* 顶部那条 .pageswitch 只在页面最顶端可见。目录是 fixed 的，
+     所以必须再有一条——否则滚到第 9 节以后想换课就得先滚回顶端。 */
+
+  await withPage((w, d) => {
+    const sw = d.querySelector('#nav a.navswitch');
+    assert.ok(sw, '乐理课目录里应有互链');
+    assert.equal(sw.getAttribute('href'), 'lyric.html', '应指向 lyric.html');
+    /* 位置：必须在第一个章节链接之前，否则要往下翻才看得见 */
+    const firstSec = d.querySelector('#nav a[href^="#"]');
+    assert.ok(sw.compareDocumentPosition(firstSec) & w.Node.DOCUMENT_POSITION_FOLLOWING,
+      '互链必须排在章节链接之前');
+    /* 它是外链，不该被滚动高亮逻辑当成"当前节"——高亮只认锚点链接 */
+    const spy = [...d.querySelectorAll('#nav a.on')];
+    assert.equal(spy.length, 0, '初始状态不应有任何链接被点亮');
+  });
+
+  await withLyricPage((w, d) => {
+    const sw = d.querySelector('#nav a.navswitch');
+    assert.ok(sw, '作词课目录里应有互链');
+    assert.equal(sw.getAttribute('href'), 'index.html', '应指回 index.html');
+    const firstSec = d.querySelector('#nav a[href^="#"]');
+    assert.ok(sw.compareDocumentPosition(firstSec) & w.Node.DOCUMENT_POSITION_FOLLOWING,
+      '互链必须排在章节链接之前');
   });
 });
 
@@ -1877,7 +1906,8 @@ test('E12 第 09 节律动与第 14 节配器：五张织体、三种编制都�
 
 test('L1 作词课装配：13 节导航 + 每张表都有行', async () => {
   await withLyricPage((w, d) => {
-    const links = [...d.querySelectorAll('#nav a')];
+    /* 同 B1：排除 .navswitch 那条外链，只数章节锚点 */
+    const links = [...d.querySelectorAll('#nav a[href^="#"]')];
     const sections = [...d.querySelectorAll('section')];
     assert.equal(links.length, 13, '13 个导航链接');
     assert.equal(sections.length, 13, '13 个 section');
