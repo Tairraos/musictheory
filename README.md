@@ -211,3 +211,6 @@ npm run build && npx wrangler deploy
 > 注：git remote 使用 SSH 地址（`git@github.com:Tairraos/musictheory.git`），
 > 因为部分网络环境下 HTTPS 推送到 github.com 会被代理拦截。
 > `npm test` 的 pretest 会先校验版本号，改了代码记得先 `npm run bump`。
+>
+> Workers 静态资产开了 pretty URL：`/lyric.html` 会 307 跳到 `/lyric`，
+> 两个地址都能用，站内互相跳转不受影响。
