@@ -922,6 +922,37 @@ test('A7 目录互链：两页的目录里各有一条指对方的入口，且�
   });
 });
 
+test('A8 文案里的数量必须和数据对得上：标题说几个，表里就得有几行', async () => {
+  await withPage((w, d) => {
+    /* 取某个表所在卡片的小标题——数字就写在那里 */
+    const cardH3 = sel => {
+      const t = d.querySelector(sel);
+      assert.ok(t, sel + ' 应存在');
+      return t.closest('.card').querySelector('h3').textContent;
+    };
+
+    /* 音程：0 半音（纯一度）到 12 半音（纯八度）共 13 行。
+       曾经写成"十二个音程"——把纯一度漏在计数外，而表里明明有 13 行。 */
+    assert.equal(d.querySelectorAll('#ivTable tr').length, 13, '音程表应 13 行');
+    assert.match(cardH3('#ivTable'), /十三/, '标题必须写"十三个音程"');
+
+    /* 表达维度：DIMS 13 条（第 13 个是文化与风格），表也是 13 行 */
+    assert.equal(d.querySelectorAll('#dimTable tr').length, w.__MT__.DIMS.length, '维度表行数 = DIMS 条数');
+    assert.match(cardH3('#dimTable'), /十三/, '标题必须写"十三个维度"');
+
+    /* 速查两表的条数写在 data.js 的注释里——注释和数组会各自漂移，
+       所以直接读源码里那行注释的括号数字，跟数组长度对账。 */
+    const src = fs.readFileSync(path.join(ROOT, 'js/data.js'), 'utf8');
+    const claimed = (label) => {
+      const m = src.match(new RegExp(label + '"[^\\n]*?（(\\d+) 条）'));
+      assert.ok(m, `data.js 里应有一行 "${label}…（N 条）" 的注释`);
+      return +m[1];
+    };
+    assert.equal(w.__MT__.TERMS.length, claimed('术语速查'), '术语速查：注释条数必须等于实际条数');
+    assert.equal(w.__MT__.CHECKLIST.length, claimed('写完一首歌的自查清单'), '自查清单：注释条数必须等于实际条数');
+  });
+});
+
 /* ============================================================================
  * F. 声学验证 —— 编排出来的声音，是不是真和描述相符
  * --------------------------------------------------------------------------

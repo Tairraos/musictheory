@@ -9,7 +9,7 @@
 <link rel="icon" href="assets/images/favicon.ico" sizes="any">
 <link rel="icon" href="assets/images/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/images/favicon.png">
-<title>姐弟厨师团 --- 乐理课 V1.28 [26.10.31]</title>
+<title>姐弟厨师团 --- 乐理课 V1.29 [26.10.31]</title>
 <!-- 样式外链：原内联样式表已拆到 css/main.css（规则与顺序未动，仅补注释） -->
 <link rel="stylesheet" href="css/main.css">
 </head>
@@ -17,7 +17,7 @@
 
 <!-- 左侧导航：17 节课，与下方 <section> 一一对应（≤1000px 变为顶部横滚条） -->
 <aside id="nav">
-  <div class="brand">乐理课目录 <span class="ver" data-ver><b>V1.28</b> [26.10.31]</span><small>点一下，就出声</small></div>
+  <div class="brand">乐理课目录 <span class="ver" data-ver><b>V1.29</b> [26.10.31]</span><small>点一下，就出声</small></div>
   <!-- 互链的第二个入口：目录是 fixed 的，滚到任何一节都够得着。
        与顶部 .pageswitch 同一个目标，但样式刻意不同——它必须一眼看出"不是本页的章节"。 -->
   <a class="navswitch" href="lyric.html">去《作词课》 →</a>
@@ -54,7 +54,7 @@
     <div class="art"><img src="assets/images/hero-art.png" alt="姐弟二人坐在钢琴前弹奏的插图，画在羊皮纸上"></div>
     <div class="intro-wrap">
       <p class="intro">没有枯燥的符号，这里是一个可以自由调味的声音工坊。不背公式、不看天书，每一个模块内容都能点、能听 —— 大调小调、七个调式、五声、和弦进行、行板、拍号、词曲咬合、移调、听感配方，主流的音乐语言一次玩透。一路玩到最后你会发现：雨天的清冷、午后的松弛、某刻的心事，原来都可以用音乐说出来。我们一起创作吧，用音乐表达生活，让世界更鲜活。</p>
-      <p class="hero-ver ver" data-ver><b>V1.28</b> [26.10.31]</p>
+      <p class="hero-ver ver" data-ver><b>V1.29</b> [26.10.31]</p>
     </div>
   </div>
 </header>
@@ -108,7 +108,7 @@
     <div class="note" id="ivDesc"></div>
   </div>
   <div class="card">
-    <h3>十二个音程的听感（点一行听一下）</h3>
+    <h3>十三个音程的听感（点一行听一下）</h3>
     <table><thead><tr><th>音程</th><th>半音数</th><th>听感关键词</th><th></th></tr></thead>
     <tbody id="ivTable"></tbody></table>
   </div>
@@ -151,7 +151,9 @@
   </div>
   <div class="card">
     <h3>小调的三种形态</h3>
-    <p class="mini" style="margin-bottom:10px">自然小调就是上面那样。把第七级临时抬高半格，叫<b>和声小调</b>；上行抬高、下行还原，叫<b>旋律小调</b>。
+    <p class="mini" style="margin-bottom:10px">自然小调就是上面那样。把第七级临时抬高半格，叫<b>和声小调</b>；
+      上行把<b>第六、七级一起抬</b>、下行还原，叫<b>旋律小调</b>——两者只差第六级这一个音，
+      听感却从"送别"变成"西化的甜"。
       那一下抬高的半格会产生强烈的"要回家"的拉力——《送别》《舒伯特小夜曲》里那种叹气就是它。</p>
     <div class="row" id="minor3row"></div>
     <div class="note" id="minor3note">点一个听。</div>
@@ -397,8 +399,8 @@
           <b>0.35 拍是紧张，0.85 拍是流水</b>——差别不在打了几下，在每一一下能拖多远。</div>
       </div>
     </div>
-    <div class="note">这三条不是新东西：第 08 节的速度表里已经有"音头密度＝每秒几个音头"这条判据，
-      织体表 `TEX` 记的就是"音头落在第几拍 + 音多长"。这一节要做的只是<b>把它当设计工具用</b>——
+    <div class="note">这三条不是新东西：第 13 节会把"音头密度＝每秒几个音头"单独讲透，
+      而织体表 `TEX` 记的就是"音头落在第几拍 + 音多长"。这一节要做的只是<b>把它当设计工具用</b>——
       不是"有哪些节奏型"，而是"我这一段该选哪个"。</div>
   </div>
 
@@ -694,7 +696,7 @@
   <div class="grid3" id="sceneGrid"></div>
 
   <div class="card" style="margin-top:16px">
-    <h3>十二个维度分别靠什么承载</h3>
+    <h3>十三个维度分别靠什么承载</h3>
     <table><thead><tr><th style="width:15%">维度</th><th style="width:22%">它在问什么</th><th>靠什么承载</th><th style="width:6%">卡片</th></tr></thead>
     <tbody id="dimTable"></tbody></table>
     <div class="note">拆解的结论：一个维度通常由 3–5 个参数联合承载，任何一个单独拧到底都会失真。

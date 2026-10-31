@@ -807,7 +807,7 @@ function sceneCard(s){
 function dimCol(g){ const d = DIMS.find(x => x.id === g); return (d ? d.col : 'gray'); }
 
 function buildScenes(){
-  /* 维度筛选条：12 个维度一次铺开会有 71 张卡片，所以给一个可点选的过滤器，
+  /* 维度筛选条：13 个维度一次铺开会有 91 张卡片，所以给一个可点选的过滤器，
      默认显示「全部」，点某个维度只看它那一族 */
   const bar = $('#dimBar');
   const grid = $('#sceneGrid');
