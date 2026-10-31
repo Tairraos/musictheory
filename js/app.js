@@ -19,7 +19,7 @@ let state = { root: 0, mode: 'ionian' };
  *   - 日期同步改成当天，格式固定 YYYY.MM.DD 的简写（26.10.19 = 2026-10-19）
  * 它会自动写到：浏览器标签页标题 + 页面上所有带 data-ver 的位置。
  * HTML 里也留了静态副本做降级（万一 JS 没跑起来，仍能看到版本号）。 */
-const VERSION = { v: '1.31', date: '26.10.31' };
+const VERSION = { v: '1.32', date: '26.10.31' };
 
 /* applyVersion()：把 VERSION 注入到需要的位置。
  *   <title> 是 SEO 相关的，浏览器标签页里由 JS 改同样生效；
