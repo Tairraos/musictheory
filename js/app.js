@@ -19,7 +19,7 @@ let state = { root: 0, mode: 'ionian' };
  *   - 日期同步改成当天，格式固定 YYYY.MM.DD 的简写（26.10.19 = 2026-10-19）
  * 它会自动写到：浏览器标签页标题 + 页面上所有带 data-ver 的位置。
  * HTML 里也留了静态副本做降级（万一 JS 没跑起来，仍能看到版本号）。 */
-const VERSION = { v: '1.32', date: '26.10.31' };
+const VERSION = { v: '1.33', date: '26.10.31' };
 
 /* applyVersion()：把 VERSION 注入到需要的位置。
  *   <title> 是 SEO 相关的，浏览器标签页里由 JS 改同样生效；
@@ -38,6 +38,7 @@ function applyVersion(){
 buildSelects(); renderKB(); kbDragInit(); buildIV(); buildIVTable(); buildMinor3(); buildModes(); buildPenta();
 buildChords(); buildCadence(); buildProg(); buildTempo(); buildMeter(); buildGroove(); buildForm(); buildShuffle(); buildLyric(); buildKey(); buildScenes();
 buildEnsemble(); buildMotif(); buildSeventh(); buildMod(); buildCheat(); buildExotic(); buildCanghai(); refreshAll();
+wrapTables();   /* 表格全部生成后再统一套上横滑层（见 sections.js 里的说明） */
 applyVersion();   /* 版本号写进标签页标题与页面两处标题（HTML 里的静态副本会被它覆盖） */
 
 /* ============ 全局事件 ============ */

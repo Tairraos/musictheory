@@ -1077,3 +1077,21 @@ function buildMotif(){
       <td class="mini" style="color:var(--coral)">${h.wrong}</td></tr>`).join('');
   }
 }
+
+/* ============ 窄屏表格横滑（两页共用） ============
+ * th 是 nowrap 的，多列表格的 min-content 在 390px 下会超过容器，
+ * 表格被撑出去，**最后一列直接看不见**。
+ * 做法：给每张表套一层 .tscroll，窄屏时表格拿到 min-width，
+ * 在自己那一层里横滑。桌面端不生效，所以看不出差别。
+ * 必须在所有 build* 之后再跑——表格是装配时才生成的。 */
+function wrapTables(){
+  $$('table').forEach(t => {
+    if (t.parentNode && t.parentNode.classList.contains('tscroll')) return;
+    const w = document.createElement('div');
+    /* 四列以上才算"宽表"：两三列的表在窄屏本来就放得下，
+       硬撑宽只会让整页到处都要横滑。 */
+    w.className = 'tscroll' + (t.querySelectorAll('thead th').length >= 4 ? ' wide' : '');
+    t.parentNode.insertBefore(w, t);
+    w.appendChild(t);
+  });
+}

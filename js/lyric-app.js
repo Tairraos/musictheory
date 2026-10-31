@@ -28,7 +28,7 @@ function toast(m){
  *   js/app.js       → 乐理课
  *   js/lyric-app.js → 作词课
  * tests/bump-version.js 一次写两处，两页永远同版。 */
-const VERSION = { v: '1.32', date: '26.10.31' };
+const VERSION = { v: '1.33', date: '26.10.31' };
 
 function applyVersion(){
   const label = `V${VERSION.v} [${VERSION.date}]`;
@@ -40,7 +40,23 @@ function applyVersion(){
 buildGenres(); buildRhyme(); buildCN(); buildEN(); buildImage();
 buildParts(); buildHooks(); buildSchools(); buildFrames(); buildBan();
 buildFix(); buildAlbum(); buildCheck();
+wrapTables();   /* 窄屏表格横滑：与乐理课同一套做法，见 css/main.css 第 21 节 */
 applyVersion();
+
+/* wrapTables()：给每张表套一层 .tscroll。
+   th 是 nowrap 的，多列表格在 390px 下会超过容器，最后一列会被挤出屏幕。
+   必须在所有 build* 之后再跑——表格是装配时才生成的。 */
+function wrapTables(){
+  $$('table').forEach(t => {
+    if (t.parentNode && t.parentNode.classList.contains('tscroll')) return;
+    const w = document.createElement('div');
+    /* 四列以上才算"宽表"：两三列的表在窄屏本来就放得下，
+       硬撑宽只会让整页到处都要横滑。 */
+    w.className = 'tscroll' + (t.querySelectorAll('thead th').length >= 4 ? ' wide' : '');
+    t.parentNode.insertBefore(w, t);
+    w.appendChild(t);
+  });
+}
 
 /* ---------- 导航高亮（与乐理课同一套逻辑：找最后一个越过 180px 线的 section）----------
    同样要带 `[href^="#"]`：`.navswitch` 是外链，不指向本页任何一节。 */

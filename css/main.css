@@ -432,3 +432,22 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sa
 @media(max-width:1000px){
   #nav a.navswitch{margin:0 8px 0 0; padding:5px 10px; font-size:12px; flex:0 0 auto}
 }
+
+/* ---------- 21. 窄屏表格横滑（V1.33） ----------
+   问题：th 是 nowrap 的，5 列表格的 min-content 在 390px 下会超过容器，
+   表格被撑出去，**最后一列直接看不见**（500px 以上看不出来，所以很容易漏）。
+   处理：装配时给每张表套一个 .tscroll，窄屏给表格一个 min-width，
+   让它在自己那一层横滑——滑得动，总比最后一列被裁掉强。
+   桌面端 min-width 不生效、表格也不溢出，所以这一层什么都不改变。 */
+.tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+/* 只把**多列**的表撑到 min-width：两三列的表本来就窄，
+   硬撑到 520 反而让整页到处都要横滑，比不滑更糟。
+   列数由装配时数（.wide），CSS 不按列数选择，做不到。 */
+@media(max-width:700px){
+  .tscroll.wide > table{min-width:520px}
+}
+/* 一条常驻的细滚动条：macOS 的滚动条默认是浮层（滑动时才出现），
+   没有提示的话没人知道表格能横滑。 */
+.tscroll::-webkit-scrollbar{height:6px}
+.tscroll::-webkit-scrollbar-track{background:transparent}
+.tscroll::-webkit-scrollbar-thumb{background:#D6D2C6;border-radius:3px}

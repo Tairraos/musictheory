@@ -423,6 +423,17 @@ test('B3 各节装配数量：表格行数 / chips 数 / SVG 方块数', async (
     assert.equal(n('#chordKey option'), 7, '级数和弦调性下拉');
     assert.equal(n('#ivRoot option'), 13, '音程起点 C4–C5');
     assert.equal(n('#ivTop option'), 25, '音程终点 C4–C6');
+    // 窄屏表格横滑：每张表都要套在 .tscroll 里。
+    // 不套的话，390px 下表格的 min-content 超过容器，最后一列直接被裁掉——
+    // 而 500px 以上完全看不出来，所以必须靠断言守着。
+    const tbls = [...d.querySelectorAll('table')];
+    assert.ok(tbls.length > 0, '页面里得有表');
+    tbls.forEach(t => {
+      assert.ok(t.parentNode.classList.contains('tscroll'), '每张表都要套 .tscroll');
+      const cols = t.querySelectorAll('thead th').length;
+      assert.equal(t.parentNode.classList.contains('wide'), cols >= 4,
+        `列数 ${cols} 的表，wide 标记必须与"≥4 列"一致`);
+    });
     // 和弦进行/终止式条
     assert.equal(n('#progStrip > div'), 4, '默认进行 I–V–vi–IV 四块');
     assert.equal(n('#cadStrip > div'), 2, '默认终止 V→I 两块');
@@ -2057,6 +2068,16 @@ test('L1 作词课装配：14 节导航 + 每张表都有行', async () => {
     assert.equal(rows('#imageTable tr'), 3, '三个跨曲复现的意象');
     assert.equal(rows('#selfCheck li'), 11, '人读清单 11 条');
     assert.ok(d.querySelector('#genrePanel .schg'), '体裁面板默认就要有方案网格');
+
+    /* 同 B3：窄屏表格横滑的守卫（见 B3 的说明） */
+    const tbls = [...d.querySelectorAll('table')];
+    assert.ok(tbls.length > 0, '页面里得有表');
+    tbls.forEach(t => {
+      assert.ok(t.parentNode.classList.contains('tscroll'), '每张表都要套 .tscroll');
+      const cols = t.querySelectorAll('thead th').length;
+      assert.equal(t.parentNode.classList.contains('wide'), cols >= 4,
+        `列数 ${cols} 的表，wide 标记必须与"≥4 列"一致`);
+    });
   });
 });
 
