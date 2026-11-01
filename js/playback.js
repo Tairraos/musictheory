@@ -192,6 +192,18 @@ function playCadence(c){
  *
  *   排程规则：和弦周期固定 2 拍（TEX.hits 的坐标也是"拍"）。
  *     音头密度 = hits.length × b / 120（个/秒）——这是听感速度的唯一算法 */
+/* texSpan(tex)：一个和弦占几拍。
+ *   **这是密度公式的分母，必须与 sceneEvents 里真正用的那个 span 是同一个值。**
+ *   长音类织体（铺底/长音）一个和弦要拖好几拍，不能被 2 拍的和声周期腰斩——
+ *   否则"空旷""死亡"这种卡片会变回两拍一下，听感全错。
+ *   drone（长音）额外多给 2 拍空隙：音符只占周期的 2/3，剩下的静默
+ *   就是"空旷""辽阔"这条规律的物理实现——声音之间留的空即空间。
+ *
+ *   ⚠ 曾经 sceneEvents 里内联写着这条规则、而密度公式假设"周期恒为 2 拍"，
+ *     于是 30/91 张卡片自报的听感速度偏高 20%–250%（pad/drone 高 200%）。
+ *     现在抽成函数，两处共用，不会再走散。 */
+function texSpan(tex){ return tex.dur >= 4 ? tex.dur + 2 : Math.max(2, tex.dur); }
+
 function sceneEvents(cfg){
   const mode = M_OF(cfg.k), tex = TEX[cfg.tex] || TEX.block;
   /* 音色：默认跟着织体走（织体自带最合适的音色），
@@ -199,11 +211,7 @@ function sceneEvents(cfg){
      光靠调式只能定「调」，定不了「腔调」。 */
   const tone = (cfg.tn && TONES[cfg.tn]) ? cfg.tn : tex.tone;
   const spb = 60 / cfg.b, beatLen = spb * 2;      /* 和声周期 = 2 拍 */
-  /* 长音类织体（铺底/长音）一个和弦要拖好几拍，不能被 2 拍的和声周期腰斩——
-     否则"空旷""死亡"这种卡片会变回两拍一下，听感全错。
-     drone（长音）额外多给 2 拍空隙：音符只占周期的 2/3，剩下的静默
-     就是"空旷""辽阔"这条规律的物理实现——声音之间留的空即空间。 */
-  const span = tex.dur >= 4 ? tex.dur + 2 : Math.max(2, tex.dur);
+  const span = texSpan(tex);
   const period = spb * span;
   const steps = [];
   const root = midiOct(0, cfg.oct);
@@ -301,10 +309,17 @@ function sceneEvents(cfg){
 }
 
 /* sceneRate(cfg)：算出这张卡片的实际音头密度（个/秒）。
- *   卡片上"听感速度"那一栏显示的就是它，测试也拿它跟卡片自报的 r 对账 */
+ *   卡片上"听感速度"那一栏显示的就是它，测试也拿它跟卡片自报的 r 对账。
+ *
+ *   公式：**每和弦的音头数 ÷ 一个和弦实际占多少秒**
+ *       = hits.length × BPM ÷ (span × 60)
+ *   分母里的 span 必须与 sceneEvents 真正排程用的周期一致（见 texSpan）——
+ *   早先这里写死"周期＝2 拍"，而 pad/drone 实际 6 拍、openair 7 拍、bell 3 拍，
+ *   于是 30/91 张卡片自报的速度偏高 20%–250%（长音卡偏高 200%）。
+ *   BPM 在这里只是名义值：真正决定快慢的是"每秒敲几下"。 */
 function sceneRate(cfg){
   const tex = TEX[cfg.tex] || TEX.block;
-  return tex.hits.length * cfg.b / 120;
+  return tex.hits.length * cfg.b / (texSpan(tex) * 60);
 }
 
 /* scenePlay(cfg)：播放一张"听感配方"卡片。排程全部交给 sceneEvents，
@@ -588,6 +603,42 @@ function motifEvents(ver){
 
 function playMotif(ver){
   const ev = motifEvents(ver);
+  seq(ev.steps, '');
+}
+
+/* ---- 人声舒适音区（第 11 节 ⑨）-------------------------------------------
+ * 同一串相对音高（do-re-mi-sol-mi-re），只是整体落在不同音区。
+ * 三个版本的**音程关系完全一样**，变的只有绝对音高——
+ * 所以听出来的差别一定来自"音区"，不是"换了条旋律"。
+ * 音色用二胡：这套合成器里起音最慢、音区贴人声，最接近人唱歌。 */
+function voiceRangeEvents(row){
+  const V = VOICE_RANGE.demo, spb = 60 / V.bpm, base = midiOct(0, row.oct);
+  const steps = V.shape.map((s, i) => ({
+    at: i * spb, m: base + s, d: spb * 0.92, g: 0.62, kind: 'erhu',
+  }));
+  return { steps, beats: V.shape.length, dur: V.shape.length * spb };
+}
+
+function playVoiceRange(row){
+  const ev = voiceRangeEvents(row);
+  seq(ev.steps, '');
+}
+
+/* ---- 动机生成法（第 14 节 ⑤）-------------------------------------------
+ * 和 motifEvents 同一套写法：纯函数，返回事件表，测试直接对账。
+ * 母动机与五种生成结果摆在一起听——耳朵一听就知道"每种手法改的是哪一样"。
+ * 这里只排旋律层：这一节的论点全在音高与节奏上，垫音反而会挡住差别。 */
+function motifGenEvents(m){
+  const GEN = MOTIF_GEN, spb = 60 / GEN.bpm, base = midiOct(0, GEN.oct);
+  const steps = (m.notes || GEN.base.notes).map(n => ({
+    at: n.b * spb, m: base + n.s, d: n.d * spb * 0.96, g: .70, kind: 'piano',
+  }));
+  steps.sort((a, b) => a.at - b.at || a.m - b.m);
+  return { steps, beats: 8, dur: 8 * spb };
+}
+
+function playMotifGen(m){
+  const ev = motifGenEvents(m);
   seq(ev.steps, '');
 }
 

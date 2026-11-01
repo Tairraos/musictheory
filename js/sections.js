@@ -650,6 +650,62 @@ function buildLyric(){
 
   /* ⑧ 粤语九声 + 入声 */
   buildCanton();
+
+  /* ⑨ 人声舒适音区 */
+  buildVoiceRange();
+}
+
+/* ============ 第 11 节 ⑨ · 人声舒适音区 ============ */
+
+/* buildVoiceRange()：音区条 + 分区表 + 三档音区对照。
+ *   分区表的音高区间现取现算（VOICE_RANGE 里存的是半音数），
+ *   显示时才换成音名——这样区间与 MIDI 的对应关系永远只有一处定义。 */
+function buildVoiceRange(){
+  if (!$('#voiceFig')) return;
+  const V = VOICE_RANGE;
+
+  $('#voiceFig').innerHTML = voiceRangeSVG();
+
+  /* 分区表：音高区间现算成音名 */
+  const tb = $('#voiceTable');
+  if (tb){
+    tb.innerHTML = V.zones.map(z => {
+      const loN = noteName(midiOct(0, 4) + z.lo), hiN = noteName(midiOct(0, 4) + z.hi);
+      return `<tr>
+        <td><b>${z.n}</b></td>
+        <td class="mini mono">${loN} – ${hiN}</td>
+        <td class="mini">${z.feat}</td>
+        <td class="mini">${z.feel}</td>
+        <td class="mini">${z.use}</td>
+        <td class="mini">${z.risk}</td></tr>`;
+    }).join('');
+  }
+
+  /* 换声点的说明：音名现算（不写死），名称里已经带了音高就不再重复加一遍 */
+  const bi = $('#voiceBreak');
+  if (bi){
+    const bn = noteName(midiOct(0, 4) + V.breakNote.lo) + '–' + noteName(midiOct(0, 4) + V.breakNote.hi);
+    const name = V.breakNote.name.includes('约') ? V.breakNote.name
+      : `${V.breakNote.name}（约 ${bn}）`;
+    bi.innerHTML = `<b>${name}</b>：${V.breakNote.why}`;
+  }
+
+  /* 三档音区对照：三个 chip，点了就播 */
+  const cbox = $('#voiceChips');
+  V.demo.rows.forEach((r, i) => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (i === 0 ? ' on' : '');
+    b.textContent = r.n;
+    b.onclick = () => {
+      $$('#voiceChips .chip').forEach(c => c.classList.remove('on'));
+      b.classList.add('on');
+      $('#voiceInfo').innerHTML = `<b>${r.n}</b>（${r.tag}）<br><span class="mini">${r.say}</span>`;
+      playVoiceRange(r);
+    };
+    cbox.appendChild(b);
+  });
+  $('#voiceInfo').innerHTML =
+    `<b>${V.demo.rows[0].n}</b>（${V.demo.rows[0].tag}）<br><span class="mini">${V.demo.rows[0].say}</span>`;
 }
 
 /* ============ 第 11 节 ⑦ · 语言计时法 ============ */
@@ -941,8 +997,37 @@ function buildGroove(){
     return `<tr>
       <td class="mini">${p.need}</td>
       <td><b>${T.zh}</b><br><span class="pill mono">${p.tex}</span></td>
-      <td class="mini mono">${T.hits.length} / 2 拍<br><span style="color:#6F6C62">${(T.hits.length * GROOVE.bpm / 120).toFixed(2)} 音头/秒</span></td>
+      <td class="mini mono">${T.hits.length} / 2 拍<br><span style="color:#6F6C62">${grooveRate({ tex:p.tex }).toFixed(2)} 音头/秒</span></td>
       <td class="mini">${p.why}</td></tr>`;
+  }).join('');
+}
+
+/* texTableRate(tex)：总览表用的密度。
+ *   总览表要让 15 行**横向可比**，所以统一折算到 REF_BPM，
+ *   而不是各用各的 BPM（真实卡片的密度得按它自己的 BPM 算，那是 sceneRate）。
+ *   公式与 sceneRate 同源：hits ÷ (和弦周期秒数)。 */
+const TEX_REF_BPM = 100;
+function texTableRate(tex){
+  const T = TEX[tex] || TEX.block;
+  return T.hits.length * TEX_REF_BPM / (texSpan(T) * 60);
+}
+
+/* buildTexTable()：第 09 节 ④ 的 15 行织体总览表。
+ *   音头数与和弦周期**全部现取现算**，一个数字都不写死——
+ *   写两遍就一定会走散（这已经发生过好几次）。
+ *   密度用 texTableRate()，与 sceneRate() 同一个公式、同一个 texSpan()。 */
+function buildTexTable(){
+  const box = $('#texTable'); if (!box) return;
+  box.innerHTML = TEX_PICK.map(p => {
+    const T = TEX[p.tex] || TEX.block;
+    const span = texSpan(T);
+    return `<tr>
+      <td><b>${T.zh}</b><br><span class="pill mono">${p.tex}</span></td>
+      <td class="mini mono">${T.hits.length}</td>
+      <td class="mini mono">${span} 拍</td>
+      <td class="mini mono">${texTableRate(p.tex).toFixed(2)}<br><span style="color:#6F6C62">音头/秒</span></td>
+      <td class="mini">${p.feel}</td>
+      <td class="mini">${p.use}</td></tr>`;
   }).join('');
 }
 
@@ -1036,6 +1121,54 @@ function buildEnsemble(){
   /* 专辑收尾：曲线 + 一句判据 */
   if ($('#albumFig')) $('#albumFig').innerHTML = albumCurveSVG();
   if ($('#albumWhy')) $('#albumWhy').innerHTML = ALBUM_CURVE.why;
+}
+
+/* ==================== 第 14 节 ⑤ 动机怎么生成 ==================== */
+let genIdx = 0;
+
+/* renderMotifGen()：换生成法 → 图重画 + 三行读数。
+ * 图必须重画（这是本节的论点所在）：五种手法改的东西不一样，
+ * 图不改的话等于把"改了什么"藏起来了。 */
+function renderMotifGen(){
+  const GEN = MOTIF_GEN, m = GEN.methods[genIdx];
+  if ($('#motifGenFig')) $('#motifGenFig').innerHTML = motifGenSVG(m);
+  if ($('#motifGenInfo')){
+    $('#motifGenInfo').innerHTML =
+      `<b>${m.n}</b>：${m.how}<br>` +
+      `<span class="mini">听出来是：${m.hear}</span><br>` +
+      `<span class="mini">${m.say}</span>`;
+  }
+}
+
+function buildMotifGen(){
+  if (!$('#motifGenChips')) return;
+  const GEN = MOTIF_GEN;
+  const box = $('#motifGenChips');
+  GEN.methods.forEach((m, i) => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (i === 0 ? ' on' : '');
+    b.textContent = m.chip;
+    b.onclick = () => {
+      $$('#motifGenChips .chip').forEach(c => c.classList.remove('on'));
+      b.classList.add('on'); genIdx = i; renderMotifGen();
+    };
+    box.appendChild(b);
+  });
+  renderMotifGen();
+
+  /* 两个播放按钮：一个是母动机，一个是当前生成结果——
+     先听母动机、再听结果，"改了什么"才听得出来。 */
+  if ($('#motifGenPlayBase')) $('#motifGenPlayBase').onclick = () => playMotifGen(GEN.base);
+  if ($('#motifGenPlay')) $('#motifGenPlay').onclick = () => playMotifGen(GEN.methods[genIdx]);
+
+  const tb = $('#motifGenTable');
+  if (tb){
+    tb.innerHTML = GEN.methods.map(m => `<tr>
+      <td><b>${m.n}</b></td>
+      <td class="mini">${m.how}</td>
+      <td class="mini">${m.hear}</td>
+      <td class="mini">${m.risk}</td></tr>`).join('');
+  }
 }
 
 /* ==================== 第 14 节 ④ 跨曲的那根线 ==================== */

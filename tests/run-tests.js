@@ -402,6 +402,8 @@ test('B3 各节装配数量：表格行数 / chips 数 / SVG 方块数', async (
     assert.equal(n('#grooveTable tr'), 6, '选型表 6 行（含"留白"那一行）');
     assert.equal(n('#grooveGrid rect[data-hit]'), 1, '默认选中"块状"：两拍一个音头');
     assert.equal(n('#grooveGrid svg > rect'), 10, '八格网格 + 一个音头块 + 一条音长尾巴');
+    // 第 09 节 ④ · 织体总览表：标题说 15 种，表里就得有 15 行
+    assert.equal(n('#texTable tr'), 15, '织体总览表 15 行（与 TEX 的 15 种一一对应）');
     // 第 14 节 · 配器与专辑（新）
     assert.equal(n('#ensChips .chip'), 3, '三种编制 chips');
     assert.equal(n('#ensMel .lyr-b'), 10, '旋律条 = 10 个音');
@@ -413,6 +415,10 @@ test('B3 各节装配数量：表格行数 / chips 数 / SVG 方块数', async (
     assert.equal(n('#motifTable tr'), 3, '三个把手各一行');
     assert.equal(n('#motifFig polyline'), 2, '两条轮廓叠在同一张图上');
     assert.equal(n('#motifFig circle'), 8, '两版各四个音');
+    // 第 14 节 ⑤ · 动机怎么生成
+    assert.equal(n('#motifGenChips .chip'), 5, '五种生成手法 chips');
+    assert.equal(n('#motifGenTable tr'), 5, '生成法表 5 行');
+    assert.equal(n('#motifGenFig polyline'), 2, '母动机 + 生成结果两条线');
     // 场景卡片：12 维度 + 筛选条 + 拆解表
     assert.equal(n('#sceneGrid .scene'), 91, '默认展示全部 91 张场景卡片');
     assert.equal(n('#dimBar .chip'), 14, '筛选条 全部 + 13 维度');
@@ -967,6 +973,70 @@ test('A8 文案里的数量必须和数据对得上：标题说几个，表里�
   });
 });
 
+test('A9 织体总览表：15 行必须与 TEX 一一对应，数字全部现算不写死', async () => {
+  await withPage((w, d) => {
+    const { TEX, TEX_PICK, texSpan } = w.__MT__;
+
+    /* ① 标题说 15 种，表里就得有 15 行——这张表就是为了补"另外 9 种没人讲"的缺口，
+       行数对不上就等于没补上 */
+    const cardH3 = sel => {
+      const t = d.querySelector(sel);
+      assert.ok(t, sel + ' 应存在');
+      return t.closest('.card').querySelector('h3').textContent;
+    };
+    assert.match(cardH3('#texTable'), /15 种织体|十五种织体/, '标题必须写明 15 种织体');
+    assert.equal(d.querySelectorAll('#texTable tr').length, 15, '织体总览表应 15 行');
+
+    /* ② TEX_PICK 必须恰好覆盖 TEX 的全部 15 种：一种不多，一种不少。
+       漏一种 = 那一种还是没人知道它是干什么用的。 */
+    const texIds = Object.keys(TEX);
+    const pickIds = TEX_PICK.map(p => p.tex);
+    assert.equal(TEX_PICK.length, 15, 'TEX_PICK 必须 15 行');
+    assert.deepEqual([...pickIds].sort(), [...texIds].sort(),
+      `TEX_PICK 必须与 TEX 一一对应。缺：${texIds.filter(x => !pickIds.includes(x)).join(',') || '无'}；`
+      + `多：${pickIds.filter(x => !texIds.includes(x)).join(',') || '无'}`);
+    /* 也不能重复——重复两行等于漏了一种 */
+    assert.equal(new Set(pickIds).size, pickIds.length, 'TEX_PICK 里不能有重复的织体');
+
+    /* ③ 每行都得说清"什么时候用"和"听感"——少一列就退化成一张织体名单 */
+    TEX_PICK.forEach(p => {
+      assert.ok(p.use && p.use.length >= 4, `${p.tex} 缺"什么时候用"`);
+      assert.ok(p.feel && p.feel.length >= 4, `${p.tex} 缺"听感"`);
+    });
+
+    /* ④ 表里的数字必须现算：音头数、和弦周期、密度都不许写死。
+       渲染出来的文本里必须带着 TEX 里的真实 hits 数与 texSpan 的周期。 */
+    const rows = [...d.querySelectorAll('#texTable tr')];
+    TEX_PICK.forEach((p, i) => {
+      const T = TEX[p.tex];
+      const cells = [...rows[i].querySelectorAll('td')].map(td => td.textContent.replace(/\s+/g, ' ').trim());
+      assert.ok(cells[1].includes(String(T.hits.length)),
+        `第 ${i + 1} 行「${p.tex}」的音头数应现算为 ${T.hits.length}，实际读到「${cells[1]}」`);
+      assert.ok(cells[2].includes(`${texSpan(T)} 拍`),
+        `第 ${i + 1} 行「${p.tex}」的和弦周期应现算为 ${texSpan(T)} 拍，实际读到「${cells[2]}」`);
+      /* 密度 = hits ÷ (周期秒数)，折算到 100 BPM —— 与 sceneRate 同源 */
+      const want = T.hits.length * 100 / (texSpan(T) * 60);
+      assert.ok(cells[3].includes(want.toFixed(2)),
+        `第 ${i + 1} 行「${p.tex}」的密度应现算为 ${want.toFixed(2)}，实际读到「${cells[3]}」`);
+    });
+
+    /* ⑤ 密度必须真的按和弦周期折算——长音织体（周期 6–7 拍）的密度
+       必须**低于**普通两拍织体的同等音头数，否则分母写错了。
+       这条是"公式没走回老路"的哨兵。 */
+    const padRate = TEX.pad.hits.length * 100 / (texSpan(TEX.pad) * 60);
+    const blockRate = TEX.block.hits.length * 100 / (texSpan(TEX.block) * 60);
+    assert.ok(padRate < blockRate / 2,
+      `铺底（周期 ${texSpan(TEX.pad)} 拍）密度 ${padRate.toFixed(2)} 应远低于块状（周期 ${texSpan(TEX.block)} 拍）${blockRate.toFixed(2)}`);
+
+    /* ⑥ 选型表与总览表不能互相矛盾：GROOVE_PICK 引用的织体必须都在总览表里 */
+    const { GROOVE_PICK } = w.__MT__;
+    GROOVE_PICK.forEach(p => {
+      assert.ok(pickIds.includes(p.tex),
+        `选型表里的织体 ${p.tex} 必须出现在总览表里，否则两张表说法不一致`);
+    });
+  });
+});
+
 /* ============================================================================
  * F. 声学验证 —— 编排出来的声音，是不是真和描述相符
  * --------------------------------------------------------------------------
@@ -1046,21 +1116,80 @@ function loadData() {
   /* 顶层 const/let 不会自动挂到 vm context 上（跟浏览器 window 一样），
      所以显式跑一条赋值语句把它们导出——这与 app.js 里 window.__MT__ 的做法同理 */
   vm.runInContext('globalThis.__X__ = { SCENES, DIMS, TEX, TONES, NOISES, MODES, ALL_MODES, ' +
-                  'M_OF, triad, midiOct, f, noteName, sceneEvents, sceneRate };', ctx);
+    'M_OF, triad, midiOct, f, noteName, sceneEvents, sceneRate, texSpan };', ctx);
   return ctx.__X__;
 }
 
 test('F1 排程层：每张卡片自报的听感速度，与实际排出的音头密度一致', () => {
   const MT = loadData();
+  /* 密度公式：**每和弦音头数 ÷ 一个和弦实际占多少秒** = hits × BPM ÷ (span × 60)
+     span 必须与 sceneEvents 真正排程用的周期一致（texSpan）——
+     曾经这里假设"周期恒为 2 拍"，而 pad/drone 实际 6 拍、openair 7 拍、
+     bell 3 拍，于是 30/91 张卡片自报的速度偏高 20%–250%。
+     现在断言直接用 texSpan 算，与 sceneRate 同一个来源，不会再走散。 */
+  const rateOf = s => MT.TEX[s.tex].hits.length * s.b / (MT.texSpan(MT.TEX[s.tex]) * 60);
   let maxErr = 0, worst = null;
   MT.SCENES.forEach(s => {
     const declared = s.r;
-    const computed = MT.TEX[s.tex].hits.length * s.b / 120;
+    const computed = rateOf(s);
     const err = Math.abs(computed - declared);
     if (err > maxErr) { maxErr = err; worst = s; }
   });
-  assert.ok(maxErr <= 0.15,
-    `卡片自报听感速度与公式不符，最大偏差 ${maxErr.toFixed(2)}（${worst && worst.t}）`);
+  assert.ok(maxErr <= 0.05,
+    `卡片自报听感速度与公式不符，最大偏差 ${maxErr.toFixed(3)}（${worst && worst.t}）`);
+
+  /* 公式必须与 sceneRate 一致——同一个口径，不能两处各算一套 */
+  MT.SCENES.forEach(s => {
+    assert.ok(Math.abs(MT.sceneRate(s) - rateOf(s)) < 1e-9,
+      `「${s.t}」sceneRate 与独立算式不一致`);
+  });
+});
+
+test('F1b 密度口径：公式的分母必须等于排程真正用的和弦周期', () => {
+  const MT = loadData();
+  /* 这条守的是一个真实踩过的坑：密度公式曾经写死"和弦周期＝2 拍"，
+     而 sceneEvents 对长音织体用的是 6 拍（pad/drone）、7 拍（openair）、
+     3 拍（bell）、2.4 拍（stone）——于是 30/91 张卡片自报的听感速度
+     偏高 20%–250%，而卡片上显示的正是这个自报值。
+     光靠"r 与公式对账"抓不到（公式和 r 一起错），必须回到排程层量。 */
+
+  /* ① texSpan 必须与 sceneEvents 实际排出的周期一致——
+        一张卡的总时长 = 和弦数 × 周期 × 每拍秒数，反解出周期来对账 */
+  MT.SCENES.forEach(s => {
+    const ev = MT.sceneEvents(s);
+    const spb = 60 / s.b;
+    const realSpan = ev.dur / (s.prog.length * spb);
+    const declared = MT.texSpan(MT.TEX[s.tex]);
+    assert.ok(Math.abs(realSpan - declared) < 1e-9,
+      `「${s.t}」排出来的周期 ${realSpan.toFixed(3)} 拍与 texSpan 声明的 ${declared} 不符`);
+  });
+
+  /* ② 长音织体的周期必须真的大于 2 拍——这条守住"空旷/死亡"不会退回两拍一下 */
+  ['pad', 'drone', 'openair', 'bell'].forEach(k => {
+    const tex = MT.TEX[k];
+    assert.ok(MT.texSpan(tex) > 2,
+      `${k} 的和弦周期应为 ${MT.texSpan(tex)} 拍（长音织体不能被 2 拍腰斩）`);
+  });
+
+  /* ③ 密度公式必须随周期变长而变慢——周期是分母，
+        同一张卡若周期翻倍而音头数不变，密度必须减半 */
+  MT.SCENES.forEach(s => {
+    const tex = MT.TEX[s.tex];
+    const span = MT.texSpan(tex);
+    const hits = tex.hits.length;
+    const rate = MT.sceneRate(s);
+    assert.ok(Math.abs(rate - hits * s.b / (span * 60)) < 1e-9,
+      `「${s.t}」密度必须按 hits × BPM ÷ (span × 60) 算`);
+  });
+
+  /* ④ 反向断言：长音卡片必须**比**同 BPM 的两拍织体慢——
+        这是本次修复的直接效果，也是防止有人把公式改回旧版的哨兵 */
+  const longCard = MT.SCENES.find(s => s.tex === 'pad' && s.b === 56);
+  assert.ok(longCard, '应有一张 56 BPM 的铺底卡片');
+  const padRate = MT.sceneRate(longCard);
+  const twoBeatRate = MT.TEX.pad.hits.length * longCard.b / 120;
+  assert.ok(padRate < twoBeatRate * 0.5,
+    `56 BPM 的铺底卡密度 ${padRate.toFixed(3)} 应远低于按 2 拍周期算的 ${twoBeatRate.toFixed(3)}`);
 });
 
 test('F2 波形层：实测音头密度与标称 BPM 严格同向（热血必须快过悬疑）', () => {
@@ -1075,24 +1204,26 @@ test('F2 波形层：实测音头密度与标称 BPM 严格同向（热血必须
   assert.ok(mHot.rate > mSus.rate,
     `热血(${mHot.rate.toFixed(2)} 音头/秒) 必须快过悬疑(${mSus.rate.toFixed(2)} 音头/秒)`);
   /* 实测与排程公式应基本吻合（差 25% 内）——波形层与排程层互为交叉验证 */
-  const calc = s => MT.TEX[s.tex].hits.length * s.b / 120;
+  const calc = s => MT.TEX[s.tex].hits.length * s.b / (MT.texSpan(MT.TEX[s.tex]) * 60);
   assert.ok(Math.abs(mHot.rate - calc(hot)) / calc(hot) < 0.25,
     `热血实测 ${mHot.rate.toFixed(2)} 与公式 ${calc(hot).toFixed(2)} 偏差过大`);
 
   /* 第 2 层 · 排程层：全库自洽性。
-     关键认识：**听感速度 = 织体细分 × BPM，不是 BPM 本身**。
+     关键认识：**听感速度 = 每和弦音头数 ÷ 和弦实际时长，不是 BPM 本身**。
      shimmer（每周期 8 个音头）配 88 BPM = 5.87 音头/秒，
      march（2 个音头）配 150 BPM = 2.5 音头/秒——后者 BPM 更高却更慢。
      这不是 bug，这正是织体存在的意义（微光要的就是"密而轻"）。
+     而长音织体的和弦周期长达 6–7 拍，密度还要再除以那个周期——
+     分母里的 span 用 texSpan() 取，与 sceneEvents 真正排程用的值同源。
      所以这里不能断言"BPM 高 ⇒ 更快"，而要断言：
-       ① 卡片自报的 r 与织体×BPM 的计算值一致（数据自洽）
+       ① 卡片自报的 r 与公式计算值一致（数据自洽）
        ② 同一维度内部，听感密度与该维度的语义排序一致（语义自洽）
      跨维度的 BPM 单调性由 F1 + F3 的语义断言分别覆盖。 */
   const rateOf = s => MT.sceneRate(s);
   MT.SCENES.forEach(s => {
     const calc = rateOf(s);
-    assert.ok(Math.abs(calc - s.r) <= 0.15,
-      `「${s.t}」自报 r=${s.r} 与织体×BPM 计算值 ${calc.toFixed(2)} 不符`);
+    assert.ok(Math.abs(calc - s.r) <= 0.05,
+      `「${s.t}」自报 r=${s.r} 与公式计算值 ${calc.toFixed(2)} 不符`);
   });
 
   /* 同一维度内：语义上"更兴奋"的卡片，密度必须更高。
@@ -1814,6 +1945,73 @@ test('G6 配器：每版有且只有一位主乐，主乐在最上面，专辑�
 });
 
 
+test('G6b 调式 id 与进行：k 必须是合法调式，演示的进行必须与注释所说的罗马数字一致', async () => {
+  await withPage((w) => {
+    const { ALL_MODES, MODES, GROOVE, ENSEMBLE, MOTIF, SHUFFLE, M_OF, triad, midiOct } = w.__MT__;
+
+    /* ① M_OF 查不到 id 时**静默回落大调**（防御性写法）——这会让「小调演示」
+       实际发出大调，而且不报错。所以这里先把「回落行为」钉住：
+       合法 id 必须查到它自己，非法 id 必须回落到 ionian。
+       有了这条兜底，下面 ② 才抓得到真正的问题。 */
+    const ids = ALL_MODES.map(m => m.id);
+    assert.equal(ids.length, 28, '合法调式共 28 个（7 教会 + 5 五声 + 13 国风和风 + 布鲁斯）');
+    assert.ok(!ids.includes('minor'), '"minor" 不是合法 id（自然小调的 id 是 aeolian）');
+    ALL_MODES.forEach(m => assert.equal(M_OF(m.id).id, m.id, `${m.id} 必须查得到自己`));
+    assert.equal(M_OF('minor').id, MODES[0].id, '非法 id 回落到大调（这是被守住的既有行为）');
+
+    /* ② 四处演示用的 k 必须都是合法 id —— 这里就是真实 bug 的守卫：
+       曾写成 k:'minor'，静默回落后实际发大调，而注释写着「用 A 小调」。 */
+    [['GROOVE', GROOVE], ['ENSEMBLE', ENSEMBLE], ['MOTIF', MOTIF], ['SHUFFLE', SHUFFLE]]
+      .forEach(([n, o]) => {
+        assert.ok(ids.includes(o.k),
+          `${n} 的 k="${o.k}" 不是合法调式 id（会静默回落到大调 ionian）`);
+      });
+
+    /* ③ GROOVE / ENSEMBLE 的进行必须是注释写的那条 i – VI – III – VII。
+       这条是数据与注释脱节的守卫：曾写成 [0,5,3,4]（= i VI iv v），
+       注释与三处 playGroove 文档却都写着 i – VI – III – VII。 */
+    [['GROOVE', GROOVE], ['ENSEMBLE', ENSEMBLE]].forEach(([n, o]) => {
+      assert.deepEqual([...o.prog], [0, 5, 2, 6],
+        `${n} 的进行必须是 [0,5,2,6]（i – VI – III – VII）`);
+      /* 这四级的罗马数字必须真的读成 i – VI – III – VII */
+      const R = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+      const mode = M_OF(o.k);
+      const romans = o.prog.map(d => {
+        const ch = triad(midiOct(0, 3), mode, d);
+        const r = R[d % 7];
+        return (ch.q === 'min' || ch.q === 'dim') ? r.toLowerCase() : r;
+      });
+      assert.deepEqual([...romans], ['i', 'VI', 'III', 'VII'],
+        `${n} 的进行读出来必须是 i – VI – III – VII（实际读成 ${romans.join(' ')}）`);
+    });
+
+    /* ④ ENSEMBLE 的旋律必须**每一个音都落在当下和弦的和弦音上**——
+       这是 data.js 里写明的约定（「保证每个音都落在当下和弦的和弦音上」）。
+       旋律是按「相对主音的半音数」写的，换调式就得重验：
+       自然小调下 [0,5,2,6] 命中 10/10，而 [0,5,3,4] 只有 7/10。 */
+    const mode = M_OF(ENSEMBLE.k);
+    const base = midiOct(0, 5);
+    const miss = [];
+    ENSEMBLE.melody.forEach(n => {
+      const ci = Math.min(ENSEMBLE.prog.length - 1, Math.floor(n.b / 2));  /* 一个和弦 2 拍 */
+      const ch = triad(base, mode, ENSEMBLE.prog[ci]);
+      const pcs = ch.notes.map(x => (((x - base) % 12) + 12) % 12);
+      if (!pcs.includes((((n.s % 12) + 12) % 12))) {
+        miss.push(`s=${n.s}@b=${n.b}(和弦 ${ci + 1})`);
+      }
+    });
+    assert.equal(miss.length, 0,
+      `ENSEMBLE 旋律有 ${miss.length} 个音不在和弦上：${miss.join(' ')}——`
+      + '换调式后必须重验这条约定');
+
+    /* ⑤ 旋律的音必须全在调式内——不在调式内的音说明调式选错了 */
+    const semis = new Set(mode.semis);
+    const out = ENSEMBLE.melody.map(n => n.s % 12).filter(x => !semis.has(x));
+    assert.equal(out.length, 0, `ENSEMBLE 旋律有调式外音：${out.join(',')}`);
+  });
+});
+
+
 test('G7 跨曲动机：两版轮廓一个音都不能改，只准改时值与层数', async () => {
   await withPage((w) => {
     const { MOTIF, MOTIF_HANDLES, motifEvents, TONES } = w.__MT__;
@@ -1896,6 +2094,115 @@ test('G8 shuffle：音高一个不改，只有第二下落哪儿与音长不同'
     assert.equal(d.querySelectorAll('#shuffleFig svg rect[data-hit]').length, 8, '两行 × 2 拍 × 2 下');
     assert.notEqual(st.chip, sh.chip);
     SHUFFLE.kinds.forEach(k => assert.ok(k.chip && k.fig && k.say, `${k.n} 三处文案都不能空`));
+  });
+});
+
+
+test('G9 动机生成：五种手法各自与母动机的关系必须逐条成立', async () => {
+  await withPage((w, d) => {
+    const { MOTIF_GEN, motifGenEvents, MOTIF, M_OF } = w.__MT__;
+    const G = MOTIF_GEN;
+    const base = G.base.notes;
+    const byId = id => G.methods.find(m => m.id === id);
+    const sp = notes => notes.map(n => n.s);
+    const bp = notes => notes.map(n => n.b);
+
+    /* ① 五种手法，一个不多一个不少 */
+    assert.equal(G.methods.length, 5, '五种生成手法');
+    assert.deepEqual([...G.methods.map(m => m.id)].sort(),
+      ['grow', 'retro', 'rhythm', 'shift', 'transp'], '五种手法都得到');
+
+    /* ② 母动机必须与第 14 节 ④ 的原形是同一条——不然这一节跟前面脱节了 */
+    assert.deepEqual([...sp(base)], [...sp(MOTIF.versions[0].notes)],
+      '母动机必须与 MOTIF 原形同一条（同样的音高序列）');
+
+    /* ③ 节奏化：音高一个都不改，改的只有时值与位置。
+          这是五种里最容易被误写成"顺手改了音"的一种，所以守得最死。 */
+    {
+      const m = byId('rhythm');
+      assert.deepEqual([...sp(m.notes)], [...sp(base)], '节奏化的音高必须与母动机完全一致');
+      assert.notDeepEqual([...bp(m.notes)], [...bp(base)], '节奏化必须真的动了位置（否则它什么都不是）');
+      assert.notDeepEqual([...m.notes.map(n => n.d)], [...base.map(n => n.d)], '节奏化必须真的动了时值');
+    }
+
+    /* ④ 移位：音高与时值都不改，整条平移一个固定量 */
+    {
+      const m = byId('shift');
+      assert.deepEqual([...sp(m.notes)], [...sp(base)], '移位的音高必须与母动机完全一致');
+      assert.deepEqual([...m.notes.map(n => n.d)], [...base.map(n => n.d)], '移位的时值必须与母动机完全一致');
+      const shift = m.notes[0].b - base[0].b;
+      assert.ok(Math.abs(shift) > 1e-9, '移位必须真的挪了位置');
+      m.notes.forEach((n, i) => {
+        assert.ok(Math.abs((n.b - base[i].b) - shift) < 1e-9,
+          `第 ${i + 1} 个音必须整体平移 ${shift} 拍`);
+      });
+    }
+
+    /* ⑤ 逆行：音高顺序整个倒过来，节奏不变 */
+    {
+      const m = byId('retro');
+      assert.deepEqual([...sp(m.notes)], [...sp(base)].reverse(), '逆行必须是母动机音高的倒序');
+      assert.deepEqual([...m.notes.map(n => n.d)], [...base.map(n => n.d)], '逆行的时值不该变');
+    }
+
+    /* ⑥ 移调：整条等音程平移——相邻音的音程差必须处处相等 */
+    {
+      const m = byId('transp');
+      const ivs = arr => arr.slice(1).map((s, i) => s - arr[i]);
+      const baseIv = ivs(sp(base)), curIv = ivs(sp(m.notes));
+      assert.equal(curIv.length, baseIv.length, '移调不能改音的个数');
+      curIv.forEach((v, i) => {
+        assert.equal(v, baseIv[i], `第 ${i + 1} 个音程必须与母动机一致（等音程平移，不是重写）`);
+      });
+      const up = sp(m.notes)[0] - sp(base)[0];
+      assert.ok(up !== 0, '移调必须真的换了音高');
+      assert.ok(sp(m.notes).every(s => s - sp(base)[0] === (s - up) - sp(base)[0] + up),
+        '移调后每个音都要整体加同一个数');
+    }
+
+    /* ⑦ 增减音：只能差一个音——这是唯一允许改变音头数量的手法 */
+    {
+      const m = byId('grow');
+      const d = m.notes.length - base.length;
+      assert.ok(d === 1 || d === -1, `增减音只能多一个或少一个音（实际差 ${d}）`);
+      assert.ok(m.notes.length >= 4, '派生动机不该短到只剩三音以下');
+    }
+
+    /* ⑧ 全部音必须在调式内——动机跑调了就什么都不成立 */
+    const semis = new Set(M_OF(G.k).semis);
+    G.methods.forEach(m => {
+      const out = sp(m.notes).map(s => ((s % 12) + 12) % 12).filter(s => !semis.has(s));
+      assert.equal(out.length, 0, `${m.n} 有调式外音：${out.join(',')}`);
+    });
+
+    /* ⑨ 排程层：真的排得出音，且每个音都在母动机的拍位上 */
+    G.methods.forEach(m => {
+      const ev = motifGenEvents(m);
+      assert.equal(ev.steps.length, m.notes.length, `${m.n} 排出的音数必须等于它的音数`);
+      ev.steps.forEach((s, i) => {
+        assert.ok(Math.abs(s.at - m.notes[i].b * 60 / G.bpm) < 1e-9,
+          `${m.n} 第 ${i + 1} 个音的时间戳必须对上`);
+      });
+    });
+
+    /* ⑩ 界面：五种手法各一个 chip、一行表格；图必须同时画出母动机与生成结果 */
+    assert.equal(d.querySelectorAll('#motifGenChips .chip').length, 5, '五种手法 chips');
+    assert.equal(d.querySelectorAll('#motifGenTable tr').length, 5, '生成法表 5 行');
+    const fig = d.querySelector('#motifGenFig');
+    assert.ok(fig && fig.querySelector('svg'), '必须有对比图');
+    assert.equal(fig.querySelectorAll('polyline').length, 2, '两条线：母动机 + 生成结果');
+    assert.ok(fig.querySelectorAll('circle').length >= 8, '两条线上的音都要画出点');
+    /* 每种手法的三段文案都不能空 */
+    G.methods.forEach(m => {
+      assert.ok(m.how && m.hear && m.risk && m.say, `${m.n} 四段文案都不能空`);
+    });
+
+    /* ⑪ 换手法图必须跟着变——图不变就等于把"改了什么"藏起来了 */
+    const html1 = fig.innerHTML;
+    const chips = [...d.querySelectorAll('#motifGenChips .chip')];
+    chips[chips.length - 1].click();
+    const html2 = d.querySelector('#motifGenFig').innerHTML;
+    assert.notEqual(html1, html2, '换一种手法后图必须重画（这是本节的论点所在）');
   });
 });
 
@@ -2012,6 +2319,110 @@ test('E13 第 10 节 ② shuffle：两版都出声，且换 chip 会换说明与
     assert.notEqual(infos[0], infos[1], '两版的读数必须不同');
     assert.match(infos[0], /50%/, '直的应读 50%');
     assert.match(infos[1], /67%/, 'shuffle 应读 67%');
+  });
+});
+
+test('E14 第 11 节 ⑨ 人声舒适音区：分区连续无缝，换声点落在中音区，三档都能出声', async () => {
+  await withPage(async (w, d) => {
+    const waitSound = async (ms) => {
+      const t0 = Date.now();
+      while (Date.now() - t0 < ms){
+        if (w.__MT__.live.size > 0) return true;
+        await sleep(25);
+      }
+      return false;
+    };
+    const { VOICE_RANGE, voiceRangeEvents, noteName, midiOct } = w.__MT__;
+    const V = VOICE_RANGE;
+
+    /* ① 五个分区，且必须**连续无缝**——
+          音区是一条完整的带，中间不能有缝（缝＝没有音能唱的地方），
+          也不能重叠（重叠＝两个分区说同一段，分区就没意义了）。 */
+    assert.equal(V.zones.length, 5, '五个音区分区');
+    const zs = [...V.zones].sort((a, b) => a.lo - b.lo);
+    for (let i = 1; i < zs.length; i++){
+      assert.equal(zs[i].lo, zs[i - 1].hi + 1,
+        `「${zs[i - 1].n}」与「${zs[i].n}」之间必须严丝合缝（前一区的最高音 +1 = 后一区的最低音），`
+        + `实际 ${zs[i - 1].hi} → ${zs[i].lo}`);
+    }
+    zs.forEach(z => {
+      assert.ok(z.hi >= z.lo, `${z.n} 的区间不能反过来`);
+      assert.ok(z.feat && z.feel && z.use && z.risk, `${z.n} 四列文案都不能空`);
+    });
+
+    /* ② 换声点必须落在「中音区」那一档里——
+          这是本节的核心事实：换声点就在中音区，不在别处。
+          写错了这条，整张图就在骗人。 */
+    const mid = V.zones.find(z => z.id === 'mid');
+    assert.ok(mid, '必须有中音区');
+    assert.ok(V.breakNote.lo >= mid.lo && V.breakNote.hi <= mid.hi,
+      `换声点（${V.breakNote.lo}–${V.breakNote.hi}）必须落在中音区（${mid.lo}–${mid.hi}）之内`);
+    assert.ok(V.breakNote.hi > V.breakNote.lo, '换声点是一个窄带，不是一根线');
+    assert.ok(V.breakNote.why && V.breakNote.name, '换声点必须有名字与解释');
+
+    /* ②b 换声点名字里写的音名必须与它实际的半音区间一致。
+           这条守的是一类具体错误：名字写"约 E3–F4"（男声的换声点），
+           而区间数据却是相对中央 C 的 3–7 个半音（实际是 E♭4–G4）——
+           文字与数据各说各的，而两边都"看起来对"。
+           所以必须让名字里的音名现算一遍，跟区间对账。 */
+    const bn = noteName(midiOct(0, 4) + V.breakNote.lo) + '–' + noteName(midiOct(0, 4) + V.breakNote.hi);
+    const named = V.breakNote.name.match(/([A-G][#♭]?\d)–([A-G][#♭]?\d)/);
+    assert.ok(named, `换声点的名字里必须写出音名区间（现在写的是「${V.breakNote.name}」）`);
+    assert.equal(named[1], noteName(midiOct(0, 4) + V.breakNote.lo),
+      `换声点名字里的下限 ${named[1]} 与实际 ${noteName(midiOct(0, 4) + V.breakNote.lo)} 不符`);
+    assert.equal(named[2], noteName(midiOct(0, 4) + V.breakNote.hi),
+      `换声点名字里的上限 ${named[2]} 与实际 ${noteName(midiOct(0, 4) + V.breakNote.hi)} 不符`);
+    /* 渲染出来的说明里也不能把音名重复两遍 */
+    const brText = d.querySelector('#voiceBreak').textContent;
+    assert.ok(!brText.includes(`（${bn}）（约 ${bn}）`) && !brText.includes(`${bn}（约 ${bn}）`),
+      `换声点说明里音名不该重复：${brText.slice(0, 60)}`);
+
+    /* ③ 三条规则都必须有内容——少一条就只剩口号 */
+    assert.equal(V.rules.length, 3, '三条规则');
+    V.rules.forEach(r => assert.ok(r.n && r.d, `规则「${r.n}」不能缺内容`));
+
+    /* ④ 三档音区对照：音程关系必须完全一样，只有绝对音高不同。
+          变了音程就变成"另一条旋律"了，这一节的论证就垮了。 */
+    assert.equal(V.demo.rows.length, 3, '三档音区');
+    const shape = V.demo.shape;
+    const ivs = shape.slice(1).map((s, i) => s - shape[i]);
+    V.demo.rows.forEach(r => {
+      const ev = voiceRangeEvents(r);
+      assert.equal(ev.steps.length, shape.length, `${r.n} 的音数必须与原型一致`);
+      /* 三档之间的音程关系必须逐个相等（这是"同一句旋律"的定义） */
+      const got = ev.steps.slice(1).map((s, i) => s.m - ev.steps[i].m);
+      got.forEach((v, i) => assert.equal(v, ivs[i], `${r.n} 的第 ${i + 1} 个音程必须与原型一致`));
+      /* 绝对音高必须不同——否则三档听起来一样 */
+      assert.ok(r.oct >= 3 && r.oct <= 5, `${r.n} 的八度应在 3–5 之间`);
+      r.say && r.tag && r.n;
+    });
+    /* 三档的八度必须真的拉开（相邻差至少 1 个八度） */
+    const octs = V.demo.rows.map(r => r.oct).sort((a, b) => a - b);
+    assert.ok(octs[1] - octs[0] >= 1 && octs[2] - octs[1] >= 1,
+      '三档音区的八度必须逐档拉开，不能挤在一起');
+
+    /* ⑤ 界面：分区表 5 行、三个 chip、图必须画出换声点 */
+    assert.equal(d.querySelectorAll('#voiceTable tr').length, 5, '音区分区表 5 行');
+    assert.equal(d.querySelectorAll('#voiceChips .chip').length, 3, '三档音区 chips');
+    const fig = d.querySelector('#voiceFig');
+    assert.ok(fig && fig.querySelector('svg'), '必须有音区条图');
+    assert.match(fig.innerHTML, /换声点/, '图上必须标出换声点');
+    /* 表里的音高必须现算成音名，不是手写的 */
+    const firstRow = d.querySelector('#voiceTable tr');
+    const loN = noteName(midiOct(0, 4) + V.zones.find(z => z.lo === Math.min(...V.zones.map(z => z.lo))).lo);
+    assert.ok(firstRow.textContent.includes(loN),
+      `分区表的音高必须现算（最低区应是 ${loN}）`);
+
+    /* ⑥ 三档都要真的出声 */
+    const chips = [...d.querySelectorAll('#voiceChips .chip')];
+    const infos = [];
+    for (const c of chips){
+      c.click();
+      infos.push(d.querySelector('#voiceInfo').textContent);
+      assert.ok(await waitSound(700), '应出声：' + c.textContent);
+      w.__MT__.stopAll();
+    }
+    assert.notEqual(infos[0], infos[1], '三档的说明必须不同');
   });
 });
 

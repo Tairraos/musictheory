@@ -440,6 +440,106 @@ function albumCurveSVG(){
   return s;
 }
 
+/* ---- 人声舒适音区条（第 11 节 ⑨）------------------------------------------
+ * 一条横贯的音高条，按五个分区染色，**换声点用虚线单独标出来**——
+ * 这张图的全部意义就是让人看见"换声点在哪、它有多窄"。
+ * 换声点不是一条线而是一段窄带（lo–hi），所以画成一条带而不是一根线。
+ */
+function voiceRangeSVG(){
+  const V = VOICE_RANGE;
+  const X0 = 150, X1 = 640, TOP = 60, HH = 34;
+  const lo = -12, hi = 24;
+  const X = s => X0 + (s - lo) / (hi - lo) * (X1 - X0);
+  const COL = ['#185FA5', '#2E7D6F', '#534AB7', '#BA7517', '#D85A30'];
+
+  let s = `<svg viewBox="0 0 680 190" width="100%" class="ladder" role="img">`;
+  s += `<text x="40" y="${TOP - 16}" font-size="12" font-weight="600" fill="#2C2C2A">人声舒适音区（以中央 C 为基准）</text>`;
+
+  /* 五个分区：一条横条，按音高从高到低排列 */
+  const sorted = [...V.zones].sort((a, b) => b.lo - a.lo);
+  sorted.forEach((z, i) => {
+    const x1 = X(z.hi), x2 = X(z.lo);
+    s += `<rect x="${x1}" y="${TOP}" width="${x2 - x1}" height="${HH}" fill="${COL[i]}" opacity="0.16"/>`;
+    s += `<rect x="${x1}" y="${TOP}" width="${x2 - x1}" height="${HH}" fill="none" stroke="${COL[i]}" stroke-width="1.4"/>`;
+    s += `<text x="${(x1 + x2) / 2}" y="${TOP + HH / 2 + 4}" font-size="11" text-anchor="middle" fill="${COL[i]}" font-weight="600">${z.n.replace(/（.*/, '')}</text>`;
+  });
+
+  /* 换声点：一条窄带 + 上下引出线 + 标注 */
+  const bx1 = X(V.breakNote.hi), bx2 = X(V.breakNote.lo);
+  s += `<rect x="${bx1}" y="${TOP - 12}" width="${bx2 - bx1}" height="${HH + 24}" fill="none" stroke="#D85A30" stroke-width="1.6" stroke-dasharray="5 3"/>`;
+  s += `<line x1="${bx1}" y1="${TOP - 12}" x2="${bx1}" y2="${TOP + HH + 12}" stroke="#D85A30" stroke-width="1" stroke-dasharray="3 2"/>`;
+  s += `<line x1="${bx2}" y1="${TOP - 12}" x2="${bx2}" y2="${TOP + HH + 12}" stroke="#D85A30" stroke-width="1" stroke-dasharray="3 2"/>`;
+  s += `<text x="${(bx1 + bx2) / 2}" y="${TOP + HH + 28}" font-size="10.5" text-anchor="middle" fill="#D85A30" font-weight="600">换声点</text>`;
+
+  /* 音名刻度：只标有意义的几个（C4 中央 C、几个八度点） */
+  [[0, 'C4'],[12, 'C5'],[-12, 'C3'],[24, 'C6']].forEach(([semi, nm]) => {
+    s += `<line x1="${X(semi)}" y1="${TOP + HH}" x2="${X(semi)}" y2="${TOP + HH + 6}" stroke="#C4C0B4" stroke-width="1"/>`;
+    s += `<text x="${X(semi)}" y="${TOP + HH + 20}" font-size="10" text-anchor="middle" fill="#8B877C">${nm}</text>`;
+  });
+  s += `<text x="${X0}" y="${TOP + HH + 40}" font-size="10.5" fill="#6F6C62">低 ← 音高 → 高</text>`;
+  s += `<text x="${X1}" y="${TOP + HH + 40}" font-size="10.5" text-anchor="end" fill="#6F6C62">（半音数为相对中央 C 的偏移）</text>`;
+
+  /* 三条规则：每条一行，左侧序号 + 内容 */
+  V.rules.forEach((r, i) => {
+    const y = TOP + HH + 66 + i * 20;
+    s += `<circle cx="46" cy="${y - 4}" r="9" fill="#534AB7"/>`;
+    s += `<text x="46" y="${y}" font-size="10" text-anchor="middle" fill="#fff" font-weight="700">${i + 1}</text>`;
+    s += `<text x="62" y="${y}" font-size="11" fill="#4A4844">${r.n}</text>`;
+  });
+  s += '</svg>';
+  return s;
+}
+
+/* ---- 动机生成法对比图（第 14 节 ⑤）---------------------------------------
+ * 母动机（浅）与派生结果（深）叠在同一张图上，**图就是论证**：
+ *   节奏化 → 两条线在音高上完全重合，只有横向的点错开了
+ *   移位   → 两条线形状一样，整条平移了一段
+ *   逆行   → 两条线左右翻转
+ *   移调   → 两条线平行上移，间距处处相等
+ *   增减音 → 深线多一个点（或少一个）
+ * 所以这张图不需要文字解释——换一种手法，图自己就变了。
+ */
+function motifGenSVG(method){
+  const GEN = MOTIF_GEN, X0 = 70, per = 62, Y0 = 150, K = 8;
+  const X = b => X0 + b * per;
+  const Y = s => Y0 - s * K;
+  const base = GEN.base.notes, cur = (method && method.notes) || base;
+
+  let s = `<svg viewBox="0 0 680 210" width="100%" class="ladder" role="img">`;
+  /* 拍线 */
+  for (let i = 0; i <= 5; i++){
+    s += `<line x1="${X(i)}" y1="34" x2="${X(i)}" y2="160" stroke="#EAE7DC" stroke-width="1"/>`;
+    s += `<text x="${X(i)}" y="176" font-size="11" text-anchor="middle" fill="#A8A59B">${i}</text>`;
+  }
+  s += `<text x="40" y="176" font-size="11" fill="#A8A59B">拍</text>`;
+  /* 音高刻度：每 3 个半音一条横线，方便看出移调高了几个半音 */
+  for (let p = 0; p <= 12; p += 3){
+    s += `<line x1="${X0}" y1="${Y(p)}" x2="${X(5)}" y2="${Y(p)}" stroke="#F0EDE4" stroke-width="1"/>`;
+    s += `<text x="${X0 - 10}" y="${Y(p) + 4}" font-size="9.5" text-anchor="end" fill="#A8A59B">${p}</text>`;
+  }
+  s += `<text x="${X0 - 34}" y="34" font-size="9.5" fill="#A8A59B">半音</text>`;
+
+  /* 母动机：浅色、细线、空心点——它是"底稿" */
+  s += `<polyline fill="none" stroke="#CFCABE" stroke-width="2" stroke-dasharray="4 3" points="${base.map(n => `${X(n.b)},${Y(n.s)}`).join(' ')}"/>`;
+  base.forEach(n => {
+    s += `<circle cx="${X(n.b)}" cy="${Y(n.s)}" r="4" fill="#fff" stroke="#CFCABE" stroke-width="2"/>`;
+  });
+
+  /* 派生结果：深色实线 + 实心点 */
+  s += `<polyline fill="none" stroke="#D85A30" stroke-width="3" points="${cur.map(n => `${X(n.b)},${Y(n.s)}`).join(' ')}"/>`;
+  cur.forEach(n => {
+    s += `<circle cx="${X(n.b)}" cy="${Y(n.s)}" r="4.5" fill="#D85A30"/>`;
+  });
+
+  /* 图例 */
+  s += `<rect x="${X0}" y="192" width="24" height="3" rx="1.5" fill="#CFCABE"/>`;
+  s += `<text x="${X0 + 32}" y="197" font-size="11" fill="#6F6C62">母动机</text>`;
+  s += `<rect x="${X0 + 110}" y="192" width="24" height="3" rx="1.5" fill="#D85A30"/>`;
+  s += `<text x="${X0 + 142}" y="197" font-size="11" fill="#6F6C62">${method ? method.n : '母动机'}（生成结果）</text>`;
+  s += '</svg>';
+  return s;
+}
+
 /* ---- 动机轮廓图：同一形状被横向拉长（第 14 节收尾）-----------------------
  * 这张图只画两件事：横轴是拍、纵轴是音高（半音）。
  * 两条线**纵向完全重合、横向差一倍**——图本身就是论点：
