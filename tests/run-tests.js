@@ -1475,7 +1475,7 @@ test('F9 语义层 · 空间：空旷/辽阔 必须真的比逼仄/拥挤 更空
   /* 空间维度的整体单调性：这一维的 6 张卡片，音头间隔应与"空旷感"同序。
      这是数据级的体检——防止以后加卡片时把参数配反。 */
   const spaceScenes = S.filter(s => s.g === 'space');
-  const rateOf = s => MT.TEX[s.tex].hits.length * s.b / 120;
+  const rateOf = s => MT.TEX[s.tex].hits.length * s.b / (MT.texSpan(MT.TEX[s.tex]) * 60);
   const openOnes = spaceScenes.filter(s => ['空旷', '辽阔', '幽深', '遥远'].includes(s.t));
   const tightOnes = spaceScenes.filter(s => ['逼仄', '拥挤'].includes(s.t));
   const avg = arr => arr.reduce((a, s) => a + rateOf(s), 0) / arr.length;
@@ -1878,7 +1878,7 @@ test('G4 粤语：九声里恰好三个入声，且入声一律不可拖长', as
 
 test('G5 律动：五种织体都真实存在，密度单调，表格里的数字不是手写的', async () => {
   await withPage((w) => {
-    const { GROOVE, GROOVE_PICK, TEX, grooveRate } = w.__MT__;
+    const { GROOVE, GROOVE_PICK, TEX, grooveRate, texSpan } = w.__MT__;
     assert.equal(GROOVE.rows.length, 5, '五种打法');
 
     /* ① 引用的织体必须真的存在——否则按钮点下去没声音，而且不会报错 */
@@ -1897,12 +1897,60 @@ test('G5 律动：五种织体都真实存在，密度单调，表格里的数�
     const hits = GROOVE.rows.map(r => TEX[r.tex].hits.length);
     assert.deepEqual([...hits], [1, 2, 4, 4, 4], '音头数必须是 1 → 2 → 4 → 4 → 4');
 
-    /* ⑤ 表格里显示的密度必须来自 grooveRate（同一个函数），不能手写 */
+    /* ⑤ 表格里显示的密度必须来自 grooveRate（同一个函数），不能手写。
+          口径是 hits × BPM ÷（和弦周期拍数 × 60）——周期取 texSpan，与排程同源。
+          ⚠ 别写死 "/120"：五种律动织体的周期恰好都是 2 拍，写死旧公式照样全绿，
+            永远抓不到"密度公式退回老路"。真正抓得到的是下面 ⑥。 */
     GROOVE.rows.forEach(r => {
-      const want = TEX[r.tex].hits.length * GROOVE.bpm / 120;
+      const span = texSpan(TEX[r.tex]);
+      const want = TEX[r.tex].hits.length * GROOVE.bpm / (span * 60);
       assert.ok(Math.abs(grooveRate(r) - want) < 1e-9,
-        `${r.tex} 的听感密度应等于 hits × BPM / 120`);
+        `${r.tex} 的听感密度应等于 hits × BPM ÷（和弦周期 ${span} 拍 × 60）`);
     });
+
+    /* ⑥ 哨兵：grooveRate 必须是"按织体取周期"，而不是"一律按 2 拍"。
+          拿一个长音织体（铺底，周期 6 拍）代进去验一遍——
+          若公式退回 /120，这里必然算错（旧口径是 hits×BPM/120，新口径要再除以 3）。 */
+    const padSpan = texSpan(TEX.pad);
+    assert.ok(padSpan > 2, `铺底的和弦周期应为 ${padSpan} 拍，不是 2 拍`);
+    const padWant = TEX.pad.hits.length * GROOVE.bpm / (padSpan * 60);
+    assert.ok(Math.abs(grooveRate({ tex:'pad' }) - padWant) < 1e-9,
+      `长音织体的密度必须按 ${padSpan} 拍周期算，不能按 2 拍算`);
+    assert.ok(Math.abs(grooveRate({ tex:'pad' }) - TEX.pad.hits.length * GROOVE.bpm / 120) > 1e-9,
+      '若这条断言失败，说明 grooveRate 退回旧口径 /120 了');
+
+    /* ⑦ 这张网格图画的是两拍（8 个十六分格），前提是律动五种织体的周期都是 2 拍。
+          加进来一个长音织体的话，这张图就会画少一半——所以前提要有断言守着。 */
+    GROOVE.rows.forEach(r => {
+      assert.equal(texSpan(TEX[r.tex]), 2,
+        `律动织体 ${r.tex} 的和弦周期必须仍是 2 拍；若改了，十六分网格要同步改成 texSpan 格数`);
+    });
+  });
+});
+
+test('G5b 律动选型表：周期与密度必须现算，文案里的拍数不能和数据脱节', async () => {
+  await withPage((w, d) => {
+    const { GROOVE_PICK, TEX, texSpan } = w.__MT__;
+
+    /* ① 表格第三列写着"几个音头 / 几拍"，两个数都必须现算。
+       曾经这里写死 "/ 2 拍"，而 pad 的真实周期是 6 拍——
+       表上写着"1 / 2 拍"、文案写着"整小节一个音"，与实际排程对不上。 */
+    const rows = [...d.querySelectorAll('#grooveTable tr')];
+    assert.equal(rows.length, GROOVE_PICK.length, '选型表行数');
+    GROOVE_PICK.forEach((p, i) => {
+      const T = TEX[p.tex];
+      const span = texSpan(T);
+      const txt = rows[i].textContent;
+      assert.ok(txt.includes(`${T.hits.length} / ${span} 拍`),
+        `「${p.tex}」那行的音头数与周期应现算为 ${T.hits.length} / ${span} 拍，实际读到「${txt.replace(/\s+/g, ' ')}」`);
+    });
+
+    /* ② 文案里提到拍数的，必须跟数据一致。
+       pad 是唯一周期不是 2 拍的织体，所以它的说明必须写 6 拍，不能写"整小节一个音"。 */
+    const pad = GROOVE_PICK.find(p => p.tex === 'pad');
+    assert.ok(pad, '选型表里应有 pad（留白那一条）');
+    assert.ok(pad.why.includes(`${texSpan(TEX.pad)} 拍`),
+      `pad 的说明必须写明 ${texSpan(TEX.pad)} 拍（数据是 ${texSpan(TEX.pad)} 拍），实际写的是「${pad.why}」`);
   });
 });
 

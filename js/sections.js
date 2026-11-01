@@ -962,13 +962,14 @@ let groIdx = 0;
 
 /* renderGroove()：换织体时重画网格 + 三行读数。
  * 读数的三个数字全部算出来，没有一个是手写的：
- *   每拍音头 = hits.length ÷ 和弦拍数（2）
+ *   每拍音头 = hits.length ÷ 和弦拍数（texSpan(T)，普通织体才是 2）
  *   听感密度 = grooveRate()——和场景卡片用的是同一个函数
  *   音长     = TEX.dur */
 function renderGroove(){
   const G = GROOVE, row = G.rows[groIdx], T = TEX[row.tex] || TEX.block;
+  const span = texSpan(T);
   $('#grooveGrid').innerHTML = grooveGridSVG(row);
-  const perBeat = (T.hits.length / 2).toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1');
+  const perBeat = (T.hits.length / span).toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1');
   $('#grooveInfo').innerHTML =
     `<b>${row.n}</b>（织体 <span class="mono">${row.tex}</span>）· ` +
     `每拍 <b>${perBeat}</b> 个音头 · 听感 <b>${grooveRate(row).toFixed(2)}</b> 音头/秒 · ` +
@@ -997,7 +998,7 @@ function buildGroove(){
     return `<tr>
       <td class="mini">${p.need}</td>
       <td><b>${T.zh}</b><br><span class="pill mono">${p.tex}</span></td>
-      <td class="mini mono">${T.hits.length} / 2 拍<br><span style="color:#6F6C62">${grooveRate({ tex:p.tex }).toFixed(2)} 音头/秒</span></td>
+      <td class="mini mono">${T.hits.length} / ${texSpan(T)} 拍<br><span style="color:#6F6C62">${grooveRate({ tex:p.tex }).toFixed(2)} 音头/秒</span></td>
       <td class="mini">${p.why}</td></tr>`;
   }).join('');
 }

@@ -190,8 +190,9 @@ function playCadence(c){
  *     at  = 相对起点的秒数    m = MIDI 号      d = 时值（秒）
  *     g   = 音量             kind = 音色 id   bend = 滑音半音数
  *
- *   排程规则：和弦周期固定 2 拍（TEX.hits 的坐标也是"拍"）。
- *     音头密度 = hits.length × b / 120（个/秒）——这是听感速度的唯一算法 */
+ *   排程规则：TEX.hits 的坐标是"拍"，一个和弦占几拍由 texSpan(tex) 决定
+ *     （普通织体 2 拍，长音织体 6–7 拍——声音之间留的空即空间）。
+ *     音头密度 = hits.length × BPM ÷ (texSpan × 60)（个/秒）——这是听感速度的唯一算法 */
 /* texSpan(tex)：一个和弦占几拍。
  *   **这是密度公式的分母，必须与 sceneEvents 里真正用的那个 span 是同一个值。**
  *   长音类织体（铺底/长音）一个和弦要拖好几拍，不能被 2 拍的和声周期腰斩——
@@ -210,8 +211,8 @@ function sceneEvents(cfg){
      但场景可以自己指定 tn 覆盖——国风/和风那批卡片要用竹笛、尺八这些乐器音色，
      光靠调式只能定「调」，定不了「腔调」。 */
   const tone = (cfg.tn && TONES[cfg.tn]) ? cfg.tn : tex.tone;
-  const spb = 60 / cfg.b, beatLen = spb * 2;      /* 和声周期 = 2 拍 */
-  const span = texSpan(tex);
+  const spb = 60 / cfg.b;
+  const span = texSpan(tex);                 /* 一个和弦占几拍——与密度公式共用同一来源 */
   const period = spb * span;
   const steps = [];
   const root = midiOct(0, cfg.oct);
