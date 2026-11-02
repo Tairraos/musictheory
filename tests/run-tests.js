@@ -3015,6 +3015,8 @@ test('P3 互动课播放器：首页、开页、停留完成与跳过都可走',
     G.openPage(first.id);
     assert.equal(d.querySelector('#playerView').hidden, false, '开页后要显示播放器');
     assert.equal(d.querySelector('#playerTitle').textContent, first.title, '标题要来自配置');
+    assert.equal(d.querySelector('#gameDock').hidden, false, '播放器页要显示底部钢琴');
+    assert.equal(d.querySelectorAll('#gameKb .wk').length, 14, '底部钢琴固定画 C4–B5 十四个白键');
     const shouldHideGoal = !first.goal || first.goal === first.title ||
       first.blocks.some(b => (b.text || '') === first.goal);
     assert.equal(d.querySelector('#playerGoal').hidden, shouldHideGoal,
@@ -3038,13 +3040,20 @@ test('P3 互动课播放器：首页、开页、停留完成与跳过都可走',
 });
 
 test('P4 互动课音频与表格：真实块能渲染、音频能触发而不报错', async () => {
-  await withGamePage((w, d) => {
+  await withGamePage(async (w, d) => {
     const G = w.__GAME__;
 
     const audioPage = G.config.pages.find(p => p.blocks.some(b => b.type === 'audio'));
     assert.ok(audioPage, '配置里至少要有一页带音频');
     G.openPage(audioPage.id);
     d.querySelector('#pageBlocks .audio-card').click();
+    await new Promise(r => setTimeout(r, 150));   /* 桩时钟冻结在 0，首音 at≈0.08s，flash 延迟 80ms */
+    assert.ok(d.querySelectorAll('#gameKb .flash').length >= 1,
+      '演示音频发声时，底部钢琴对应键要闪琥珀');
+
+    const wk = d.querySelector('#gameKb .wk');
+    wk.dispatchEvent(new w.Event('pointerdown', { bubbles: true }));
+    assert.ok(true, '点底部钢琴的白键不应抛错');
 
     const tablePage = G.config.pages.find(p => p.blocks.some(b => b.type === 'table'));
     assert.ok(tablePage, '配置里至少要有一页带表格');

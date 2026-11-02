@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/images/favicon.ico" sizes="any">
 <link rel="icon" href="assets/images/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/images/favicon.png">
-<title>姐弟厨师团 --- 互动课 V1.39 [26.11.02]</title>
+<title>姐弟厨师团 --- 互动课 V1.40 [26.11.02]</title>
 <link rel="stylesheet" href="css/game.css">
 </head>
 <body>
@@ -17,7 +17,7 @@
     <span class="brand-mark">姐</span>
     <span><b>互动课</b><small>一个知识点一页</small></span>
   </a>
-  <span class="ver" data-ver><b>V1.39</b> [26.11.02]</span>
+  <span class="ver" data-ver><b>V1.40</b> [26.11.02]</span>
 </header>
 
 <main id="gameRoot">
@@ -57,8 +57,13 @@
   </section>
 </main>
 
+<!-- 底部常驻钢琴：仅播放器页显示；点键即响，演示音频播到哪个音哪个键闪 -->
+<div id="gameDock" hidden>
+  <div id="gameKb" class="gkb" aria-label="钢琴键盘，点按发声"></div>
+</div>
+
 <footer class="game-footer">
-  <span class="ver" data-ver><b>V1.39</b> [26.11.02]</span>
+  <span class="ver" data-ver><b>V1.40</b> [26.11.02]</span>
   <button id="resetBtn" type="button">清空当前课程进度</button>
 </footer>
 <div id="toast" role="status" aria-live="polite"></div>
@@ -68,6 +73,7 @@
 <script src="js/game-core.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/game-audio.js"></script>
+<script src="js/game-kb.js"></script>
 <script src="js/game-render.js"></script>
 <script src="js/game-app.js"></script>
 </body>

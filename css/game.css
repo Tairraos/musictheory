@@ -187,3 +187,42 @@ p{margin:0}
   .lesson-card{padding:30px}
   .player-view{padding-top:24px}
 }
+
+/* ==========================================================================
+ * 18. 底部常驻钢琴（V1.40）
+ * --------------------------------------------------------------------------
+ * 教程页的 #dockKb 是互动课用户已经离不开的东西：点键即响、演示音频闪键。
+ * 固定 C4–B5 两八度（14 白键），无拖拽、无调式亮键——那两样是教程交互层的。
+ * ========================================================================== */
+#gameDock{
+  position:fixed;left:0;right:0;bottom:0;z-index:9;
+  padding:8px 10px calc(8px + env(safe-area-inset-bottom));
+  background:rgba(247,244,236,.96);border-top:1px solid var(--line);backdrop-filter:blur(10px);
+}
+.gkb{position:relative;height:124px;user-select:none;
+  background:#EDEBE4;border:1px solid #C9C6BE;border-radius:10px;
+  overflow:hidden;touch-action:manipulation}
+.gkb .wk{
+  position:absolute;top:0;bottom:0;border:1px solid #C9C6BE;border-radius:0 0 7px 7px;
+  background:linear-gradient(#FFFFFF,#FBFAF6);cursor:pointer;transition:background .08s;
+}
+.gkb .wk:active{background:#F1EFFD}
+.gkb .wk .n{
+  position:absolute;bottom:6px;left:0;right:0;text-align:center;
+  font-size:10px;color:#33322E;font-weight:700;font-family:ui-monospace,monospace;
+}
+.gkb .bk{
+  position:absolute;top:0;height:58%;border-radius:0 0 5px 5px;
+  background:#3A3936;border:1px solid #221F1D;cursor:pointer;transition:background .08s;z-index:3;
+}
+.gkb .press{transform:translateY(2px) scaleY(.97)}
+/* 发声瞬间整键变琥珀（黑键深琥珀），与教程键盘同一套视觉语言 */
+.gkb .wk.flash{background:#FAC775;border-color:#BA7517}
+.gkb .bk.flash{background:#EF9F27;border-color:#854F0B}
+.gkb .wk.flash,.gkb .bk.flash{transform:translateY(2px) scaleY(.97)}
+
+/* 底部导航抬到钢琴上方；播放器正文滚动到底时不被钢琴盖住 */
+.bottom-nav{bottom:calc(140px + env(safe-area-inset-bottom));padding-bottom:12px}
+#playerView{padding-bottom:calc(176px + env(safe-area-inset-bottom))}
+/* toast 原位会被钢琴挡住，播放器页整体抬高 */
+#toast{bottom:calc(160px + env(safe-area-inset-bottom))}

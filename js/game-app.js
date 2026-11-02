@@ -5,7 +5,7 @@
  *       页面内容只从 COURSE_CONFIG 取；本文件不复制任何知识点文案。
  * ========================================================================== */
 
-const VERSION = { v: '1.39', date: '26.11.02' };
+const VERSION = { v: '1.40', date: '26.11.02' };
 const PROGRESS_KEY = 'jiedi-course-progress-v1';
 
 const memoryStorage = (() => {
@@ -68,6 +68,7 @@ function courseOf(id){ return config.courses.find(c => c.id === id); }
 function renderHome(){
   stopGameAudio();
   clearDwell();
+  gameKbShow(false);
   currentPageId = null;
   setView('home');
   setHash('#home');
@@ -178,6 +179,7 @@ function openPage(id){
   currentPageId = id;
   ensureSeen(id);
   setView('player');
+  gameKbShow(true);
   setHash('#' + id);
 
   const pages = pagesForCourse(config, page.course);
@@ -266,8 +268,14 @@ $('#resetBtn').addEventListener('click', resetCourse);
 
 window.addEventListener('hashchange', () => {
   const id = decodeURIComponent(location.hash.slice(1));
-  if (id && pageIndex(config, id) > -1) openPage(id);
-  else renderHome();
+  if (id && pageIndex(config, id) > -1){
+    /* openPage 里 setHash 的 replaceState 会引发 hashchange 回声（jsdom 必现，
+     * 部分环境也会）；同页不重开，否则会把刚排上的演示音频与闪键全部作废 */
+    if (id === currentPageId) return;
+    openPage(id);
+  } else if (currentPageId){
+    renderHome();
+  }
 });
 
 applyVersion();
