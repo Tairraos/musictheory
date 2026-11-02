@@ -221,8 +221,22 @@ p{margin:0}
 .gkb .bk.flash{background:#EF9F27;border-color:#854F0B}
 .gkb .wk.flash,.gkb .bk.flash{transform:translateY(2px) scaleY(.97)}
 
-/* 底部导航抬到钢琴上方；播放器正文滚动到底时不被钢琴盖住 */
-.bottom-nav{bottom:calc(140px + env(safe-area-inset-bottom));padding-bottom:12px}
-#playerView{padding-bottom:calc(176px + env(safe-area-inset-bottom))}
+/* 底部导航固定：sticky 在长页里会"到处跑"，改为固定吸底（钢琴上方）；
+ * 播放器正文与 toast 相应避让。 */
+.bottom-nav{
+  position:fixed;left:50%;transform:translateX(-50%);z-index:8;
+  bottom:calc(140px + env(safe-area-inset-bottom));width:min(820px,100%);
+  padding:12px 18px 12px;
+  background:linear-gradient(rgba(247,244,236,0),var(--bg) 30%);
+}
+#playerView{padding-bottom:calc(230px + env(safe-area-inset-bottom))}
 /* toast 原位会被钢琴挡住，播放器页整体抬高 */
 #toast{bottom:calc(160px + env(safe-area-inset-bottom))}
+
+/* ---------- 19. 教程示意图（V1.41） ---------- */
+/* 教程的阶梯图/对比图/网格图整块渲染；宽图在窄屏横向滑动，
+ * 播放时发声方块加 .lit 点成珊瑚色（与教程 playback.js 同一套视觉语言）。 */
+.svg-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:4px 0}
+.svg-wrap svg{display:block;max-width:none}
+.svg-wrap rect.lit{fill:#D85A30 !important;stroke:#993C1D !important}
+.svg-wrap rect.lit + text{fill:#FFFFFF !important}

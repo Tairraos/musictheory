@@ -59,7 +59,7 @@ return {
       "chapter": "00 先弄响一架钢琴",
       "title": "先弄响一架钢琴 · 1",
       "goal": "调（主音） 调式 当前：C 大调（Ionian） 规则：2 2 1 2 2 2 明亮 · 稳定",
-      "estimatedSeconds": 45,
+      "estimatedSeconds": 88,
       "blocks": [
         {
           "type": "text",
@@ -72,15 +72,223 @@ return {
         {
           "type": "tip",
           "text": "当前：C 大调（Ionian） 规则：2 2 1 2 2 2 明亮 · 稳定"
+        },
+        {
+          "type": "audio",
+          "label": "播放音阶",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.3,
+              "m": 62,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.6,
+              "m": 64,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.9,
+              "m": 65,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.2,
+              "m": 67,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.5,
+              "m": 69,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.8,
+              "m": 71,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 2.1,
+              "m": 72,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 2.4,
+              "m": 74,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 2.7,
+              "m": 76,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 3,
+              "m": 77,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 3.3,
+              "m": 79,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 3.6,
+              "m": 81,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 3.9,
+              "m": 83,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "下行",
+          "evs": [
+            {
+              "t": 0,
+              "m": 83,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.28,
+              "m": 81,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.56,
+              "m": 79,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.84,
+              "m": 77,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.12,
+              "m": 76,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.4,
+              "m": 74,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.68,
+              "m": 72,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.96,
+              "m": 71,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 2.24,
+              "m": 69,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 2.52,
+              "m": 67,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 2.8,
+              "m": 65,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 3.08,
+              "m": 64,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 3.36,
+              "m": 62,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 3.64,
+              "m": 60,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 2,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -111,7 +319,7 @@ return {
       "chapter": "01 半音、全音与音程",
       "title": "先量两个音之间有多远",
       "goal": "先量两个音之间有多远 起点 终点 音程名称 大三度 包含几个半音 4 个 C4 → E4：亮、宽。",
-      "estimatedSeconds": 45,
+      "estimatedSeconds": 65,
       "blocks": [
         {
           "type": "heading",
@@ -145,15 +353,49 @@ return {
         {
           "type": "tip",
           "text": "C4 → E4：亮、宽。大调的味道就在这。"
+        },
+        {
+          "type": "audio",
+          "label": "听听这个音程",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.75,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.7,
+              "m": 64,
+              "d": 0.85,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.5,
+              "m": 60,
+              "d": 0.8,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 1.5,
+              "m": 64,
+              "d": 0.8,
+              "g": 0.3,
+              "kind": "piano"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 4,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -295,8 +537,8 @@ return {
       "course": "music",
       "chapter": "02 大调与小调：差的就是一个半音",
       "title": "大调 全 全 半 全 全 全 半",
-      "goal": "大调 全 全 半 全 全 全 半 C C♯ D D♯ E F F♯ G G♯ A A♯ B C4 1 D4 2 E4 3 F4 4 G4 5 A4 6 B4 7",
-      "estimatedSeconds": 100,
+      "goal": "大调 全 全 半 全 全 全 半 第三级到主音是大三度（4 个半音）→ 敞亮。",
+      "estimatedSeconds": 89,
       "blocks": [
         {
           "type": "heading",
@@ -304,145 +546,94 @@ return {
           "text": "大调 全 全 半 全 全 全 半"
         },
         {
-          "type": "text",
-          "text": "C"
-        },
-        {
-          "type": "text",
-          "text": "C♯"
-        },
-        {
-          "type": "text",
-          "text": "D"
-        },
-        {
-          "type": "text",
-          "text": "D♯"
-        },
-        {
-          "type": "text",
-          "text": "E"
-        },
-        {
-          "type": "text",
-          "text": "F"
-        },
-        {
-          "type": "text",
-          "text": "F♯"
-        },
-        {
-          "type": "text",
-          "text": "G"
-        },
-        {
-          "type": "text",
-          "text": "G♯"
-        },
-        {
-          "type": "text",
-          "text": "A"
-        },
-        {
-          "type": "text",
-          "text": "A♯"
-        },
-        {
-          "type": "text",
-          "text": "B"
-        },
-        {
-          "type": "text",
-          "text": "C4"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "D4"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "E4"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "F4"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "G4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "A4"
-        },
-        {
-          "type": "text",
-          "text": "6"
-        },
-        {
-          "type": "text",
-          "text": "B4"
-        },
-        {
-          "type": "text",
-          "text": "7"
-        },
-        {
-          "type": "text",
-          "text": "C5"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "audio",
-          "label": "播放大调音阶",
-          "notes": [
-            60,
-            62,
-            64,
-            65,
-            67,
-            69,
-            71,
-            72
-          ],
-          "gap": 0.3
-        },
-        {
-          "type": "audio",
-          "label": "配个大三和弦",
-          "notes": [
-            60,
-            64,
-            67
-          ],
-          "gap": 0.45
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 272\" width=\"100%\" class=\"ladder\" role=\"img\"><text x=\"63.07692307692308\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">C</text><text x=\"109.23076923076924\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">C♯</text><text x=\"155.3846153846154\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">D</text><text x=\"201.53846153846152\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">D♯</text><text x=\"247.69230769230768\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">E</text><text x=\"293.84615384615387\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">F</text><text x=\"340\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">F♯</text><text x=\"386.1538461538462\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">G</text><text x=\"432.3076923076923\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">G♯</text><text x=\"478.46153846153845\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">A</text><text x=\"524.6153846153846\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">A♯</text><text x=\"570.7692307692307\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">B</text><line x1=\"40\" y1=\"242\" x2=\"640\" y2=\"242\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><rect data-note=\"60\" x=\"41.07692307692308\" y=\"208\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"63.07692307692308\" y=\"220\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">C4</text><text x=\"63.07692307692308\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">1</text><rect data-note=\"62\" x=\"133.3846153846154\" y=\"178\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"155.3846153846154\" y=\"190\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">D4</text><text x=\"155.3846153846154\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">2</text><rect data-note=\"64\" x=\"225.69230769230768\" y=\"148\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"247.69230769230768\" y=\"160\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">E4</text><text x=\"247.69230769230768\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">3</text><rect data-note=\"65\" x=\"271.84615384615387\" y=\"133\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"293.84615384615387\" y=\"145\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">F4</text><text x=\"293.84615384615387\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">4</text><rect data-note=\"67\" x=\"364.1538461538462\" y=\"103\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"386.1538461538462\" y=\"115\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">G4</text><text x=\"386.1538461538462\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">5</text><rect data-note=\"69\" x=\"456.46153846153845\" y=\"73\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"478.46153846153845\" y=\"85\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">A4</text><text x=\"478.46153846153845\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">6</text><rect data-note=\"71\" x=\"548.7692307692307\" y=\"43\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"570.7692307692307\" y=\"55\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">B4</text><text x=\"570.7692307692307\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">7</text><rect data-note=\"72\" x=\"87.23076923076924\" y=\"28\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"109.23076923076924\" y=\"40\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">C5</text><text x=\"109.23076923076924\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">1</text></svg>"
         },
         {
           "type": "tip",
           "text": "第三级到主音是大三度（4 个半音）→ 敞亮。儿歌、节日、阳光几乎全在这。"
+        },
+        {
+          "type": "audio",
+          "label": "播放大调音阶",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.3,
+              "m": 62,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.6,
+              "m": 64,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.9,
+              "m": 65,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.2,
+              "m": 67,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.5,
+              "m": 69,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.8,
+              "m": 71,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "配个大三和弦",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 2.2,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 64,
+              "d": 2.2,
+              "g": 0.32,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 67,
+              "d": 2.2,
+              "g": 0.32,
+              "kind": "piano"
+            }
+          ]
         }
       ],
       "skip": true,
@@ -459,8 +650,8 @@ return {
       "course": "music",
       "chapter": "02 大调与小调：差的就是一个半音",
       "title": "小调 全 半 全 全 半 全 全",
-      "goal": "小调 全 半 全 全 半 全 全 C C♯ D D♯ E F F♯ G G♯ A A♯ B C4 1 D4 2 D♯4 3 F4 4 G4 5 G♯4 6 A♯",
-      "estimatedSeconds": 100,
+      "goal": "小调 全 半 全 全 半 全 全 第三级掉半格，换成小三度（3 个半音）→ 一开口就是深夜。",
+      "estimatedSeconds": 88,
       "blocks": [
         {
           "type": "heading",
@@ -468,145 +659,94 @@ return {
           "text": "小调 全 半 全 全 半 全 全"
         },
         {
-          "type": "text",
-          "text": "C"
-        },
-        {
-          "type": "text",
-          "text": "C♯"
-        },
-        {
-          "type": "text",
-          "text": "D"
-        },
-        {
-          "type": "text",
-          "text": "D♯"
-        },
-        {
-          "type": "text",
-          "text": "E"
-        },
-        {
-          "type": "text",
-          "text": "F"
-        },
-        {
-          "type": "text",
-          "text": "F♯"
-        },
-        {
-          "type": "text",
-          "text": "G"
-        },
-        {
-          "type": "text",
-          "text": "G♯"
-        },
-        {
-          "type": "text",
-          "text": "A"
-        },
-        {
-          "type": "text",
-          "text": "A♯"
-        },
-        {
-          "type": "text",
-          "text": "B"
-        },
-        {
-          "type": "text",
-          "text": "C4"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "D4"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "D♯4"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "F4"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "G4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "G♯4"
-        },
-        {
-          "type": "text",
-          "text": "6"
-        },
-        {
-          "type": "text",
-          "text": "A♯4"
-        },
-        {
-          "type": "text",
-          "text": "7"
-        },
-        {
-          "type": "text",
-          "text": "C5"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "audio",
-          "label": "播放小调音阶",
-          "notes": [
-            60,
-            62,
-            63,
-            65,
-            67,
-            68,
-            70,
-            72
-          ],
-          "gap": 0.3
-        },
-        {
-          "type": "audio",
-          "label": "配个小三和弦",
-          "notes": [
-            60,
-            63,
-            67
-          ],
-          "gap": 0.45
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 272\" width=\"100%\" class=\"ladder\" role=\"img\"><text x=\"63.07692307692308\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">C</text><text x=\"109.23076923076924\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">C♯</text><text x=\"155.3846153846154\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">D</text><text x=\"201.53846153846152\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">D♯</text><text x=\"247.69230769230768\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">E</text><text x=\"293.84615384615387\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">F</text><text x=\"340\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">F♯</text><text x=\"386.1538461538462\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">G</text><text x=\"432.3076923076923\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">G♯</text><text x=\"478.46153846153845\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">A</text><text x=\"524.6153846153846\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">A♯</text><text x=\"570.7692307692307\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">B</text><line x1=\"40\" y1=\"242\" x2=\"640\" y2=\"242\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><rect data-note=\"60\" x=\"41.07692307692308\" y=\"208\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#185FA5\" stroke=\"#185FA5\" stroke-width=\"0.7\"></rect><text x=\"63.07692307692308\" y=\"220\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">C4</text><text x=\"63.07692307692308\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#185FA5\">1</text><rect data-note=\"62\" x=\"133.3846153846154\" y=\"178\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#E6F1FB\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"155.3846153846154\" y=\"190\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0C447C\">D4</text><text x=\"155.3846153846154\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">2</text><rect data-note=\"63\" x=\"179.53846153846152\" y=\"163\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#E6F1FB\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"201.53846153846152\" y=\"175\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0C447C\">D♯4</text><text x=\"201.53846153846152\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">3</text><rect data-note=\"65\" x=\"271.84615384615387\" y=\"133\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#E6F1FB\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"293.84615384615387\" y=\"145\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0C447C\">F4</text><text x=\"293.84615384615387\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">4</text><rect data-note=\"67\" x=\"364.1538461538462\" y=\"103\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#E6F1FB\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"386.1538461538462\" y=\"115\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0C447C\">G4</text><text x=\"386.1538461538462\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">5</text><rect data-note=\"68\" x=\"410.3076923076923\" y=\"88\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#E6F1FB\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"432.3076923076923\" y=\"100\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0C447C\">G♯4</text><text x=\"432.3076923076923\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">6</text><rect data-note=\"70\" x=\"502.61538461538464\" y=\"58\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#E6F1FB\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"524.6153846153846\" y=\"70\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0C447C\">A♯4</text><text x=\"524.6153846153846\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">7</text><rect data-note=\"72\" x=\"87.23076923076924\" y=\"28\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#185FA5\" stroke=\"#185FA5\" stroke-width=\"0.7\"></rect><text x=\"109.23076923076924\" y=\"40\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">C5</text><text x=\"109.23076923076924\" y=\"258\" font-size=\"10\" text-anchor=\"middle\" fill=\"#185FA5\">1</text></svg>"
         },
         {
           "type": "tip",
           "text": "第三级掉半格，换成小三度（3 个半音）→ 一开口就是深夜。"
+        },
+        {
+          "type": "audio",
+          "label": "播放小调音阶",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.3,
+              "m": 62,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.6,
+              "m": 63,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.9,
+              "m": 65,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.2,
+              "m": 67,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.5,
+              "m": 68,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.8,
+              "m": 70,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "配个小三和弦",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 2.2,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 63,
+              "d": 2.2,
+              "g": 0.32,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 67,
+              "d": 2.2,
+              "g": 0.32,
+              "kind": "piano"
+            }
+          ]
         }
       ],
       "skip": true,
@@ -638,34 +778,140 @@ return {
         {
           "type": "audio",
           "label": "大调版：1 3 5 5 3 2 3 2 1",
-          "notes": [
-            60,
-            64,
-            67,
-            67,
-            64,
-            62,
-            64,
-            62,
-            60
-          ],
-          "gap": 0.36
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.85,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.36,
+              "m": 64,
+              "d": 0.85,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.72,
+              "m": 67,
+              "d": 0.85,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.08,
+              "m": 67,
+              "d": 0.85,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.44,
+              "m": 64,
+              "d": 0.85,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.8,
+              "m": 62,
+              "d": 0.85,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 2.16,
+              "m": 64,
+              "d": 0.85,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 2.52,
+              "m": 62,
+              "d": 0.85,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 2.88,
+              "m": 60,
+              "d": 0.85,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
         },
         {
           "type": "audio",
           "label": "小调版：1 3 5 5 3 2 3 2 1",
-          "notes": [
-            60,
-            63,
-            67,
-            67,
-            63,
-            62,
-            63,
-            62,
-            60
-          ],
-          "gap": 0.36
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.36,
+              "m": 63,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.72,
+              "m": 67,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.08,
+              "m": 67,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.44,
+              "m": 63,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.8,
+              "m": 62,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 2.16,
+              "m": 63,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 2.52,
+              "m": 62,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 2.88,
+              "m": 60,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
         }
       ],
       "skip": true,
@@ -683,7 +929,7 @@ return {
       "chapter": "02 大调与小调：差的就是一个半音",
       "title": "小调的三种形态",
       "goal": "小调的三种形态 自然小调就是上面那样。",
-      "estimatedSeconds": 53,
+      "estimatedSeconds": 128,
       "blocks": [
         {
           "type": "heading",
@@ -697,15 +943,180 @@ return {
         {
           "type": "tip",
           "text": "点一个听。"
+        },
+        {
+          "type": "audio",
+          "label": "自然小调",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.32,
+              "m": 62,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.64,
+              "m": 63,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.96,
+              "m": 65,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.28,
+              "m": 67,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.6,
+              "m": 68,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.92,
+              "m": 70,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "和声小调",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.32,
+              "m": 62,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.64,
+              "m": 63,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.96,
+              "m": 65,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.28,
+              "m": 67,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.6,
+              "m": 68,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.92,
+              "m": 71,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "旋律小调",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.32,
+              "m": 62,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.64,
+              "m": 63,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.96,
+              "m": 65,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.28,
+              "m": 67,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.6,
+              "m": 69,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.92,
+              "m": 71,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 10,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -762,8 +1173,8 @@ return {
       "course": "music",
       "chapter": "03 七个调式：同一串白键，换个音起步",
       "title": "七个调式的全貌",
-      "goal": "七个调式的全貌 同一串白键，七种起点（紫 = 相对大调改动过的音，红 = 正在发声） 调式 ↓ C C♯ D D♯ E F F♯ G G♯ A A♯ B 大调",
-      "estimatedSeconds": 87,
+      "goal": "七个调式的全貌 横轴是十二个半音格，纵向位置就是真实音高。",
+      "estimatedSeconds": 45,
       "blocks": [
         {
           "type": "heading",
@@ -771,324 +1182,8 @@ return {
           "text": "七个调式的全貌"
         },
         {
-          "type": "text",
-          "text": "同一串白键，七种起点（紫 = 相对大调改动过的音，红 = 正在发声）"
-        },
-        {
-          "type": "text",
-          "text": "调式 ↓"
-        },
-        {
-          "type": "text",
-          "text": "C"
-        },
-        {
-          "type": "text",
-          "text": "C♯"
-        },
-        {
-          "type": "text",
-          "text": "D"
-        },
-        {
-          "type": "text",
-          "text": "D♯"
-        },
-        {
-          "type": "text",
-          "text": "E"
-        },
-        {
-          "type": "text",
-          "text": "F"
-        },
-        {
-          "type": "text",
-          "text": "F♯"
-        },
-        {
-          "type": "text",
-          "text": "G"
-        },
-        {
-          "type": "text",
-          "text": "G♯"
-        },
-        {
-          "type": "text",
-          "text": "A"
-        },
-        {
-          "type": "text",
-          "text": "A♯"
-        },
-        {
-          "type": "text",
-          "text": "B"
-        },
-        {
-          "type": "text",
-          "text": "大调"
-        },
-        {
-          "type": "text",
-          "text": "Ionian"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "6"
-        },
-        {
-          "type": "text",
-          "text": "7"
-        },
-        {
-          "type": "text",
-          "text": "多利亚"
-        },
-        {
-          "type": "text",
-          "text": "Dorian"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "6"
-        },
-        {
-          "type": "text",
-          "text": "7"
-        },
-        {
-          "type": "text",
-          "text": "弗里几亚"
-        },
-        {
-          "type": "text",
-          "text": "Phrygian"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "6"
-        },
-        {
-          "type": "text",
-          "text": "7"
-        },
-        {
-          "type": "text",
-          "text": "利底亚"
-        },
-        {
-          "type": "text",
-          "text": "Lydian"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "6"
-        },
-        {
-          "type": "text",
-          "text": "7"
-        },
-        {
-          "type": "text",
-          "text": "混合利底亚"
-        },
-        {
-          "type": "text",
-          "text": "Mixolydian"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "6"
-        },
-        {
-          "type": "text",
-          "text": "7"
-        },
-        {
-          "type": "text",
-          "text": "自然小调"
-        },
-        {
-          "type": "text",
-          "text": "Aeolian"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "6"
-        },
-        {
-          "type": "text",
-          "text": "7"
-        },
-        {
-          "type": "text",
-          "text": "洛克里亚"
-        },
-        {
-          "type": "text",
-          "text": "Locrian"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "6"
-        },
-        {
-          "type": "text",
-          "text": "7"
-        },
-        {
-          "type": "text",
-          "text": "与大调相同"
-        },
-        {
-          "type": "text",
-          "text": "相对大调改动过的音（调式的性格就在这） 纵轴即音高"
-        },
-        {
-          "type": "text",
-          "text": "正在发声"
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 442\" width=\"100%\" class=\"ladder\" role=\"img\"><text x=\"40\" y=\"26\" font-size=\"14\" font-weight=\"600\" fill=\"#2C2C2A\">同一串白键，七种起点（紫 = 相对大调改动过的音，红 = 正在发声）</text><text x=\"40\" y=\"64\" font-size=\"10\" fill=\"#6F6C62\">调式 ↓</text><text x=\"180\" y=\"64\" font-size=\"11\" text-anchor=\"middle\" fill=\"#6F6C62\">C</text><text x=\"220\" y=\"64\" font-size=\"11\" text-anchor=\"middle\" fill=\"#6F6C62\">C♯</text><text x=\"260\" y=\"64\" font-size=\"11\" text-anchor=\"middle\" fill=\"#6F6C62\">D</text><text x=\"300\" y=\"64\" font-size=\"11\" text-anchor=\"middle\" fill=\"#6F6C62\">D♯</text><text x=\"340\" y=\"64\" font-size=\"11\" text-anchor=\"middle\" fill=\"#6F6C62\">E</text><text x=\"380\" y=\"64\" font-size=\"11\" text-anchor=\"middle\" fill=\"#6F6C62\">F</text><text x=\"420\" y=\"64\" font-size=\"11\" text-anchor=\"middle\" fill=\"#6F6C62\">F♯</text><text x=\"460\" y=\"64\" font-size=\"11\" text-anchor=\"middle\" fill=\"#6F6C62\">G</text><text x=\"500\" y=\"64\" font-size=\"11\" text-anchor=\"middle\" fill=\"#6F6C62\">G♯</text><text x=\"540\" y=\"64\" font-size=\"11\" text-anchor=\"middle\" fill=\"#6F6C62\">A</text><text x=\"580\" y=\"64\" font-size=\"11\" text-anchor=\"middle\" fill=\"#6F6C62\">A♯</text><text x=\"620\" y=\"64\" font-size=\"11\" text-anchor=\"middle\" fill=\"#6F6C62\">B</text><text x=\"40\" y=\"102\" font-size=\"12\" font-weight=\"500\" fill=\"#444441\">大调</text><text x=\"40\" y=\"118\" font-size=\"10\" fill=\"#6F6C62\">Ionian</text><line x1=\"160\" y1=\"129\" x2=\"640\" y2=\"129\" stroke=\"#EDEBE4\" stroke-width=\"1\"></line><g id=\"ml-ionian\"><rect data-note=\"60\" x=\"164\" y=\"114\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"180\" y=\"121\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">1</text><rect data-note=\"62\" x=\"244\" y=\"109.2\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"260\" y=\"116.2\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">2</text><rect data-note=\"64\" x=\"324\" y=\"104.4\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"340\" y=\"111.4\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">3</text><rect data-note=\"65\" x=\"364\" y=\"102\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"380\" y=\"109\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">4</text><rect data-note=\"67\" x=\"444\" y=\"97.2\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"460\" y=\"104.2\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">5</text><rect data-note=\"69\" x=\"524\" y=\"92.4\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"540\" y=\"99.4\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">6</text><rect data-note=\"71\" x=\"604\" y=\"87.6\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"620\" y=\"94.6\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">7</text></g><text x=\"40\" y=\"148\" font-size=\"12\" font-weight=\"500\" fill=\"#444441\">多利亚</text><text x=\"40\" y=\"164\" font-size=\"10\" fill=\"#6F6C62\">Dorian</text><line x1=\"160\" y1=\"175\" x2=\"640\" y2=\"175\" stroke=\"#EDEBE4\" stroke-width=\"1\"></line><g id=\"ml-dorian\"><rect data-note=\"60\" x=\"164\" y=\"160\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"180\" y=\"167\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">1</text><rect data-note=\"62\" x=\"244\" y=\"155.2\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"260\" y=\"162.2\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">2</text><rect data-note=\"63\" x=\"284\" y=\"152.8\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"300\" y=\"159.8\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">3</text><rect data-note=\"65\" x=\"364\" y=\"148\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"380\" y=\"155\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">4</text><rect data-note=\"67\" x=\"444\" y=\"143.2\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"460\" y=\"150.2\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">5</text><rect data-note=\"69\" x=\"524\" y=\"138.4\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"540\" y=\"145.4\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">6</text><rect data-note=\"70\" x=\"564\" y=\"136\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"580\" y=\"143\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">7</text></g><text x=\"40\" y=\"194\" font-size=\"12\" font-weight=\"500\" fill=\"#444441\">弗里几亚</text><text x=\"40\" y=\"210\" font-size=\"10\" fill=\"#6F6C62\">Phrygian</text><line x1=\"160\" y1=\"221\" x2=\"640\" y2=\"221\" stroke=\"#EDEBE4\" stroke-width=\"1\"></line><g id=\"ml-phrygian\"><rect data-note=\"60\" x=\"164\" y=\"206\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"180\" y=\"213\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">1</text><rect data-note=\"61\" x=\"204\" y=\"203.6\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"220\" y=\"210.6\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">2</text><rect data-note=\"63\" x=\"284\" y=\"198.8\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"300\" y=\"205.8\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">3</text><rect data-note=\"65\" x=\"364\" y=\"194\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"380\" y=\"201\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">4</text><rect data-note=\"67\" x=\"444\" y=\"189.2\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"460\" y=\"196.2\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">5</text><rect data-note=\"68\" x=\"484\" y=\"186.8\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"500\" y=\"193.8\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">6</text><rect data-note=\"70\" x=\"564\" y=\"182\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"580\" y=\"189\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">7</text></g><text x=\"40\" y=\"240\" font-size=\"12\" font-weight=\"500\" fill=\"#444441\">利底亚</text><text x=\"40\" y=\"256\" font-size=\"10\" fill=\"#6F6C62\">Lydian</text><line x1=\"160\" y1=\"267\" x2=\"640\" y2=\"267\" stroke=\"#EDEBE4\" stroke-width=\"1\"></line><g id=\"ml-lydian\"><rect data-note=\"60\" x=\"164\" y=\"252\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"180\" y=\"259\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">1</text><rect data-note=\"62\" x=\"244\" y=\"247.2\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"260\" y=\"254.2\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">2</text><rect data-note=\"64\" x=\"324\" y=\"242.4\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"340\" y=\"249.4\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">3</text><rect data-note=\"66\" x=\"404\" y=\"237.6\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"420\" y=\"244.6\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">4</text><rect data-note=\"67\" x=\"444\" y=\"235.2\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"460\" y=\"242.2\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">5</text><rect data-note=\"69\" x=\"524\" y=\"230.4\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"540\" y=\"237.4\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">6</text><rect data-note=\"71\" x=\"604\" y=\"225.6\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"620\" y=\"232.6\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">7</text></g><text x=\"40\" y=\"286\" font-size=\"12\" font-weight=\"500\" fill=\"#444441\">混合利底亚</text><text x=\"40\" y=\"302\" font-size=\"10\" fill=\"#6F6C62\">Mixolydian</text><line x1=\"160\" y1=\"313\" x2=\"640\" y2=\"313\" stroke=\"#EDEBE4\" stroke-width=\"1\"></line><g id=\"ml-mixolydian\"><rect data-note=\"60\" x=\"164\" y=\"298\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"180\" y=\"305\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">1</text><rect data-note=\"62\" x=\"244\" y=\"293.2\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"260\" y=\"300.2\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">2</text><rect data-note=\"64\" x=\"324\" y=\"288.4\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"340\" y=\"295.4\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">3</text><rect data-note=\"65\" x=\"364\" y=\"286\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"380\" y=\"293\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">4</text><rect data-note=\"67\" x=\"444\" y=\"281.2\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"460\" y=\"288.2\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">5</text><rect data-note=\"69\" x=\"524\" y=\"276.4\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"540\" y=\"283.4\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">6</text><rect data-note=\"70\" x=\"564\" y=\"274\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"580\" y=\"281\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">7</text></g><text x=\"40\" y=\"332\" font-size=\"12\" font-weight=\"500\" fill=\"#444441\">自然小调</text><text x=\"40\" y=\"348\" font-size=\"10\" fill=\"#6F6C62\">Aeolian</text><line x1=\"160\" y1=\"359\" x2=\"640\" y2=\"359\" stroke=\"#EDEBE4\" stroke-width=\"1\"></line><g id=\"ml-aeolian\"><rect data-note=\"60\" x=\"164\" y=\"344\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"180\" y=\"351\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">1</text><rect data-note=\"62\" x=\"244\" y=\"339.2\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"260\" y=\"346.2\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">2</text><rect data-note=\"63\" x=\"284\" y=\"336.8\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"300\" y=\"343.8\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">3</text><rect data-note=\"65\" x=\"364\" y=\"332\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"380\" y=\"339\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">4</text><rect data-note=\"67\" x=\"444\" y=\"327.2\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"460\" y=\"334.2\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">5</text><rect data-note=\"68\" x=\"484\" y=\"324.8\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"500\" y=\"331.8\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">6</text><rect data-note=\"70\" x=\"564\" y=\"320\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"580\" y=\"327\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">7</text></g><text x=\"40\" y=\"378\" font-size=\"12\" font-weight=\"500\" fill=\"#444441\">洛克里亚</text><text x=\"40\" y=\"394\" font-size=\"10\" fill=\"#6F6C62\">Locrian</text><line x1=\"160\" y1=\"405\" x2=\"640\" y2=\"405\" stroke=\"#EDEBE4\" stroke-width=\"1\"></line><g id=\"ml-locrian\"><rect data-note=\"60\" x=\"164\" y=\"390\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"180\" y=\"397\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">1</text><rect data-note=\"61\" x=\"204\" y=\"387.6\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"220\" y=\"394.6\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">2</text><rect data-note=\"63\" x=\"284\" y=\"382.8\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"300\" y=\"389.8\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">3</text><rect data-note=\"65\" x=\"364\" y=\"378\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.7\"></rect><text x=\"380\" y=\"385\" font-size=\"10\" font-weight=\"400\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#444441\">4</text><rect data-note=\"66\" x=\"404\" y=\"375.6\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"420\" y=\"382.6\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">5</text><rect data-note=\"68\" x=\"484\" y=\"370.8\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"500\" y=\"377.8\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">6</text><rect data-note=\"70\" x=\"564\" y=\"366\" width=\"32\" height=\"14\" rx=\"4\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"1.1\"></rect><text x=\"580\" y=\"373\" font-size=\"10\" font-weight=\"500\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">7</text></g><rect x=\"40\" y=\"418\" width=\"14\" height=\"10\" rx=\"2\" fill=\"#D3D1C7\" stroke=\"#6F6C62\" stroke-width=\"0.6\"></rect><text x=\"62\" y=\"427\" font-size=\"11\" fill=\"#57554E\">与大调相同</text><rect x=\"160\" y=\"418\" width=\"14\" height=\"10\" rx=\"2\" fill=\"#E4E1F7\" stroke=\"#7F77DD\" stroke-width=\"0.9\"></rect><text x=\"182\" y=\"427\" font-size=\"11\" fill=\"#57554E\" id=\"mlLegTxt\">相对大调改动过的音（调式的性格就在这）　纵轴即音高</text><g id=\"mlLegGrp\" transform=\"translate(0,0)\"><rect x=\"452\" y=\"418\" width=\"14\" height=\"10\" rx=\"2\" fill=\"#D85A30\" stroke=\"#993C1D\" stroke-width=\"0.6\"></rect><text x=\"474\" y=\"427\" font-size=\"11\" fill=\"#57554E\">正在发声</text></g></svg>"
         },
         {
           "type": "tip",
@@ -1215,149 +1310,174 @@ return {
       "course": "music",
       "chapter": "04 五声音阶：砍掉两个音，就有了中国味",
       "title": "五声音阶：砍掉两个音，就有了中国味 · 1",
-      "goal": "C C♯ D D♯ E F F♯ G G♯ A A♯ B C4 1 D4 2 E4 3 G4 4 A4 5 C5 1 纯五声太顺滑，容易听过就忘。",
-      "estimatedSeconds": 124,
+      "goal": "纯五声太顺滑，容易听过就忘。",
+      "estimatedSeconds": 114,
       "blocks": [
         {
-          "type": "text",
-          "text": "C"
-        },
-        {
-          "type": "text",
-          "text": "C♯"
-        },
-        {
-          "type": "text",
-          "text": "D"
-        },
-        {
-          "type": "text",
-          "text": "D♯"
-        },
-        {
-          "type": "text",
-          "text": "E"
-        },
-        {
-          "type": "text",
-          "text": "F"
-        },
-        {
-          "type": "text",
-          "text": "F♯"
-        },
-        {
-          "type": "text",
-          "text": "G"
-        },
-        {
-          "type": "text",
-          "text": "G♯"
-        },
-        {
-          "type": "text",
-          "text": "A"
-        },
-        {
-          "type": "text",
-          "text": "A♯"
-        },
-        {
-          "type": "text",
-          "text": "B"
-        },
-        {
-          "type": "text",
-          "text": "C4"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "D4"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "E4"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "G4"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "A4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "C5"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "audio",
-          "label": "播放五声",
-          "notes": [
-            60,
-            62,
-            64,
-            67,
-            69,
-            72
-          ],
-          "gap": 0.3
-        },
-        {
-          "type": "audio",
-          "label": "借个偏音 fa",
-          "notes": [
-            60,
-            62,
-            64,
-            65,
-            67,
-            69,
-            72
-          ],
-          "gap": 0.3
-        },
-        {
-          "type": "audio",
-          "label": "借个偏音 si",
-          "notes": [
-            60,
-            62,
-            64,
-            67,
-            69,
-            71,
-            72
-          ],
-          "gap": 0.3
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 286\" width=\"100%\" class=\"ladder\" role=\"img\"><text x=\"63.07692307692308\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">C</text><text x=\"109.23076923076924\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">C♯</text><text x=\"155.3846153846154\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">D</text><text x=\"201.53846153846152\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">D♯</text><text x=\"247.69230769230768\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">E</text><text x=\"293.84615384615387\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">F</text><text x=\"340\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">F♯</text><text x=\"386.1538461538462\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">G</text><text x=\"432.3076923076923\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">G♯</text><text x=\"478.46153846153845\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">A</text><text x=\"524.6153846153846\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">A♯</text><text x=\"570.7692307692307\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">B</text><line x1=\"40\" y1=\"254\" x2=\"640\" y2=\"254\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><rect data-note=\"60\" x=\"41.07692307692308\" y=\"219\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#0F6E56\" stroke=\"#0F6E56\" stroke-width=\"0.7\"></rect><text x=\"63.07692307692308\" y=\"231\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">C4</text><text x=\"63.07692307692308\" y=\"270\" font-size=\"10\" text-anchor=\"middle\" fill=\"#0F6E56\">1</text><rect data-note=\"62\" x=\"133.3846153846154\" y=\"187\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#E1F5EE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"155.3846153846154\" y=\"199\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#085041\">D4</text><text x=\"155.3846153846154\" y=\"270\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">2</text><rect data-note=\"64\" x=\"225.69230769230768\" y=\"155\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#E1F5EE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"247.69230769230768\" y=\"167\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#085041\">E4</text><text x=\"247.69230769230768\" y=\"270\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">3</text><rect data-note=\"67\" x=\"364.1538461538462\" y=\"107\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#E1F5EE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"386.1538461538462\" y=\"119\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#085041\">G4</text><text x=\"386.1538461538462\" y=\"270\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">4</text><rect data-note=\"69\" x=\"456.46153846153845\" y=\"75\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#E1F5EE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"478.46153846153845\" y=\"87\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#085041\">A4</text><text x=\"478.46153846153845\" y=\"270\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">5</text><rect data-note=\"72\" x=\"87.23076923076924\" y=\"27\" width=\"44\" height=\"22\" rx=\"5\" fill=\"#0F6E56\" stroke=\"#0F6E56\" stroke-width=\"0.7\"></rect><text x=\"109.23076923076924\" y=\"39\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">C5</text><text x=\"109.23076923076924\" y=\"270\" font-size=\"10\" text-anchor=\"middle\" fill=\"#0F6E56\">1</text></svg>"
         },
         {
           "type": "tip",
           "text": "纯五声太顺滑，容易听过就忘。偶尔借一个偏音进来，那一下摩擦就是记忆点——《东风破》比纯民歌多出的惆怅就在这。"
+        },
+        {
+          "type": "audio",
+          "label": "播放五声",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.3,
+              "m": 62,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.6,
+              "m": 64,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.9,
+              "m": 67,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.2,
+              "m": 69,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.5,
+              "m": 72,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "借个偏音 fa",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.3,
+              "m": 62,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.6,
+              "m": 64,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.9,
+              "m": 65,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.2,
+              "m": 67,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.5,
+              "m": 69,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.8,
+              "m": 72,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "借个偏音 si",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.3,
+              "m": 62,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.6,
+              "m": 64,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.9,
+              "m": 67,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.2,
+              "m": 69,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.5,
+              "m": 71,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.8,
+              "m": 72,
+              "d": 0.95,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
         }
       ],
       "skip": true,
@@ -1375,7 +1495,7 @@ return {
       "chapter": "04 五声音阶：砍掉两个音，就有了中国味",
       "title": "五个音，五种调（换个主音就换味道）",
       "goal": "五个音，五种调（换个主音就换味道） 宫=do、商=re、角=mi、徵=sol、羽=la。",
-      "estimatedSeconds": 130,
+      "estimatedSeconds": 180,
       "blocks": [
         {
           "type": "heading",
@@ -1406,15 +1526,1583 @@ return {
         {
           "type": "tip",
           "text": "都节音阶 日本 · 都节都节（平调子）= 1 2 ♭3 5 ♭6。小泉文夫发现：日本音阶都是「两个四度骨架 + 一个中间音」，都节把中间音放得最低，所以两个半音挨得最近——这就是一耳朵听出\"日本\"的原因。《樱花》就是它。"
+        },
+        {
+          "type": "audio",
+          "label": "宫调（do 起）",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.32,
+              "m": 62,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.64,
+              "m": 64,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.96,
+              "m": 67,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.28,
+              "m": 69,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.6,
+              "m": 72,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "商调（re 起）",
+          "evs": [
+            {
+              "t": 0,
+              "m": 62,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.32,
+              "m": 64,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.64,
+              "m": 66,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.96,
+              "m": 69,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.28,
+              "m": 71,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.6,
+              "m": 74,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "角调（mi 起）",
+          "evs": [
+            {
+              "t": 0,
+              "m": 64,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.32,
+              "m": 66,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.64,
+              "m": 68,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.96,
+              "m": 71,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.28,
+              "m": 73,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.6,
+              "m": 76,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "徵调（sol 起）",
+          "evs": [
+            {
+              "t": 0,
+              "m": 67,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.32,
+              "m": 69,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.64,
+              "m": 71,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.96,
+              "m": 74,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.28,
+              "m": 76,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.6,
+              "m": 79,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "羽调（la 起）",
+          "evs": [
+            {
+              "t": 0,
+              "m": 69,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.32,
+              "m": 71,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.64,
+              "m": 73,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.96,
+              "m": 76,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.28,
+              "m": 78,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.6,
+              "m": 81,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "都节音阶",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.28,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.56,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.84,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.12,
+              "m": 68,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.4,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.68,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.96,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.24,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.52,
+              "m": 68,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.8,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.08,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.36,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.64,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.92,
+              "m": 68,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.2,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.48,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.76,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "云井调子",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.28,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.56,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.84,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.12,
+              "m": 69,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.4,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.68,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.96,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.24,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.52,
+              "m": 69,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.8,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.08,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.36,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.64,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.92,
+              "m": 69,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.2,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.48,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.76,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "阴音阶",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.28,
+              "m": 61,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.56,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.84,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.12,
+              "m": 70,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.4,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.68,
+              "m": 61,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.96,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.24,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.52,
+              "m": 70,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.8,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.08,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.36,
+              "m": 61,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.64,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.92,
+              "m": 70,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.2,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.48,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.76,
+              "m": 61,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "琉球音阶",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.28,
+              "m": 64,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.56,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.84,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.12,
+              "m": 71,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.4,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.68,
+              "m": 64,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.96,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.24,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.52,
+              "m": 71,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.8,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.08,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.36,
+              "m": 64,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.64,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.92,
+              "m": 71,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.2,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.48,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.76,
+              "m": 64,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "徵调式",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.28,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.56,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.84,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.12,
+              "m": 69,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.4,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.68,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.96,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.24,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.52,
+              "m": 69,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.8,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.08,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.36,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.64,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.92,
+              "m": 69,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.2,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.48,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.76,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "羽调式",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.28,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.56,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.84,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.12,
+              "m": 70,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.4,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.68,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.96,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.24,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.52,
+              "m": 70,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.8,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.08,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.36,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.64,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.92,
+              "m": 70,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.2,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.48,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.76,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "清乐七声",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.28,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.56,
+              "m": 64,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.84,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.12,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.4,
+              "m": 69,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.68,
+              "m": 71,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.96,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.24,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.52,
+              "m": 64,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.8,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.08,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.36,
+              "m": 69,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.64,
+              "m": 71,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.92,
+              "m": 69,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.2,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.48,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.76,
+              "m": 64,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 5.04,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 5.32,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 5.6,
+              "m": 71,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 5.88,
+              "m": 69,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 6.16,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 6.44,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 6.72,
+              "m": 64,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 7,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "燕乐七声",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.28,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.56,
+              "m": 64,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.84,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.12,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.4,
+              "m": 69,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.68,
+              "m": 70,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.96,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.24,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.52,
+              "m": 64,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.8,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.08,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.36,
+              "m": 69,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.64,
+              "m": 70,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.92,
+              "m": 69,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.2,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.48,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.76,
+              "m": 64,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 5.04,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 5.32,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 5.6,
+              "m": 70,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 5.88,
+              "m": 69,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 6.16,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 6.44,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 6.72,
+              "m": 64,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 7,
+              "m": 62,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "布鲁斯音阶",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.28,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.56,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.84,
+              "m": 66,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.12,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.4,
+              "m": 70,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.68,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.96,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.24,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.52,
+              "m": 66,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.8,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.08,
+              "m": 70,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.36,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.64,
+              "m": 66,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 3.92,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.2,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.48,
+              "m": 60,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.76,
+              "m": 70,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 5.04,
+              "m": 67,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 5.32,
+              "m": 66,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 5.6,
+              "m": 65,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 5.88,
+              "m": 63,
+              "d": 0.66,
+              "g": 0.36,
+              "kind": "piano"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 17,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -1444,8 +3132,8 @@ return {
       "course": "music",
       "chapter": "05 和弦与和声：把音叠起来",
       "title": "大三 vs 小三：根音五音对齐，只有中间那根动了",
-      "goal": "大三 vs 小三：根音五音对齐，只有中间那根动了 大三和弦（三音距根音 4 个半音） 小三和弦（三音距根音 3 个半音） 根音 距根音 0 个半音 C 三音 距",
-      "estimatedSeconds": 157,
+      "goal": "大三 vs 小三：根音五音对齐，只有中间那根动了 横虚线跨过两列的位置就是根音和五音——它们完全没动。",
+      "estimatedSeconds": 125,
       "blocks": [
         {
           "type": "heading",
@@ -1453,146 +3141,93 @@ return {
           "text": "大三 vs 小三：根音五音对齐，只有中间那根动了"
         },
         {
-          "type": "audio",
-          "label": "弹大三",
-          "notes": [
-            60,
-            64,
-            67
-          ],
-          "gap": 0.45
-        },
-        {
-          "type": "audio",
-          "label": "弹小三",
-          "notes": [
-            60,
-            63,
-            67
-          ],
-          "gap": 0.45
-        },
-        {
-          "type": "audio",
-          "label": "只弹那个三音",
-          "notes": [
-            60,
-            64,
-            63
-          ],
-          "gap": 0.6
-        },
-        {
-          "type": "text",
-          "text": "大三和弦（三音距根音 4 个半音）"
-        },
-        {
-          "type": "text",
-          "text": "小三和弦（三音距根音 3 个半音）"
-        },
-        {
-          "type": "text",
-          "text": "根音"
-        },
-        {
-          "type": "text",
-          "text": "距根音 0 个半音"
-        },
-        {
-          "type": "text",
-          "text": "C"
-        },
-        {
-          "type": "text",
-          "text": "三音"
-        },
-        {
-          "type": "text",
-          "text": "距根音 4 个半音"
-        },
-        {
-          "type": "text",
-          "text": "E"
-        },
-        {
-          "type": "text",
-          "text": "五音"
-        },
-        {
-          "type": "text",
-          "text": "距根音 7 个半音"
-        },
-        {
-          "type": "text",
-          "text": "G"
-        },
-        {
-          "type": "text",
-          "text": "根音"
-        },
-        {
-          "type": "text",
-          "text": "距根音 0 个半音"
-        },
-        {
-          "type": "text",
-          "text": "C"
-        },
-        {
-          "type": "text",
-          "text": "三音"
-        },
-        {
-          "type": "text",
-          "text": "距根音 3 个半音"
-        },
-        {
-          "type": "text",
-          "text": "E♭"
-        },
-        {
-          "type": "text",
-          "text": "五音"
-        },
-        {
-          "type": "text",
-          "text": "距根音 7 个半音"
-        },
-        {
-          "type": "text",
-          "text": "G"
-        },
-        {
-          "type": "text",
-          "text": "只低 1 个半音"
-        },
-        {
-          "type": "text",
-          "text": "0"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "7"
-        },
-        {
-          "type": "text",
-          "text": "半音↓"
-        },
-        {
-          "type": "text",
-          "text": "虚线横贯两列的地方，就是\"根音\"和\"五音\"的位置——它们一模一样，只有三音那根条动了。"
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 262\" width=\"100%\" class=\"ladder\" role=\"img\"><text x=\"48\" y=\"30\" font-size=\"14\" font-weight=\"600\" fill=\"#0F6E56\">大三和弦（三音距根音 4 个半音）</text><text x=\"394\" y=\"30\" font-size=\"14\" font-weight=\"600\" fill=\"#185FA5\">小三和弦（三音距根音 3 个半音）</text><line x1=\"48\" y1=\"200\" x2=\"632\" y2=\"200\" stroke=\"#E5E2D9\" stroke-width=\"1\" stroke-dasharray=\"4 4\"></line><line x1=\"48\" y1=\"81\" x2=\"632\" y2=\"81\" stroke=\"#E5E2D9\" stroke-width=\"1\" stroke-dasharray=\"4 4\"></line><g id=\"cmp-maj\"><rect data-note=\"60\" x=\"48\" y=\"187\" width=\"238\" height=\"26\" rx=\"8\" fill=\"#E1F5EE\" stroke=\"#0F6E56\" stroke-width=\"0.7\"></rect><text x=\"62\" y=\"200\" font-size=\"12\" font-weight=\"500\" dominant-baseline=\"central\" fill=\"#04342C\">根音</text><text x=\"167\" y=\"200\" font-size=\"11\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0F6E56\">距根音 0 个半音</text><text x=\"272\" y=\"200\" font-size=\"12\" font-weight=\"500\" text-anchor=\"end\" dominant-baseline=\"central\" fill=\"#04342C\">C</text><rect data-note=\"64\" x=\"48\" y=\"119\" width=\"238\" height=\"26\" rx=\"8\" fill=\"#E1F5EE\" stroke=\"#0F6E56\" stroke-width=\"1.4\"></rect><text x=\"62\" y=\"132\" font-size=\"12\" font-weight=\"500\" dominant-baseline=\"central\" fill=\"#04342C\">三音</text><text x=\"167\" y=\"132\" font-size=\"11\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0F6E56\">距根音 4 个半音</text><text x=\"272\" y=\"132\" font-size=\"12\" font-weight=\"500\" text-anchor=\"end\" dominant-baseline=\"central\" fill=\"#04342C\">E</text><rect data-note=\"67\" x=\"48\" y=\"68\" width=\"238\" height=\"26\" rx=\"8\" fill=\"#E1F5EE\" stroke=\"#0F6E56\" stroke-width=\"0.7\"></rect><text x=\"62\" y=\"81\" font-size=\"12\" font-weight=\"500\" dominant-baseline=\"central\" fill=\"#04342C\">五音</text><text x=\"167\" y=\"81\" font-size=\"11\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0F6E56\">距根音 7 个半音</text><text x=\"272\" y=\"81\" font-size=\"12\" font-weight=\"500\" text-anchor=\"end\" dominant-baseline=\"central\" fill=\"#04342C\">G</text></g><g id=\"cmp-min\"><rect data-note=\"60\" x=\"394\" y=\"187\" width=\"238\" height=\"26\" rx=\"8\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-width=\"0.7\"></rect><text x=\"408\" y=\"200\" font-size=\"12\" font-weight=\"500\" dominant-baseline=\"central\" fill=\"#042C53\">根音</text><text x=\"513\" y=\"200\" font-size=\"11\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#185FA5\">距根音 0 个半音</text><text x=\"618\" y=\"200\" font-size=\"12\" font-weight=\"500\" text-anchor=\"end\" dominant-baseline=\"central\" fill=\"#042C53\">C</text><rect data-note=\"63\" x=\"394\" y=\"136\" width=\"238\" height=\"26\" rx=\"8\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-width=\"1.4\"></rect><text x=\"408\" y=\"149\" font-size=\"12\" font-weight=\"500\" dominant-baseline=\"central\" fill=\"#042C53\">三音</text><text x=\"513\" y=\"149\" font-size=\"11\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#185FA5\">距根音 3 个半音</text><text x=\"618\" y=\"149\" font-size=\"12\" font-weight=\"500\" text-anchor=\"end\" dominant-baseline=\"central\" fill=\"#042C53\">E♭</text><rect data-note=\"67\" x=\"394\" y=\"68\" width=\"238\" height=\"26\" rx=\"8\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-width=\"0.7\"></rect><text x=\"408\" y=\"81\" font-size=\"12\" font-weight=\"500\" dominant-baseline=\"central\" fill=\"#042C53\">五音</text><text x=\"513\" y=\"81\" font-size=\"11\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#185FA5\">距根音 7 个半音</text><text x=\"618\" y=\"81\" font-size=\"12\" font-weight=\"500\" text-anchor=\"end\" dominant-baseline=\"central\" fill=\"#042C53\">G</text></g><line x1=\"286\" y1=\"132\" x2=\"394\" y2=\"149\" stroke=\"#BA7517\" stroke-width=\"1\" stroke-dasharray=\"4 3\"></line><line x1=\"341\" y1=\"123\" x2=\"341\" y2=\"158\" stroke=\"#BA7517\" stroke-width=\"1.2\"></line><path d=\"M341 121 l-4 6 h8 z\" fill=\"#BA7517\"></path><path d=\"M341 160 l-4 -6 h8 z\" fill=\"#BA7517\"></path><text x=\"341\" y=\"114\" font-size=\"11\" text-anchor=\"middle\" fill=\"#854F0B\">只低 1 个半音</text><text x=\"40\" y=\"204\" font-size=\"10\" text-anchor=\"end\" fill=\"#6F6C62\">0</text><text x=\"40\" y=\"136\" font-size=\"10\" text-anchor=\"end\" fill=\"#6F6C62\">4</text><text x=\"40\" y=\"153\" font-size=\"10\" text-anchor=\"end\" fill=\"#6F6C62\">3</text><text x=\"40\" y=\"85\" font-size=\"10\" text-anchor=\"end\" fill=\"#6F6C62\">7</text><text x=\"40\" y=\"190\" font-size=\"10\" text-anchor=\"end\" fill=\"#6F6C62\">半音↓</text><text x=\"48\" y=\"248\" font-size=\"11\" fill=\"#57554E\">虚线横贯两列的地方，就是\"根音\"和\"五音\"的位置——它们一模一样，只有三音那根条动了。</text></svg>"
         },
         {
           "type": "tip",
           "text": "横虚线跨过两列的位置就是根音和五音——它们完全没动。只有三音往下挪了半格（图里那根 1 格高的双向箭头）。 这 1 个半音，就是\"亮\"与\"暗\"的全部分界线。跟着上面选的主音走，图会一起变。"
+        },
+        {
+          "type": "audio",
+          "label": "弹大三",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 2.2,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 64,
+              "d": 2.2,
+              "g": 0.32,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 67,
+              "d": 2.2,
+              "g": 0.32,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "弹小三",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 2.2,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 63,
+              "d": 2.2,
+              "g": 0.32,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 67,
+              "d": 2.2,
+              "g": 0.32,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "只弹那个三音",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.5,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 0.6,
+              "m": 64,
+              "d": 1.2,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 2,
+              "m": 63,
+              "d": 1.2,
+              "g": 0.42,
+              "kind": "piano"
+            }
+          ]
         }
       ],
       "skip": true,
@@ -1702,7 +3337,7 @@ return {
       "chapter": "05 和弦与和声：把音叠起来",
       "title": "和弦进行：让和弦一个接一个\"走\"起来",
       "goal": "和弦进行：让和弦一个接一个\"走\"起来 和弦单独听只是\"颜色\"，接起来才有情绪走向。",
-      "estimatedSeconds": 56,
+      "estimatedSeconds": 81,
       "blocks": [
         {
           "type": "heading",
@@ -1776,15 +3411,133 @@ return {
         {
           "type": "tip",
           "text": "I – V – vi – IV — 万能流行，最安全的一挂"
+        },
+        {
+          "type": "audio",
+          "label": "播放这个进行",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 1.432,
+              "g": 0.34,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 64,
+              "d": 1.432,
+              "g": 0.24480000000000002,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 67,
+              "d": 1.432,
+              "g": 0.24480000000000002,
+              "kind": "piano"
+            },
+            {
+              "t": 0.341,
+              "m": 79,
+              "d": 0.614,
+              "g": 0.16,
+              "kind": "pluck"
+            },
+            {
+              "t": 1.364,
+              "m": 65,
+              "d": 1.432,
+              "g": 0.34,
+              "kind": "piano"
+            },
+            {
+              "t": 1.364,
+              "m": 69,
+              "d": 1.432,
+              "g": 0.24480000000000002,
+              "kind": "piano"
+            },
+            {
+              "t": 1.364,
+              "m": 72,
+              "d": 1.432,
+              "g": 0.24480000000000002,
+              "kind": "piano"
+            },
+            {
+              "t": 1.705,
+              "m": 84,
+              "d": 0.614,
+              "g": 0.16,
+              "kind": "pluck"
+            },
+            {
+              "t": 2.727,
+              "m": 67,
+              "d": 1.432,
+              "g": 0.34,
+              "kind": "piano"
+            },
+            {
+              "t": 2.727,
+              "m": 71,
+              "d": 1.432,
+              "g": 0.24480000000000002,
+              "kind": "piano"
+            },
+            {
+              "t": 2.727,
+              "m": 74,
+              "d": 1.432,
+              "g": 0.24480000000000002,
+              "kind": "piano"
+            },
+            {
+              "t": 3.068,
+              "m": 86,
+              "d": 0.614,
+              "g": 0.16,
+              "kind": "pluck"
+            },
+            {
+              "t": 4.091,
+              "m": 60,
+              "d": 1.432,
+              "g": 0.34,
+              "kind": "piano"
+            },
+            {
+              "t": 4.091,
+              "m": 64,
+              "d": 1.432,
+              "g": 0.24480000000000002,
+              "kind": "piano"
+            },
+            {
+              "t": 4.091,
+              "m": 67,
+              "d": 1.432,
+              "g": 0.24480000000000002,
+              "kind": "piano"
+            },
+            {
+              "t": 4.432,
+              "m": 79,
+              "d": 0.614,
+              "g": 0.16,
+              "kind": "pluck"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 21,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -1815,7 +3568,7 @@ return {
       "chapter": "06 乐句怎么落点：终止式",
       "title": "五种收尾方式（点一下听）",
       "goal": "五种收尾方式（点一下听） V G4 大 I C4 大 正格终止 V → I — 最硬的回家。",
-      "estimatedSeconds": 45,
+      "estimatedSeconds": 68,
       "blocks": [
         {
           "type": "heading",
@@ -1849,15 +3602,91 @@ return {
         {
           "type": "tip",
           "text": "正格终止 V → I — 最硬的回家。属和弦把耳朵一把拽到主和弦上，\"噔——定\"。流行副歌结尾九成用它。"
+        },
+        {
+          "type": "audio",
+          "label": "播放这个终止",
+          "evs": [
+            {
+              "t": 0,
+              "m": 62,
+              "d": 1.75,
+              "g": 0.32,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 65,
+              "d": 1.75,
+              "g": 0.22399999999999998,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 69,
+              "d": 1.75,
+              "g": 0.22399999999999998,
+              "kind": "piano"
+            },
+            {
+              "t": 1.667,
+              "m": 67,
+              "d": 1.75,
+              "g": 0.32,
+              "kind": "piano"
+            },
+            {
+              "t": 1.667,
+              "m": 71,
+              "d": 1.75,
+              "g": 0.22399999999999998,
+              "kind": "piano"
+            },
+            {
+              "t": 1.667,
+              "m": 74,
+              "d": 1.75,
+              "g": 0.22399999999999998,
+              "kind": "piano"
+            },
+            {
+              "t": 3.333,
+              "m": 60,
+              "d": 2.667,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 3.333,
+              "m": 64,
+              "d": 2.667,
+              "g": 0.26599999999999996,
+              "kind": "piano"
+            },
+            {
+              "t": 3.333,
+              "m": 67,
+              "d": 2.667,
+              "g": 0.26599999999999996,
+              "kind": "piano"
+            },
+            {
+              "t": 3.333,
+              "m": 72,
+              "d": 2.167,
+              "g": 0.14,
+              "kind": "pluck"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 23,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -1865,8 +3694,8 @@ return {
       "course": "music",
       "chapter": "06 乐句怎么落点：终止式",
       "title": "副歌怎么把情绪\"抬\"起来",
-      "goal": "副歌怎么把情绪\"抬\"起来 副歌 · 高八度 主歌 · 中低音区 C5 C3 D5 D3 E5 E3 F5 F3 G5 G3 F5 F3 E5 E3 D5 D3",
-      "estimatedSeconds": 66,
+      "goal": "副歌怎么把情绪\"抬\"起来 最省力的一招：同一段旋律，主歌放在中低音区\"说\"，副歌原样搬到高音区\"喊\"。",
+      "estimatedSeconds": 124,
       "blocks": [
         {
           "type": "heading",
@@ -1874,97 +3703,295 @@ return {
           "text": "副歌怎么把情绪\"抬\"起来"
         },
         {
-          "type": "text",
-          "text": "副歌 · 高八度"
-        },
-        {
-          "type": "text",
-          "text": "主歌 · 中低音区"
-        },
-        {
-          "type": "text",
-          "text": "C5"
-        },
-        {
-          "type": "text",
-          "text": "C3"
-        },
-        {
-          "type": "text",
-          "text": "D5"
-        },
-        {
-          "type": "text",
-          "text": "D3"
-        },
-        {
-          "type": "text",
-          "text": "E5"
-        },
-        {
-          "type": "text",
-          "text": "E3"
-        },
-        {
-          "type": "text",
-          "text": "F5"
-        },
-        {
-          "type": "text",
-          "text": "F3"
-        },
-        {
-          "type": "text",
-          "text": "G5"
-        },
-        {
-          "type": "text",
-          "text": "G3"
-        },
-        {
-          "type": "text",
-          "text": "F5"
-        },
-        {
-          "type": "text",
-          "text": "F3"
-        },
-        {
-          "type": "text",
-          "text": "E5"
-        },
-        {
-          "type": "text",
-          "text": "E3"
-        },
-        {
-          "type": "text",
-          "text": "D5"
-        },
-        {
-          "type": "text",
-          "text": "D3"
-        },
-        {
-          "type": "text",
-          "text": "↑八度"
-        },
-        {
-          "type": "text",
-          "text": "两行形状一模一样——同一段旋律搬到高音区，情绪就\"扬\"起来了。"
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 300\" width=\"100%\" class=\"ladder\" role=\"img\"><text x=\"40\" y=\"26\" font-size=\"12\" font-weight=\"500\" fill=\"#534AB7\">副歌 · 高八度</text><text x=\"40\" y=\"170\" font-size=\"12\" font-weight=\"500\" fill=\"#185FA5\">主歌 · 中低音区</text><rect data-note=\"72\" data-lit=\"h0h\" x=\"191.125\" y=\"131\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"218.125\" y=\"143\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">C5</text><rect data-note=\"48\" data-lit=\"h0v\" x=\"191.125\" y=\"239\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-width=\"0.7\"></rect><text x=\"218.125\" y=\"251\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0C447C\">C3</text><rect data-note=\"74\" data-lit=\"h1h\" x=\"247.375\" y=\"113\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"274.375\" y=\"125\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">D5</text><rect data-note=\"50\" data-lit=\"h1v\" x=\"247.375\" y=\"221\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-width=\"0.7\"></rect><text x=\"274.375\" y=\"233\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0C447C\">D3</text><rect data-note=\"76\" data-lit=\"h2h\" x=\"303.625\" y=\"95\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"330.625\" y=\"107\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">E5</text><rect data-note=\"52\" data-lit=\"h2v\" x=\"303.625\" y=\"203\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-width=\"0.7\"></rect><text x=\"330.625\" y=\"215\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0C447C\">E3</text><rect data-note=\"77\" data-lit=\"h3h\" x=\"359.875\" y=\"86\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"386.875\" y=\"98\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">F5</text><rect data-note=\"53\" data-lit=\"h3v\" x=\"359.875\" y=\"194\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-width=\"0.7\"></rect><text x=\"386.875\" y=\"206\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0C447C\">F3</text><rect data-note=\"79\" data-lit=\"h4h\" x=\"416.125\" y=\"68\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"443.125\" y=\"80\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">G5</text><rect data-note=\"55\" data-lit=\"h4v\" x=\"416.125\" y=\"176\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-width=\"0.7\"></rect><text x=\"443.125\" y=\"188\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0C447C\">G3</text><rect data-note=\"77\" data-lit=\"h5h\" x=\"472.375\" y=\"86\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"499.375\" y=\"98\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">F5</text><rect data-note=\"53\" data-lit=\"h5v\" x=\"472.375\" y=\"194\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-width=\"0.7\"></rect><text x=\"499.375\" y=\"206\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0C447C\">F3</text><rect data-note=\"76\" data-lit=\"h6h\" x=\"528.625\" y=\"95\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"555.625\" y=\"107\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">E5</text><rect data-note=\"52\" data-lit=\"h6v\" x=\"528.625\" y=\"203\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-width=\"0.7\"></rect><text x=\"555.625\" y=\"215\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0C447C\">E3</text><rect data-note=\"74\" data-lit=\"h7h\" x=\"584.875\" y=\"113\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"611.875\" y=\"125\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">D5</text><rect data-note=\"50\" data-lit=\"h7v\" x=\"584.875\" y=\"221\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-width=\"0.7\"></rect><text x=\"611.875\" y=\"233\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#0C447C\">D3</text><line x1=\"218.125\" y1=\"239\" x2=\"218.125\" y2=\"153\" stroke=\"#BA7517\" stroke-width=\"1\" stroke-dasharray=\"4 3\"></line><path d=\"M218.125 155 l-4 6 h8 z\" fill=\"#BA7517\"></path><text x=\"228.125\" y=\"170\" font-size=\"10\" fill=\"#854F0B\">↑八度</text><text x=\"40\" y=\"288\" font-size=\"11\" fill=\"#57554E\">两行形状一模一样——同一段旋律搬到高音区，情绪就\"扬\"起来了。</text></svg>"
         },
         {
           "type": "tip",
           "text": "最省力的一招：同一段旋律，主歌放在中低音区\"说\"，副歌原样搬到高音区\"喊\"。 写的时候不用另写一条新旋律，情绪却直接翻倍。除了抬八度，还有四招同样有效——加快节奏密度、力度推强、配器加厚、以及减少休止。"
+        },
+        {
+          "type": "audio",
+          "label": "主歌版（低）",
+          "evs": [
+            {
+              "t": 0,
+              "m": 48,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h0v"
+            },
+            {
+              "t": 0.32,
+              "m": 50,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h1v"
+            },
+            {
+              "t": 0.64,
+              "m": 52,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h2v"
+            },
+            {
+              "t": 0.96,
+              "m": 53,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h3v"
+            },
+            {
+              "t": 1.28,
+              "m": 55,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h4v"
+            },
+            {
+              "t": 1.6,
+              "m": 53,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h5v"
+            },
+            {
+              "t": 1.92,
+              "m": 52,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h6v"
+            },
+            {
+              "t": 2.24,
+              "m": 50,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h7v"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "副歌版（高八度）",
+          "evs": [
+            {
+              "t": 0,
+              "m": 72,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h0h"
+            },
+            {
+              "t": 0.32,
+              "m": 74,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h1h"
+            },
+            {
+              "t": 0.64,
+              "m": 76,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h2h"
+            },
+            {
+              "t": 0.96,
+              "m": 77,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h3h"
+            },
+            {
+              "t": 1.28,
+              "m": 79,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h4h"
+            },
+            {
+              "t": 1.6,
+              "m": 77,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h5h"
+            },
+            {
+              "t": 1.92,
+              "m": 76,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h6h"
+            },
+            {
+              "t": 2.24,
+              "m": 74,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "h7h"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "连起来听",
+          "evs": [
+            {
+              "t": 0,
+              "m": 48,
+              "d": 0.9,
+              "g": 0.36,
+              "kind": "piano",
+              "lit": "h0v"
+            },
+            {
+              "t": 0.32,
+              "m": 50,
+              "d": 0.9,
+              "g": 0.36,
+              "kind": "piano",
+              "lit": "h1v"
+            },
+            {
+              "t": 0.64,
+              "m": 52,
+              "d": 0.9,
+              "g": 0.36,
+              "kind": "piano",
+              "lit": "h2v"
+            },
+            {
+              "t": 0.96,
+              "m": 53,
+              "d": 0.9,
+              "g": 0.36,
+              "kind": "piano",
+              "lit": "h3v"
+            },
+            {
+              "t": 1.28,
+              "m": 55,
+              "d": 0.9,
+              "g": 0.36,
+              "kind": "piano",
+              "lit": "h4v"
+            },
+            {
+              "t": 1.6,
+              "m": 53,
+              "d": 0.9,
+              "g": 0.36,
+              "kind": "piano",
+              "lit": "h5v"
+            },
+            {
+              "t": 1.92,
+              "m": 52,
+              "d": 0.9,
+              "g": 0.36,
+              "kind": "piano",
+              "lit": "h6v"
+            },
+            {
+              "t": 2.24,
+              "m": 50,
+              "d": 1.4,
+              "g": 0.36,
+              "kind": "piano",
+              "lit": "h7v"
+            },
+            {
+              "t": 2.56,
+              "m": 72,
+              "d": 0.9,
+              "g": 0.44,
+              "kind": "piano",
+              "lit": "h0h"
+            },
+            {
+              "t": 2.88,
+              "m": 74,
+              "d": 0.9,
+              "g": 0.44,
+              "kind": "piano",
+              "lit": "h1h"
+            },
+            {
+              "t": 3.2,
+              "m": 76,
+              "d": 0.9,
+              "g": 0.44,
+              "kind": "piano",
+              "lit": "h2h"
+            },
+            {
+              "t": 3.52,
+              "m": 77,
+              "d": 0.9,
+              "g": 0.44,
+              "kind": "piano",
+              "lit": "h3h"
+            },
+            {
+              "t": 3.84,
+              "m": 79,
+              "d": 0.9,
+              "g": 0.44,
+              "kind": "piano",
+              "lit": "h4h"
+            },
+            {
+              "t": 4.16,
+              "m": 77,
+              "d": 0.9,
+              "g": 0.44,
+              "kind": "piano",
+              "lit": "h5h"
+            },
+            {
+              "t": 4.48,
+              "m": 76,
+              "d": 0.9,
+              "g": 0.44,
+              "kind": "piano",
+              "lit": "h6h"
+            },
+            {
+              "t": 4.8,
+              "m": 74,
+              "d": 0.9,
+              "g": 0.44,
+              "kind": "piano",
+              "lit": "h7h"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 24,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -1995,7 +4022,7 @@ return {
       "chapter": "07 速度：行板就在这一节",
       "title": "点一个术语：同一段旋律，只换速度（点两次可以对比）",
       "goal": "点一个术语：同一段旋律，只换速度（点两次可以对比） 1 2 3 4 行板 Andante · 约 88 BPM · 像散步，抒情歌最常用",
-      "estimatedSeconds": 45,
+      "estimatedSeconds": 180,
       "blocks": [
         {
           "type": "heading",
@@ -2021,15 +4048,429 @@ return {
         {
           "type": "tip",
           "text": "行板 Andante · 约 88 BPM · 像散步，抒情歌最常用"
+        },
+        {
+          "type": "audio",
+          "label": "广板 Largo",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 1.125,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 1.25,
+              "m": 62,
+              "d": 1.125,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 2.5,
+              "m": 64,
+              "d": 1.125,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 3.75,
+              "m": 65,
+              "d": 1.125,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 5,
+              "m": 67,
+              "d": 1.125,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 6.25,
+              "m": 65,
+              "d": 1.125,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 7.5,
+              "m": 64,
+              "d": 1.125,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 8.75,
+              "m": 62,
+              "d": 1.125,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 10,
+              "m": 60,
+              "d": 1.125,
+              "g": 0.38,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "柔板 Adagio",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.931,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 1.034,
+              "m": 62,
+              "d": 0.931,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 2.069,
+              "m": 64,
+              "d": 0.931,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 3.103,
+              "m": 65,
+              "d": 0.931,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 4.138,
+              "m": 67,
+              "d": 0.931,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 5.172,
+              "m": 65,
+              "d": 0.931,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 6.207,
+              "m": 64,
+              "d": 0.931,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 7.241,
+              "m": 62,
+              "d": 0.931,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 8.276,
+              "m": 60,
+              "d": 0.931,
+              "g": 0.38,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "行板 Andante",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.614,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 0.682,
+              "m": 62,
+              "d": 0.614,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 1.364,
+              "m": 64,
+              "d": 0.614,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 2.045,
+              "m": 65,
+              "d": 0.614,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 2.727,
+              "m": 67,
+              "d": 0.614,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 3.409,
+              "m": 65,
+              "d": 0.614,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 4.091,
+              "m": 64,
+              "d": 0.614,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 4.773,
+              "m": 62,
+              "d": 0.614,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 5.455,
+              "m": 60,
+              "d": 0.614,
+              "g": 0.38,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "中板 Moderato",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.482,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 0.536,
+              "m": 62,
+              "d": 0.482,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 1.071,
+              "m": 64,
+              "d": 0.482,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 1.607,
+              "m": 65,
+              "d": 0.482,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 2.143,
+              "m": 67,
+              "d": 0.482,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 2.679,
+              "m": 65,
+              "d": 0.482,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 3.214,
+              "m": 64,
+              "d": 0.482,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 3.75,
+              "m": 62,
+              "d": 0.482,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 4.286,
+              "m": 60,
+              "d": 0.482,
+              "g": 0.38,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "快板 Allegro",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.386,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 0.429,
+              "m": 62,
+              "d": 0.386,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 0.857,
+              "m": 64,
+              "d": 0.386,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 1.286,
+              "m": 65,
+              "d": 0.386,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 1.714,
+              "m": 67,
+              "d": 0.386,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 2.143,
+              "m": 65,
+              "d": 0.386,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 2.571,
+              "m": 64,
+              "d": 0.386,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 3,
+              "m": 62,
+              "d": 0.386,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 3.429,
+              "m": 60,
+              "d": 0.386,
+              "g": 0.38,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "急板 Presto",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.29,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 0.323,
+              "m": 62,
+              "d": 0.29,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 0.645,
+              "m": 64,
+              "d": 0.29,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 0.968,
+              "m": 65,
+              "d": 0.29,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 1.29,
+              "m": 67,
+              "d": 0.29,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 1.613,
+              "m": 65,
+              "d": 0.29,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 1.935,
+              "m": 64,
+              "d": 0.29,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 2.258,
+              "m": 62,
+              "d": 0.29,
+              "g": 0.38,
+              "kind": "piano"
+            },
+            {
+              "t": 2.581,
+              "m": 60,
+              "d": 0.29,
+              "g": 0.38,
+              "kind": "piano"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 26,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -2115,7 +4556,7 @@ return {
       "chapter": "08 拍号与节奏：音乐怎么\"摆\"",
       "title": "拍号与节奏：音乐怎么\"摆\" · 1",
       "goal": "强 · 4/4 · 流行标配 · 四拍一循环第1拍最重、第3拍次重。",
-      "estimatedSeconds": 45,
+      "estimatedSeconds": 139,
       "blocks": [
         {
           "type": "text",
@@ -2128,15 +4569,81 @@ return {
         {
           "type": "tip",
           "text": "4/4 · 流行标配 · 四拍一循环第1拍最重、第3拍次重。一二三四，人的心跳和走路都在这上面。"
+        },
+        {
+          "type": "audio",
+          "label": "4/4",
+          "evs": [
+            {
+              "t": 0,
+              "m": 72,
+              "d": 0.5,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.1,
+              "m": 67,
+              "d": 0.3,
+              "g": 0.26,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "3/4",
+          "evs": [
+            {
+              "t": 0,
+              "m": 72,
+              "d": 0.5,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "2/4",
+          "evs": [
+            {
+              "t": 0,
+              "m": 72,
+              "d": 0.5,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "6/8",
+          "evs": [
+            {
+              "t": 0,
+              "m": 72,
+              "d": 0.5,
+              "g": 0.4,
+              "kind": "piano"
+            },
+            {
+              "t": 1.65,
+              "m": 72,
+              "d": 0.5,
+              "g": 0.4,
+              "kind": "piano"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 29,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -2165,128 +4672,12 @@ return {
           "text": "：抢在正拍前进来 1/5 拍，一句立刻有了\"冲出去\"的劲。"
         },
         {
-          "type": "audio",
-          "label": "正拍进（踩点）",
-          "notes": [
-            60,
-            62,
-            64,
-            65,
-            67,
-            65,
-            64,
-            62
-          ],
-          "gap": 0.4,
-          "lead": 1.6,
-          "clicks": [
-            0,
-            0.4,
-            0.8,
-            1.2000000000000002,
-            1.6,
-            2,
-            2.4000000000000004,
-            2.8000000000000003,
-            3.2,
-            3.6,
-            4,
-            4.4,
-            4.800000000000001
-          ]
-        },
-        {
-          "type": "audio",
-          "label": "弱起进（抢拍）",
-          "notes": [
-            60,
-            62,
-            64,
-            65,
-            67,
-            65,
-            64,
-            62
-          ],
-          "gap": 0.4,
-          "lead": 1.4,
-          "clicks": [
-            0,
-            0.4,
-            0.8,
-            1.2000000000000002,
-            1.6,
-            2,
-            2.4000000000000004,
-            2.8000000000000003,
-            3.2,
-            3.6,
-            4,
-            4.4,
-            4.800000000000001
-          ]
-        },
-        {
           "type": "text",
           "text": "切分"
         },
         {
           "type": "text",
           "text": "：把重音挪到反拍，节奏就从\"走路\"变成\"歪着想走\"。"
-        },
-        {
-          "type": "audio",
-          "label": "正拍（踩点）",
-          "notes": [
-            60,
-            60,
-            62,
-            62,
-            64,
-            64,
-            65,
-            65
-          ],
-          "gap": 0.4,
-          "lead": 0,
-          "clicks": [
-            0,
-            0.4,
-            0.8,
-            1.2000000000000002,
-            1.6,
-            2,
-            2.4000000000000004,
-            2.8000000000000003,
-            3.2
-          ]
-        },
-        {
-          "type": "audio",
-          "label": "切分（落在两点之间）",
-          "notes": [
-            60,
-            60,
-            62,
-            62,
-            64,
-            64,
-            65,
-            65
-          ],
-          "gap": 0.4,
-          "lead": 0.2,
-          "clicks": [
-            0,
-            0.4,
-            0.8,
-            1.2000000000000002,
-            1.6,
-            2,
-            2.4000000000000004,
-            2.8000000000000003,
-            3.2
-          ]
         },
         {
           "type": "text",
@@ -2323,6 +4714,474 @@ return {
         {
           "type": "tip",
           "text": "圆点＝节拍器的\"嗒\"，会一路陪到旋律结束。盯住圆点看：旋律的第一个音是正好落在圆点上，还是抢在圆点前面。"
+        },
+        {
+          "type": "audio",
+          "label": "正拍进（踩点）",
+          "evs": [
+            {
+              "t": 0,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0.4,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 0.8,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 1.2,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.6,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 1.6,
+              "m": 60,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 2,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2,
+              "m": 62,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 2.4,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 2.4,
+              "m": 64,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 2.8,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2.8,
+              "m": 65,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 3.2,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 3.2,
+              "m": 67,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 3.6,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 3.6,
+              "m": 65,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 4,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 4,
+              "m": 64,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 4.4,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 4.4,
+              "m": 62,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 4.8,
+              "click": true,
+              "strong": true
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "弱起进（抢拍）",
+          "evs": [
+            {
+              "t": 0,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0.4,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 0.8,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 1.2,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.4,
+              "m": 60,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 1.6,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 1.8,
+              "m": 62,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 2,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2.2,
+              "m": 64,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 2.4,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 2.6,
+              "m": 65,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 2.8,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 3,
+              "m": 67,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 3.2,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 3.4,
+              "m": 65,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 3.6,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 3.8,
+              "m": 64,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 4,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 4.2,
+              "m": 62,
+              "d": 0.4,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 4.4,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 4.8,
+              "click": true,
+              "strong": true
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "正拍（踩点）",
+          "evs": [
+            {
+              "t": 0,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 0.4,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 0.4,
+              "m": 60,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 0.8,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0.8,
+              "m": 62,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 1.2,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.2,
+              "m": 62,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 1.6,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 1.6,
+              "m": 64,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 2,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2,
+              "m": 64,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 2.4,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 2.4,
+              "m": 65,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 2.8,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2.8,
+              "m": 65,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 3.2,
+              "click": true,
+              "strong": true
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "切分（落在两点之间）",
+          "evs": [
+            {
+              "t": 0,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0.2,
+              "m": 60,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 0.4,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 0.6,
+              "m": 60,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 0.8,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 1,
+              "m": 62,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 1.2,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.4,
+              "m": 62,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 1.6,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 1.8,
+              "m": 64,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 2,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2.2,
+              "m": 64,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 2.4,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 2.6,
+              "m": 65,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 2.8,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 3,
+              "m": 65,
+              "d": 0.3,
+              "g": 0.42,
+              "kind": "piano"
+            },
+            {
+              "t": 3.2,
+              "click": true,
+              "strong": true
+            }
+          ]
         }
       ],
       "skip": true,
@@ -2457,7 +5316,7 @@ return {
       "chapter": "09 律动：节奏型怎么设计",
       "title": "② 听一遍：同一段和声，五种打法",
       "goal": "② 听一遍：同一段和声，五种打法 五张卡用的是同一段和声、同一个速度（104 BPM）， 只有节奏型不同。",
-      "estimatedSeconds": 90,
+      "estimatedSeconds": 107,
       "blocks": [
         {
           "type": "heading",
@@ -2469,16 +5328,8 @@ return {
           "text": "五张卡用的是同一段和声、同一个速度（104 BPM）， 只有节奏型不同。所以听到的所有差别，都只能来自\"怎么打\"。 图上八个小格＝两拍（十六分一格）：实心块是重音，浅色是弱拍音头，方块右边那条尾巴是音长。"
         },
         {
-          "type": "text",
-          "text": "拍 1"
-        },
-        {
-          "type": "text",
-          "text": "拍 2"
-        },
-        {
-          "type": "text",
-          "text": "一格＝十六分 · 实心块＝音头（深色那下是重音）· 格下细条＝音长（2.00 拍）"
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 104\" width=\"100%\" class=\"ladder\" role=\"img\"><rect x=\"40\" y=\"20\" width=\"74\" height=\"32\" rx=\"4\" fill=\"#F1EFE8\" stroke=\"#D6D2C6\" stroke-width=\"1\"></rect><rect x=\"115\" y=\"20\" width=\"74\" height=\"32\" rx=\"4\" fill=\"#FAF9F5\" stroke=\"#D6D2C6\" stroke-width=\"1\"></rect><rect x=\"190\" y=\"20\" width=\"74\" height=\"32\" rx=\"4\" fill=\"#FAF9F5\" stroke=\"#D6D2C6\" stroke-width=\"1\"></rect><rect x=\"265\" y=\"20\" width=\"74\" height=\"32\" rx=\"4\" fill=\"#FAF9F5\" stroke=\"#D6D2C6\" stroke-width=\"1\"></rect><rect x=\"340\" y=\"20\" width=\"74\" height=\"32\" rx=\"4\" fill=\"#F1EFE8\" stroke=\"#D6D2C6\" stroke-width=\"1\"></rect><rect x=\"415\" y=\"20\" width=\"74\" height=\"32\" rx=\"4\" fill=\"#FAF9F5\" stroke=\"#D6D2C6\" stroke-width=\"1\"></rect><rect x=\"490\" y=\"20\" width=\"74\" height=\"32\" rx=\"4\" fill=\"#FAF9F5\" stroke=\"#D6D2C6\" stroke-width=\"1\"></rect><rect x=\"565\" y=\"20\" width=\"74\" height=\"32\" rx=\"4\" fill=\"#FAF9F5\" stroke=\"#D6D2C6\" stroke-width=\"1\"></rect><line x1=\"340\" y1=\"15\" x2=\"340\" y2=\"57\" stroke=\"#B4B2A9\" stroke-width=\"1\"></line><rect data-hit=\"1\" x=\"47\" y=\"28\" width=\"26\" height=\"16\" rx=\"4\" fill=\"#534AB7\"></rect><rect x=\"47\" y=\"58\" width=\"584\" height=\"4\" rx=\"2\" fill=\"#7F77DD\"></rect><text x=\"190\" y=\"78\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#6F6C62\">拍 1</text><text x=\"490\" y=\"78\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#6F6C62\">拍 2</text><text x=\"40\" y=\"94\" font-size=\"10\" fill=\"#6F6C62\">一格＝十六分 · 实心块＝音头（深色那下是重音）· 格下细条＝音长（2.00 拍）</text></svg>"
         },
         {
           "type": "text",
@@ -2531,15 +5382,245 @@ return {
         {
           "type": "tip",
           "text": "注意\"碎音\"和\"琶音\"的格子长得一模一样——音头位置完全相同，只有音长不同。 碎音听起来紧、琶音听起来流，差别就在那条尾巴上。这就是\"决定三\"最直接的证据。"
+        },
+        {
+          "type": "audio",
+          "label": "播这一段",
+          "evs": [
+            {
+              "t": 0,
+              "m": 48,
+              "d": 0.288,
+              "g": 0.5,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 51,
+              "d": 0.288,
+              "g": 0.275,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 55,
+              "d": 0.288,
+              "g": 0.275,
+              "kind": "piano"
+            },
+            {
+              "t": 0.288,
+              "m": 36,
+              "d": 0.231,
+              "g": 0.252,
+              "kind": "piano"
+            },
+            {
+              "t": 0.577,
+              "m": 48,
+              "d": 0.288,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0.577,
+              "m": 51,
+              "d": 0.288,
+              "g": 0.198,
+              "kind": "piano"
+            },
+            {
+              "t": 0.577,
+              "m": 55,
+              "d": 0.288,
+              "g": 0.198,
+              "kind": "piano"
+            },
+            {
+              "t": 0.865,
+              "m": 36,
+              "d": 0.231,
+              "g": 0.252,
+              "kind": "piano"
+            },
+            {
+              "t": 1.154,
+              "m": 56,
+              "d": 0.288,
+              "g": 0.5,
+              "kind": "piano"
+            },
+            {
+              "t": 1.154,
+              "m": 60,
+              "d": 0.288,
+              "g": 0.275,
+              "kind": "piano"
+            },
+            {
+              "t": 1.154,
+              "m": 63,
+              "d": 0.288,
+              "g": 0.275,
+              "kind": "piano"
+            },
+            {
+              "t": 1.442,
+              "m": 44,
+              "d": 0.231,
+              "g": 0.252,
+              "kind": "piano"
+            },
+            {
+              "t": 1.731,
+              "m": 56,
+              "d": 0.288,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 1.731,
+              "m": 60,
+              "d": 0.288,
+              "g": 0.198,
+              "kind": "piano"
+            },
+            {
+              "t": 1.731,
+              "m": 63,
+              "d": 0.288,
+              "g": 0.198,
+              "kind": "piano"
+            },
+            {
+              "t": 2.019,
+              "m": 44,
+              "d": 0.231,
+              "g": 0.252,
+              "kind": "piano"
+            },
+            {
+              "t": 2.308,
+              "m": 51,
+              "d": 0.288,
+              "g": 0.5,
+              "kind": "piano"
+            },
+            {
+              "t": 2.308,
+              "m": 55,
+              "d": 0.288,
+              "g": 0.275,
+              "kind": "piano"
+            },
+            {
+              "t": 2.308,
+              "m": 58,
+              "d": 0.288,
+              "g": 0.275,
+              "kind": "piano"
+            },
+            {
+              "t": 2.596,
+              "m": 39,
+              "d": 0.231,
+              "g": 0.252,
+              "kind": "piano"
+            },
+            {
+              "t": 2.885,
+              "m": 51,
+              "d": 0.288,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 2.885,
+              "m": 55,
+              "d": 0.288,
+              "g": 0.198,
+              "kind": "piano"
+            },
+            {
+              "t": 2.885,
+              "m": 58,
+              "d": 0.288,
+              "g": 0.198,
+              "kind": "piano"
+            },
+            {
+              "t": 3.173,
+              "m": 39,
+              "d": 0.231,
+              "g": 0.252,
+              "kind": "piano"
+            },
+            {
+              "t": 3.462,
+              "m": 58,
+              "d": 0.288,
+              "g": 0.5,
+              "kind": "piano"
+            },
+            {
+              "t": 3.462,
+              "m": 62,
+              "d": 0.288,
+              "g": 0.275,
+              "kind": "piano"
+            },
+            {
+              "t": 3.462,
+              "m": 65,
+              "d": 0.288,
+              "g": 0.275,
+              "kind": "piano"
+            },
+            {
+              "t": 3.75,
+              "m": 46,
+              "d": 0.231,
+              "g": 0.252,
+              "kind": "piano"
+            },
+            {
+              "t": 4.038,
+              "m": 58,
+              "d": 0.288,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 4.038,
+              "m": 62,
+              "d": 0.288,
+              "g": 0.198,
+              "kind": "piano"
+            },
+            {
+              "t": 4.038,
+              "m": 65,
+              "d": 0.288,
+              "g": 0.198,
+              "kind": "piano"
+            },
+            {
+              "t": 4.327,
+              "m": 46,
+              "d": 0.231,
+              "g": 0.252,
+              "kind": "piano"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 33,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -2812,7 +5893,7 @@ return {
       "chapter": "10 曲式：12 小节布鲁斯",
       "title": "① 十二格：前八格在原地打转，第九格才离开家",
       "goal": "① 十二格：前八格在原地打转，第九格才离开家 按播放，格子会一格一格亮过去。",
-      "estimatedSeconds": 99,
+      "estimatedSeconds": 115,
       "blocks": [
         {
           "type": "heading",
@@ -2824,169 +5905,2556 @@ return {
           "text": "按播放，格子会一格一格亮过去。别看词，先看颜色什么时候变： 前四格是同一条 I7，第五格转到 IV7，第九格才第一次出现 V7。"
         },
         {
-          "type": "text",
-          "text": "十二格 · 三行词：前八格和声在原地打转，第九格才第一次离开家"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "I7"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "I7"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "I7"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "I7"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "IV7"
-        },
-        {
-          "type": "text",
-          "text": "6"
-        },
-        {
-          "type": "text",
-          "text": "IV7"
-        },
-        {
-          "type": "text",
-          "text": "7"
-        },
-        {
-          "type": "text",
-          "text": "I7"
-        },
-        {
-          "type": "text",
-          "text": "8"
-        },
-        {
-          "type": "text",
-          "text": "I7"
-        },
-        {
-          "type": "text",
-          "text": "9"
-        },
-        {
-          "type": "text",
-          "text": "V7"
-        },
-        {
-          "type": "text",
-          "text": "10"
-        },
-        {
-          "type": "text",
-          "text": "IV7"
-        },
-        {
-          "type": "text",
-          "text": "11"
-        },
-        {
-          "type": "text",
-          "text": "I7"
-        },
-        {
-          "type": "text",
-          "text": "12"
-        },
-        {
-          "type": "text",
-          "text": "V7"
-        },
-        {
-          "type": "text",
-          "text": "A"
-        },
-        {
-          "type": "text",
-          "text": "天没亮就出门"
-        },
-        {
-          "type": "text",
-          "text": "乐器接话"
-        },
-        {
-          "type": "text",
-          "text": "6 字"
-        },
-        {
-          "type": "text",
-          "text": "A"
-        },
-        {
-          "type": "text",
-          "text": "天没亮就出门"
-        },
-        {
-          "type": "text",
-          "text": "乐器接话"
-        },
-        {
-          "type": "text",
-          "text": "6 字"
-        },
-        {
-          "type": "text",
-          "text": "B"
-        },
-        {
-          "type": "text",
-          "text": "等我回身灯已经灭了"
-        },
-        {
-          "type": "text",
-          "text": "乐器接话"
-        },
-        {
-          "type": "text",
-          "text": "9 字"
-        },
-        {
-          "type": "text",
-          "text": "下划线＝真正唱出来的长度（一字一拍）；剩下的空档是留给乐器的。B 行多三个字，所以会挤进第三格。"
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 240\" width=\"100%\" class=\"ladder\" role=\"img\"><text x=\"40\" y=\"14\" font-size=\"11\" fill=\"#57554E\">十二格 · 三行词：前八格和声在原地打转，第九格才第一次离开家</text><text x=\"65\" y=\"34\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">1</text><rect data-lit=\"bar0\" x=\"41\" y=\"40\" width=\"48\" height=\"26\" rx=\"4\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"1\"></rect><text x=\"65\" y=\"57\" font-size=\"10.5\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#3C3489\">I7</text><text x=\"115\" y=\"34\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">2</text><rect data-lit=\"bar1\" x=\"91\" y=\"40\" width=\"48\" height=\"26\" rx=\"4\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"1\"></rect><text x=\"115\" y=\"57\" font-size=\"10.5\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#3C3489\">I7</text><text x=\"165\" y=\"34\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">3</text><rect data-lit=\"bar2\" x=\"141\" y=\"40\" width=\"48\" height=\"26\" rx=\"4\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"1\"></rect><text x=\"165\" y=\"57\" font-size=\"10.5\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#3C3489\">I7</text><text x=\"215\" y=\"34\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">4</text><rect data-lit=\"bar3\" x=\"191\" y=\"40\" width=\"48\" height=\"26\" rx=\"4\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"1\"></rect><text x=\"215\" y=\"57\" font-size=\"10.5\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#3C3489\">I7</text><text x=\"265\" y=\"34\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">5</text><rect data-lit=\"bar4\" x=\"241\" y=\"40\" width=\"48\" height=\"26\" rx=\"4\" fill=\"#E1F5EE\" stroke=\"#0F6E56\" stroke-width=\"1\"></rect><text x=\"265\" y=\"57\" font-size=\"10.5\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#04342C\">IV7</text><text x=\"315\" y=\"34\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">6</text><rect data-lit=\"bar5\" x=\"291\" y=\"40\" width=\"48\" height=\"26\" rx=\"4\" fill=\"#E1F5EE\" stroke=\"#0F6E56\" stroke-width=\"1\"></rect><text x=\"315\" y=\"57\" font-size=\"10.5\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#04342C\">IV7</text><text x=\"365\" y=\"34\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">7</text><rect data-lit=\"bar6\" x=\"341\" y=\"40\" width=\"48\" height=\"26\" rx=\"4\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"1\"></rect><text x=\"365\" y=\"57\" font-size=\"10.5\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#3C3489\">I7</text><text x=\"415\" y=\"34\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">8</text><rect data-lit=\"bar7\" x=\"391\" y=\"40\" width=\"48\" height=\"26\" rx=\"4\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"1\"></rect><text x=\"415\" y=\"57\" font-size=\"10.5\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#3C3489\">I7</text><text x=\"465\" y=\"34\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">9</text><rect data-lit=\"bar8\" x=\"441\" y=\"40\" width=\"48\" height=\"26\" rx=\"4\" fill=\"#FAEEDA\" stroke=\"#BA7517\" stroke-width=\"1\"></rect><text x=\"465\" y=\"57\" font-size=\"10.5\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#412402\">V7</text><text x=\"515\" y=\"34\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">10</text><rect data-lit=\"bar9\" x=\"491\" y=\"40\" width=\"48\" height=\"26\" rx=\"4\" fill=\"#E1F5EE\" stroke=\"#0F6E56\" stroke-width=\"1\"></rect><text x=\"515\" y=\"57\" font-size=\"10.5\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#04342C\">IV7</text><text x=\"565\" y=\"34\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">11</text><rect data-lit=\"bar10\" x=\"541\" y=\"40\" width=\"48\" height=\"26\" rx=\"4\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"1\"></rect><text x=\"565\" y=\"57\" font-size=\"10.5\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#3C3489\">I7</text><text x=\"615\" y=\"34\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">12</text><rect data-lit=\"bar11\" x=\"591\" y=\"40\" width=\"48\" height=\"26\" rx=\"4\" fill=\"#FAEEDA\" stroke=\"#BA7517\" stroke-width=\"1\"></rect><text x=\"615\" y=\"57\" font-size=\"10.5\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#412402\">V7</text><text x=\"26\" y=\"103\" font-size=\"12\" font-weight=\"700\" fill=\"#2C2C2A\">A</text><rect data-lit=\"ln0\" x=\"41\" y=\"82\" width=\"198\" height=\"32\" rx=\"5\" fill=\"#FBFAF6\" stroke=\"#E5E2D9\" stroke-width=\"1\"></rect><rect x=\"47\" y=\"105\" width=\"75\" height=\"3\" rx=\"1.5\" fill=\"#534AB7\"></rect><text x=\"48\" y=\"98\" font-size=\"12\" fill=\"#2C2C2A\">天没亮就出门</text><text x=\"127\" y=\"98\" font-size=\"9.5\" fill=\"#6F6C62\">乐器接话</text><text x=\"230\" y=\"98\" font-size=\"9\" text-anchor=\"end\" fill=\"#6F6C62\">6 字</text><text x=\"26\" y=\"145\" font-size=\"12\" font-weight=\"700\" fill=\"#2C2C2A\">A</text><rect data-lit=\"ln1\" x=\"241\" y=\"124\" width=\"198\" height=\"32\" rx=\"5\" fill=\"#FBFAF6\" stroke=\"#E5E2D9\" stroke-width=\"1\"></rect><rect x=\"247\" y=\"147\" width=\"75\" height=\"3\" rx=\"1.5\" fill=\"#534AB7\"></rect><text x=\"248\" y=\"140\" font-size=\"12\" fill=\"#2C2C2A\">天没亮就出门</text><text x=\"327\" y=\"140\" font-size=\"9.5\" fill=\"#6F6C62\">乐器接话</text><text x=\"430\" y=\"140\" font-size=\"9\" text-anchor=\"end\" fill=\"#6F6C62\">6 字</text><text x=\"26\" y=\"187\" font-size=\"12\" font-weight=\"700\" fill=\"#2C2C2A\">B</text><rect data-lit=\"ln2\" x=\"441\" y=\"166\" width=\"198\" height=\"32\" rx=\"5\" fill=\"#FBFAF6\" stroke=\"#E5E2D9\" stroke-width=\"1\"></rect><rect x=\"447\" y=\"189\" width=\"112.5\" height=\"3\" rx=\"1.5\" fill=\"#D85A30\"></rect><text x=\"448\" y=\"182\" font-size=\"12\" fill=\"#2C2C2A\">等我回身灯已经灭了</text><text x=\"564.5\" y=\"182\" font-size=\"9.5\" fill=\"#6F6C62\">乐器接话</text><text x=\"630\" y=\"182\" font-size=\"9\" text-anchor=\"end\" fill=\"#6F6C62\">9 字</text><text x=\"40\" y=\"232\" font-size=\"10.5\" fill=\"#57554E\">下划线＝真正唱出来的长度（一字一拍）；剩下的空档是留给乐器的。B 行多三个字，所以会挤进第三格。</text></svg>"
         },
         {
           "type": "tip",
           "text": "布鲁斯的三个和弦全是属七。大调里只有 V 级是属七，它把 I 和 IV 也做成了属七—— 每个和弦都带一个小七度，永远不干净，永远想往前走。这是\"布鲁斯味\"的第一个来源：和声。 第二个来源在下一卡——它不在和弦里，在两个八分音符的间距里。"
+        },
+        {
+          "type": "audio",
+          "label": "和声 + 词",
+          "evs": [
+            {
+              "t": 0,
+              "m": 48,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar0"
+            },
+            {
+              "t": 0,
+              "m": 79,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.455,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 0.455,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 0.455,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 0.455,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 0.682,
+              "m": 78,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.136,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 1.136,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 1.136,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 1.136,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 1.364,
+              "m": 55,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 1.364,
+              "m": 81,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.045,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 2.045,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 2.045,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 2.045,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 2.045,
+              "m": 81,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.727,
+              "m": 48,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar1"
+            },
+            {
+              "t": 2.727,
+              "m": 79,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.182,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 3.182,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 3.182,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 3.182,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 3.409,
+              "m": 78,
+              "d": 1.295,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.864,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 3.864,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 3.864,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 3.864,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 4.091,
+              "m": 55,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 4.773,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 4.773,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 4.773,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 4.773,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 5.455,
+              "m": 48,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar2"
+            },
+            {
+              "t": 5.909,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 5.909,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 5.909,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 5.909,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 6.591,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 6.591,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 6.591,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 6.591,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 6.818,
+              "m": 55,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 7.5,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 7.5,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 7.5,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 7.5,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 8.182,
+              "m": 48,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar3"
+            },
+            {
+              "t": 8.636,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 8.636,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 8.636,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 8.636,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 9.318,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 9.318,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 9.318,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 9.318,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 9.545,
+              "m": 55,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 10.227,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 10.227,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 10.227,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 10.227,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 10.909,
+              "m": 53,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar4"
+            },
+            {
+              "t": 10.909,
+              "m": 79,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 11.364,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 11.364,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 11.364,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 11.364,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 11.591,
+              "m": 78,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 12.045,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 12.045,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 12.045,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 12.045,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 12.273,
+              "m": 60,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 12.273,
+              "m": 81,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 12.955,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 12.955,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 12.955,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 12.955,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 12.955,
+              "m": 81,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 13.636,
+              "m": 53,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar5"
+            },
+            {
+              "t": 13.636,
+              "m": 79,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 14.091,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 14.091,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 14.091,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 14.091,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 14.318,
+              "m": 78,
+              "d": 1.295,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 14.773,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 14.773,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 14.773,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 14.773,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 15,
+              "m": 60,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 15.682,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 15.682,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 15.682,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 15.682,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 16.364,
+              "m": 48,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar6"
+            },
+            {
+              "t": 16.818,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 16.818,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 16.818,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 16.818,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 17.5,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 17.5,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 17.5,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 17.5,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 17.727,
+              "m": 55,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 18.409,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 18.409,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 18.409,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 18.409,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 19.091,
+              "m": 48,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar7"
+            },
+            {
+              "t": 19.545,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 19.545,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 19.545,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 19.545,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 20.227,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 20.227,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 20.227,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 20.227,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 20.455,
+              "m": 55,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 21.136,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 21.136,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 21.136,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 21.136,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 21.818,
+              "m": 55,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar8"
+            },
+            {
+              "t": 21.818,
+              "m": 77,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 22.273,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 22.273,
+              "m": 71,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 22.273,
+              "m": 74,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 22.273,
+              "m": 77,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 22.5,
+              "m": 77,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 22.955,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 22.955,
+              "m": 71,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 22.955,
+              "m": 74,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 22.955,
+              "m": 77,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 23.182,
+              "m": 62,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 23.182,
+              "m": 78,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 23.864,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 23.864,
+              "m": 71,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 23.864,
+              "m": 74,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 23.864,
+              "m": 77,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 23.864,
+              "m": 79,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 24.545,
+              "m": 53,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar9"
+            },
+            {
+              "t": 24.545,
+              "m": 79,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 25,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 25,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 25,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 25,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 25.227,
+              "m": 77,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 25.682,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 25.682,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 25.682,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 25.682,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 25.909,
+              "m": 60,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 25.909,
+              "m": 79,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 26.591,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 26.591,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 26.591,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 26.591,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 26.591,
+              "m": 81,
+              "d": 0.627,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 27.273,
+              "m": 48,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar10"
+            },
+            {
+              "t": 27.273,
+              "m": 79,
+              "d": 1.295,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 27.727,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 27.727,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 27.727,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 27.727,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 28.409,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 28.409,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 28.409,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 28.409,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 28.636,
+              "m": 55,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 29.318,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 29.318,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 29.318,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 29.318,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 30,
+              "m": 55,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar11"
+            },
+            {
+              "t": 30.455,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 30.455,
+              "m": 71,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 30.455,
+              "m": 74,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 30.455,
+              "m": 77,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 31.136,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 31.136,
+              "m": 71,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 31.136,
+              "m": 74,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 31.136,
+              "m": 77,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 31.364,
+              "m": 62,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 32.045,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 32.045,
+              "m": 71,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 32.045,
+              "m": 74,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 32.045,
+              "m": 77,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "只听和声",
+          "evs": [
+            {
+              "t": 0,
+              "m": 48,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar0"
+            },
+            {
+              "t": 0.455,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 0.455,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 0.455,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 0.455,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 1.136,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 1.136,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 1.136,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 1.136,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 1.364,
+              "m": 55,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 2.045,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 2.045,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 2.045,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 2.045,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 2.727,
+              "m": 48,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar1"
+            },
+            {
+              "t": 3.182,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 3.182,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 3.182,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 3.182,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 3.864,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 3.864,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 3.864,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 3.864,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 4.091,
+              "m": 55,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 4.773,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 4.773,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 4.773,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 4.773,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 5.455,
+              "m": 48,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar2"
+            },
+            {
+              "t": 5.909,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 5.909,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 5.909,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 5.909,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 6.591,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 6.591,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 6.591,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 6.591,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 6.818,
+              "m": 55,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 7.5,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 7.5,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 7.5,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 7.5,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 8.182,
+              "m": 48,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar3"
+            },
+            {
+              "t": 8.636,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 8.636,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 8.636,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 8.636,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 9.318,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 9.318,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 9.318,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 9.318,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 9.545,
+              "m": 55,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 10.227,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 10.227,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 10.227,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 10.227,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 10.909,
+              "m": 53,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar4"
+            },
+            {
+              "t": 11.364,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 11.364,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 11.364,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 11.364,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 12.045,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 12.045,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 12.045,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 12.045,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 12.273,
+              "m": 60,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 12.955,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 12.955,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 12.955,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 12.955,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 13.636,
+              "m": 53,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar5"
+            },
+            {
+              "t": 14.091,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 14.091,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 14.091,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 14.091,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 14.773,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 14.773,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 14.773,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 14.773,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 15,
+              "m": 60,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 15.682,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 15.682,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 15.682,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 15.682,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 16.364,
+              "m": 48,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar6"
+            },
+            {
+              "t": 16.818,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 16.818,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 16.818,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 16.818,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 17.5,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 17.5,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 17.5,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 17.5,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 17.727,
+              "m": 55,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 18.409,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 18.409,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 18.409,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 18.409,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 19.091,
+              "m": 48,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar7"
+            },
+            {
+              "t": 19.545,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 19.545,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 19.545,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 19.545,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 20.227,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 20.227,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 20.227,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 20.227,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 20.455,
+              "m": 55,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 21.136,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 21.136,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 21.136,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 21.136,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 21.818,
+              "m": 55,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar8"
+            },
+            {
+              "t": 22.273,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 22.273,
+              "m": 71,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 22.273,
+              "m": 74,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 22.273,
+              "m": 77,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 22.955,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 22.955,
+              "m": 71,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 22.955,
+              "m": 74,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 22.955,
+              "m": 77,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 23.182,
+              "m": 62,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 23.864,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 23.864,
+              "m": 71,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 23.864,
+              "m": 74,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 23.864,
+              "m": 77,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 24.545,
+              "m": 53,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar9"
+            },
+            {
+              "t": 25,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 25,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 25,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 25,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 25.682,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 25.682,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 25.682,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 25.682,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 25.909,
+              "m": 60,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 26.591,
+              "m": 65,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 26.591,
+              "m": 69,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 26.591,
+              "m": 72,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 26.591,
+              "m": 75,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 27.273,
+              "m": 48,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar10"
+            },
+            {
+              "t": 27.727,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 27.727,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 27.727,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 27.727,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 28.409,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 28.409,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 28.409,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 28.409,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 28.636,
+              "m": 55,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 29.318,
+              "m": 60,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 29.318,
+              "m": 64,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 29.318,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 29.318,
+              "m": 70,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 30,
+              "m": 55,
+              "d": 1.023,
+              "g": 0.44,
+              "kind": "bass",
+              "lit": "bar11"
+            },
+            {
+              "t": 30.455,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 30.455,
+              "m": 71,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 30.455,
+              "m": 74,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 30.455,
+              "m": 77,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 31.136,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 31.136,
+              "m": 71,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 31.136,
+              "m": 74,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 31.136,
+              "m": 77,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 31.364,
+              "m": 62,
+              "d": 0.818,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 32.045,
+              "m": 67,
+              "d": 0.232,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 32.045,
+              "m": 71,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 32.045,
+              "m": 74,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            },
+            {
+              "t": 32.045,
+              "m": 77,
+              "d": 0.232,
+              "g": 0.15,
+              "kind": "wood"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 37,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -2995,7 +8463,7 @@ return {
       "chapter": "10 曲式：12 小节布鲁斯",
       "title": "② 布鲁斯的另一半：两个八分音符不是均分的",
       "goal": "② 布鲁斯的另一半：两个八分音符不是均分的 谱子上写\"每拍两个八分\"，可它没写第二个到底落在哪儿。",
-      "estimatedSeconds": 137,
+      "estimatedSeconds": 144,
       "blocks": [
         {
           "type": "heading",
@@ -3007,40 +8475,8 @@ return {
           "text": "谱子上写\"每拍两个八分\"，可它没写第二个到底落在哪儿。 古典的默认是均分：落在一半。布鲁斯把后半往后拖到 ⅔——这个位置正好是三连音的第三格， 于是每一拍变成\"长—短、长—短\"，像拖着一条腿走路。底下两行是同一段两拍， 音高一个没改，只有第二下的位置不同：上下对比着看，注意块有没有踩在虚线上。"
         },
         {
-          "type": "text",
-          "text": "直的八分"
-        },
-        {
-          "type": "text",
-          "text": "后半悬在 ½ 处，两根格线之间"
-        },
-        {
-          "type": "text",
-          "text": "拍 1"
-        },
-        {
-          "type": "text",
-          "text": "拍 2"
-        },
-        {
-          "type": "text",
-          "text": "shuffle"
-        },
-        {
-          "type": "text",
-          "text": "后半正好踩在 ⅔ 那根格线上"
-        },
-        {
-          "type": "text",
-          "text": "拍 1"
-        },
-        {
-          "type": "text",
-          "text": "拍 2"
-        },
-        {
-          "type": "text",
-          "text": "虚线＝三连音的格线（每拍三格）· 格下细条＝这个音多长 · 音高一模一样，只有位置和长短不同"
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 202\" width=\"100%\" class=\"ladder\" role=\"img\"><text x=\"40\" y=\"31\" font-size=\"11.5\" font-weight=\"600\" fill=\"#8A8880\">直的八分</text><text x=\"128\" y=\"31\" font-size=\"10.5\" fill=\"#8A8880\">后半悬在 ½ 处，两根格线之间</text><line x1=\"40\" y1=\"37\" x2=\"40\" y2=\"80\" stroke=\"#B4B2A9\" stroke-width=\"1\"></line><line x1=\"140\" y1=\"37\" x2=\"140\" y2=\"80\" stroke=\"#E3E0D6\" stroke-width=\"1\" stroke-dasharray=\"3 3\"></line><line x1=\"240\" y1=\"37\" x2=\"240\" y2=\"80\" stroke=\"#E3E0D6\" stroke-width=\"1\" stroke-dasharray=\"3 3\"></line><line x1=\"340\" y1=\"37\" x2=\"340\" y2=\"80\" stroke=\"#B4B2A9\" stroke-width=\"1\"></line><line x1=\"440\" y1=\"37\" x2=\"440\" y2=\"80\" stroke=\"#E3E0D6\" stroke-width=\"1\" stroke-dasharray=\"3 3\"></line><line x1=\"540\" y1=\"37\" x2=\"540\" y2=\"80\" stroke=\"#E3E0D6\" stroke-width=\"1\" stroke-dasharray=\"3 3\"></line><line x1=\"640\" y1=\"37\" x2=\"640\" y2=\"80\" stroke=\"#B4B2A9\" stroke-width=\"1\"></line><rect data-hit=\"1\" x=\"25\" y=\"40\" width=\"30\" height=\"30\" rx=\"5\" fill=\"#8A8880\"></rect><rect x=\"25\" y=\"76\" width=\"144\" height=\"4\" rx=\"2\" fill=\"#8A8880\"></rect><rect data-hit=\"1\" x=\"175\" y=\"40\" width=\"30\" height=\"30\" rx=\"5\" fill=\"#C8C4B8\"></rect><rect x=\"175\" y=\"76\" width=\"144\" height=\"4\" rx=\"2\" fill=\"#C8C4B8\"></rect><rect data-hit=\"1\" x=\"325\" y=\"40\" width=\"30\" height=\"30\" rx=\"5\" fill=\"#8A8880\"></rect><rect x=\"325\" y=\"76\" width=\"144\" height=\"4\" rx=\"2\" fill=\"#8A8880\"></rect><rect data-hit=\"1\" x=\"475\" y=\"40\" width=\"30\" height=\"30\" rx=\"5\" fill=\"#C8C4B8\"></rect><rect x=\"475\" y=\"76\" width=\"144\" height=\"4\" rx=\"2\" fill=\"#C8C4B8\"></rect><text x=\"190\" y=\"94\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#6F6C62\">拍 1</text><text x=\"490\" y=\"94\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#6F6C62\">拍 2</text><text x=\"40\" y=\"109\" font-size=\"11.5\" font-weight=\"600\" fill=\"#534AB7\">shuffle</text><text x=\"128\" y=\"109\" font-size=\"10.5\" fill=\"#8A8880\">后半正好踩在 ⅔ 那根格线上</text><line x1=\"40\" y1=\"115\" x2=\"40\" y2=\"158\" stroke=\"#B4B2A9\" stroke-width=\"1\"></line><line x1=\"140\" y1=\"115\" x2=\"140\" y2=\"158\" stroke=\"#E3E0D6\" stroke-width=\"1\" stroke-dasharray=\"3 3\"></line><line x1=\"240\" y1=\"115\" x2=\"240\" y2=\"158\" stroke=\"#E3E0D6\" stroke-width=\"1\" stroke-dasharray=\"3 3\"></line><line x1=\"340\" y1=\"115\" x2=\"340\" y2=\"158\" stroke=\"#B4B2A9\" stroke-width=\"1\"></line><line x1=\"440\" y1=\"115\" x2=\"440\" y2=\"158\" stroke=\"#E3E0D6\" stroke-width=\"1\" stroke-dasharray=\"3 3\"></line><line x1=\"540\" y1=\"115\" x2=\"540\" y2=\"158\" stroke=\"#E3E0D6\" stroke-width=\"1\" stroke-dasharray=\"3 3\"></line><line x1=\"640\" y1=\"115\" x2=\"640\" y2=\"158\" stroke=\"#B4B2A9\" stroke-width=\"1\"></line><rect data-hit=\"1\" x=\"25\" y=\"118\" width=\"30\" height=\"30\" rx=\"5\" fill=\"#534AB7\"></rect><rect x=\"25\" y=\"154\" width=\"194\" height=\"4\" rx=\"2\" fill=\"#534AB7\"></rect><rect data-hit=\"1\" x=\"225\" y=\"118\" width=\"30\" height=\"30\" rx=\"5\" fill=\"#CECBF6\"></rect><rect x=\"225\" y=\"154\" width=\"94\" height=\"4\" rx=\"2\" fill=\"#CECBF6\"></rect><rect data-hit=\"1\" x=\"325\" y=\"118\" width=\"30\" height=\"30\" rx=\"5\" fill=\"#534AB7\"></rect><rect x=\"325\" y=\"154\" width=\"194\" height=\"4\" rx=\"2\" fill=\"#534AB7\"></rect><rect data-hit=\"1\" x=\"525\" y=\"118\" width=\"30\" height=\"30\" rx=\"5\" fill=\"#CECBF6\"></rect><rect x=\"525\" y=\"154\" width=\"94\" height=\"4\" rx=\"2\" fill=\"#CECBF6\"></rect><text x=\"190\" y=\"172\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#6F6C62\">拍 1</text><text x=\"490\" y=\"172\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#6F6C62\">拍 2</text><text x=\"40\" y=\"192\" font-size=\"10\" fill=\"#6F6C62\">虚线＝三连音的格线（每拍三格）· 格下细条＝这个音多长 · 音高一模一样，只有位置和长短不同</text></svg>"
         },
         {
           "type": "tip",
@@ -3049,15 +8485,301 @@ return {
         {
           "type": "tip",
           "text": "别小看这 1/6 拍。它不改速度、不改重音、不改音头数——每拍还是两下， 变的只是两下之间的距离。所以\"快\"和\"晃\"是两件事：把 BPM 拉到 160 也不会晃， 把后半挪到 ⅔ 立刻就晃了。 这也是为什么谱子上写不出它：五线谱没有\"一半偏后\"的记号，只能标一个 shuffle 或 swing 的字样，或者干脆改写成 12/8。写不出来，就只能听。 爵士里的 swing 是同一件事，只是\"拖多少\"更自由（⅔ 到 ¾ 都有人用）；而鼓和贝斯要是一个直一个 shuffle， 整首歌会听起来打架——那不是演奏不准，是两套网格没对齐。"
+        },
+        {
+          "type": "audio",
+          "label": "听这一版",
+          "evs": [
+            {
+              "t": 0,
+              "m": 48,
+              "d": 0.392,
+              "g": 0.46,
+              "kind": "bass"
+            },
+            {
+              "t": 0.417,
+              "m": 55,
+              "d": 0.196,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 0.417,
+              "m": 60,
+              "d": 0.188,
+              "g": 0.26,
+              "kind": "wood"
+            },
+            {
+              "t": 0.417,
+              "m": 63,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 0.417,
+              "m": 67,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 0.625,
+              "m": 48,
+              "d": 0.392,
+              "g": 0.46,
+              "kind": "bass"
+            },
+            {
+              "t": 1.042,
+              "m": 55,
+              "d": 0.196,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 1.042,
+              "m": 60,
+              "d": 0.188,
+              "g": 0.26,
+              "kind": "wood"
+            },
+            {
+              "t": 1.042,
+              "m": 63,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 1.042,
+              "m": 67,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 1.25,
+              "m": 51,
+              "d": 0.392,
+              "g": 0.46,
+              "kind": "bass"
+            },
+            {
+              "t": 1.667,
+              "m": 58,
+              "d": 0.196,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 1.667,
+              "m": 65,
+              "d": 0.188,
+              "g": 0.26,
+              "kind": "wood"
+            },
+            {
+              "t": 1.667,
+              "m": 68,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 1.667,
+              "m": 72,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 1.875,
+              "m": 51,
+              "d": 0.392,
+              "g": 0.46,
+              "kind": "bass"
+            },
+            {
+              "t": 2.292,
+              "m": 58,
+              "d": 0.196,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 2.292,
+              "m": 65,
+              "d": 0.188,
+              "g": 0.26,
+              "kind": "wood"
+            },
+            {
+              "t": 2.292,
+              "m": 68,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 2.292,
+              "m": 72,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 2.5,
+              "m": 52,
+              "d": 0.392,
+              "g": 0.46,
+              "kind": "bass"
+            },
+            {
+              "t": 2.917,
+              "m": 59,
+              "d": 0.196,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 2.917,
+              "m": 67,
+              "d": 0.188,
+              "g": 0.26,
+              "kind": "wood"
+            },
+            {
+              "t": 2.917,
+              "m": 70,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 2.917,
+              "m": 74,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 3.125,
+              "m": 52,
+              "d": 0.392,
+              "g": 0.46,
+              "kind": "bass"
+            },
+            {
+              "t": 3.542,
+              "m": 59,
+              "d": 0.196,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 3.542,
+              "m": 67,
+              "d": 0.188,
+              "g": 0.26,
+              "kind": "wood"
+            },
+            {
+              "t": 3.542,
+              "m": 70,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 3.542,
+              "m": 74,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 3.75,
+              "m": 48,
+              "d": 0.392,
+              "g": 0.46,
+              "kind": "bass"
+            },
+            {
+              "t": 4.167,
+              "m": 55,
+              "d": 0.196,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 4.167,
+              "m": 60,
+              "d": 0.188,
+              "g": 0.26,
+              "kind": "wood"
+            },
+            {
+              "t": 4.167,
+              "m": 63,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 4.167,
+              "m": 67,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 4.375,
+              "m": 48,
+              "d": 0.392,
+              "g": 0.46,
+              "kind": "bass"
+            },
+            {
+              "t": 4.792,
+              "m": 55,
+              "d": 0.196,
+              "g": 0.34,
+              "kind": "bass"
+            },
+            {
+              "t": 4.792,
+              "m": 60,
+              "d": 0.188,
+              "g": 0.26,
+              "kind": "wood"
+            },
+            {
+              "t": 4.792,
+              "m": 63,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            },
+            {
+              "t": 4.792,
+              "m": 67,
+              "d": 0.188,
+              "g": 0.19,
+              "kind": "wood"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 38,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -3233,7 +8955,7 @@ return {
       "chapter": "11 词曲咬合：歌词怎么长在旋律上",
       "title": "① 倒字：旋律拧着字调走",
       "goal": "① 倒字：旋律拧着字调走 普通话四个声调各是一条曲线：阴平平着走（55）、阳平往上挑（35）、 上声压到最低再起（214）、去声高起直落（51）。",
-      "estimatedSeconds": 91,
+      "estimatedSeconds": 120,
       "blocks": [
         {
           "type": "heading",
@@ -3245,93 +8967,117 @@ return {
           "text": "普通话四个声调各是一条曲线：阴平平着走（55）、阳平往上挑（35）、 上声压到最低再起（214）、去声高起直落（51）。旋律的每一次滑动都应该和这条曲线同向。 把线翻过来听一遍——这就是\"倒字\"。"
         },
         {
-          "type": "text",
-          "text": "顺字 · 旋律跟着字调走"
-        },
-        {
-          "type": "text",
-          "text": "倒字 · 旋律拧着字调走"
-        },
-        {
-          "type": "text",
-          "text": "慢"
-        },
-        {
-          "type": "text",
-          "text": "4声"
-        },
-        {
-          "type": "text",
-          "text": "板"
-        },
-        {
-          "type": "text",
-          "text": "3声"
-        },
-        {
-          "type": "text",
-          "text": "岁"
-        },
-        {
-          "type": "text",
-          "text": "4声"
-        },
-        {
-          "type": "text",
-          "text": "月"
-        },
-        {
-          "type": "text",
-          "text": "4声"
-        },
-        {
-          "type": "text",
-          "text": "一"
-        },
-        {
-          "type": "text",
-          "text": "1声"
-        },
-        {
-          "type": "text",
-          "text": "摇"
-        },
-        {
-          "type": "text",
-          "text": "2声"
-        },
-        {
-          "type": "text",
-          "text": "一"
-        },
-        {
-          "type": "text",
-          "text": "1声"
-        },
-        {
-          "type": "text",
-          "text": "摇"
-        },
-        {
-          "type": "text",
-          "text": "2声"
-        },
-        {
-          "type": "text",
-          "text": "竖线＝一个字内部的音高滑动，虚线＝整句轮廓。两行平均音高相同，只有滑动方向相反——差别全部来自\"字\"，不是\"调\"。"
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 292\" width=\"100%\" class=\"ladder\" role=\"img\"><text x=\"40\" y=\"24\" font-size=\"12\" font-weight=\"600\" fill=\"#534AB7\">顺字 · 旋律跟着字调走</text><text x=\"40\" y=\"176\" font-size=\"12\" font-weight=\"600\" fill=\"#D85A30\">倒字 · 旋律拧着字调走</text><line x1=\"77.5\" y1=\"54\" x2=\"77.5\" y2=\"86\" stroke=\"#534AB7\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"77.5\" cy=\"54\" r=\"3.4\" fill=\"#534AB7\"></circle><circle cx=\"77.5\" cy=\"86\" r=\"2.6\" fill=\"#534AB7\" opacity=\".5\"></circle><line x1=\"77.5\" y1=\"86\" x2=\"152.5\" y2=\"86\" stroke=\"#534AB7\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\".45\"></line><line x1=\"152.5\" y1=\"86\" x2=\"152.5\" y2=\"102\" stroke=\"#534AB7\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"152.5\" cy=\"86\" r=\"3.4\" fill=\"#534AB7\"></circle><circle cx=\"152.5\" cy=\"102\" r=\"2.6\" fill=\"#534AB7\" opacity=\".5\"></circle><line x1=\"152.5\" y1=\"102\" x2=\"227.5\" y2=\"54\" stroke=\"#534AB7\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\".45\"></line><line x1=\"227.5\" y1=\"54\" x2=\"227.5\" y2=\"86\" stroke=\"#534AB7\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"227.5\" cy=\"54\" r=\"3.4\" fill=\"#534AB7\"></circle><circle cx=\"227.5\" cy=\"86\" r=\"2.6\" fill=\"#534AB7\" opacity=\".5\"></circle><line x1=\"227.5\" y1=\"86\" x2=\"302.5\" y2=\"54\" stroke=\"#534AB7\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\".45\"></line><line x1=\"302.5\" y1=\"54\" x2=\"302.5\" y2=\"86\" stroke=\"#534AB7\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"302.5\" cy=\"54\" r=\"3.4\" fill=\"#534AB7\"></circle><circle cx=\"302.5\" cy=\"86\" r=\"2.6\" fill=\"#534AB7\" opacity=\".5\"></circle><line x1=\"302.5\" y1=\"86\" x2=\"377.5\" y2=\"70\" stroke=\"#534AB7\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\".45\"></line><line x1=\"368.5\" y1=\"70\" x2=\"386.5\" y2=\"70\" stroke=\"#534AB7\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"377.5\" cy=\"70\" r=\"3.4\" fill=\"#534AB7\"></circle><circle cx=\"377.5\" cy=\"70\" r=\"2.6\" fill=\"#534AB7\" opacity=\".5\"></circle><line x1=\"377.5\" y1=\"70\" x2=\"452.5\" y2=\"78\" stroke=\"#534AB7\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\".45\"></line><line x1=\"452.5\" y1=\"78\" x2=\"452.5\" y2=\"62\" stroke=\"#534AB7\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"452.5\" cy=\"78\" r=\"3.4\" fill=\"#534AB7\"></circle><circle cx=\"452.5\" cy=\"62\" r=\"2.6\" fill=\"#534AB7\" opacity=\".5\"></circle><line x1=\"452.5\" y1=\"62\" x2=\"527.5\" y2=\"70\" stroke=\"#534AB7\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\".45\"></line><line x1=\"518.5\" y1=\"70\" x2=\"536.5\" y2=\"70\" stroke=\"#534AB7\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"527.5\" cy=\"70\" r=\"3.4\" fill=\"#534AB7\"></circle><circle cx=\"527.5\" cy=\"70\" r=\"2.6\" fill=\"#534AB7\" opacity=\".5\"></circle><line x1=\"527.5\" y1=\"70\" x2=\"602.5\" y2=\"78\" stroke=\"#534AB7\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\".45\"></line><line x1=\"602.5\" y1=\"78\" x2=\"602.5\" y2=\"62\" stroke=\"#534AB7\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"602.5\" cy=\"78\" r=\"3.4\" fill=\"#534AB7\"></circle><circle cx=\"602.5\" cy=\"62\" r=\"2.6\" fill=\"#534AB7\" opacity=\".5\"></circle><line x1=\"77.5\" y1=\"232\" x2=\"77.5\" y2=\"200\" stroke=\"#D85A30\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"77.5\" cy=\"232\" r=\"3.4\" fill=\"#D85A30\"></circle><circle cx=\"77.5\" cy=\"200\" r=\"2.6\" fill=\"#D85A30\" opacity=\".5\"></circle><line x1=\"77.5\" y1=\"200\" x2=\"152.5\" y2=\"248\" stroke=\"#D85A30\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\".45\"></line><line x1=\"152.5\" y1=\"248\" x2=\"152.5\" y2=\"232\" stroke=\"#D85A30\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"152.5\" cy=\"248\" r=\"3.4\" fill=\"#D85A30\"></circle><circle cx=\"152.5\" cy=\"232\" r=\"2.6\" fill=\"#D85A30\" opacity=\".5\"></circle><line x1=\"152.5\" y1=\"232\" x2=\"227.5\" y2=\"232\" stroke=\"#D85A30\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\".45\"></line><line x1=\"227.5\" y1=\"232\" x2=\"227.5\" y2=\"200\" stroke=\"#D85A30\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"227.5\" cy=\"232\" r=\"3.4\" fill=\"#D85A30\"></circle><circle cx=\"227.5\" cy=\"200\" r=\"2.6\" fill=\"#D85A30\" opacity=\".5\"></circle><line x1=\"227.5\" y1=\"200\" x2=\"302.5\" y2=\"232\" stroke=\"#D85A30\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\".45\"></line><line x1=\"302.5\" y1=\"232\" x2=\"302.5\" y2=\"200\" stroke=\"#D85A30\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"302.5\" cy=\"232\" r=\"3.4\" fill=\"#D85A30\"></circle><circle cx=\"302.5\" cy=\"200\" r=\"2.6\" fill=\"#D85A30\" opacity=\".5\"></circle><line x1=\"302.5\" y1=\"200\" x2=\"377.5\" y2=\"224\" stroke=\"#D85A30\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\".45\"></line><line x1=\"377.5\" y1=\"224\" x2=\"377.5\" y2=\"208\" stroke=\"#D85A30\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"377.5\" cy=\"224\" r=\"3.4\" fill=\"#D85A30\"></circle><circle cx=\"377.5\" cy=\"208\" r=\"2.6\" fill=\"#D85A30\" opacity=\".5\"></circle><line x1=\"377.5\" y1=\"208\" x2=\"452.5\" y2=\"208\" stroke=\"#D85A30\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\".45\"></line><line x1=\"452.5\" y1=\"208\" x2=\"452.5\" y2=\"224\" stroke=\"#D85A30\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"452.5\" cy=\"208\" r=\"3.4\" fill=\"#D85A30\"></circle><circle cx=\"452.5\" cy=\"224\" r=\"2.6\" fill=\"#D85A30\" opacity=\".5\"></circle><line x1=\"452.5\" y1=\"224\" x2=\"527.5\" y2=\"224\" stroke=\"#D85A30\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\".45\"></line><line x1=\"527.5\" y1=\"224\" x2=\"527.5\" y2=\"208\" stroke=\"#D85A30\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"527.5\" cy=\"224\" r=\"3.4\" fill=\"#D85A30\"></circle><circle cx=\"527.5\" cy=\"208\" r=\"2.6\" fill=\"#D85A30\" opacity=\".5\"></circle><line x1=\"527.5\" y1=\"208\" x2=\"602.5\" y2=\"208\" stroke=\"#D85A30\" stroke-width=\"1\" stroke-dasharray=\"3 3\" opacity=\".45\"></line><line x1=\"602.5\" y1=\"208\" x2=\"602.5\" y2=\"224\" stroke=\"#D85A30\" stroke-width=\"3\" stroke-linecap=\"round\"></line><circle cx=\"602.5\" cy=\"208\" r=\"3.4\" fill=\"#D85A30\"></circle><circle cx=\"602.5\" cy=\"224\" r=\"2.6\" fill=\"#D85A30\" opacity=\".5\"></circle><text x=\"77.5\" y=\"134\" font-size=\"14\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#2C2C2A\">慢</text><text x=\"77.5\" y=\"150\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">4声</text><text x=\"152.5\" y=\"134\" font-size=\"14\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#2C2C2A\">板</text><text x=\"152.5\" y=\"150\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">3声</text><text x=\"227.5\" y=\"134\" font-size=\"14\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#2C2C2A\">岁</text><text x=\"227.5\" y=\"150\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">4声</text><text x=\"302.5\" y=\"134\" font-size=\"14\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#2C2C2A\">月</text><text x=\"302.5\" y=\"150\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">4声</text><text x=\"377.5\" y=\"134\" font-size=\"14\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#2C2C2A\">一</text><text x=\"377.5\" y=\"150\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">1声</text><text x=\"452.5\" y=\"134\" font-size=\"14\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#2C2C2A\">摇</text><text x=\"452.5\" y=\"150\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">2声</text><text x=\"527.5\" y=\"134\" font-size=\"14\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#2C2C2A\">一</text><text x=\"527.5\" y=\"150\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">1声</text><text x=\"602.5\" y=\"134\" font-size=\"14\" font-weight=\"600\" text-anchor=\"middle\" fill=\"#2C2C2A\">摇</text><text x=\"602.5\" y=\"150\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">2声</text><text x=\"40\" y=\"282\" font-size=\"11\" fill=\"#57554E\">竖线＝一个字内部的音高滑动，虚线＝整句轮廓。两行平均音高相同，只有滑动方向相反——差别全部来自\"字\"，不是\"调\"。</text></svg>"
         },
         {
           "type": "tip",
           "text": "例句取自 #3《慢板岁月》副歌首句。声调序列 4-3-4-4-1-2-1-2（去声、上声、去声、去声、阴平、阳平、阴平、阳平）。上半是顺字版——旋律的每一次滑动都和字的调值同向，唱出来就是这句话；下半把每一根线翻过来，字就\"倒\"了，听到的很可能是别的字。"
+        },
+        {
+          "type": "audio",
+          "label": "顺字版",
+          "evs": [
+            {
+              "t": 0,
+              "m": 67,
+              "d": 0.423,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.46,
+              "m": 67,
+              "d": 0.423,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.92,
+              "m": 69,
+              "d": 0.423,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.38,
+              "m": 69,
+              "d": 0.423,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.84,
+              "m": 66,
+              "d": 0.423,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.3,
+              "m": 69,
+              "d": 0.423,
+              "g": 0.44,
+              "kind": "erhu"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "倒字版",
+          "evs": [
+            {
+              "t": 0,
+              "m": 66,
+              "d": 0.423,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.46,
+              "m": 66,
+              "d": 0.423,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.92,
+              "m": 65,
+              "d": 0.423,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.38,
+              "m": 65,
+              "d": 0.423,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.84,
+              "m": 68,
+              "d": 0.423,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.3,
+              "m": 65,
+              "d": 0.423,
+              "g": 0.44,
+              "kind": "erhu"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 42,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -3340,7 +9086,7 @@ return {
       "chapter": "11 词曲咬合：歌词怎么长在旋律上",
       "title": "② 重音给谁：关键词落在第几拍",
       "goal": "② 重音给谁：关键词落在第几拍 同一句词，音高一个都不改，只改每个字占多长、落在第几拍。",
-      "estimatedSeconds": 63,
+      "estimatedSeconds": 138,
       "blocks": [
         {
           "type": "heading",
@@ -3438,15 +9184,279 @@ return {
         {
           "type": "tip",
           "text": "重心在「秋天」 · #7《口袋里的秋天》副歌首句实词吃满后三拍。\"秋天\"两个字一出口，这句就是在说秋天。"
+        },
+        {
+          "type": "audio",
+          "label": "重心在「秋天」",
+          "evs": [
+            {
+              "t": 0,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0,
+              "m": 65,
+              "d": 0.396,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.417,
+              "m": 69,
+              "d": 0.396,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.833,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 0.833,
+              "m": 65,
+              "d": 0.396,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.25,
+              "m": 67,
+              "d": 0.198,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.667,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.667,
+              "m": 67,
+              "d": 0.792,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.5,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2.5,
+              "m": 67,
+              "d": 1.583,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.333,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 4.167,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 5,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 5.833,
+              "click": true,
+              "strong": false
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "平铺（谁也不重）",
+          "evs": [
+            {
+              "t": 0,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0,
+              "m": 65,
+              "d": 0.554,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.667,
+              "m": 69,
+              "d": 0.554,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.833,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.333,
+              "m": 65,
+              "d": 0.554,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.667,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2,
+              "m": 67,
+              "d": 0.554,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.5,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2.667,
+              "m": 67,
+              "d": 0.554,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.333,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 3.333,
+              "m": 67,
+              "d": 0.712,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 4.167,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 5,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 5.833,
+              "click": true,
+              "strong": false
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "重心错给「的」",
+          "evs": [
+            {
+              "t": 0,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0,
+              "m": 65,
+              "d": 0.396,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.417,
+              "m": 69,
+              "d": 0.396,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.833,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 0.833,
+              "m": 65,
+              "d": 0.396,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.25,
+              "m": 67,
+              "d": 1.583,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.667,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2.5,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 3,
+              "m": 67,
+              "d": 0.396,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.333,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 3.5,
+              "m": 67,
+              "d": 0.475,
+              "g": 0.46,
+              "kind": "erhu"
+            },
+            {
+              "t": 4.167,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 5,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 5.833,
+              "click": true,
+              "strong": false
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 43,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -3455,7 +9465,7 @@ return {
       "chapter": "11 词曲咬合：歌词怎么长在旋律上",
       "title": "③ 一字一音，还是一字多音",
       "goal": "③ 一字一音，还是一字多音 同样八个字、同样四拍。",
-      "estimatedSeconds": 62,
+      "estimatedSeconds": 112,
       "blocks": [
         {
           "type": "heading",
@@ -3541,15 +9551,153 @@ return {
         {
           "type": "tip",
           "text": "同样八个字、同样四拍。上面每字半拍，密度和说话一样，所以听着像念词；下面把七个字挤进不到一拍半，\"摇\"字一个人吃掉两拍半，还拐了三个音——一个字配几个音符，本身就是一种表情。"
+        },
+        {
+          "type": "audio",
+          "label": "说话版",
+          "evs": [
+            {
+              "t": 0,
+              "m": 69,
+              "d": 0.355,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.395,
+              "m": 65,
+              "d": 0.355,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.789,
+              "m": 69,
+              "d": 0.355,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.184,
+              "m": 69,
+              "d": 0.355,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.579,
+              "m": 67,
+              "d": 0.355,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.974,
+              "m": 66,
+              "d": 0.355,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.368,
+              "m": 67,
+              "d": 0.355,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.763,
+              "m": 66,
+              "d": 0.355,
+              "g": 0.44,
+              "kind": "erhu"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "抒情版",
+          "evs": [
+            {
+              "t": 0,
+              "m": 69,
+              "d": 0.148,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.174,
+              "m": 65,
+              "d": 0.148,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.347,
+              "m": 69,
+              "d": 0.148,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.521,
+              "m": 69,
+              "d": 0.148,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.695,
+              "m": 67,
+              "d": 0.148,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.868,
+              "m": 66,
+              "d": 0.148,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.042,
+              "m": 67,
+              "d": 0.148,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.216,
+              "m": 62,
+              "d": 0.634,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.863,
+              "m": 64,
+              "d": 0.634,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.511,
+              "m": 62,
+              "d": 0.634,
+              "g": 0.44,
+              "kind": "erhu"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 44,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -3558,7 +9706,7 @@ return {
       "chapter": "11 词曲咬合：歌词怎么长在旋律上",
       "title": "④ 气口：一口气能唱几个字",
       "goal": "④ 气口：一口气能唱几个字 同样一口气，字数越多，每个字分到的时间越少。",
-      "estimatedSeconds": 87,
+      "estimatedSeconds": 162,
       "blocks": [
         {
           "type": "heading",
@@ -3740,15 +9888,342 @@ return {
         {
           "type": "tip",
           "text": "同样一口气（8 拍，76 BPM ≈ 6.3 秒），字数越多每个字分到的时间越少。低于 0.75 拍/字（约 0.6 秒/字）就开始赶，后半句换不上气——这时删字永远比加气有效：把\"城市里的屋顶\"删成\"城市屋顶\"，一句话立刻顺了。"
+        },
+        {
+          "type": "audio",
+          "label": "6 字",
+          "evs": [
+            {
+              "t": 0,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0,
+              "m": 65,
+              "d": 0.926,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.789,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.053,
+              "m": 67,
+              "d": 0.926,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.579,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2.105,
+              "m": 68,
+              "d": 0.926,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.368,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 3.158,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 3.158,
+              "m": 65,
+              "d": 0.926,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.947,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 4.211,
+              "m": 67,
+              "d": 0.926,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 4.737,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 5.263,
+              "m": 68,
+              "d": 0.926,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 5.526,
+              "click": true,
+              "strong": false
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "9 字",
+          "evs": [
+            {
+              "t": 0,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0,
+              "m": 65,
+              "d": 0.618,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.702,
+              "m": 67,
+              "d": 0.618,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.789,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.404,
+              "m": 68,
+              "d": 0.618,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.579,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2.105,
+              "m": 65,
+              "d": 0.618,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.368,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2.807,
+              "m": 67,
+              "d": 0.618,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.158,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 3.509,
+              "m": 68,
+              "d": 0.618,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.947,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 4.211,
+              "m": 65,
+              "d": 0.618,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 4.737,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 4.912,
+              "m": 67,
+              "d": 0.618,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 5.526,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 5.614,
+              "m": 68,
+              "d": 0.618,
+              "g": 0.44,
+              "kind": "erhu"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "12 字",
+          "evs": [
+            {
+              "t": 0,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0,
+              "m": 65,
+              "d": 0.463,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.526,
+              "m": 67,
+              "d": 0.463,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.789,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.053,
+              "m": 68,
+              "d": 0.463,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.579,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.579,
+              "m": 65,
+              "d": 0.463,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.105,
+              "m": 67,
+              "d": 0.463,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.368,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2.632,
+              "m": 68,
+              "d": 0.463,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.158,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 3.158,
+              "m": 65,
+              "d": 0.463,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.684,
+              "m": 67,
+              "d": 0.463,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.947,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 4.211,
+              "m": 68,
+              "d": 0.463,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 4.737,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 4.737,
+              "m": 65,
+              "d": 0.463,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 5.263,
+              "m": 67,
+              "d": 0.463,
+              "g": 0.44,
+              "kind": "erhu"
+            },
+            {
+              "t": 5.526,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 5.789,
+              "m": 68,
+              "d": 0.463,
+              "g": 0.44,
+              "kind": "erhu"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 45,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -3982,7 +10457,7 @@ return {
       "chapter": "11 词曲咬合：歌词怎么长在旋律上",
       "title": "⑦ 计时法：中文数「字」，英文数「重音」",
       "goal": "⑦ 计时法：中文数「字」，英文数「重音」 上面全在讲汉语。",
-      "estimatedSeconds": 100,
+      "estimatedSeconds": 175,
       "blocks": [
         {
           "type": "heading",
@@ -4112,15 +10587,369 @@ return {
         {
           "type": "tip",
           "text": "8 拍，8 个字，每个字正好一格。中文里一个字就是时间的一个单位——字数定了，句子的长度基本就定了。所以写中文词的第一件事是数字数。"
+        },
+        {
+          "type": "audio",
+          "label": "普通话 · 8 字",
+          "evs": [
+            {
+              "t": 0,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0,
+              "m": 67,
+              "d": 0.575,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "ltzh_0"
+            },
+            {
+              "t": 0.625,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 0.625,
+              "m": 69,
+              "d": 0.575,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "ltzh_1"
+            },
+            {
+              "t": 1.25,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.25,
+              "m": 67,
+              "d": 0.575,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "ltzh_2"
+            },
+            {
+              "t": 1.875,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.875,
+              "m": 66,
+              "d": 0.575,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "ltzh_3"
+            },
+            {
+              "t": 2.5,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 2.5,
+              "m": 65,
+              "d": 0.575,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "ltzh_4"
+            },
+            {
+              "t": 3.125,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 3.125,
+              "m": 67,
+              "d": 0.575,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "ltzh_5"
+            },
+            {
+              "t": 3.75,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 3.75,
+              "m": 65,
+              "d": 0.575,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "ltzh_6"
+            },
+            {
+              "t": 4.375,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 4.375,
+              "m": 67,
+              "d": 0.575,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "ltzh_7"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "英文 · 8 音节",
+          "evs": [
+            {
+              "t": 0,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0,
+              "m": 65,
+              "d": 0.23,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "lten-s_0"
+            },
+            {
+              "t": 0.625,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 0.625,
+              "m": 70,
+              "d": 0.863,
+              "g": 0.5,
+              "kind": "erhu",
+              "lit": "lten-s_1"
+            },
+            {
+              "t": 1.25,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.625,
+              "m": 65,
+              "d": 0.201,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "lten-s_2"
+            },
+            {
+              "t": 1.875,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.875,
+              "m": 69,
+              "d": 0.863,
+              "g": 0.5,
+              "kind": "erhu",
+              "lit": "lten-s_3"
+            },
+            {
+              "t": 2.5,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 3.125,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 3.125,
+              "m": 68,
+              "d": 0.69,
+              "g": 0.5,
+              "kind": "erhu",
+              "lit": "lten-s_4"
+            },
+            {
+              "t": 3.75,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 3.875,
+              "m": 65,
+              "d": 0.288,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "lten-s_5"
+            },
+            {
+              "t": 4.188,
+              "m": 64,
+              "d": 0.144,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "lten-s_6"
+            },
+            {
+              "t": 4.375,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 4.375,
+              "m": 67,
+              "d": 0.575,
+              "g": 0.5,
+              "kind": "erhu",
+              "lit": "lten-s_7"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "英文 · 11 音节",
+          "evs": [
+            {
+              "t": 0,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0.094,
+              "m": 65,
+              "d": 0.127,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "lten-l_0"
+            },
+            {
+              "t": 0.25,
+              "m": 64,
+              "d": 0.115,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "lten-l_1"
+            },
+            {
+              "t": 0.388,
+              "m": 64,
+              "d": 0.104,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "lten-l_2"
+            },
+            {
+              "t": 0.513,
+              "m": 64,
+              "d": 0.092,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "lten-l_3"
+            },
+            {
+              "t": 0.625,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 0.625,
+              "m": 70,
+              "d": 0.805,
+              "g": 0.5,
+              "kind": "erhu",
+              "lit": "lten-l_4"
+            },
+            {
+              "t": 1.25,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.563,
+              "m": 65,
+              "d": 0.23,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "lten-l_5"
+            },
+            {
+              "t": 1.875,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.875,
+              "m": 69,
+              "d": 0.805,
+              "g": 0.5,
+              "kind": "erhu",
+              "lit": "lten-l_6"
+            },
+            {
+              "t": 2.5,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 3.125,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 3.125,
+              "m": 68,
+              "d": 0.69,
+              "g": 0.5,
+              "kind": "erhu",
+              "lit": "lten-l_7"
+            },
+            {
+              "t": 3.75,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 3.875,
+              "m": 65,
+              "d": 0.23,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "lten-l_8"
+            },
+            {
+              "t": 4.156,
+              "m": 64,
+              "d": 0.173,
+              "g": 0.34,
+              "kind": "erhu",
+              "lit": "lten-l_9"
+            },
+            {
+              "t": 4.375,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 4.375,
+              "m": 67,
+              "d": 0.575,
+              "g": 0.5,
+              "kind": "erhu",
+              "lit": "lten-l_10"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 48,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -4129,7 +10958,7 @@ return {
       "chapter": "11 词曲咬合：歌词怎么长在旋律上",
       "title": "⑧ 粤语：九声六调，而且入声不许落长音",
       "goal": "⑧ 粤语：九声六调，而且入声不许落长音 粤语不是\"另一种普通话\"。",
-      "estimatedSeconds": 76,
+      "estimatedSeconds": 126,
       "blocks": [
         {
           "type": "heading",
@@ -4232,15 +11061,91 @@ return {
         {
           "type": "tip",
           "text": "听的不是发音，是时值：两次都是同一个字——十（sap6，阳入，-p 收尾）， 同一个音高，只有长度不同。 合成器发不出 -p，所以\"对\"的那一版用一个极短的收尾示意\"收住\"。 入声被拖长时，听到的不再是那个字，是一声堵住的气。"
+        },
+        {
+          "type": "audio",
+          "label": "硬拖两拍（错）",
+          "evs": [
+            {
+              "t": 0,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0,
+              "m": 64,
+              "d": 1.6,
+              "g": 0.5,
+              "kind": "erhu",
+              "lit": "ctErr"
+            },
+            {
+              "t": 0.833,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.667,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2.5,
+              "click": true,
+              "strong": false
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "一拍断开（对）",
+          "evs": [
+            {
+              "t": 0,
+              "click": true,
+              "strong": true
+            },
+            {
+              "t": 0,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.5,
+              "kind": "erhu",
+              "lit": "ctOk"
+            },
+            {
+              "t": 0.617,
+              "m": 64,
+              "d": 0.083,
+              "g": 0.32,
+              "kind": "wood",
+              "lit": "ctOk"
+            },
+            {
+              "t": 0.833,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 1.667,
+              "click": true,
+              "strong": false
+            },
+            {
+              "t": 2.5,
+              "click": true,
+              "strong": false
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 49,
       "task": {
         "type": "action",
-        "prompt": "查完这张表后过页",
-        "label": "我查完了",
-        "explain": "表不是用来背的，是动笔/动耳前先查的工具。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -4249,7 +11154,7 @@ return {
       "chapter": "11 词曲咬合：歌词怎么长在旋律上",
       "title": "⑨ 人声舒适音区：有些音根本唱不上去",
       "goal": "⑨ 人声舒适音区：有些音根本唱不上去 前面八张卡讲的都是字与旋律怎么对齐。",
-      "estimatedSeconds": 141,
+      "estimatedSeconds": 180,
       "blocks": [
         {
           "type": "heading",
@@ -4261,80 +11166,8 @@ return {
           "text": "前面八张卡讲的都是字与旋律怎么对齐。 但还有一条更基础的约束没讲：这个音你根本唱不上去。 词写得再好，旋律要一个高八度的 C，多数人张嘴就是破音—— 那不是\"咬合\"的问题，是这条旋律压根不该这么写。 所以先看人声能待在哪儿："
         },
         {
-          "type": "text",
-          "text": "人声舒适音区（以中央 C 为基准）"
-        },
-        {
-          "type": "text",
-          "text": "高音区"
-        },
-        {
-          "type": "text",
-          "text": "中高音区"
-        },
-        {
-          "type": "text",
-          "text": "中音区"
-        },
-        {
-          "type": "text",
-          "text": "中低音区"
-        },
-        {
-          "type": "text",
-          "text": "低音区"
-        },
-        {
-          "type": "text",
-          "text": "换声点"
-        },
-        {
-          "type": "text",
-          "text": "C4"
-        },
-        {
-          "type": "text",
-          "text": "C5"
-        },
-        {
-          "type": "text",
-          "text": "C3"
-        },
-        {
-          "type": "text",
-          "text": "C6"
-        },
-        {
-          "type": "text",
-          "text": "低 ← 音高 → 高"
-        },
-        {
-          "type": "text",
-          "text": "（半音数为相对中央 C 的偏移）"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "规则一 · 主歌待在舒适区"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "规则二 · 副歌高一个八度以内"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "规则三 · 极限音只用一次"
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 190\" width=\"100%\" class=\"ladder\" role=\"img\"><text x=\"40\" y=\"44\" font-size=\"12\" font-weight=\"600\" fill=\"#2C2C2A\">人声舒适音区（以中央 C 为基准）</text><rect x=\"640\" y=\"60\" width=\"-122.5\" height=\"34\" fill=\"#185FA5\" opacity=\"0.16\"></rect><rect x=\"640\" y=\"60\" width=\"-122.5\" height=\"34\" fill=\"none\" stroke=\"#185FA5\" stroke-width=\"1.4\"></rect><text x=\"578.75\" y=\"81\" font-size=\"11\" text-anchor=\"middle\" fill=\"#185FA5\" font-weight=\"600\">高音区</text><rect x=\"503.88888888888886\" y=\"60\" width=\"-81.66666666666663\" height=\"34\" fill=\"#2E7D6F\" opacity=\"0.16\"></rect><rect x=\"503.88888888888886\" y=\"60\" width=\"-81.66666666666663\" height=\"34\" fill=\"none\" stroke=\"#2E7D6F\" stroke-width=\"1.4\"></rect><text x=\"463.05555555555554\" y=\"81\" font-size=\"11\" text-anchor=\"middle\" fill=\"#2E7D6F\" font-weight=\"600\">中高音区</text><rect x=\"408.61111111111114\" y=\"60\" width=\"-40.83333333333337\" height=\"34\" fill=\"#534AB7\" opacity=\"0.16\"></rect><rect x=\"408.61111111111114\" y=\"60\" width=\"-40.83333333333337\" height=\"34\" fill=\"none\" stroke=\"#534AB7\" stroke-width=\"1.4\"></rect><text x=\"388.19444444444446\" y=\"81\" font-size=\"11\" text-anchor=\"middle\" fill=\"#534AB7\" font-weight=\"600\">中音区</text><rect x=\"354.1666666666667\" y=\"60\" width=\"-40.83333333333337\" height=\"34\" fill=\"#BA7517\" opacity=\"0.16\"></rect><rect x=\"354.1666666666667\" y=\"60\" width=\"-40.83333333333337\" height=\"34\" fill=\"none\" stroke=\"#BA7517\" stroke-width=\"1.4\"></rect><text x=\"333.75\" y=\"81\" font-size=\"11\" text-anchor=\"middle\" fill=\"#BA7517\" font-weight=\"600\">中低音区</text><rect x=\"299.72222222222223\" y=\"60\" width=\"-149.72222222222223\" height=\"34\" fill=\"#D85A30\" opacity=\"0.16\"></rect><rect x=\"299.72222222222223\" y=\"60\" width=\"-149.72222222222223\" height=\"34\" fill=\"none\" stroke=\"#D85A30\" stroke-width=\"1.4\"></rect><text x=\"224.86111111111111\" y=\"81\" font-size=\"11\" text-anchor=\"middle\" fill=\"#D85A30\" font-weight=\"600\">低音区</text><rect x=\"408.61111111111114\" y=\"48\" width=\"-40.83333333333337\" height=\"58\" fill=\"none\" stroke=\"#D85A30\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"></rect><line x1=\"408.61111111111114\" y1=\"48\" x2=\"408.61111111111114\" y2=\"106\" stroke=\"#D85A30\" stroke-width=\"1\" stroke-dasharray=\"3 2\"></line><line x1=\"367.77777777777777\" y1=\"48\" x2=\"367.77777777777777\" y2=\"106\" stroke=\"#D85A30\" stroke-width=\"1\" stroke-dasharray=\"3 2\"></line><text x=\"388.19444444444446\" y=\"122\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#D85A30\" font-weight=\"600\">换声点</text><line x1=\"313.3333333333333\" y1=\"94\" x2=\"313.3333333333333\" y2=\"100\" stroke=\"#C4C0B4\" stroke-width=\"1\"></line><text x=\"313.3333333333333\" y=\"114\" font-size=\"10\" text-anchor=\"middle\" fill=\"#8B877C\">C4</text><line x1=\"476.66666666666663\" y1=\"94\" x2=\"476.66666666666663\" y2=\"100\" stroke=\"#C4C0B4\" stroke-width=\"1\"></line><text x=\"476.66666666666663\" y=\"114\" font-size=\"10\" text-anchor=\"middle\" fill=\"#8B877C\">C5</text><line x1=\"150\" y1=\"94\" x2=\"150\" y2=\"100\" stroke=\"#C4C0B4\" stroke-width=\"1\"></line><text x=\"150\" y=\"114\" font-size=\"10\" text-anchor=\"middle\" fill=\"#8B877C\">C3</text><line x1=\"640\" y1=\"94\" x2=\"640\" y2=\"100\" stroke=\"#C4C0B4\" stroke-width=\"1\"></line><text x=\"640\" y=\"114\" font-size=\"10\" text-anchor=\"middle\" fill=\"#8B877C\">C6</text><text x=\"150\" y=\"134\" font-size=\"10.5\" fill=\"#6F6C62\">低 ← 音高 → 高</text><text x=\"640\" y=\"134\" font-size=\"10.5\" text-anchor=\"end\" fill=\"#6F6C62\">（半音数为相对中央 C 的偏移）</text><circle cx=\"46\" cy=\"156\" r=\"9\" fill=\"#534AB7\"></circle><text x=\"46\" y=\"160\" font-size=\"10\" text-anchor=\"middle\" fill=\"#fff\" font-weight=\"700\">1</text><text x=\"62\" y=\"160\" font-size=\"11\" fill=\"#4A4844\">规则一 · 主歌待在舒适区</text><circle cx=\"46\" cy=\"176\" r=\"9\" fill=\"#534AB7\"></circle><text x=\"46\" y=\"180\" font-size=\"10\" text-anchor=\"middle\" fill=\"#fff\" font-weight=\"700\">2</text><text x=\"62\" y=\"180\" font-size=\"11\" fill=\"#4A4844\">规则二 · 副歌高一个八度以内</text><circle cx=\"46\" cy=\"196\" r=\"9\" fill=\"#534AB7\"></circle><text x=\"46\" y=\"200\" font-size=\"10\" text-anchor=\"middle\" fill=\"#fff\" font-weight=\"700\">3</text><text x=\"62\" y=\"200\" font-size=\"11\" fill=\"#4A4844\">规则三 · 极限音只用一次</text></svg>"
         },
         {
           "type": "table",
@@ -4408,15 +11241,159 @@ return {
         {
           "type": "tip",
           "text": "上面三个按钮是同一串音高关系（do-re-mi-sol-mi-re）落在三个不同的音区—— 音程一个都没改，变的只是绝对高度。所以你听到的差别一定来自音区，不是\"换了条旋律\"。 这就是本节的全部用法：写完旋律先问一句\"这句落在哪个区\"。 顺带记住一件事：音域是极限（偶尔够得着），舒适区是能连续唱很久还不累的那一段—— 两者的差别，就是专业歌手和普通人的差别。"
+        },
+        {
+          "type": "audio",
+          "label": "落在低音区",
+          "evs": [
+            {
+              "t": 0,
+              "m": 48,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.789,
+              "m": 50,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.579,
+              "m": 52,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.368,
+              "m": 55,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.158,
+              "m": 52,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.947,
+              "m": 50,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "落在中音区",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.789,
+              "m": 62,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.579,
+              "m": 64,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.368,
+              "m": 67,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.158,
+              "m": 64,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.947,
+              "m": 62,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "落在中高音区",
+          "evs": [
+            {
+              "t": 0,
+              "m": 72,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            },
+            {
+              "t": 0.789,
+              "m": 74,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            },
+            {
+              "t": 1.579,
+              "m": 76,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            },
+            {
+              "t": 2.368,
+              "m": 79,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.158,
+              "m": 76,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            },
+            {
+              "t": 3.947,
+              "m": 74,
+              "d": 0.726,
+              "g": 0.62,
+              "kind": "erhu"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 50,
       "task": {
         "type": "action",
-        "prompt": "查完这张表后过页",
-        "label": "我查完了",
-        "explain": "表不是用来背的，是动笔/动耳前先查的工具。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -4446,8 +11423,8 @@ return {
       "course": "music",
       "chapter": "12 移调与调号",
       "title": "抬升或降低",
-      "goal": "抬升或降低 C 大调 （相对 C 移了 0 半音） 无升降号 低 6 个半音 原位 C 高 6 个半音 1 2 3 4 5 6 7 8 9 C4 1 D4 2",
-      "estimatedSeconds": 60,
+      "goal": "抬升或降低 C 大调 （相对 C 移了 0 半音） 无升降号 低 6 个半音 原位 C 高 6 个半音 横轴是第几个音，纵轴是音高——图里就是即将播放的 9 个",
+      "estimatedSeconds": 75,
       "blocks": [
         {
           "type": "heading",
@@ -4479,125 +11456,99 @@ return {
           "text": "高 6 个半音"
         },
         {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "6"
-        },
-        {
-          "type": "text",
-          "text": "7"
-        },
-        {
-          "type": "text",
-          "text": "8"
-        },
-        {
-          "type": "text",
-          "text": "9"
-        },
-        {
-          "type": "text",
-          "text": "C4"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "D4"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "E4"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "F4"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "G4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "F4"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "E4"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "D4"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "C4"
-        },
-        {
-          "type": "text",
-          "text": "1"
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 272\" width=\"100%\" class=\"ladder\" role=\"img\"><text x=\"73.33333333333334\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">1</text><text x=\"140\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">2</text><text x=\"206.66666666666669\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">3</text><text x=\"273.3333333333333\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">4</text><text x=\"340\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">5</text><text x=\"406.6666666666667\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">6</text><text x=\"473.3333333333333\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">7</text><text x=\"540\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">8</text><text x=\"606.6666666666667\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">9</text><line x1=\"40\" y1=\"230\" x2=\"640\" y2=\"230\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><rect data-note=\"60\" data-lit=\"mel0\" x=\"46.33333333333334\" y=\"197\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"73.33333333333334\" y=\"209\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">C4</text><text x=\"73.33333333333334\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">1</text><rect data-note=\"62\" data-lit=\"mel1\" x=\"113\" y=\"169\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"140\" y=\"181\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">D4</text><text x=\"140\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">2</text><rect data-note=\"64\" data-lit=\"mel2\" x=\"179.66666666666669\" y=\"141\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"206.66666666666669\" y=\"153\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">E4</text><text x=\"206.66666666666669\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">3</text><rect data-note=\"65\" data-lit=\"mel3\" x=\"246.33333333333331\" y=\"127\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"273.3333333333333\" y=\"139\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">F4</text><text x=\"273.3333333333333\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">4</text><rect data-note=\"67\" data-lit=\"mel4\" x=\"313\" y=\"99\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"340\" y=\"111\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">G4</text><text x=\"340\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">5</text><rect data-note=\"65\" data-lit=\"mel5\" x=\"379.6666666666667\" y=\"127\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"406.6666666666667\" y=\"139\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">F4</text><text x=\"406.6666666666667\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">4</text><rect data-note=\"64\" data-lit=\"mel6\" x=\"446.3333333333333\" y=\"141\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"473.3333333333333\" y=\"153\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">E4</text><text x=\"473.3333333333333\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">3</text><rect data-note=\"62\" data-lit=\"mel7\" x=\"513\" y=\"169\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"540\" y=\"181\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">D4</text><text x=\"540\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">2</text><rect data-note=\"60\" data-lit=\"mel8\" x=\"579.6666666666667\" y=\"197\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"606.6666666666667\" y=\"209\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">C4</text><text x=\"606.6666666666667\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">1</text></svg>"
         },
         {
           "type": "tip",
           "text": "横轴是第几个音，纵轴是音高——图里就是即将播放的 9 个音。拖动滑杆再听： 旋律的相对起伏一个都没变，只是整体搬了家，这就是移调。"
+        },
+        {
+          "type": "audio",
+          "label": "播放这句旋律",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel0"
+            },
+            {
+              "t": 0.34,
+              "m": 62,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel1"
+            },
+            {
+              "t": 0.68,
+              "m": 64,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel2"
+            },
+            {
+              "t": 1.02,
+              "m": 65,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel3"
+            },
+            {
+              "t": 1.36,
+              "m": 67,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel4"
+            },
+            {
+              "t": 1.7,
+              "m": 65,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel5"
+            },
+            {
+              "t": 2.04,
+              "m": 64,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel6"
+            },
+            {
+              "t": 2.38,
+              "m": 62,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel7"
+            },
+            {
+              "t": 2.72,
+              "m": 60,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel8"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 52,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -4770,7 +11721,7 @@ return {
       "chapter": "13 音乐能表达什么：十三个维度",
       "title": "一个具体例子：《沧海一声笑》到底用了几个音？",
       "goal": "一个具体例子：《沧海一声笑》到底用了几个音？",
-      "estimatedSeconds": 124,
+      "estimatedSeconds": 174,
       "blocks": [
         {
           "type": "heading",
@@ -4788,15 +11739,713 @@ return {
         {
           "type": "tip",
           "text": "宫调式（重心在 do） 同一条 la–sol–mi–re–do，下面铺 do。落音是主音 do，听感明亮、正、开阔——这是「宫」的说法。"
+        },
+        {
+          "type": "audio",
+          "label": "重心在 do · 宫调式",
+          "evs": [
+            {
+              "t": 0,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 48,
+              "d": 12.48,
+              "g": 0.22,
+              "kind": "piano"
+            },
+            {
+              "t": 0.26,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 0.52,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 0.78,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 1.04,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 1.3,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 1.56,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 1.82,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 2.08,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 2.34,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 2.6,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 2.86,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 3.12,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 3.38,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 3.64,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 3.9,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 4.16,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 4.42,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 4.68,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 4.94,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 5.2,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 5.46,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 5.72,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 5.98,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 6.24,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 6.5,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 6.76,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 7.02,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 7.28,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 7.54,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 7.8,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 8.06,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 8.32,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 8.58,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 8.84,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 9.1,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 9.36,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 9.62,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 9.88,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 10.14,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 10.4,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 10.66,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 10.92,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 11.18,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 11.44,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 11.7,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 11.96,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 12.22,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "重心在 la · 徵调式",
+          "evs": [
+            {
+              "t": 0,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 57,
+              "d": 12.48,
+              "g": 0.22,
+              "kind": "piano"
+            },
+            {
+              "t": 0.26,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 0.52,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 0.78,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 1.04,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 1.3,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 1.56,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 1.82,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 2.08,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 2.34,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 2.6,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 2.86,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 3.12,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 3.38,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 3.64,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 3.9,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 4.16,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 4.42,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 4.68,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 4.94,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 5.2,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 5.46,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 5.72,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 5.98,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 6.24,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 6.5,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 6.76,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 7.02,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 7.28,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 7.54,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 7.8,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 8.06,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 8.32,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 8.58,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 8.84,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 9.1,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 9.36,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 9.62,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 9.88,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 10.14,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 10.4,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 10.66,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 10.92,
+              "m": 69,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 11.18,
+              "m": 67,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 11.44,
+              "m": 64,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 11.7,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 11.96,
+              "m": 60,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            },
+            {
+              "t": 12.22,
+              "m": 62,
+              "d": 0.6,
+              "g": 0.3,
+              "kind": "piano"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 57,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -5237,7 +12886,7 @@ return {
       "chapter": "14 配器：谁唱主、谁铺底",
       "title": "② 听三遍：同一条旋律，换三次主乐",
       "goal": "② 听三遍：同一条旋律，换三次主乐 下面三种编制，旋律一个音都没改（都是同一条 8 拍）， 只有\"谁来唱\"和\"其余两层怎么让\"不同。",
-      "estimatedSeconds": 97,
+      "estimatedSeconds": 122,
       "blocks": [
         {
           "type": "heading",
@@ -5340,15 +12989,259 @@ return {
         {
           "type": "tip",
           "text": "盯住\"密度\"那一列：主乐永远是 1.8 音头/秒（十个旋律音摊在 8 拍里，三版都一样）， 副乐依次是 1.4 / 1.4 / 0.7——没有一版让副乐忙过主乐。三版各演示一件事： A 版主乐与副乐同音色，只能靠音区区分，所以最容易糊；B 版只换音色不换密度， 唯一的变量就是乐器；C 版换音区、并把中频让出来。主乐不动，副乐让位——这就是配器的全部动作。"
+        },
+        {
+          "type": "audio",
+          "label": "播这一版",
+          "evs": [
+            {
+              "t": 0,
+              "m": 48,
+              "d": 1.429,
+              "g": 0.42,
+              "kind": "pad"
+            },
+            {
+              "t": 0,
+              "m": 51,
+              "d": 1.429,
+              "g": 0.26039999999999996,
+              "kind": "pad"
+            },
+            {
+              "t": 0,
+              "m": 55,
+              "d": 1.429,
+              "g": 0.26039999999999996,
+              "kind": "pad"
+            },
+            {
+              "t": 0,
+              "m": 60,
+              "d": 1.429,
+              "g": 0.36,
+              "kind": "koto"
+            },
+            {
+              "t": 0,
+              "m": 63,
+              "d": 1.429,
+              "g": 0.22319999999999998,
+              "kind": "koto"
+            },
+            {
+              "t": 0,
+              "m": 67,
+              "d": 1.429,
+              "g": 0.22319999999999998,
+              "kind": "koto"
+            },
+            {
+              "t": 0,
+              "m": 84,
+              "d": 0.686,
+              "g": 0.7,
+              "kind": "bell"
+            },
+            {
+              "t": 0.714,
+              "m": 87,
+              "d": 0.343,
+              "g": 0.7,
+              "kind": "bell"
+            },
+            {
+              "t": 1.071,
+              "m": 91,
+              "d": 0.343,
+              "g": 0.7,
+              "kind": "bell"
+            },
+            {
+              "t": 1.429,
+              "m": 56,
+              "d": 1.429,
+              "g": 0.42,
+              "kind": "pad"
+            },
+            {
+              "t": 1.429,
+              "m": 60,
+              "d": 1.429,
+              "g": 0.26039999999999996,
+              "kind": "pad"
+            },
+            {
+              "t": 1.429,
+              "m": 63,
+              "d": 1.429,
+              "g": 0.26039999999999996,
+              "kind": "pad"
+            },
+            {
+              "t": 1.429,
+              "m": 68,
+              "d": 1.429,
+              "g": 0.36,
+              "kind": "koto"
+            },
+            {
+              "t": 1.429,
+              "m": 72,
+              "d": 1.429,
+              "g": 0.22319999999999998,
+              "kind": "koto"
+            },
+            {
+              "t": 1.429,
+              "m": 75,
+              "d": 1.429,
+              "g": 0.22319999999999998,
+              "kind": "koto"
+            },
+            {
+              "t": 1.429,
+              "m": 92,
+              "d": 0.686,
+              "g": 0.7,
+              "kind": "bell"
+            },
+            {
+              "t": 2.143,
+              "m": 96,
+              "d": 0.686,
+              "g": 0.7,
+              "kind": "bell"
+            },
+            {
+              "t": 2.857,
+              "m": 51,
+              "d": 1.429,
+              "g": 0.42,
+              "kind": "pad"
+            },
+            {
+              "t": 2.857,
+              "m": 55,
+              "d": 1.429,
+              "g": 0.26039999999999996,
+              "kind": "pad"
+            },
+            {
+              "t": 2.857,
+              "m": 58,
+              "d": 1.429,
+              "g": 0.26039999999999996,
+              "kind": "pad"
+            },
+            {
+              "t": 2.857,
+              "m": 63,
+              "d": 1.429,
+              "g": 0.36,
+              "kind": "koto"
+            },
+            {
+              "t": 2.857,
+              "m": 67,
+              "d": 1.429,
+              "g": 0.22319999999999998,
+              "kind": "koto"
+            },
+            {
+              "t": 2.857,
+              "m": 70,
+              "d": 1.429,
+              "g": 0.22319999999999998,
+              "kind": "koto"
+            },
+            {
+              "t": 2.857,
+              "m": 94,
+              "d": 0.686,
+              "g": 0.7,
+              "kind": "bell"
+            },
+            {
+              "t": 3.571,
+              "m": 91,
+              "d": 0.343,
+              "g": 0.7,
+              "kind": "bell"
+            },
+            {
+              "t": 3.929,
+              "m": 87,
+              "d": 0.343,
+              "g": 0.7,
+              "kind": "bell"
+            },
+            {
+              "t": 4.286,
+              "m": 58,
+              "d": 1.429,
+              "g": 0.42,
+              "kind": "pad"
+            },
+            {
+              "t": 4.286,
+              "m": 62,
+              "d": 1.429,
+              "g": 0.26039999999999996,
+              "kind": "pad"
+            },
+            {
+              "t": 4.286,
+              "m": 65,
+              "d": 1.429,
+              "g": 0.26039999999999996,
+              "kind": "pad"
+            },
+            {
+              "t": 4.286,
+              "m": 70,
+              "d": 1.429,
+              "g": 0.36,
+              "kind": "koto"
+            },
+            {
+              "t": 4.286,
+              "m": 74,
+              "d": 1.429,
+              "g": 0.22319999999999998,
+              "kind": "koto"
+            },
+            {
+              "t": 4.286,
+              "m": 77,
+              "d": 1.429,
+              "g": 0.22319999999999998,
+              "kind": "koto"
+            },
+            {
+              "t": 4.286,
+              "m": 98,
+              "d": 0.686,
+              "g": 0.7,
+              "kind": "bell"
+            },
+            {
+              "t": 5,
+              "m": 94,
+              "d": 0.686,
+              "g": 0.7,
+              "kind": "bell"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 63,
       "task": {
         "type": "action",
-        "prompt": "查完这张表后过页",
-        "label": "我查完了",
-        "explain": "表不是用来背的，是动笔/动耳前先查的工具。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -5357,7 +13250,7 @@ return {
       "chapter": "14 配器：谁唱主、谁铺底",
       "title": "③ 再往上一步：整张专辑就是一条能量曲线",
       "goal": "③ 再往上一步：整张专辑就是一条能量曲线 一首歌好不好听是词曲的事，一张专辑好不好听是排序的事。",
-      "estimatedSeconds": 139,
+      "estimatedSeconds": 113,
       "blocks": [
         {
           "type": "heading",
@@ -5369,144 +13262,8 @@ return {
           "text": "一首歌好不好听是词曲的事，一张专辑好不好听是排序的事。 八首歌、同样的内容，只换顺序，听感完全不同。下面是同一批歌的两种排法： 点的高度是听感密度（音头/秒），点下面是调。"
         },
         {
-          "type": "text",
-          "text": "按写出来的顺序"
-        },
-        {
-          "type": "text",
-          "text": "Am"
-        },
-        {
-          "type": "text",
-          "text": "1.1"
-        },
-        {
-          "type": "text",
-          "text": "Am"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "Em"
-        },
-        {
-          "type": "text",
-          "text": "4.2"
-        },
-        {
-          "type": "text",
-          "text": "C"
-        },
-        {
-          "type": "text",
-          "text": "2.2"
-        },
-        {
-          "type": "text",
-          "text": "C"
-        },
-        {
-          "type": "text",
-          "text": "3.6"
-        },
-        {
-          "type": "text",
-          "text": "F"
-        },
-        {
-          "type": "text",
-          "text": "1.6"
-        },
-        {
-          "type": "text",
-          "text": "Am"
-        },
-        {
-          "type": "text",
-          "text": "4.6"
-        },
-        {
-          "type": "text",
-          "text": "Am"
-        },
-        {
-          "type": "text",
-          "text": "1.3"
-        },
-        {
-          "type": "text",
-          "text": "按能量曲线重排"
-        },
-        {
-          "type": "text",
-          "text": "Am"
-        },
-        {
-          "type": "text",
-          "text": "1.1"
-        },
-        {
-          "type": "text",
-          "text": "Am"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "C"
-        },
-        {
-          "type": "text",
-          "text": "2.2"
-        },
-        {
-          "type": "text",
-          "text": "Em"
-        },
-        {
-          "type": "text",
-          "text": "4.2"
-        },
-        {
-          "type": "text",
-          "text": "F"
-        },
-        {
-          "type": "text",
-          "text": "1.6"
-        },
-        {
-          "type": "text",
-          "text": "C"
-        },
-        {
-          "type": "text",
-          "text": "3.6"
-        },
-        {
-          "type": "text",
-          "text": "Am"
-        },
-        {
-          "type": "text",
-          "text": "4.6"
-        },
-        {
-          "type": "text",
-          "text": "Am"
-        },
-        {
-          "type": "text",
-          "text": "1.3"
-        },
-        {
-          "type": "text",
-          "text": "纵轴＝听感密度（音头/秒）· 珊瑚红的点＝与上一首同调（连续同调最容易疲）"
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 316\" width=\"100%\" class=\"ladder\" role=\"img\"><text x=\"40\" y=\"26\" font-size=\"11\" font-weight=\"600\" fill=\"#888780\">按写出来的顺序</text><rect x=\"40\" y=\"34\" width=\"600\" height=\"76\" rx=\"8\" fill=\"#F1EFE8\" stroke=\"#E5E2D9\" stroke-width=\"1\"></rect><polyline fill=\"none\" stroke=\"#888780\" stroke-width=\"1.6\" points=\"77.5,90.36 152.5,66.80000000000001 227.5,51.919999999999995 302.5,76.72 377.5,59.36 452.5,84.16 527.5,46.96000000000001 602.5,87.88\"></polyline><circle cx=\"77.5\" cy=\"90.36\" r=\"4\" fill=\"#888780\"></circle><text x=\"77.5\" y=\"122\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">Am</text><text x=\"77.5\" y=\"135\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">1.1</text><circle cx=\"152.5\" cy=\"66.80000000000001\" r=\"4\" fill=\"#D85A30\"></circle><text x=\"152.5\" y=\"122\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#D85A30\">Am</text><text x=\"152.5\" y=\"135\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">3</text><circle cx=\"227.5\" cy=\"51.919999999999995\" r=\"4\" fill=\"#888780\"></circle><text x=\"227.5\" y=\"122\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">Em</text><text x=\"227.5\" y=\"135\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">4.2</text><circle cx=\"302.5\" cy=\"76.72\" r=\"4\" fill=\"#888780\"></circle><text x=\"302.5\" y=\"122\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">C</text><text x=\"302.5\" y=\"135\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">2.2</text><circle cx=\"377.5\" cy=\"59.36\" r=\"4\" fill=\"#D85A30\"></circle><text x=\"377.5\" y=\"122\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#D85A30\">C</text><text x=\"377.5\" y=\"135\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">3.6</text><circle cx=\"452.5\" cy=\"84.16\" r=\"4\" fill=\"#888780\"></circle><text x=\"452.5\" y=\"122\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">F</text><text x=\"452.5\" y=\"135\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">1.6</text><circle cx=\"527.5\" cy=\"46.96000000000001\" r=\"4\" fill=\"#888780\"></circle><text x=\"527.5\" y=\"122\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">Am</text><text x=\"527.5\" y=\"135\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">4.6</text><circle cx=\"602.5\" cy=\"87.88\" r=\"4\" fill=\"#D85A30\"></circle><text x=\"602.5\" y=\"122\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#D85A30\">Am</text><text x=\"602.5\" y=\"135\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">1.3</text><text x=\"40\" y=\"168\" font-size=\"11\" font-weight=\"600\" fill=\"#534AB7\">按能量曲线重排</text><rect x=\"40\" y=\"176\" width=\"600\" height=\"76\" rx=\"8\" fill=\"#EEEDFE\" stroke=\"#E5E2D9\" stroke-width=\"1\"></rect><polyline fill=\"none\" stroke=\"#534AB7\" stroke-width=\"1.6\" points=\"77.5,232.35999999999999 152.5,208.8 227.5,218.72 302.5,193.92 377.5,226.16 452.5,201.36 527.5,188.96 602.5,229.88\"></polyline><circle cx=\"77.5\" cy=\"232.35999999999999\" r=\"4\" fill=\"#534AB7\"></circle><text x=\"77.5\" y=\"264\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">Am</text><text x=\"77.5\" y=\"277\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">1.1</text><circle cx=\"152.5\" cy=\"208.8\" r=\"4\" fill=\"#D85A30\"></circle><text x=\"152.5\" y=\"264\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#D85A30\">Am</text><text x=\"152.5\" y=\"277\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">3</text><circle cx=\"227.5\" cy=\"218.72\" r=\"4\" fill=\"#534AB7\"></circle><text x=\"227.5\" y=\"264\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">C</text><text x=\"227.5\" y=\"277\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">2.2</text><circle cx=\"302.5\" cy=\"193.92\" r=\"4\" fill=\"#534AB7\"></circle><text x=\"302.5\" y=\"264\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">Em</text><text x=\"302.5\" y=\"277\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">4.2</text><circle cx=\"377.5\" cy=\"226.16\" r=\"4\" fill=\"#534AB7\"></circle><text x=\"377.5\" y=\"264\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">F</text><text x=\"377.5\" y=\"277\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">1.6</text><circle cx=\"452.5\" cy=\"201.36\" r=\"4\" fill=\"#534AB7\"></circle><text x=\"452.5\" y=\"264\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">C</text><text x=\"452.5\" y=\"277\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">3.6</text><circle cx=\"527.5\" cy=\"188.96\" r=\"4\" fill=\"#534AB7\"></circle><text x=\"527.5\" y=\"264\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#6F6C62\">Am</text><text x=\"527.5\" y=\"277\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">4.6</text><circle cx=\"602.5\" cy=\"229.88\" r=\"4\" fill=\"#D85A30\"></circle><text x=\"602.5\" y=\"264\" font-size=\"9.5\" text-anchor=\"middle\" fill=\"#D85A30\">Am</text><text x=\"602.5\" y=\"277\" font-size=\"9\" text-anchor=\"middle\" fill=\"#A8A59B\">1.3</text><text x=\"40\" y=\"300\" font-size=\"10\" fill=\"#6F6C62\">纵轴＝听感密度（音头/秒）· 珊瑚红的点＝与上一首同调（连续同调最容易疲）</text></svg>"
         },
         {
           "type": "text",
@@ -5580,7 +13337,7 @@ return {
       "chapter": "14 配器：谁唱主、谁铺底",
       "title": "④ 最后一条线：第 8 首必须让第 1 首重新响一次",
       "goal": "④ 最后一条线：第 8 首必须让第 1 首重新响一次 ③ 管的是横向——首与首之间的能量曲线。",
-      "estimatedSeconds": 100,
+      "estimatedSeconds": 116,
       "blocks": [
         {
           "type": "heading",
@@ -5592,48 +13349,8 @@ return {
           "text": "③ 管的是横向——首与首之间的能量曲线。叙事专辑还多一条纵向的线： 听众要觉得\"合上了\"，靠的不是词里写一句\"我又回到这里\"，是同一段音乐真的又响了一次。 手段只有三个把手，而这三个都不是文字能做到的。"
         },
         {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "6"
-        },
-        {
-          "type": "text",
-          "text": "7"
-        },
-        {
-          "type": "text",
-          "text": "8"
-        },
-        {
-          "type": "text",
-          "text": "拍"
-        },
-        {
-          "type": "text",
-          "text": "动机原形：4 拍走完，只有一层长垫"
-        },
-        {
-          "type": "text",
-          "text": "第 8 首：同一个轮廓，8 拍才走完"
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 200\" width=\"100%\" class=\"ladder\" role=\"img\"><line x1=\"70\" y1=\"30\" x2=\"70\" y2=\"150\" stroke=\"#EAE7DC\" stroke-width=\"1\"></line><text x=\"105\" y=\"166\" font-size=\"11\" text-anchor=\"middle\" fill=\"#A8A59B\">1</text><line x1=\"140\" y1=\"30\" x2=\"140\" y2=\"150\" stroke=\"#EAE7DC\" stroke-width=\"1\"></line><text x=\"175\" y=\"166\" font-size=\"11\" text-anchor=\"middle\" fill=\"#A8A59B\">2</text><line x1=\"210\" y1=\"30\" x2=\"210\" y2=\"150\" stroke=\"#EAE7DC\" stroke-width=\"1\"></line><text x=\"245\" y=\"166\" font-size=\"11\" text-anchor=\"middle\" fill=\"#A8A59B\">3</text><line x1=\"280\" y1=\"30\" x2=\"280\" y2=\"150\" stroke=\"#EAE7DC\" stroke-width=\"1\"></line><text x=\"315\" y=\"166\" font-size=\"11\" text-anchor=\"middle\" fill=\"#A8A59B\">4</text><line x1=\"350\" y1=\"30\" x2=\"350\" y2=\"150\" stroke=\"#EAE7DC\" stroke-width=\"1\"></line><text x=\"385\" y=\"166\" font-size=\"11\" text-anchor=\"middle\" fill=\"#A8A59B\">5</text><line x1=\"420\" y1=\"30\" x2=\"420\" y2=\"150\" stroke=\"#EAE7DC\" stroke-width=\"1\"></line><text x=\"455\" y=\"166\" font-size=\"11\" text-anchor=\"middle\" fill=\"#A8A59B\">6</text><line x1=\"490\" y1=\"30\" x2=\"490\" y2=\"150\" stroke=\"#EAE7DC\" stroke-width=\"1\"></line><text x=\"525\" y=\"166\" font-size=\"11\" text-anchor=\"middle\" fill=\"#A8A59B\">7</text><line x1=\"560\" y1=\"30\" x2=\"560\" y2=\"150\" stroke=\"#EAE7DC\" stroke-width=\"1\"></line><text x=\"595\" y=\"166\" font-size=\"11\" text-anchor=\"middle\" fill=\"#A8A59B\">8</text><line x1=\"630\" y1=\"30\" x2=\"630\" y2=\"150\" stroke=\"#EAE7DC\" stroke-width=\"1\"></line><text x=\"40\" y=\"166\" font-size=\"11\" fill=\"#A8A59B\">拍</text><line x1=\"70\" y1=\"140\" x2=\"630\" y2=\"140\" stroke=\"#DDD9CD\" stroke-width=\"1\"></line><polyline fill=\"none\" stroke=\"#AFA9EC\" stroke-width=\"3\" points=\"70,140 140,124 210,116 280,84\"></polyline><polyline fill=\"none\" stroke=\"#534AB7\" stroke-width=\"3\" points=\"70,140 210,124 350,116 490,84\"></polyline><circle cx=\"70\" cy=\"140\" r=\"4.5\" fill=\"#AFA9EC\"></circle><circle cx=\"140\" cy=\"124\" r=\"4.5\" fill=\"#AFA9EC\"></circle><circle cx=\"210\" cy=\"116\" r=\"4.5\" fill=\"#AFA9EC\"></circle><circle cx=\"280\" cy=\"84\" r=\"4.5\" fill=\"#AFA9EC\"></circle><circle cx=\"70\" cy=\"140\" r=\"4.5\" fill=\"#534AB7\"></circle><circle cx=\"210\" cy=\"124\" r=\"4.5\" fill=\"#534AB7\"></circle><circle cx=\"350\" cy=\"116\" r=\"4.5\" fill=\"#534AB7\"></circle><circle cx=\"490\" cy=\"84\" r=\"4.5\" fill=\"#534AB7\"></circle><rect x=\"70\" y=\"186\" width=\"26\" height=\"3\" rx=\"1.5\" fill=\"#AFA9EC\"></rect><text x=\"104\" y=\"192\" font-size=\"11\" fill=\"#6F6C62\">动机原形：4 拍走完，只有一层长垫</text><rect x=\"330\" y=\"186\" width=\"26\" height=\"3\" rx=\"1.5\" fill=\"#534AB7\"></rect><text x=\"364\" y=\"192\" font-size=\"11\" fill=\"#6F6C62\">第 8 首：同一个轮廓，8 拍才走完</text></svg>"
         },
         {
           "type": "text",
@@ -5679,15 +13396,175 @@ return {
         {
           "type": "tip",
           "text": "上面两条线纵向完全重合：四个音一个都没改（根 → 全音 → 小三度 → 五度）， 只把时值全部加倍、配器从一层加到四层。听完再问自己一句： 这一段如果换成文字说，还成立吗？不成立——\"回去了\"从来不是一句话，是一个形状又出现了一次。 这正是叙事专辑必须两页合写的原因：词决定讲什么，乐决定它在第几分钟真的响起来。"
+        },
+        {
+          "type": "audio",
+          "label": "听这一版",
+          "evs": [
+            {
+              "t": 0,
+              "m": 36,
+              "d": 6.316,
+              "g": 0.4,
+              "kind": "pad"
+            },
+            {
+              "t": 0,
+              "m": 39,
+              "d": 6.316,
+              "g": 0.248,
+              "kind": "pad"
+            },
+            {
+              "t": 0,
+              "m": 43,
+              "d": 6.316,
+              "g": 0.248,
+              "kind": "pad"
+            },
+            {
+              "t": 0,
+              "m": 48,
+              "d": 1.421,
+              "g": 0.32,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 51,
+              "d": 1.421,
+              "g": 0.1984,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 55,
+              "d": 1.421,
+              "g": 0.1984,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 60,
+              "d": 1.516,
+              "g": 0.7,
+              "kind": "piano"
+            },
+            {
+              "t": 1.579,
+              "m": 48,
+              "d": 1.421,
+              "g": 0.32,
+              "kind": "piano"
+            },
+            {
+              "t": 1.579,
+              "m": 51,
+              "d": 1.421,
+              "g": 0.1984,
+              "kind": "piano"
+            },
+            {
+              "t": 1.579,
+              "m": 55,
+              "d": 1.421,
+              "g": 0.1984,
+              "kind": "piano"
+            },
+            {
+              "t": 1.579,
+              "m": 62,
+              "d": 1.516,
+              "g": 0.7,
+              "kind": "piano"
+            },
+            {
+              "t": 3.158,
+              "m": 48,
+              "d": 1.421,
+              "g": 0.32,
+              "kind": "piano"
+            },
+            {
+              "t": 3.158,
+              "m": 51,
+              "d": 1.421,
+              "g": 0.1984,
+              "kind": "piano"
+            },
+            {
+              "t": 3.158,
+              "m": 55,
+              "d": 1.421,
+              "g": 0.1984,
+              "kind": "piano"
+            },
+            {
+              "t": 3.158,
+              "m": 63,
+              "d": 1.516,
+              "g": 0.7,
+              "kind": "piano"
+            },
+            {
+              "t": 4.737,
+              "m": 48,
+              "d": 1.421,
+              "g": 0.32,
+              "kind": "piano"
+            },
+            {
+              "t": 4.737,
+              "m": 51,
+              "d": 1.421,
+              "g": 0.1984,
+              "kind": "piano"
+            },
+            {
+              "t": 4.737,
+              "m": 55,
+              "d": 1.421,
+              "g": 0.1984,
+              "kind": "piano"
+            },
+            {
+              "t": 4.737,
+              "m": 67,
+              "d": 1.516,
+              "g": 0.7,
+              "kind": "piano"
+            },
+            {
+              "t": 4.737,
+              "m": 84,
+              "d": 1.579,
+              "g": 0.3,
+              "kind": "bell"
+            },
+            {
+              "t": 4.737,
+              "m": 87,
+              "d": 1.579,
+              "g": 0.186,
+              "kind": "bell"
+            },
+            {
+              "t": 4.737,
+              "m": 91,
+              "d": 1.579,
+              "g": 0.186,
+              "kind": "bell"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 65,
       "task": {
         "type": "action",
-        "prompt": "查完这张表后过页",
-        "label": "我查完了",
-        "explain": "表不是用来背的，是动笔/动耳前先查的工具。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -5696,7 +13573,7 @@ return {
       "chapter": "14 配器：谁唱主、谁铺底",
       "title": "⑤ 再往前一步：动机本身怎么生成",
       "goal": "⑤ 再往前一步：动机本身怎么生成 ④ 讲的是变形——轮廓一个音都不改，只改时值与配器。",
-      "estimatedSeconds": 112,
+      "estimatedSeconds": 155,
       "blocks": [
         {
           "type": "heading",
@@ -5708,64 +13585,8 @@ return {
           "text": "④ 讲的是变形——轮廓一个音都不改，只改时值与配器。 但只会变形的人，写到第三首就没招了：同一个形状换四种速度，还是那一句。 这一节讲另一半：动机本身从哪儿来。母动机是四个音——根、全音、小三度、五度， 一步一级往上爬。下面五种手法，各从这个母动机派生出一个新的："
         },
         {
-          "type": "text",
-          "text": "0"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "拍"
-        },
-        {
-          "type": "text",
-          "text": "0"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "6"
-        },
-        {
-          "type": "text",
-          "text": "9"
-        },
-        {
-          "type": "text",
-          "text": "12"
-        },
-        {
-          "type": "text",
-          "text": "半音"
-        },
-        {
-          "type": "text",
-          "text": "母动机"
-        },
-        {
-          "type": "text",
-          "text": "节奏化（生成结果）"
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 210\" width=\"100%\" class=\"ladder\" role=\"img\"><line x1=\"70\" y1=\"34\" x2=\"70\" y2=\"160\" stroke=\"#EAE7DC\" stroke-width=\"1\"></line><text x=\"70\" y=\"176\" font-size=\"11\" text-anchor=\"middle\" fill=\"#A8A59B\">0</text><line x1=\"132\" y1=\"34\" x2=\"132\" y2=\"160\" stroke=\"#EAE7DC\" stroke-width=\"1\"></line><text x=\"132\" y=\"176\" font-size=\"11\" text-anchor=\"middle\" fill=\"#A8A59B\">1</text><line x1=\"194\" y1=\"34\" x2=\"194\" y2=\"160\" stroke=\"#EAE7DC\" stroke-width=\"1\"></line><text x=\"194\" y=\"176\" font-size=\"11\" text-anchor=\"middle\" fill=\"#A8A59B\">2</text><line x1=\"256\" y1=\"34\" x2=\"256\" y2=\"160\" stroke=\"#EAE7DC\" stroke-width=\"1\"></line><text x=\"256\" y=\"176\" font-size=\"11\" text-anchor=\"middle\" fill=\"#A8A59B\">3</text><line x1=\"318\" y1=\"34\" x2=\"318\" y2=\"160\" stroke=\"#EAE7DC\" stroke-width=\"1\"></line><text x=\"318\" y=\"176\" font-size=\"11\" text-anchor=\"middle\" fill=\"#A8A59B\">4</text><line x1=\"380\" y1=\"34\" x2=\"380\" y2=\"160\" stroke=\"#EAE7DC\" stroke-width=\"1\"></line><text x=\"380\" y=\"176\" font-size=\"11\" text-anchor=\"middle\" fill=\"#A8A59B\">5</text><text x=\"40\" y=\"176\" font-size=\"11\" fill=\"#A8A59B\">拍</text><line x1=\"70\" y1=\"150\" x2=\"380\" y2=\"150\" stroke=\"#F0EDE4\" stroke-width=\"1\"></line><text x=\"60\" y=\"154\" font-size=\"9.5\" text-anchor=\"end\" fill=\"#A8A59B\">0</text><line x1=\"70\" y1=\"126\" x2=\"380\" y2=\"126\" stroke=\"#F0EDE4\" stroke-width=\"1\"></line><text x=\"60\" y=\"130\" font-size=\"9.5\" text-anchor=\"end\" fill=\"#A8A59B\">3</text><line x1=\"70\" y1=\"102\" x2=\"380\" y2=\"102\" stroke=\"#F0EDE4\" stroke-width=\"1\"></line><text x=\"60\" y=\"106\" font-size=\"9.5\" text-anchor=\"end\" fill=\"#A8A59B\">6</text><line x1=\"70\" y1=\"78\" x2=\"380\" y2=\"78\" stroke=\"#F0EDE4\" stroke-width=\"1\"></line><text x=\"60\" y=\"82\" font-size=\"9.5\" text-anchor=\"end\" fill=\"#A8A59B\">9</text><line x1=\"70\" y1=\"54\" x2=\"380\" y2=\"54\" stroke=\"#F0EDE4\" stroke-width=\"1\"></line><text x=\"60\" y=\"58\" font-size=\"9.5\" text-anchor=\"end\" fill=\"#A8A59B\">12</text><text x=\"36\" y=\"34\" font-size=\"9.5\" fill=\"#A8A59B\">半音</text><polyline fill=\"none\" stroke=\"#CFCABE\" stroke-width=\"2\" stroke-dasharray=\"4 3\" points=\"70,150 132,134 194,126 256,94\"></polyline><circle cx=\"70\" cy=\"150\" r=\"4\" fill=\"#fff\" stroke=\"#CFCABE\" stroke-width=\"2\"></circle><circle cx=\"132\" cy=\"134\" r=\"4\" fill=\"#fff\" stroke=\"#CFCABE\" stroke-width=\"2\"></circle><circle cx=\"194\" cy=\"126\" r=\"4\" fill=\"#fff\" stroke=\"#CFCABE\" stroke-width=\"2\"></circle><circle cx=\"256\" cy=\"94\" r=\"4\" fill=\"#fff\" stroke=\"#CFCABE\" stroke-width=\"2\"></circle><polyline fill=\"none\" stroke=\"#D85A30\" stroke-width=\"3\" points=\"70,150 101,134 132,126 256,94\"></polyline><circle cx=\"70\" cy=\"150\" r=\"4.5\" fill=\"#D85A30\"></circle><circle cx=\"101\" cy=\"134\" r=\"4.5\" fill=\"#D85A30\"></circle><circle cx=\"132\" cy=\"126\" r=\"4.5\" fill=\"#D85A30\"></circle><circle cx=\"256\" cy=\"94\" r=\"4.5\" fill=\"#D85A30\"></circle><rect x=\"70\" y=\"192\" width=\"24\" height=\"3\" rx=\"1.5\" fill=\"#CFCABE\"></rect><text x=\"102\" y=\"197\" font-size=\"11\" fill=\"#6F6C62\">母动机</text><rect x=\"180\" y=\"192\" width=\"24\" height=\"3\" rx=\"1.5\" fill=\"#D85A30\"></rect><text x=\"212\" y=\"197\" font-size=\"11\" fill=\"#6F6C62\">节奏化（生成结果）</text></svg>"
         },
         {
           "type": "text",
@@ -5835,15 +13656,90 @@ return {
         {
           "type": "tip",
           "text": "先听母动机、再听生成结果——这才是这一节的用法。 图上两条线，浅色虚线是母动机、深色实线是生成结果： 节奏化两条线在音高上完全重合（只有点错开了）， 移位整条平移，逆行左右翻转，移调平行上移， 增减音多一个点。改的是哪一样，图上一眼就看得出来，不用背。 顺序上也有讲究：先用节奏化（最安全）、再用移位与移调（换位置换高度）， 逆行与增减音留到最后——这两样最容易被听腻，用多了整首歌会显得刻意。"
+        },
+        {
+          "type": "audio",
+          "label": "先听母动机",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.758,
+              "g": 0.7,
+              "kind": "piano"
+            },
+            {
+              "t": 0.789,
+              "m": 62,
+              "d": 0.758,
+              "g": 0.7,
+              "kind": "piano"
+            },
+            {
+              "t": 1.579,
+              "m": 63,
+              "d": 0.758,
+              "g": 0.7,
+              "kind": "piano"
+            },
+            {
+              "t": 2.368,
+              "m": 67,
+              "d": 0.758,
+              "g": 0.7,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "再听生成结果",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.758,
+              "g": 0.7,
+              "kind": "piano"
+            },
+            {
+              "t": 0.789,
+              "m": 62,
+              "d": 0.758,
+              "g": 0.7,
+              "kind": "piano"
+            },
+            {
+              "t": 1.579,
+              "m": 63,
+              "d": 0.379,
+              "g": 0.7,
+              "kind": "piano"
+            },
+            {
+              "t": 1.974,
+              "m": 65,
+              "d": 0.379,
+              "g": 0.7,
+              "kind": "piano"
+            },
+            {
+              "t": 2.368,
+              "m": 67,
+              "d": 0.758,
+              "g": 0.7,
+              "kind": "piano"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 66,
       "task": {
         "type": "action",
-        "prompt": "查完这张表后过页",
-        "label": "我查完了",
-        "explain": "表不是用来背的，是动笔/动耳前先查的工具。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -5874,7 +13770,7 @@ return {
       "chapter": "15 再往上一步：转调与七和弦",
       "title": "七和弦：在三和弦上再叠一个三度",
       "goal": "七和弦：在三和弦上再叠一个三度 本来三个音，现在四个音。",
-      "estimatedSeconds": 59,
+      "estimatedSeconds": 101,
       "blocks": [
         {
           "type": "heading",
@@ -5886,97 +13782,101 @@ return {
           "text": "本来三个音，现在四个音。多出来的那个音决定了味道：梦幻、想回家、顺滑、还是悬着。 方块按音高排列，最后一个就是新叠上去的那个。"
         },
         {
-          "type": "text",
-          "text": "C"
-        },
-        {
-          "type": "text",
-          "text": "C♯"
-        },
-        {
-          "type": "text",
-          "text": "D"
-        },
-        {
-          "type": "text",
-          "text": "D♯"
-        },
-        {
-          "type": "text",
-          "text": "E"
-        },
-        {
-          "type": "text",
-          "text": "F"
-        },
-        {
-          "type": "text",
-          "text": "F♯"
-        },
-        {
-          "type": "text",
-          "text": "G"
-        },
-        {
-          "type": "text",
-          "text": "G♯"
-        },
-        {
-          "type": "text",
-          "text": "A"
-        },
-        {
-          "type": "text",
-          "text": "A♯"
-        },
-        {
-          "type": "text",
-          "text": "B"
-        },
-        {
-          "type": "text",
-          "text": "C4"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "E4"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "G4"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "B4"
-        },
-        {
-          "type": "text",
-          "text": "4"
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 272\" width=\"100%\" class=\"ladder\" role=\"img\"><text x=\"63\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">C</text><text x=\"109.15384615384616\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">C♯</text><text x=\"155.30769230769232\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">D</text><text x=\"201.46153846153845\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">D♯</text><text x=\"247.6153846153846\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">E</text><text x=\"293.7692307692308\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">F</text><text x=\"339.9230769230769\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">F♯</text><text x=\"386.0769230769231\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">G</text><text x=\"432.2307692307692\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">G♯</text><text x=\"478.38461538461536\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">A</text><text x=\"524.5384615384615\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">A♯</text><text x=\"570.6923076923076\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">B</text><line x1=\"40\" y1=\"254\" x2=\"640\" y2=\"254\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><rect data-note=\"60\" data-lit=\"sv0\" x=\"35.07692307692308\" y=\"219\" width=\"56\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"1\"></rect><text x=\"63.07692307692308\" y=\"231\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">C4</text><text x=\"63.07692307692308\" y=\"270\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">4</text><rect data-note=\"64\" data-lit=\"sv1\" x=\"219.69230769230768\" y=\"155\" width=\"56\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"1\"></rect><text x=\"247.69230769230768\" y=\"167\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">E4</text><text x=\"247.69230769230768\" y=\"270\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">4</text><rect data-note=\"67\" data-lit=\"sv2\" x=\"358.1538461538462\" y=\"107\" width=\"56\" height=\"22\" rx=\"5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-width=\"1\"></rect><text x=\"386.1538461538462\" y=\"119\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#3C3489\">G4</text><text x=\"386.1538461538462\" y=\"270\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">4</text><rect data-note=\"71\" data-lit=\"sv3\" x=\"542.7692307692307\" y=\"43\" width=\"56\" height=\"22\" rx=\"5\" fill=\"#FBEAF0\" stroke=\"#993556\" stroke-width=\"1\"></rect><text x=\"570.7692307692307\" y=\"55\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#72243E\">B4</text><text x=\"570.7692307692307\" y=\"270\" font-size=\"10\" text-anchor=\"middle\" fill=\"#993556\">4</text></svg>"
         },
         {
           "type": "tip",
           "text": "大七 maj7 拼：根 三 五 七 最梦幻、最慵懒。像午后阳光里慢慢飘的灰尘，久石让常用。"
+        },
+        {
+          "type": "audio",
+          "label": "弹响这个七和弦",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 2.2,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 63,
+              "d": 2.2,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 66,
+              "d": 2.2,
+              "g": 0.36,
+              "kind": "piano"
+            },
+            {
+              "t": 0,
+              "m": 69,
+              "d": 2.2,
+              "g": 0.36,
+              "kind": "piano"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "琶音",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "sv0"
+            },
+            {
+              "t": 0.24,
+              "m": 63,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "sv1"
+            },
+            {
+              "t": 0.48,
+              "m": 66,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "sv2"
+            },
+            {
+              "t": 0.72,
+              "m": 69,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "sv3"
+            },
+            {
+              "t": 0.96,
+              "m": 72,
+              "d": 1,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "sv0"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 68,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {
@@ -5985,7 +13885,7 @@ return {
       "chapter": "15 再往上一步：转调与七和弦",
       "title": "转调：同一段旋律，换一套音阶",
       "goal": "转调：同一段旋律，换一套音阶 旋律的音高关系一个都不改，只把整套音阶搬家。",
-      "estimatedSeconds": 56,
+      "estimatedSeconds": 96,
       "blocks": [
         {
           "type": "heading",
@@ -5997,125 +13897,249 @@ return {
           "text": "旋律的音高关系一个都不改，只把整套音阶搬家。副歌最后升高全音或半音是华语流行最常用的\"炸开\"手法， 听一次你就认出这个感觉。"
         },
         {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "6"
-        },
-        {
-          "type": "text",
-          "text": "7"
-        },
-        {
-          "type": "text",
-          "text": "8"
-        },
-        {
-          "type": "text",
-          "text": "9"
-        },
-        {
-          "type": "text",
-          "text": "C4"
-        },
-        {
-          "type": "text",
-          "text": "1"
-        },
-        {
-          "type": "text",
-          "text": "D4"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "E4"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "F4"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "G4"
-        },
-        {
-          "type": "text",
-          "text": "5"
-        },
-        {
-          "type": "text",
-          "text": "F4"
-        },
-        {
-          "type": "text",
-          "text": "4"
-        },
-        {
-          "type": "text",
-          "text": "E4"
-        },
-        {
-          "type": "text",
-          "text": "3"
-        },
-        {
-          "type": "text",
-          "text": "D4"
-        },
-        {
-          "type": "text",
-          "text": "2"
-        },
-        {
-          "type": "text",
-          "text": "C4"
-        },
-        {
-          "type": "text",
-          "text": "1"
+          "type": "svg",
+          "svg": "<svg viewBox=\"0 0 680 272\" width=\"100%\" class=\"ladder\" role=\"img\"><text x=\"73.33333333333334\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">1</text><text x=\"140\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">2</text><text x=\"206.66666666666669\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">3</text><text x=\"273.3333333333333\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">4</text><text x=\"340\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">5</text><text x=\"406.6666666666667\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">6</text><text x=\"473.3333333333333\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">7</text><text x=\"540\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">8</text><text x=\"606.6666666666667\" y=\"24\" font-size=\"10\" text-anchor=\"middle\" fill=\"#6F6C62\">9</text><line x1=\"40\" y1=\"230\" x2=\"640\" y2=\"230\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><rect data-note=\"60\" data-lit=\"mel0\" x=\"46.33333333333334\" y=\"197\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"73.33333333333334\" y=\"209\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">C4</text><text x=\"73.33333333333334\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">1</text><rect data-note=\"62\" data-lit=\"mel1\" x=\"113\" y=\"169\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"140\" y=\"181\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">D4</text><text x=\"140\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">2</text><rect data-note=\"64\" data-lit=\"mel2\" x=\"179.66666666666669\" y=\"141\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"206.66666666666669\" y=\"153\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">E4</text><text x=\"206.66666666666669\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">3</text><rect data-note=\"65\" data-lit=\"mel3\" x=\"246.33333333333331\" y=\"127\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"273.3333333333333\" y=\"139\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">F4</text><text x=\"273.3333333333333\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">4</text><rect data-note=\"67\" data-lit=\"mel4\" x=\"313\" y=\"99\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"340\" y=\"111\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">G4</text><text x=\"340\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">5</text><rect data-note=\"65\" data-lit=\"mel5\" x=\"379.6666666666667\" y=\"127\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"406.6666666666667\" y=\"139\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">F4</text><text x=\"406.6666666666667\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">4</text><rect data-note=\"64\" data-lit=\"mel6\" x=\"446.3333333333333\" y=\"141\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"473.3333333333333\" y=\"153\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">E4</text><text x=\"473.3333333333333\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">3</text><rect data-note=\"62\" data-lit=\"mel7\" x=\"513\" y=\"169\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"540\" y=\"181\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">D4</text><text x=\"540\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">2</text><rect data-note=\"60\" data-lit=\"mel8\" x=\"579.6666666666667\" y=\"197\" width=\"54\" height=\"22\" rx=\"5\" fill=\"#534AB7\" stroke=\"#534AB7\" stroke-width=\"0.7\"></rect><text x=\"606.6666666666667\" y=\"209\" font-size=\"13\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"central\" fill=\"#fff\">C4</text><text x=\"606.6666666666667\" y=\"246\" font-size=\"10\" text-anchor=\"middle\" fill=\"#534AB7\">1</text></svg>"
         },
         {
           "type": "tip",
           "text": "C 大调（原位） 基准，最平稳。"
+        },
+        {
+          "type": "audio",
+          "label": "播放这一句",
+          "evs": [
+            {
+              "t": 0,
+              "m": 61,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel0"
+            },
+            {
+              "t": 0.34,
+              "m": 63,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel1"
+            },
+            {
+              "t": 0.68,
+              "m": 65,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel2"
+            },
+            {
+              "t": 1.02,
+              "m": 66,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel3"
+            },
+            {
+              "t": 1.36,
+              "m": 68,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel4"
+            },
+            {
+              "t": 1.7,
+              "m": 66,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel5"
+            },
+            {
+              "t": 2.04,
+              "m": 65,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel6"
+            },
+            {
+              "t": 2.38,
+              "m": 63,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel7"
+            },
+            {
+              "t": 2.72,
+              "m": 61,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel8"
+            }
+          ]
+        },
+        {
+          "type": "audio",
+          "label": "连起来听：C → D（副歌升全音）",
+          "evs": [
+            {
+              "t": 0,
+              "m": 60,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel0"
+            },
+            {
+              "t": 0.34,
+              "m": 62,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel1"
+            },
+            {
+              "t": 0.68,
+              "m": 64,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel2"
+            },
+            {
+              "t": 1.02,
+              "m": 65,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel3"
+            },
+            {
+              "t": 1.36,
+              "m": 67,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel4"
+            },
+            {
+              "t": 1.7,
+              "m": 65,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel5"
+            },
+            {
+              "t": 2.04,
+              "m": 64,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel6"
+            },
+            {
+              "t": 2.38,
+              "m": 62,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel7"
+            },
+            {
+              "t": 2.72,
+              "m": 60,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel8"
+            },
+            {
+              "t": 3.46,
+              "m": 62,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel0"
+            },
+            {
+              "t": 3.8,
+              "m": 64,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel1"
+            },
+            {
+              "t": 4.14,
+              "m": 66,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel2"
+            },
+            {
+              "t": 4.48,
+              "m": 67,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel3"
+            },
+            {
+              "t": 4.82,
+              "m": 69,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel4"
+            },
+            {
+              "t": 5.16,
+              "m": 67,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel5"
+            },
+            {
+              "t": 5.5,
+              "m": 66,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel6"
+            },
+            {
+              "t": 5.84,
+              "m": 64,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel7"
+            },
+            {
+              "t": 6.18,
+              "m": 62,
+              "d": 0.9,
+              "g": 0.4,
+              "kind": "piano",
+              "lit": "mel8"
+            }
+          ]
         }
       ],
       "skip": true,
       "order": 69,
       "task": {
         "type": "action",
-        "prompt": "读完这一页后过页",
-        "label": "我读完了",
-        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+        "prompt": "听完演示后过页",
+        "label": "我听完了",
+        "explain": "听到比记住更重要；没听清可以回上一页再听。"
       }
     },
     {

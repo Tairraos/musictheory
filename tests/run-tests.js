@@ -2979,9 +2979,27 @@ test('P1 互动课配置：由当前教程生成、可校验、页量充足且�
       if (b.type === 'text' || b.type === 'tip') assert.ok(b.text, `${p.id} 文本块不能为空`);
       if (b.type === 'table') assert.ok(b.rows.length, `${p.id} 表格不能为空`);
       if (b.type === 'list') assert.ok(b.items.length, `${p.id} 列表不能为空`);
-      if (b.type === 'audio') assert.ok(b.notes.length, `${p.id} 音频块必须有音`);
+      if (b.type === 'svg'){
+        assert.ok(b.svg.startsWith('<svg') && b.svg.length > 60, `${p.id} svg 块必须是完整的 svg 标记`);
+        assert.ok(!/<script/i.test(b.svg), `${p.id} svg 块里不许夹带脚本`);
+      }
+      if (b.type === 'audio'){
+        assert.ok(Array.isArray(b.evs) && b.evs.length,
+          `${p.id} 音频块必须带捕获的演示事件（evs）`);
+        b.evs.forEach(e => assert.ok(e.click || Number.isInteger(e.m),
+          `${p.id} 演示事件要么是拍点（click）要么带音高（m）`));
+      }
     });
   });
+
+  /* 教程里能点出声的演示必须成建制地捕获进来——这是"讲到哪儿就能听到哪儿"的底线。
+   * 目前教程渲染后有 80+ 个演示，低于 60 说明捕获链路坏了。 */
+  const audioBlocks = GAME_CONFIG.pages.flatMap(p => p.blocks.filter(b => b.type === 'audio'));
+  assert.ok(audioBlocks.length >= 60,
+    `音频演示应成建制捕获（教程现有 80+ 个），实际 ${audioBlocks.length}`);
+  const svgPages = GAME_CONFIG.pages.filter(p => p.blocks.some(b => b.type === 'svg'));
+  assert.ok(svgPages.length >= 12,
+    `带示意图的页应成建制抽取（阶梯图/对比图/网格图共 17 页），实际 ${svgPages.length}`);
 });
 
 test('P2 互动课内核：判题、跳过与进度状态机', () => {
@@ -3047,9 +3065,10 @@ test('P4 互动课音频与表格：真实块能渲染、音频能触发而不�
     assert.ok(audioPage, '配置里至少要有一页带音频');
     G.openPage(audioPage.id);
     d.querySelector('#pageBlocks .audio-card').click();
-    await new Promise(r => setTimeout(r, 150));   /* 桩时钟冻结在 0，首音 at≈0.08s，flash 延迟 80ms */
-    assert.ok(d.querySelectorAll('#gameKb .flash').length >= 1,
-      '演示音频发声时，底部钢琴对应键要闪琥珀');
+    await new Promise(r => setTimeout(r, 200));   /* 桩时钟冻结在 0，首音 0.08s 后闪 */
+    const litCount = d.querySelectorAll('#gameKb .flash').length +
+      d.querySelectorAll('#pageBlocks svg rect.lit').length;
+    assert.ok(litCount >= 1, '演示音频发声时，底部钢琴键或示意图方块要点亮');
 
     const wk = d.querySelector('#gameKb .wk');
     wk.dispatchEvent(new w.Event('pointerdown', { bubbles: true }));
@@ -3059,5 +3078,10 @@ test('P4 互动课音频与表格：真实块能渲染、音频能触发而不�
     assert.ok(tablePage, '配置里至少要有一页带表格');
     G.openPage(tablePage.id);
     assert.ok(d.querySelector('#pageBlocks .table-scroll .game-table'), '表格要套横滑层');
+
+    const svgPage = G.config.pages.find(p => p.blocks.some(b => b.type === 'svg'));
+    assert.ok(svgPage, '配置里至少要有一页带示意图');
+    G.openPage(svgPage.id);
+    assert.ok(d.querySelector('#pageBlocks .svg-wrap svg'), '示意图要整块渲染进页面');
   });
 });

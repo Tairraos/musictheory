@@ -13,7 +13,7 @@
 'use strict';
 
 const TASK_TYPES = ['choice', 'number', 'sequence', 'scan', 'action'];
-const BLOCK_TYPES = ['text', 'tip', 'heading', 'list', 'table', 'audio'];
+const BLOCK_TYPES = ['text', 'tip', 'heading', 'list', 'table', 'svg', 'audio'];
 const PAGE_ID = /^[a-z][a-z0-9]*(?:\.[a-z0-9-]+)+$/;
 
 function fail(list, message){ list.push(message); }
@@ -70,10 +70,15 @@ function validateCourseConfig(config){
         if (!Array.isArray(b.rows) || !b.rows.length) fail(errors, `${label} blocks[${bi}] 表格不能为空`);
         if (!Array.isArray(b.headers)) fail(errors, `${label} blocks[${bi}] 表头必须是数组`);
       }
+      if (b.type === 'svg'){
+        if (typeof b.svg !== 'string' || !/^<svg/.test(b.svg)) fail(errors, `${label} blocks[${bi}] svg 块必须是完整的 svg 标记`);
+        if (/<script/i.test(b.svg || '')) fail(errors, `${label} blocks[${bi}] svg 块里不许夹带脚本`);
+      }
       if (b.type === 'audio'){
-        if (!Array.isArray(b.notes) || !b.notes.length) fail(errors, `${label} blocks[${bi}] 音频缺少 notes`);
-        if ((b.notes || []).some(n => !Number.isInteger(n) || n < 0 || n > 127)) fail(errors, `${label} blocks[${bi}] 存在非法 MIDI 音`);
-        if (b.gap != null && (!Number.isFinite(b.gap) || b.gap < 0.05)) fail(errors, `${label} blocks[${bi}] gap 非法`);
+        /* evs：捕获来的演示事件序列，要么是拍点（click）要么带音高（m） */
+        if (!Array.isArray(b.evs) || !b.evs.length) fail(errors, `${label} blocks[${bi}] 音频缺少演示事件 evs`);
+        if ((b.evs || []).some(e => !e || (e.click ? e.t == null : !Number.isInteger(e.m) || e.m < 0 || e.m > 127)))
+          fail(errors, `${label} blocks[${bi}] 存在非法演示事件`);
       }
     });
 

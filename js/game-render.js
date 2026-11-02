@@ -48,10 +48,18 @@ function renderGameBlock(block){
     return wrap;
   }
 
+  if (block.type === 'svg'){
+    /* 教程装配好的自包含示意图（阶梯图/对比图/网格图），整块插入。
+     * 大图在窄屏横向滑动查看；播放时方块跟随发声点亮（见 flashKey）。 */
+    const w = el('div', 'svg-wrap');
+    w.innerHTML = block.svg;
+    return w;
+  }
+
   if (block.type === 'audio'){
     const b = el('button', 'audio-card', '▶ ' + block.label);
     b.type = 'button';
-    b.addEventListener('click', () => playGameNotes(block.notes, block.gap, block));
+    b.addEventListener('click', () => playGameEvs(block.evs));
     return b;
   }
 
