@@ -100,3 +100,23 @@
   .gu-row{grid-template-columns:1fr}
   .gu-act{grid-column:1}
 }
+
+/* ---------- 4. 古风两节（09 / 10）---------- */
+
+/* 八派卡片：新增「可量化判据」与「意象库」两栏。
+   判据用紫色——它是这一派唯一能拿数字说话的部分，得一眼能找到。 */
+.school .judge{
+  font-size:11.5px;color:var(--purple);line-height:1.7;margin-top:8px;
+  padding-top:7px;border-top:1px dashed var(--line);
+}
+.school .img{font-size:11.5px;color:var(--muted);line-height:1.75;margin-top:6px}
+.school .img b{color:var(--text)}
+/* 交叉引用（意象派那条「古风是外套不是本派专属」）：琥珀色，因为它是提醒不是禁令 */
+.school .extra{
+  font-size:11.5px;color:var(--amber);line-height:1.7;margin-top:8px;
+  padding:8px 10px;background:var(--amber-bg);border-radius:8px;
+}
+.school .extra a{color:var(--amber);text-decoration:underline}
+@media(max-width:820px){
+  .school .judge,.school .img,.school .extra{font-size:12px}
+}

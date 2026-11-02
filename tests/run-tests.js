@@ -120,6 +120,17 @@ async function withLyricPage(fn) {
   }
 }
 
+/** 互动课（game.html）专用：同一套装载流程，换入口文件。 */
+async function withGamePage(fn) {
+  const { dom, errors } = await loadPage('game.html');
+  try {
+    await fn(dom.window, dom.window.document);
+    assert.deepEqual(errors, [], '互动课页面执行期间不应有脚本错误');
+  } finally {
+    dom.window.close();
+  }
+}
+
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 /* -------------------------------------------------------------------------- *
@@ -2484,22 +2495,22 @@ test('E14 第 11 节 ⑨ 人声舒适音区：分区连续无缝，换声点落�
  * 第三条最容易写成"跑通就行"，所以两个方向都要测。
  * -------------------------------------------------------------------------- */
 
-test('L1 作词课装配：14 节导航 + 每张表都有行', async () => {
+test('L1 作词课装配：16 节导航 + 每张表都有行', async () => {
   await withLyricPage((w, d) => {
     /* 同 B1：排除 .navswitch 那条外链，只数章节锚点 */
     const links = [...d.querySelectorAll('#nav a[href^="#"]')];
     const sections = [...d.querySelectorAll('section')];
-    assert.equal(links.length, 14, '14 个导航链接');
-    assert.equal(sections.length, 14, '14 个 section');
+    assert.equal(links.length, 16, '16 个导航链接');
+    assert.equal(sections.length, 16, '16 个 section');
     for (const l of links) {
       const id = l.getAttribute('href').slice(1);
       assert.ok(d.getElementById(id), `导航目标 #${id} 应存在`);
     }
-    /* 与乐理课 B1 同一条守卫：节号必须 00–13 连续。
+    /* 与乐理课 B1 同一条守卫：节号必须 00–15 连续。
        插一节忘了顺延后面，只靠数 section 是查不出来的。 */
     assert.deepEqual(sections.map(s => s.querySelector('.sec-num').textContent),
-      ['00','01','02','03','04','05','06','07','08','09','10','11','12','13'],
-      '节号必须从 00 到 13 连续');
+      ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15'],
+      '节号必须从 00 到 15 连续');
 
     const rows = sel => d.querySelectorAll(sel).length;
     assert.equal(rows('#genreChips .chip'), 13, '13 个体裁');
@@ -2518,6 +2529,21 @@ test('L1 作词课装配：14 节导航 + 每张表都有行', async () => {
     assert.equal(rows('#schoolGrid .school li'), 24, '每派三条动作');
     assert.equal(rows('#symptomTable tr'), 8, '症状速查 8 行');
     assert.equal(rows('#frameTable tr'), 5, '五种框景');
+    assert.equal(rows('#gfFrameTable tr'), 3, '古风专属框景 3 个');
+    assert.equal(rows('#guofengChips .chip'), 3, '古风三型');
+    assert.equal(rows('#outerTable tr'), 4, '古风外套能套的四派');
+    assert.equal(rows('#clashTable tr'), 2, '古风两对冲突');
+    assert.equal(rows('#gfRuleTable tr'), 4, '古风四条硬纪律');
+    assert.equal(rows('#gfCatTable tr'), 8, '古风八类意象');
+    assert.equal(rows('#gfSeasonTable tr'), 4, '物候时序四季');
+    assert.equal(rows('#gfTrapTable tr'), 3, '物候三条最常踩');
+    assert.equal(rows('#gfHourTable tr'), 3, '时辰三条');
+    assert.equal(rows('#gfDentTable tr'), 4, '文言浓度配比四段');
+    assert.equal(rows('#gfCostTable tr'), 3, '文言浓度三重代价');
+    assert.equal(rows('#gfSentTable tr'), 6, '六种句法骨架');
+    assert.equal(rows('#gfFormulaTable tr'), 5, '五套公式化句式');
+    assert.equal(rows('#gfModernTable tr'), 2, '现代词与明喻词');
+    assert.equal(rows('#gfClinicTable tr'), 7, '古风四诊七行');
     assert.equal(rows('#banZhTable tr'), 6, '中文黑名单 6 类');
     assert.equal(rows('#banEnTable tr'), 3, '英文黑名单 3 类');
     assert.equal(rows('#fixTable tr'), 5, '改词五动作');
@@ -2720,5 +2746,205 @@ test('L6 术语与扩充表：英文名必须带释义、六组国风各八个�
     assert.equal(d.querySelectorAll('#personTable tr').length, 4);
     /* 英文释义必须真的显示出来，不能只存在数据里 */
     assert.match(d.querySelector('#rhymeTypeTable').textContent, /严丝合缝/);
+  });
+});
+
+test('L7 古风两节：三型三纪律八类意象、句法骨架、禁用清单、四诊，都要落到数据与页面上', async () => {
+  await withLyricPage((w, d) => {
+    const L = w.__LC__;
+
+    /* ① 三型：甲乙丙都要有语体、特征、适合谁、怎么认出这一型；
+       且**恰好一型是默认**——没有默认就等于每次都要重新问一遍。 */
+    assert.equal(L.GUOFENG_TYPES.length, 3, '古风三型');
+    const defs = L.GUOFENG_TYPES.filter(t => t.def);
+    assert.equal(defs.length, 1, '恰好一型是默认');
+    assert.equal(defs[0].k, '乙', '默认必须是乙（文白间杂，可唱性最好）');
+    L.GUOFENG_TYPES.forEach(t => {
+      assert.ok(t.voice && t.trait && t.who && t.pick && t.note, `${t.n} 五项都不能空`);
+    });
+
+    /* ② 古风是外套不是第九派：能套的四派 + 两对硬冲突 */
+    assert.equal(L.GUOFENG_OUTER.length, 4, '能套四派');
+    L.GUOFENG_OUTER.forEach(o => {
+      assert.ok(o.p && o.look && o.note, `${o.p} 三项都不能空`);
+      assert.ok(o.star >= 1 && o.star <= 3, `${o.p} 星级要在 1–3 之间`);
+    });
+    /* 口语派与概念派是硬冲突——这两条必须写出来，不然会有人真的那么写 */
+    assert.equal(L.GUOFENG_CLASH.length, 2, '两对冲突');
+    const clashTxt = L.GUOFENG_CLASH.map(c => c.a).join(' ');
+    assert.match(clashTxt, /口语派/, '必须点名口语派冲突');
+    assert.match(clashTxt, /概念派/, '必须点名概念派冲突');
+
+    /* ③ 四条硬纪律：编号连续、每条都要有"怎么做"与"典型错"。
+       纪律 4 的错指向下一节的禁用清单——两节要对得上。 */
+    assert.equal(L.GUOFENG_RULES.length, 4, '四条硬纪律');
+    L.GUOFENG_RULES.forEach((r, i) => {
+      assert.equal(r.n, `纪律 ${i + 1}`, `第 ${i + 1} 条编号必须是「纪律 ${i + 1}」`);
+      assert.ok(r.t && r.d && r.bad, `${r.n} 三项都不能空`);
+    });
+
+    /* ④ 八类意象：与 05 节那六组是**并存**的两套，分工不同——
+       所以两类之间不许出现同一批词，否则就是重复劳动。 */
+    assert.equal(L.GUOFENG_CATS.length, 8, '八类意象');
+    const catNames = L.GUOFENG_CATS.map(c => c.n);
+    assert.equal(new Set(catNames).size, 8, '八类不重名');
+    L.GUOFENG_CATS.forEach(c => {
+      assert.ok(c.ex && c.why, `${c.n} 必须写清可用意象与"为什么它管用"`);
+    });
+    assert.equal(L.GUOFENG_TAKE.length, 3, '三条取用纪律');
+
+    /* ⑤ 物候时序：四季必须齐全，且**每季都要有节日时点**——
+       少了节日那列，这张表就只剩花木，撑不起"一季到底"。 */
+    assert.equal(L.GUOFENG_SEASON.length, 4, '四季');
+    assert.deepEqual([...L.GUOFENG_SEASON.map(s => s.s)], ['春','夏','秋','冬'], '春夏秋冬');
+    L.GUOFENG_SEASON.forEach(s => {
+      assert.ok(s.m && s.plant && s.sky && s.fest, `${s.s} 季四列都不能空`);
+    });
+    /* 梅雨与雁南飞必须被标出来——这是 guofeng 里被点名批评过的两条 */
+    const summer = L.GUOFENG_SEASON.find(s => s.s === '夏');
+    const autumn = L.GUOFENG_SEASON.find(s => s.s === '秋');
+    assert.match(summer.sky, /梅雨/, '夏season必须点名梅雨');
+    assert.match(autumn.sky, /雁南飞/, '秋季必须点名雁南飞');
+    assert.equal(L.GUOFENG_TRAPS.length, 3, '三条最常踩');
+    assert.equal(L.GUOFENG_HOUR.length, 3, '时辰三条');
+
+    /* ⑥ 文言浓度：配比四段，且**三重代价必须齐全**——
+       少写「韵脚被埋」这一条，整节就只剩"文言=高级"的错觉。 */
+    assert.equal(L.GUOFENG_DENS.length, 4, '文言浓度配比四段');
+    const costNames = L.GUOFENG_COST.map(c => c.n);
+    assert.equal(L.GUOFENG_COST.length, 3, '文言浓度三重代价');
+    assert.ok(costNames.includes('难读难懂'), '必须讲难读难懂');
+    assert.ok(costNames.includes('韵脚被埋'), '必须讲韵脚被埋');
+    assert.ok(costNames.includes('可押的字变少'), '必须讲可押的字变少');
+    L.GUOFENG_COST.forEach(c => assert.ok(c.d && c.fix, `${c.n} 必须有原因与办法`));
+    /* 副歌的文言上限必须存在，且要明显低于主歌——这条是整个配比表的支点 */
+    const chorus = L.GUOFENG_DENS.find(d => d.p === '副歌');
+    const verse = L.GUOFENG_DENS.find(d => d.p === '主歌');
+    assert.ok(chorus && verse, '主歌与副歌都要有浓度区间');
+    assert.ok(/0–10%/.test(chorus.r), `副歌应是 0–10%，实际是 ${chorus.r}`);
+    assert.ok(/30–50%/.test(verse.r), `主歌应是 30–50%，实际是 ${verse.r}`);
+
+    /* ⑦ 六种句法骨架：给的是骨架不是句子——每条都要有句式与雷点。
+       骨架与雷点不能是同一句话，否则那不是雷点。 */
+    assert.equal(L.GUOFENG_SENT.length, 6, '六种句法骨架');
+    L.GUOFENG_SENT.forEach(s => {
+      assert.ok(s.n && s.s && s.d && s.warn, `${s.n} 四项都不能空`);
+      assert.notEqual(s.s, s.warn, `${s.n} 的句式与雷点不能是同一句`);
+    });
+
+    /* ⑧ 禁用清单：万能词必须限次（≤3 个且每个只用一次），
+       五套公式句必须五套齐，现代词与明喻词必须都禁。 */
+    assert.ok(L.GUOFENG_FILLER.length >= 20, '万能词至少二十个');
+    assert.equal(new Set(L.GUOFENG_FILLER).size, L.GUOFENG_FILLER.length, '万能词不许重复');
+    assert.equal(L.GUOFENG_FORMULA.length, 5, '五套公式化句式');
+    L.GUOFENG_FORMULA.forEach((f, i) => assert.ok(f.s && f.s.includes('['), `第 ${i + 1} 套必须写成可套的骨架`));
+    assert.ok(L.GUOFENG_MODERN.w.length >= 8, '现代词清单');
+    assert.ok(L.GUOFENG_MODERN.sim.no.includes('像'), '明喻词必须禁「像」');
+    assert.ok(L.GUOFENG_MODERN.sim.good, '明喻必须给替代写法');
+
+    /* ⑨ 四诊：每条症状都要有"真实问题"与"处置"——
+       只列症状不给处方的表，等于让人自己想办法。 */
+    assert.equal(L.GUOFENG_CLINIC.length, 7, '古风四诊七行');
+    L.GUOFENG_CLINIC.forEach(c => assert.ok(c.s && c.p && c.fix, `${c.s} 三项都不能空`));
+
+    /* ⑩ 古风专属框景三个，与通用五框景并存 */
+    assert.equal(L.GUOFENG_FRAME.length, 3, '古风专属框景三个');
+    L.GUOFENG_FRAME.forEach(f => assert.ok(f.n && f.d, `${f.n} 两项都不能空`));
+
+    /* ⑪ 物候强标志：四季都要有，且**不许跨季重复同一个词**——
+       同一个词出现在两季里，这张表就永远报不出错配。 */
+    const seasons = Object.keys(L.GF_SEASON_MARK);
+    assert.deepEqual([...seasons].sort(), ['冬','夏','秋','春'].sort(), '强标志必须覆盖四季');
+    const marks = Object.values(L.GF_SEASON_MARK).flat();
+    assert.equal(new Set(marks).size, marks.length, '强标志不许跨季重复');
+
+    /* ⑫ 页面上的引子与落点：代价表与「查得到」的说明必须真的写出来。
+       数据里有、页面上没有，等于没加。 */
+    assert.equal(d.querySelectorAll('#gfCostTable tr').length, 3, '三重代价表要画到页面上');
+    const gfSect = d.querySelector('#s-guofeng-craft');
+    assert.ok(gfSect, '第 10 节必须在');
+    assert.match(gfSect.textContent, /韵脚/, '第 10 节正文必须出现「韵脚」——这是新概念的主干');
+    assert.match(gfSect.textContent, /末字/, '必须讲清「韵脚落在分句末字上」这个机制');
+  });
+});
+
+test('L8 古风自检器：万能词、公式句、物候错配、韵脚被埋——只报嫌疑不判对错', async () => {
+  await withLyricPage((w, d) => {
+    const L = w.__LC__, scan = L.scanText;
+
+    /* ① 万能词：整首最多 3 个，且每个只能用一次。
+       两条阈值要分开查——「4 个不同的」和「1 个用了两遍」是两种错。 */
+    const many = scan('落花\n断肠\n似水流年\n天下\n千年');
+    assert.equal(many.gfFiller.length, 5, '五个万能词都该被数出来');
+    const rep = scan('落花\n落花又落花\n我数到第七个夜才承认');
+    assert.equal(rep.gfFiller.length, 1, '只应数出一个万能词');
+    assert.equal(rep.gfFiller[0].c, 3, '同一个万能词出现三次要数出来');
+    const clean = scan('把伞留在门口\n六楼的灯亮了又灭');
+    assert.equal(clean.gfFiller.length, 0, '干净的词不该撞万能词');
+
+    /* ② 公式句指纹：五套里能查的四套都要报。
+       ⚠ 只查特征词——纯结构型的一套查不了，所以这里只断言"能查的会报"。 */
+    assert.ok(scan('不过是一场浮生').gfFormula.length >= 1, '「不过是一场」要报');
+    assert.ok(scan('你说无错 我说无对 最后不过一场空').gfFormula.length >= 1, '「你说…我说…」要报');
+    assert.ok(scan('许我一场烟雨').gfFormula.length >= 1, '「许我一场」要报');
+    assert.equal(scan('把伞留在门口').gfFormula.length, 0, '干净的词不该撞公式句');
+
+    /* ③ 物候互斥：整首出现两个不同季的强标志物就要报。
+       guofeng 里那个真实反例（梅雨 + 杏花 + 蝉声）必须被抓到。 */
+    const mixed = scan('梅雨初歇 饮一杯春酒\n闲卧杏花前 听蝉声');
+    assert.ok(mixed.gfSeasons.length >= 2, '梅雨（夏）+ 杏花（春）必须报跨季');
+    const one = scan('杏花开了\n我还在那条巷子口');
+    assert.equal(one.gfSeasons.length, 1, '只一季不该报跨季');
+    assert.equal(one.gfSeasons[0].s, '春', '认得出是春');
+
+    /* ④ 韵脚被埋（本轮新增的核心判据）：
+       韵只能落在分句末字上，文言虚词占了末字，那个位置就押不了韵。
+       这条是「文言浓度高 → 韵词大量减少」唯一能量的一环。 */
+    const buried = scan('思君令人老\n岁月忽已晚兮\n山有木兮');
+    assert.ok(buried.gfClauses >= 3, '分句数要数出来');
+    assert.equal(buried.gfBuried.length, 2, '两个以兮结尾的分句要被认出来');
+    assert.ok(buried.gfBuried.every(x => x === '兮'), '认出来的必须是文言虚词');
+    const free = scan('把伞留在门口\n六楼的灯亮了又灭');
+    assert.equal(free.gfBuried.length, 0, '白话句不该有末字被埋');
+    assert.equal(free.gfClauses, free.lines.length, '白话的分句数应等于行数');
+
+    /* ⑤ 文言虚词表本身：必须是高辨识度的那几个，且**不能含易误报的字**。
+       「者」「夫」「其」「所」「且」这些现代汉语还在用，放进来就是误报源。 */
+    ['之','乎','也','矣','焉','兮','哉','耳','尔'].forEach(x => {
+      assert.ok(L.GF_CLASSIC_END.includes(x), `文言虚词表应含「${x}」`);
+    });
+    ['者','夫','其','所','且','乃','为','以'].forEach(x => {
+      assert.ok(!L.GF_CLASSIC_END.includes(x),
+        `「${x}」在现代汉语里仍在用，放进末字虚词表会大量误报`);
+    });
+
+    /* ⑥ 这些机检只报嫌疑——页面上必须写明这一点，
+       否则就是"脚本查过了"的谎话。 */
+    const checkSect = d.querySelector('#s-check');
+    assert.ok(checkSect, '自检节必须在');
+    assert.match(checkSect.textContent, /只报嫌疑/, '必须写明「只报嫌疑，不判对错」');
+    assert.match(checkSect.textContent, /不判对错|不查/, '必须写明判不了的那几条');
+
+    /* ⑦ UI 层：阈值必须真的报到页面上。
+       「万能词 ≤3 个」是这一节的核心阈值——只在数据层数对不够，
+       页面上没报，等于这个阈值根本不存在。 */
+    const inp = d.querySelector('#scanIn'), btn = d.querySelector('#scanBtn');
+    const hit = () => btn.dispatchEvent(new w.MouseEvent('click', { bubbles:true }));
+    inp.value = '落花\n断肠\n似水流年\n天下\n千年';
+    hit();
+    let out = d.querySelector('#scanOut').textContent;
+    assert.match(out, /万能词 5 个/, '超限的万能词必须在页面上报出来');
+    assert.match(out, /上限 3/, '要写清上限是多少');
+    /* 同一个词用两次也要报（"整首最多 3 个"是两个阈值，不是一个） */
+    inp.value = '落花\n落花又落花\n把伞留在门口';
+    hit();
+    out = d.querySelector('#scanOut').textContent;
+    assert.match(out, /万能词重复/, '同一个万能词重复出现要报');
+    /* 干净的词不该报任何嫌疑 */
+    inp.value = '把伞留在门口\n六楼的灯亮了又灭';
+    hit();
+    out = d.querySelector('#scanOut').textContent;
+    assert.match(out, /没撞上这四类/, '干净的词不该报古风嫌疑');
+    assert.match(out, /韵脚空间完整/, '白话词的韵脚空间应该是完整的');
   });
 });

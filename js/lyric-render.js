@@ -180,11 +180,14 @@ function buildSchools(){
       <h4>${s.n}<span class="force ${cls}">${lab}</span></h4>
       <div class="core">${s.core}</div>
       <ol>${s.acts.map(a => `<li>${a}</li>`).join('')}</ol>
+      ${s.img ? `<div class="img"><b>意象库</b>：${s.img}</div>` : ''}
       <div class="io">
         <span class="yes">适合</span> ${s.yes}<br>
         <span class="no">不适合</span> ${s.no}
       </div>
+      <div class="judge">可量化判据：${s.judge}</div>
       <div class="bad">会写坏成：${s.bad}</div>
+      ${s.extra ? `<div class="extra">${s.extra}</div>` : ''}
     </div>`;
   }).join('');
 
@@ -196,12 +199,152 @@ function buildSchools(){
   }
 }
 
-/* ---------- 08 框景 ---------- */
+/* ---------- 09 古风三型与纪律 ---------- */
+
+/* 三型选择器：点一下看这一型的语体、特征、适合谁。
+ * 默认落在乙（文白间杂）——可唱性最好，也是"没说清楚"时的安全答案。 */
+function renderGuofengType(i){
+  const p = $('#guofengPanel');
+  if (!p) return;
+  const t = GUOFENG_TYPES[i];
+  p.innerHTML = `
+    <div class="gname">${t.k} · ${t.n}${t.def ? ' <span class="pill">默认</span>' : ''}</div>
+    <div class="grow">
+      <div style="flex:1;min-width:250px">
+        <div class="mini" style="line-height:1.85">
+          <b>语体</b>：${t.voice}<br>
+          <b>特征</b>：${t.trait}<br>
+          <b>适合谁</b>：${t.who}<br>
+          <b>怎么认出这一型</b>：${t.pick}
+        </div>
+      </div>
+      <div class="gmeta"><div style="margin-top:2px">${t.note}</div></div>
+    </div>`;
+}
+
+function buildGuofeng(){
+  const box = $('#guofengChips');
+  if (!box) return;
+  GUOFENG_TYPES.forEach((t, i) => {
+    const b = document.createElement('button');
+    b.className = 'chip' + (t.def ? ' on' : '');
+    b.textContent = t.k + ' · ' + t.n;
+    b.onclick = () => {
+      $$('#guofengChips .chip').forEach(c => c.classList.remove('on'));
+      b.classList.add('on');
+      renderGuofengType(i);
+    };
+    box.appendChild(b);
+  });
+  renderGuofengType(GUOFENG_TYPES.findIndex(t => t.def));
+
+  /* 古风外套能套哪四派——星级与 01 节体裁表用的是同一套记法 */
+  const outer = $('#outerTable');
+  if (outer) outer.innerHTML = GUOFENG_OUTER.map(o => `<tr>
+    <td><b>${o.p}</b></td>
+    <td class="mini">${starN(o.star)}</td>
+    <td class="mini">${o.look}</td>
+    <td class="mini" style="color:var(--faint)">${o.note}</td></tr>`).join('');
+
+  const clash = $('#clashTable');
+  if (clash) clash.innerHTML = GUOFENG_CLASH.map(c => `<tr>
+    <td class="mini"><b class="v-bad">${c.a}</b></td>
+    <td class="mini">${c.d}</td></tr>`).join('');
+
+  const rules = $('#gfRuleTable');
+  if (rules) rules.innerHTML = GUOFENG_RULES.map(r => `<tr>
+    <td><b>${r.n}</b></td>
+    <td><b>${r.t}</b></td>
+    <td class="mini">${r.d}</td>
+    <td class="mini" style="color:var(--red)">✗ ${r.bad}</td></tr>`).join('');
+
+  const cats = $('#gfCatTable');
+  if (cats) cats.innerHTML = GUOFENG_CATS.map(c => `<tr>
+    <td><b>${c.n}</b></td>
+    <td class="mini">${c.ex}</td>
+    <td class="mini" style="color:var(--faint)">${c.why}</td></tr>`).join('');
+
+  const take = $('#gfTakeList');
+  if (take) take.innerHTML = GUOFENG_TAKE.map((t, i) => `${i + 1}. ${t}`).join('<br>');
+}
+
+/* ---------- 10 古风手艺 ---------- */
+function buildGuofengCraft(){
+  const season = $('#gfSeasonTable');
+  if (season) season.innerHTML = GUOFENG_SEASON.map(s => `<tr>
+    <td><b>${s.s}</b></td>
+    <td class="mini mono">${s.m}</td>
+    <td class="mini">${s.plant}</td>
+    <td class="mini">${s.sky}</td>
+    <td class="mini">${s.fest}</td></tr>`).join('');
+
+  const traps = $('#gfTrapTable');
+  if (traps) traps.innerHTML = GUOFENG_TRAPS.map(t => `<tr>
+    <td class="mini"><b>${t.n}</b></td>
+    <td class="mini">${t.d}</td></tr>`).join('');
+
+  const hours = $('#gfHourTable');
+  if (hours) hours.innerHTML = GUOFENG_HOUR.map(h => `<tr>
+    <td class="mini"><b>${h.n}</b></td>
+    <td class="mini">${h.t}</td></tr>`).join('');
+
+  const dens = $('#gfDentTable');
+  if (dens) dens.innerHTML = GUOFENG_DENS.map(d => `<tr>
+    <td><b>${d.p}</b></td>
+    <td class="mini mono">${d.r}</td>
+    <td class="mini">${d.why}</td></tr>`).join('');
+
+  const cost = $('#gfCostTable');
+  if (cost) cost.innerHTML = GUOFENG_COST.map(c => `<tr>
+    <td><b>${c.n}</b></td>
+    <td class="mini">${c.d}</td>
+    <td class="mini">${c.fix}</td></tr>`).join('');
+
+  const sent = $('#gfSentTable');
+  if (sent) sent.innerHTML = GUOFENG_SENT.map(s => `<tr>
+    <td><b>${s.n}</b></td>
+    <td class="mini mono" style="font-size:12px">${s.s}</td>
+    <td class="mini">${s.d}${s.ex ? `<br><span style="color:var(--purple)">${s.ex}</span>` : ''}</td>
+    <td class="mini" style="color:var(--red)">✗ ${s.warn}</td></tr>`).join('');
+
+  const filler = $('#gfFillerBox');
+  if (filler) filler.innerHTML = GUOFENG_FILLER.map(w => `<span class="pill">${w}</span>`).join(' ');
+
+  const formula = $('#gfFormulaTable');
+  if (formula) formula.innerHTML = GUOFENG_FORMULA.map((f, i) => `<tr>
+    <td class="mono">✗ ${i + 1}</td>
+    <td class="mini mono" style="font-size:12px">${f.s}</td></tr>`).join('');
+
+  const modern = $('#gfModernTable');
+  if (modern) modern.innerHTML = `
+    <tr><td><b>现代词</b></td>
+      <td class="mini">${GUOFENG_MODERN.w.join(' · ')}</td>
+      <td class="mini">${GUOFENG_MODERN.d}</td></tr>
+    <tr><td><b>明喻词</b></td>
+      <td class="mini">${GUOFENG_MODERN.sim.no.join(' · ')}</td>
+      <td class="mini">${GUOFENG_MODERN.sim.d}<br>
+        <span style="color:var(--red)">✗ ${GUOFENG_MODERN.sim.bad}</span><br>
+        <span style="color:var(--teal)">✓ ${GUOFENG_MODERN.sim.good}</span></td></tr>`;
+
+  const clinic = $('#gfClinicTable');
+  if (clinic) clinic.innerHTML = GUOFENG_CLINIC.map(c => `<tr>
+    <td><b>${c.s}</b></td>
+    <td class="mini">${c.p}</td>
+    <td class="mini">${c.fix}</td></tr>`).join('');
+}
+
+/* ---------- 11 框景 ---------- */
 function buildFrames(){
   const t = $('#frameTable');
   if (!t) return;
   t.innerHTML = FRAMES.map((f, i) => `<tr>
     <td class="mono">${i + 1}</td><td><b>${f.n}</b></td>
+    <td class="mini">${f.d}</td></tr>`).join('');
+
+  /* 古风专用三框景：与上面五个并存，不是替换关系 */
+  const gf = $('#gfFrameTable');
+  if (gf) gf.innerHTML = GUOFENG_FRAME.map(f => `<tr>
+    <td><b>${f.n}</b></td>
     <td class="mini">${f.d}</td></tr>`).join('');
 }
 
@@ -304,7 +447,43 @@ function scanText(text){
   });
   const hooks = lines.filter(l => l.n >= 3 && l.n <= 10);
 
-  return { lines, total, longest, short, banHits, abs, hooks };
+  /* ---- 古风三项机检 ----
+   * ① 万能词超限与重复：整首最多 3 个，且每个只能用一次
+   * ② 五套公式句指纹：查的是特征词，完整句式查不了
+   * ③ 物候互斥：整首出现两个不同季的强标志物
+   *
+   * ⚠ 这三项**只负责把嫌疑摆出来，不负责判断对错**。
+   *   古风判据里真正决定好坏的那几条（文言浓度、四字短语数、单句意象数、
+   *   用典是否需注释、每个意象是否真在干活）脚本一律不查。 */
+  const gfFiller = [];
+  GUOFENG_FILLER.forEach(w => {
+    const c = ((text || '').match(new RegExp(w, 'g')) || []).length;
+    if (c) gfFiller.push({ w, c });
+  });
+
+  const gfFormula = [];
+  GF_FORMULA_MARK.forEach(m => {
+    if ((text || '').match(m.re)) gfFormula.push({ id: m.id, d: m.d });
+  });
+
+  const gfSeasons = [];
+  Object.keys(GF_SEASON_MARK).forEach(s => {
+    const ws = GF_SEASON_MARK[s].filter(w => (text || '').indexOf(w) >= 0);
+    if (ws.length) gfSeasons.push({ s, ws });
+  });
+
+  /* ④ 韵脚被埋：韵只能落在**分句的末字**上，而文言虚词最爱占这个位置。
+   * 这是「文言浓度高 → 难懂 → 韵词大量减少」那条链上唯一能数的一环，
+   * 也是本课唯一能给出"你还有几个位置真能押韵"的地方。 */
+  const clauses = (text || '').split(/[\s，。！？；、,.!?;]+/).filter(Boolean);
+  const buried = [];
+  clauses.forEach(c => {
+    const last = c[c.length - 1];
+    if (GF_CLASSIC_END.indexOf(last) >= 0) buried.push(last);
+  });
+
+  return { lines, total, longest, short, banHits, abs, hooks,
+           gfFiller, gfFormula, gfSeasons, gfClauses: clauses.length, gfBuried: buried };
 }
 
 function renderScan(){
@@ -349,6 +528,29 @@ function renderScan(){
   html += row('钩子', r.hooks.length
     ? ok(`${r.hooks.length} 句落在 3–10 字`) + ` <span class="scan-stat">「${r.hooks[0].s}」</span>`
     : warn('没有 3–10 字的独立句：副歌可能缺一句能记住的话'));
+
+  /* 韵脚空间：这一栏是"文言浓度高 → 韵词大量减少"那条链上唯一能量的一环。
+     韵只能落在分句末字上；文言虚词占了末字，那个位置就押不了韵。 */
+  const bur = r.gfBuried.length;
+  html += row('韵脚空间', r.gfClauses
+    ? (bur
+        ? warn(`${r.gfClauses} 个分句里只剩 <b>${r.gfClauses - bur} 个能押韵</b>——`
+          + `${bur} 个末字是文言虚词（${r.gfBuried.join('、')}），那些位置押不了`)
+        : ok(`${r.gfClauses} 个分句，末字都没被文言虚词占住，韵脚空间完整`))
+    : '—');
+
+  /* 古风三项：只报嫌疑，不判对错。
+     万能词有两个阈值——种类 ≤3 个，且每个只能用一次。 */
+  const gfBad = [];
+  if (r.gfFiller.length > 3) gfBad.push(`万能词 ${r.gfFiller.length} 个（上限 3 个）`);
+  const rep = r.gfFiller.filter(f => f.c > 1);
+  if (rep.length) gfBad.push(`万能词重复：${rep.map(f => f.w + '×' + f.c).join('、')}`);
+  if (r.gfFormula.length) gfBad.push(`公式句指纹：${r.gfFormula.map(f => f.d).join('；')}`);
+  if (r.gfSeasons.length > 1)
+    gfBad.push(`物候跨季：${r.gfSeasons.map(x => x.s + '（' + x.ws.join('·') + '）').join(' / ')}`);
+  html += row('古风嫌疑', gfBad.length
+    ? warn(gfBad.join('；'))
+    : ok('没撞上这四类——但文言浓度、四字短语数、单句意象数、用典是否需注释，仍要人读'));
 
   html += row('不查的事', '<span class="mini">押韵（要拼音与韵母归并，人耳更快）· '
     + '画面是否成立 · 主歌二有没有真的发展 —— 这三条只能人读</span>');

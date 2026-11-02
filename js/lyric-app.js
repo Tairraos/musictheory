@@ -28,7 +28,7 @@ function toast(m){
  *   js/app.js       → 乐理课
  *   js/lyric-app.js → 作词课
  * tests/bump-version.js 一次写两处，两页永远同版。 */
-const VERSION = { v: '1.35', date: '26.11.01' };
+const VERSION = { v: '1.36', date: '26.11.02' };
 
 function applyVersion(){
   const label = `V${VERSION.v} [${VERSION.date}]`;
@@ -38,7 +38,9 @@ function applyVersion(){
 
 /* ---------- 启动装配 ---------- */
 buildGenres(); buildRhyme(); buildCN(); buildEN(); buildImage();
-buildParts(); buildHooks(); buildSchools(); buildFrames(); buildBan();
+buildParts(); buildHooks(); buildSchools();
+buildGuofeng(); buildGuofengCraft();
+buildFrames(); buildBan();
 buildFix(); buildAlbum(); buildCheck();
 wrapTables();   /* 窄屏表格横滑：与乐理课同一套做法，见 css/main.css 第 21 节 */
 applyVersion();
@@ -82,4 +84,11 @@ window.__LC__ = {
   /* 05/06 的三张新表：L6 要守「七种修辞只有两种层级」「六组国风各八个词」
      「段落九行、人称四种」这几条——数量对不上就是数据加了文案没跟 */
   RHETORIC, GUFENG, PARTS, PERSON,
+  /* 09/10 两节古风：L7 要守「三型三纪律」「八类意象」「六种句法」
+     「七条四诊」以及「自检器只报嫌疑不判对错」 */
+  GUOFENG_TYPES, GUOFENG_OUTER, GUOFENG_CLASH, GUOFENG_RULES,
+  GUOFENG_CATS, GUOFENG_TAKE, GUOFENG_SEASON, GUOFENG_TRAPS, GUOFENG_HOUR,
+  GUOFENG_SENT, GUOFENG_DENS, GUOFENG_COST, GUOFENG_FILLER, GUOFENG_FORMULA,
+  GUOFENG_MODERN, GUOFENG_CLINIC, GUOFENG_FRAME,
+  GF_SEASON_MARK, GF_FORMULA_MARK, GF_CLASSIC_END,
 };
