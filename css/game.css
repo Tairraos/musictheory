@@ -83,23 +83,23 @@ p{margin:0}
 .chapter-body{padding:0 8px 8px;border-top:1px solid var(--line)}
 .page-row{
   width:100%;min-height:56px;margin:8px 0;padding:12px 10px;border:1px solid var(--line);border-radius:14px;
-  display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:10px;
+  display:grid;grid-template-columns:34px minmax(0,1fr);align-items:center;gap:10px;
   background:#fff;cursor:pointer;text-align:left;
 }
 .page-index{color:var(--faint);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
 .page-title{font-weight:500;overflow-wrap:anywhere}
-.page-status{color:var(--muted);font-size:13px;white-space:nowrap}
-.state-completed .page-status{color:var(--ok)}
-.state-skipped .page-status{color:var(--amber)}
+/* 状态不用文字说：完成＝浅绿底，跳过＝淡化 */
+.page-row.state-completed{background:var(--ok-bg);border-color:#C9E0D2}
+.page-row.state-skipped{opacity:.62}
 
 .player-view{padding-top:18px}
 .player-nav{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;margin-bottom:10px}
 .player-nav span{text-align:center;color:var(--muted);font-size:14px}
 .player-progress{margin-bottom:16px}
-.lesson-card{padding:22px 18px 20px;border:1px solid var(--line);border-radius:22px;background:var(--surface);box-shadow:var(--shadow)}
+.lesson-card{padding:22px 18px 20px;border:1px solid var(--line);border-radius:22px;background:var(--surface);box-shadow:var(--shadow);transition:background .3s,border-color .3s}
+.lesson-card.done{background:var(--ok-bg);border-color:#BFDCC9}
 .lesson-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
 .lesson-title-row h1{font-size:clamp(27px,7vw,36px)}
-.state-pill{flex:none;margin-top:8px;padding:2px 9px;border-radius:99px;background:var(--surface-2);color:var(--muted);font-size:13px}
 .goal{margin-top:8px;color:var(--muted);font-size:16px}
 .page-blocks{margin-top:22px;display:grid;gap:16px}
 .game-text{font-size:17px;line-height:1.85;overflow-wrap:anywhere}
@@ -122,6 +122,7 @@ p{margin:0}
 }
 .audio-card:active{transform:translateY(1px)}
 .task-card{margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.task-card.no-line{margin-top:14px;padding-top:0;border-top:0}
 .task-card h2{font-size:19px;margin-bottom:14px}
 .choice-list{display:grid;gap:10px}
 .choice-option{
@@ -177,10 +178,7 @@ p{margin:0}
   .course-stats{grid-template-columns:1fr}
   .lesson-card{padding:20px 14px}
   .lesson-title-row{display:block}
-  .state-pill{display:inline-block;margin:8px 0 0}
   .answer-row{grid-template-columns:1fr}
-  .page-row{grid-template-columns:30px minmax(0,1fr);min-height:58px}
-  .page-status{grid-column:2;font-size:12px}
   .bottom-nav{grid-template-columns:1fr 1.35fr}
 }
 

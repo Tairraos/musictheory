@@ -51,7 +51,7 @@ function renderGameBlock(block){
   if (block.type === 'audio'){
     const b = el('button', 'audio-card', '▶ ' + block.label);
     b.type = 'button';
-    b.addEventListener('click', () => playGameNotes(block.notes, block.gap));
+    b.addEventListener('click', () => playGameNotes(block.notes, block.gap, block));
     return b;
   }
 
@@ -146,12 +146,8 @@ function renderGameTask(task, onResult){
     box.append(area, btn, out);
   }
 
-  if (task.type === 'action'){
-    const btn = el('button', 'primary-action', task.label || '我完成了');
-    btn.type = 'button';
-    btn.addEventListener('click', () => onResult(evaluateTask(task, true)));
-    box.append(btn);
-  }
+  /* action 类任务（纯阅读页）不再渲染任何按钮或提示：
+   * 停留满 40 秒由 game-app.js 自动记为已完成，避免多余的按钮和心智负担。 */
 
   return box;
 }

@@ -2972,6 +2972,8 @@ test('P1 互动课配置：由当前教程生成、可校验、页量充足且�
 
   GAME_CONFIG.pages.forEach(p => {
     assert.ok(p.blocks.length, `${p.id} 至少一个内容块`);
+    assert.ok(p.blocks.some(b => b.type !== 'heading'),
+      `${p.id} 不能只有标题——动态表格页必须等页面渲染完成后再抽取`);
     p.blocks.forEach(b => {
       assert.ok(!b.html, `${p.id} 不允许 raw HTML`);
       if (b.type === 'text' || b.type === 'tip') assert.ok(b.text, `${p.id} 文本块不能为空`);
@@ -3001,25 +3003,34 @@ test('P2 互动课内核：判题、跳过与进度状态机', () => {
     'choice 答错不该算完成');
 });
 
-test('P3 互动课播放器：首页、开页、下一页与跳过都可点', async () => {
+test('P3 互动课播放器：首页、开页、停留完成与跳过都可走', async () => {
   await withGamePage((w, d) => {
     const G = w.__GAME__;
     assert.equal(d.querySelectorAll('.course-stat').length, 2, '首页要有两门课');
     assert.ok(d.querySelector('.chapter-card'), '首页要按章节分组');
+    assert.equal(d.querySelector('#pageState'), null, '状态 pill 已移除，完成与否只看底色');
+    assert.equal(d.querySelector('.page-status'), null, '目录行不再写"已完成/看过"');
 
     const first = G.config.pages[0];
     G.openPage(first.id);
     assert.equal(d.querySelector('#playerView').hidden, false, '开页后要显示播放器');
     assert.equal(d.querySelector('#playerTitle').textContent, first.title, '标题要来自配置');
-    assert.equal(d.querySelectorAll('#pageBlocks > *').length, first.blocks.length, '内容块要全部渲染');
-    assert.ok(d.querySelector('#taskBox .primary-action'), '当前 action 页要有可点完成按钮');
+    const shouldHideGoal = !first.goal || first.goal === first.title ||
+      first.blocks.some(b => (b.text || '') === first.goal);
+    assert.equal(d.querySelector('#playerGoal').hidden, shouldHideGoal,
+      '副标题与大标题或正文重复时要隐藏');
+    assert.ok(!d.querySelector('#taskBox .primary-action'), '阅读页不再渲染"我读完了"按钮');
 
-    d.querySelector('#taskBox .primary-action').click();
-    assert.equal(G.progress.pages[first.id], 'completed', '点完成后要记为 completed');
+    assert.equal(G.progress.pages[first.id], 'seen', '开页先记为看过');
+    assert.equal(G.dwellMs, 40000, '阅读页停留 40 秒视为读完');
+    G.fireDwell();
+    assert.equal(G.progress.pages[first.id], 'completed', '停留满 40 秒要自动记为 completed');
+    assert.ok(d.querySelector('.lesson-card').classList.contains('done'), '完成后卡片底色变浅绿');
 
     d.querySelector('#nextBtn').click();
     const second = G.config.pages[1];
     assert.equal(G.currentPageId, second.id, '下一页要进入第二页');
+    assert.ok(!d.querySelector('.lesson-card').classList.contains('done'), '新开一页不沿用上一页的完成底色');
 
     d.querySelector('#skipBtn').click();
     assert.equal(G.progress.pages[second.id], 'skipped', '跳过要记成 skipped');

@@ -15,7 +15,7 @@
 
 const fs = require('node:fs');
 const path = require('node:path');
-const { JSDOM } = require('jsdom');
+const { JSDOM, VirtualConsole } = require('jsdom');
 
 const ROOT = path.join(__dirname, '..');
 const OUT = path.join(ROOT, 'js/game-data.js');
@@ -39,10 +39,21 @@ const PLAY_DEMOS = {
   penta: { label: '五声音阶', notes: [60, 62, 64, 67, 69, 72], gap: 0.3 },
   pentaAdd: { label: '五声 + fa', notes: [60, 62, 64, 65, 67, 69, 72], gap: 0.3 },
   pentaAdd7: { label: '五声 + si', notes: [60, 62, 64, 67, 69, 71, 72], gap: 0.3 },
-  thirdOnly: { label: '三音对比', notes: [60, 64, 63], gap: 0.6 }
+  thirdOnly: { label: '三音对比', notes: [60, 64, 63], gap: 0.6 },
+  /* 节奏对比组：lead = 第一音前的静默；clicks = 节拍点时刻（游戏里用高音短音模拟）
+   * 弱起/切分的关键是"相对拍点偏了"，没有拍点对比就听不出差别，所以必须带 click。 */
+  anacrusisNo: { label: '正拍进（踩点）', notes: [60, 62, 64, 65, 67, 65, 64, 62], gap: 0.4, lead: 1.6,
+    clicks: Array.from({ length: 13 }, (_, i) => i * 0.4) },
+  anacrusis: { label: '弱起进（抢拍）', notes: [60, 62, 64, 65, 67, 65, 64, 62], gap: 0.4, lead: 1.4,
+    clicks: Array.from({ length: 13 }, (_, i) => i * 0.4) },
+  straight: { label: '正拍（踩点）', notes: [60, 60, 62, 62, 64, 64, 65, 65], gap: 0.4, lead: 0,
+    clicks: Array.from({ length: 9 }, (_, i) => i * 0.4) },
+  sync: { label: '切分（落在两点之间）', notes: [60, 60, 62, 62, 64, 64, 65, 65], gap: 0.4, lead: 0.2,
+    clicks: Array.from({ length: 9 }, (_, i) => i * 0.4) }
 };
 
 function textOf(el){ return ((el && el.textContent) || '').replace(/\s+/g, ' ').trim(); }
+function hasClass(el, name){ const cls = String(el.className || ''); return cls.split(/\s+/).includes(name); }
 function firstSentence(s){
   const t = String(s || '').trim();
   if (!t) return '';
@@ -51,23 +62,87 @@ function firstSentence(s){
 }
 function shrink(s, n){ s = String(s || '').trim(); return s.length > n ? s.slice(0, n - 1) + '…' : s; }
 
+/* 教程页很多表格和卡片是 JS 装配出来的；配置必须等页面跑完再抽，
+ * 否则就会抽出“只有标题”的空页。 */
+async function loadRenderedDoc(file){
+  const vc = new VirtualConsole();
+  vc.on('jsdomError', e => {
+    const msg = String(e && e.detail && e.detail.message || e && e.message || e);
+    if (!/Not implemented/i.test(msg)) console.warn(`[${file}]`, msg);
+  });
+  const dom = await JSDOM.fromFile(path.join(ROOT, file), {
+    runScripts: 'dangerously',
+    resources: 'usable',
+    pretendToBeVisual: true,
+    virtualConsole: vc,
+    beforeParse(window){
+      const param = () => ({
+        value: 0,
+        setValueAtTime(){}, linearRampToValueAtTime(){},
+        exponentialRampToValueAtTime(){}, setTargetAtTime(){},
+        cancelScheduledValues(){},
+      });
+      const node = () => ({ connect(){}, disconnect(){} });
+      class StubAudioContext {
+        constructor(){
+          this.currentTime = 0; this.state = 'running'; this.sampleRate = 44100;
+          this.destination = node();
+        }
+        resume(){ return Promise.resolve(); }
+        createGain(){ return Object.assign(node(), { gain: param() }); }
+        createBiquadFilter(){ return Object.assign(node(), { type:'', frequency:param(), Q:param() }); }
+        createDynamicsCompressor(){ return Object.assign(node(), { threshold:param(), ratio:param(), knee:param(), attack:param(), release:param() }); }
+        createOscillator(){ return Object.assign(node(), { type:'', frequency:param(), detune:param(), start(){}, stop(){} }); }
+        createBufferSource(){ return Object.assign(node(), { buffer:null, loop:false, start(){}, stop(){} }); }
+        createBuffer(ch, len){ return { getChannelData: () => new Float32Array(len) }; }
+      }
+      window.AudioContext = StubAudioContext;
+      window.webkitAudioContext = StubAudioContext;
+    },
+  });
+  await new Promise(resolve => {
+    if (dom.window.document.readyState === 'complete') return resolve();
+    dom.window.addEventListener('load', resolve, { once: true });
+  });
+  return dom.window.document;
+}
+
+const SKIP_TAGS = new Set([
+  'SCRIPT','STYLE','SVG','SELECT','INPUT','TEXTAREA','NAV','ASIDE','FOOTER',
+  'LINK','META','IFRAME','CANVAS','AUDIO','VIDEO','HR','SUP','SUB'
+]);
+const NOTE_CLASSES = /(^|\s)(note|termnote)(\s|$)/;
+
+/* 纯函数式抽取：遍历 childNodes，把散落的文本节点也收进来。
+ * 教程卡片里大量说明文字直接写在 div / b / span 里，
+ * 只看元素子节点会把它们整段丢掉——这正是"空内容页"的另一半根因。 */
 function blocksFrom(container){
   const out = [];
+  let pending = '';
+  const flush = () => {
+    const t = pending.replace(/\s+/g, ' ').trim();
+    if (t) out.push({ type:'text', text:t });
+    pending = '';
+  };
+
   const visit = node => {
+    if (node.nodeType === 3){ pending += node.textContent + ' '; return; }
     if (node.nodeType !== 1) return;
+    flush();
     const el = node;
     const tag = el.tagName.toLowerCase();
-    const cls = el.className || '';
 
-    if (['SCRIPT','STYLE','SVG','SELECT','INPUT','TEXTAREA','NAV','ASIDE','FOOTER','BUTTON'].includes(tag) && tag !== 'BUTTON') return;
-    if (tag === 'svg') return;
+    if (SKIP_TAGS.has(el.tagName)) return;
     if (el.closest && el.closest('.kb,#nav,#dock,.pageswitch,#toast')) return;
 
     if (tag === 'button'){
       const k = el.dataset.play;
       if (k && PLAY_DEMOS[k]){
         const d = PLAY_DEMOS[k];
-        out.push({ type:'audio', label: textOf(el).replace(/^[▶\s]+/, '') || d.label, notes:d.notes, gap:d.gap });
+        const blk = { type:'audio', label: textOf(el).replace(/^[▶\s]+/, '') || d.label, notes:d.notes, gap:d.gap };
+        if (d.lead != null) blk.lead = d.lead;
+        if (d.clicks) blk.clicks = d.clicks;
+        out.push(blk);
       }
       return;
     }
@@ -82,30 +157,24 @@ function blocksFrom(container){
       if (items.length) out.push({ type:'list', ordered: tag === 'ol', items });
       return;
     }
-    if (tag === 'p'){
-      const text = textOf(el);
-      if (!text) return;
-      out.push({ type: /(^|\s)note(\s|$)/.test(cls) ? 'tip' : 'text', text });
-      return;
-    }
-    if (tag === 'h3' || tag === 'h4'){
+    if (tag === 'h3' || tag === 'h4' || tag === 'h5' || tag === 'h6'){
       const text = textOf(el);
       if (text) out.push({ type:'heading', level: tag === 'h3' ? 3 : 4, text });
       return;
     }
-    /* 继续下钻容器；跳过明显只服务教程交互的容器 */
-    if (/^(kb|grid2|grid3|row|termnote)$/.test(cls) && tag === 'div'){
-      [...el.children].forEach(visit);
+    /* 说明框整段收成 tip（p.note / div.note / div.termnote 都算） */
+    if (tag === 'p' || NOTE_CLASSES.test(el.className || '')){
+      const text = textOf(el);
+      if (text) out.push({ type: NOTE_CLASSES.test(el.className || '') ? 'tip' : 'text', text });
       return;
     }
-    [...el.children].forEach(visit);
-    /* 纯文本兜底：有些卡片把说明直接写在 div 里 */
-    if (out.length === 0){
-      const text = textOf(el);
-      if (text) out.push({ type:'text', text });
-    }
+    /* 其余容器继续下钻；文本节点已由 visit 顶部接住 */
+    [...el.childNodes].forEach(visit);
+    flush();
   };
-  [...container.children].forEach(visit);
+
+  [...container.childNodes].forEach(visit);
+  flush();
   return out;
 }
 
@@ -119,10 +188,8 @@ function makeTask(page){
   return { type:'action', prompt:'读完这一页后过页', label:'我读完了', explain:'先看懂再往下走；卡住了就跳过，进度不会因此清零。' };
 }
 
-function buildCourse({ file, course, title, short, intro, accent }){
-  const html = fs.readFileSync(path.join(ROOT, file), 'utf8');
-  const dom = new JSDOM(html);
-  const doc = dom.window.document;
+async function buildCourse({ file, course, title, short, intro, accent }){
+  const doc = await loadRenderedDoc(file);
   const sections = [...doc.querySelectorAll('section')];
   const pages = [];
   let order = 0;
@@ -150,7 +217,9 @@ function buildCourse({ file, course, title, short, intro, accent }){
       }
     }
 
-    [...sec.querySelectorAll(':scope > .card')].forEach((card, ci) => {
+    /* 卡片不一定是 section 的直接子级（有的包在排版 div 里），
+     * 要收全部 .card，但只收最外层，避免嵌套卡片重复出页。 */
+    [...sec.querySelectorAll('.card')].filter(card => !card.parentElement.closest('.card')).forEach((card, ci) => {
       const h3 = card.querySelector('h3');
       const cardTitle = textOf(h3) || `${secTitle} · ${ci + 1}`;
       const blocks = blocksFrom(card);
@@ -171,8 +240,9 @@ function buildCourse({ file, course, title, short, intro, accent }){
   return { id: course, title, short, intro, accent, pages };
 }
 
-function buildConfig(){
-  const courses = SOURCES.map(buildCourse);
+async function buildConfig(){
+  const courses = [];
+  for (const src of SOURCES) courses.push(await buildCourse(src));
   const pages = courses.flatMap(c => c.pages);
   return {
     schemaVersion: 1,
@@ -201,6 +271,17 @@ return ${JSON.stringify(config, null, 2)};
 `;
 }
 
-const config = buildConfig();
-fs.writeFileSync(OUT, serialize(config), 'utf8');
-console.log(`已生成 ${path.relative(ROOT, OUT)}：${config.courses.length} 门课 / ${config.pages.length} 页`);
+(async () => {
+  const config = await buildConfig();
+  fs.writeFileSync(OUT, serialize(config), 'utf8');
+  console.log(`已生成 ${path.relative(ROOT, OUT)}：${config.courses.length} 门课 / ${config.pages.length} 页`);
+
+  /* 体检：不允许"只剩标题"的空页再溜进配置 */
+  const empty = config.pages.filter(p => !p.blocks.some(b => b.type !== 'heading'));
+  if (empty.length){
+    console.error(`警告：仍有 ${empty.length} 页只有标题没有内容：\n  ${empty.map(p => p.id).join('\n  ')}`);
+    process.exitCode = 1;
+  } else {
+    console.log('体检通过：每一页都有标题之外的内容块。');
+  }
+})().catch(err => { console.error(err); process.exit(1); });

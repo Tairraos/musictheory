@@ -5,7 +5,7 @@
  *       页面内容只从 COURSE_CONFIG 取；本文件不复制任何知识点文案。
  * ========================================================================== */
 
-const VERSION = { v: '1.38', date: '26.11.02' };
+const VERSION = { v: '1.39', date: '26.11.02' };
 const PROGRESS_KEY = 'jiedi-course-progress-v1';
 
 const memoryStorage = (() => {
@@ -35,8 +35,23 @@ function applyVersion(){
 
 function saveProgress(){ progress = progressStore.save(config, progress); }
 function pageState(id){ return progress.pages[id] || ''; }
-function statusLabel(state){ return { completed: '已完成', skipped: '已跳过', seen: '看过' }[state] || '未开始'; }
-function statusMark(state){ return { completed: '✓', skipped: '↷', seen: '•' }[state] || '·'; }
+
+/* 阅读页不打分：停留 40 秒即视为读完，靠页面变浅绿做视觉反馈 */
+const DWELL_MS = 40000;
+let dwellTimer = null;
+function clearDwell(){ if (dwellTimer){ clearTimeout(dwellTimer); dwellTimer = null; } }
+function updateDoneVisual(id){
+  const card = document.querySelector('.lesson-card');
+  if (card) card.classList.toggle('done', pageState(id) === 'completed');
+}
+function fireDwell(){
+  clearDwell();
+  const id = currentPageId;
+  if (!id || pageState(id) === 'completed') return;
+  progress = markPage(config, progress, id, 'completed');
+  saveProgress();
+  updateDoneVisual(id);
+}
 
 function setView(name){
   $('#homeView').hidden = name !== 'home';
@@ -52,6 +67,7 @@ function courseOf(id){ return config.courses.find(c => c.id === id); }
 
 function renderHome(){
   stopGameAudio();
+  clearDwell();
   currentPageId = null;
   setView('home');
   setHash('#home');
@@ -118,8 +134,7 @@ function renderHome(){
         row.type = 'button';
         row.append(
           el('span', 'page-index', String(i + 1).padStart(2, '0')),
-          el('span', 'page-title', p.title),
-          el('span', 'page-status', statusMark(state) + ' ' + statusLabel(state))
+          el('span', 'page-title', p.title)
         );
         row.addEventListener('click', () => {
           currentCourse = c.id;
@@ -150,16 +165,15 @@ function ensureSeen(id){
 function renderPageHeader(page, index, total){
   $('#playerKicker').textContent = `${courseOf(page.course).title} · ${page.chapter}`;
   $('#playerTitle').textContent = page.title;
-  $('#playerGoal').textContent = page.goal;
   $('#playerCount').textContent = `${index + 1} / ${total}`;
   $('#playerProgress').style.width = Math.round(((index + 1) / total) * 100) + '%';
-  $('#pageState').textContent = statusLabel(pageState(page.id));
 }
 
 function openPage(id){
   const page = config.pages[pageIndex(config, id)];
   if (!page) return renderHome();
   stopGameAudio();
+  clearDwell();
   currentCourse = page.course;
   currentPageId = id;
   ensureSeen(id);
@@ -170,6 +184,14 @@ function openPage(id){
   const idx = pages.findIndex(p => p.id === id);
   renderPageHeader(page, idx, pages.length);
 
+  /* 副标题只在"有别的话要说"时出现：
+   * 和大标题一样、或和正文里某段一字不差，就不再占一行。 */
+  const goalEl = $('#playerGoal');
+  const goal = page.goal || '';
+  const goalDup = !goal || goal === page.title || page.blocks.some(b => (b.text || '') === goal);
+  goalEl.hidden = goalDup;
+  goalEl.textContent = goal;
+
   const body = $('#pageBlocks');
   body.innerHTML = '';
   page.blocks.forEach(b => body.append(renderGameBlock(b)));
@@ -178,20 +200,35 @@ function openPage(id){
   if (firstHeading && firstHeading.textContent === page.title) firstHeading.remove();
 
   const taskBox = $('#taskBox');
-  taskBox.innerHTML = '';
   const feedback = $('#feedback');
-  feedback.textContent = '完成后会自动记录；卡住了也可以直接跳过。';
-  feedback.className = 'feedback';
-  taskBox.append(renderGameTask(page.task, result => {
-    feedback.textContent = result.message;
-    feedback.classList.toggle('ok', !!result.ok);
-    feedback.classList.toggle('bad', !result.ok);
-    if (result.ok){
-      progress = markPage(config, progress, id, 'completed');
-      saveProgress();
-      $('#pageState').textContent = '已完成';
-    }
-  }));
+  taskBox.innerHTML = '';
+  updateDoneVisual(id);
+
+  if (page.task.type === 'action'){
+    /* 阅读页不需要"我读完了"：停留满 40 秒自动记为已完成，底色变浅绿 */
+    feedback.hidden = true;
+    feedback.textContent = '';
+    feedback.className = 'feedback';
+    dwellTimer = setTimeout(fireDwell, DWELL_MS);
+  } else {
+    feedback.hidden = false;
+    feedback.textContent = '完成后会自动记录；卡住了也可以直接跳过。';
+    feedback.className = 'feedback';
+    const card = renderGameTask(page.task, result => {
+      feedback.textContent = result.message;
+      feedback.classList.toggle('ok', !!result.ok);
+      feedback.classList.toggle('bad', !result.ok);
+      if (result.ok){
+        progress = markPage(config, progress, id, 'completed');
+        saveProgress();
+        updateDoneVisual(id);
+      }
+    });
+    /* 页尾是表格时，任务区不再补一条分隔线（表格自己有底线） */
+    const last = page.blocks[page.blocks.length - 1];
+    if (last && last.type === 'table') card.classList.add('no-line');
+    taskBox.append(card);
+  }
 
   $('#prevBtn').disabled = !adjacentPage(config, id, -1);
   $('#nextBtn').textContent = adjacentPage(config, id, 1) ? '下一页' : '回到目录';
@@ -248,9 +285,11 @@ window.__GAME__ = {
   get version(){ return VERSION; },
   get progress(){ return progress; },
   get currentPageId(){ return currentPageId; },
+  get dwellMs(){ return DWELL_MS; },
   config,
   openPage,
   renderHome,
+  fireDwell,
   validateCourseConfig,
   evaluateTask,
   pagesForCourse,

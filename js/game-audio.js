@@ -15,17 +15,23 @@ function stopGameAudio(){
   if (typeof killBuses === 'function') killBuses();
 }
 
-function playGameNotes(notes, gap){
+function playGameNotes(notes, gap, extra){
   if (typeof voice !== 'function' || typeof ac !== 'function' || typeof newBus !== 'function') return;
   const list = (notes || []).filter(n => Number.isInteger(n));
   if (!list.length) return;
+  const lead = Math.max(0, (extra && extra.lead) || 0);
+  const clicks = (extra && Array.isArray(extra.clicks)) ? extra.clicks : null;
   stopGameAudio();
   const A = ac();
   const start = A.currentTime + 0.08;
   const step = Math.max(0.05, gap || 0.5);
-  const bus = newBus((list.length * step + 2) * 1000);
+  const total = lead + list.length * step + (clicks ? (clicks[clicks.length - 1] + step) : 0) + 1;
+  const bus = newBus(total * 1000);
+  /* 节拍点：高音、极短、很轻——弱起/切分这类"相对拍点偏了"的演示，
+   * 没有拍点对比就听不出差别。 */
+  if (clicks) clicks.forEach(ct => voice(96, start + ct, 0.06, 0.14, 'piano', bus));
   list.forEach((m, i) => {
-    voice(m, start + i * step, Math.min(0.9, step * 0.9), 0.42, 'piano', bus);
+    voice(m, start + lead + i * step, Math.min(0.9, step * 0.9), 0.42, 'piano', bus);
   });
 }
 
