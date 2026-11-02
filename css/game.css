@@ -1,0 +1,191 @@
+/* ==========================================================================
+ * 《姐弟厨师团》 · 互动课样式（css/game.css）
+ * --------------------------------------------------------------------------
+ * 手机优先独立版式。刻意不复用教程页的 A4 宽版规则：
+ * 第一约束是 320px 宽也好读、好按，而不是把桌面页面等比缩小。
+ * ========================================================================== */
+:root{
+  --bg:#F7F4EC;
+  --surface:#FFFEFA;
+  --surface-2:#F0EDE4;
+  --text:#292721;
+  --muted:#706C61;
+  --faint:#989384;
+  --line:#DED9CB;
+  --purple:#534AB7;
+  --purple-bg:#EEEDFE;
+  --amber:#9A5B13;
+  --amber-bg:#FAEEDA;
+  --ok:#237A46;
+  --ok-bg:#E4F4E8;
+  --bad:#A53D35;
+  --bad-bg:#FBECEA;
+  --shadow:0 8px 24px rgba(49,45,34,.08);
+}
+*{box-sizing:border-box}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  color:var(--text);
+  background:var(--bg);
+  font:400 17px/1.7 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  overflow-x:hidden;
+}
+button,input,textarea{font:inherit;color:inherit}
+button{-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+
+.topbar{
+  position:sticky;top:0;z-index:10;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  min-height:64px;padding:10px max(18px,env(safe-area-inset-left)) 10px max(18px,env(safe-area-inset-right));
+  background:rgba(247,244,236,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(10px);
+}
+.brand{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;min-width:0}
+.brand-mark{
+  width:38px;height:38px;border-radius:12px;display:grid;place-items:center;flex:none;
+  color:#fff;background:var(--purple);font-weight:600;
+}
+.brand b{display:block;font-size:17px;line-height:1.25}
+.brand small{display:block;color:var(--muted);font-size:12px;line-height:1.3}
+.ver{color:var(--muted);font-size:13px;white-space:nowrap;font-style:italic}
+.ver b{font-weight:600}
+
+#gameRoot{width:min(820px,100%);margin:0 auto;padding:0 18px 32px}
+.home-hero{padding:36px 0 26px}
+.eyebrow{margin:0 0 8px;color:var(--purple);font-size:14px;font-weight:600;letter-spacing:.04em}
+h1{margin:0;font-size:clamp(28px,7vw,42px);line-height:1.18;letter-spacing:-.03em}
+h2{margin:0;font-size:20px;line-height:1.35}
+h3,h4{margin:0;line-height:1.4}
+p{margin:0}
+.home-hero p:last-child{max-width:680px;margin-top:14px;color:var(--muted);font-size:17px}
+
+.course-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:8px 0 28px}
+.course-stat{padding:20px;border:1px solid var(--line);border-radius:20px;background:var(--surface);box-shadow:var(--shadow)}
+.course-stat h2{margin-bottom:6px}
+.course-stat p{color:var(--muted);font-size:15px;line-height:1.6}
+.progress-line{margin-top:14px;color:var(--muted);font-size:14px}
+.progress-track,.player-progress{height:7px;border-radius:99px;background:var(--surface-2);overflow:hidden}
+.progress-track{margin:10px 0 14px}
+.progress-track i,.player-progress i{display:block;height:100%;width:0;background:var(--purple);border-radius:inherit;transition:width .2s}
+.accent-amber .progress-track i{background:var(--amber)}
+
+.course-lists{display:grid;gap:22px}
+.course-list{padding:6px 0}
+.course-list h2{margin-bottom:12px}
+.chapter-card{margin:10px 0;border:1px solid var(--line);border-radius:16px;background:var(--surface);overflow:hidden}
+.chapter-head{
+  width:100%;min-height:58px;padding:12px 14px;border:0;background:transparent;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;
+}
+.chapter-title{font-weight:500;overflow-wrap:anywhere}
+.chapter-meta{color:var(--muted);font-size:13px;white-space:nowrap}
+.chapter-body{padding:0 8px 8px;border-top:1px solid var(--line)}
+.page-row{
+  width:100%;min-height:56px;margin:8px 0;padding:12px 10px;border:1px solid var(--line);border-radius:14px;
+  display:grid;grid-template-columns:34px minmax(0,1fr) auto;align-items:center;gap:10px;
+  background:#fff;cursor:pointer;text-align:left;
+}
+.page-index{color:var(--faint);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+.page-title{font-weight:500;overflow-wrap:anywhere}
+.page-status{color:var(--muted);font-size:13px;white-space:nowrap}
+.state-completed .page-status{color:var(--ok)}
+.state-skipped .page-status{color:var(--amber)}
+
+.player-view{padding-top:18px}
+.player-nav{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;margin-bottom:10px}
+.player-nav span{text-align:center;color:var(--muted);font-size:14px}
+.player-progress{margin-bottom:16px}
+.lesson-card{padding:22px 18px 20px;border:1px solid var(--line);border-radius:22px;background:var(--surface);box-shadow:var(--shadow)}
+.lesson-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.lesson-title-row h1{font-size:clamp(27px,7vw,36px)}
+.state-pill{flex:none;margin-top:8px;padding:2px 9px;border-radius:99px;background:var(--surface-2);color:var(--muted);font-size:13px}
+.goal{margin-top:8px;color:var(--muted);font-size:16px}
+.page-blocks{margin-top:22px;display:grid;gap:16px}
+.game-text{font-size:17px;line-height:1.85;overflow-wrap:anywhere}
+.game-heading{font-size:20px;font-weight:600}
+.game-heading + .game-text{margin-top:-6px}
+.game-tip{display:grid;gap:3px;padding:13px 14px;border-radius:14px;background:var(--purple-bg);color:#373183}
+.game-tip span{font-size:15px;line-height:1.6}
+.game-list{margin:0;padding-left:22px;display:grid;gap:8px}
+.game-list li{overflow-wrap:anywhere}
+.table-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.game-table{width:100%;border-collapse:collapse;font-size:15px;min-width:420px}
+.game-table th,.game-table td{
+  padding:10px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;overflow-wrap:anywhere;
+}
+.game-table th{color:var(--muted);font-weight:500;white-space:nowrap}
+.audio-card,.choice-option,.page-row,.primary-action,.secondary-action,.ghost-action{touch-action:manipulation;user-select:none}
+.audio-card{
+  width:100%;min-height:52px;padding:14px 16px;border:1px solid #B9B2E7;border-radius:15px;background:#F7F6FF;color:#3D3691;
+  text-align:left;cursor:pointer;font-weight:500;
+}
+.audio-card:active{transform:translateY(1px)}
+.task-card{margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.task-card h2{font-size:19px;margin-bottom:14px}
+.choice-list{display:grid;gap:10px}
+.choice-option{
+  width:100%;min-height:50px;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#fff;
+  text-align:left;cursor:pointer;line-height:1.45;
+}
+.choice-option.picked{border-color:var(--purple);background:var(--purple-bg)}
+.choice-option.ok{border-color:#83B895;background:var(--ok-bg);color:var(--ok)}
+.choice-option.bad{border-color:#D79B96;background:var(--bad-bg);color:var(--bad)}
+.choice-option:disabled{opacity:.76;cursor:default}
+.answer-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}
+.answer-row input{width:100%;min-height:50px;padding:10px 13px;border:1px solid var(--line);border-radius:13px;background:#fff;font-size:18px}
+.answer-row input.ok{border-color:var(--ok);background:var(--ok-bg)}
+.answer-row input.bad{border-color:var(--bad);background:var(--bad-bg)}
+.sequence-status{min-height:28px;margin-bottom:12px;color:var(--muted);font-size:15px;overflow-wrap:anywhere}
+.scan-input{width:100%;min-height:112px;margin-bottom:10px;padding:13px;border:1px solid var(--line);border-radius:14px;background:#fff;line-height:1.7;resize:vertical}
+.scan-result{margin-top:10px;padding:11px 12px;border-radius:12px;background:var(--surface-2);color:var(--muted);font-size:15px;white-space:pre-line}
+.scan-result.ok{background:var(--ok-bg);color:var(--ok)}
+.scan-result.warn{background:var(--amber-bg);color:var(--amber)}
+.feedback{min-height:52px;margin-top:14px;color:var(--muted);font-size:15px;white-space:pre-line}
+.feedback.ok{color:var(--ok)}
+.feedback.bad{color:var(--bad)}
+
+.primary-action,.secondary-action,.ghost-action{min-height:46px;padding:10px 16px;border-radius:13px;cursor:pointer;font-weight:500}
+.primary-action{border:1px solid var(--purple);background:var(--purple);color:#fff}
+.secondary-action{border:1px solid var(--line);background:var(--surface);color:var(--text)}
+.ghost-action{border:1px solid transparent;background:transparent;color:var(--muted)}
+.primary-action:active,.secondary-action:active,.ghost-action:active{transform:translateY(1px)}
+.primary-action:disabled,.secondary-action:disabled{opacity:.42;cursor:not-allowed;transform:none}
+.bottom-nav{
+  position:sticky;bottom:0;z-index:8;display:grid;grid-template-columns:1fr 1.5fr;gap:10px;
+  padding:12px 0 max(12px,env(safe-area-inset-bottom));background:linear-gradient(rgba(247,244,236,0),var(--bg) 24%);
+}
+.bottom-nav button{min-height:52px;font-size:17px}
+.game-footer{
+  width:min(820px,100%);margin:0 auto;padding:10px 18px 30px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  color:var(--faint);font-size:13px;
+}
+.game-footer button{border:0;background:transparent;color:var(--muted);font-size:13px;text-decoration:underline;cursor:pointer}
+#toast{
+  position:fixed;left:50%;bottom:calc(82px + env(safe-area-inset-bottom));transform:translate(-50%,12px);z-index:30;
+  max-width:min(420px,calc(100vw - 40px));padding:10px 16px;border-radius:12px;background:#2B2924;color:#fff;font-size:15px;
+  opacity:0;pointer-events:none;transition:.18s;
+}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+.config-error{margin:24px 0;padding:16px;border-radius:14px;background:var(--bad-bg);color:var(--bad);white-space:pre-line}
+
+@media (max-width:560px){
+  .topbar{min-height:58px;padding-top:8px;padding-bottom:8px}
+  .brand small{display:none}
+  .ver{font-size:12px}
+  #gameRoot{padding-left:14px;padding-right:14px}
+  .course-stats{grid-template-columns:1fr}
+  .lesson-card{padding:20px 14px}
+  .lesson-title-row{display:block}
+  .state-pill{display:inline-block;margin:8px 0 0}
+  .answer-row{grid-template-columns:1fr}
+  .page-row{grid-template-columns:30px minmax(0,1fr);min-height:58px}
+  .page-status{grid-column:2;font-size:12px}
+  .bottom-nav{grid-template-columns:1fr 1.35fr}
+}
+
+@media (min-width:720px){
+  #gameRoot,.game-footer{width:min(820px,100%)}
+  .lesson-card{padding:30px}
+  .player-view{padding-top:24px}
+}

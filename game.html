@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F7F4EC">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="assets/images/favicon.ico" sizes="any">
+<link rel="icon" href="assets/images/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/images/favicon.png">
+<title>姐弟厨师团 --- 互动课 V1.38 [26.11.02]</title>
+<link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#home" aria-label="回到互动课首页">
+    <span class="brand-mark">姐</span>
+    <span><b>互动课</b><small>一个知识点一页</small></span>
+  </a>
+  <span class="ver" data-ver><b>V1.38</b> [26.11.02]</span>
+</header>
+
+<main id="gameRoot">
+  <section id="homeView" class="home-view">
+    <div class="home-hero">
+      <p class="eyebrow">配置驱动的学习游戏</p>
+      <h1>把乐理和作词，一页一页玩过去。</h1>
+      <p>每页只处理一个知识点。可以慢慢读，可以听演示，也可以直接跳过；进度只保存在这台设备上。</p>
+    </div>
+    <div id="courseStats" class="course-stats"></div>
+    <div id="courseLists" class="course-lists"></div>
+  </section>
+
+  <section id="playerView" class="player-view" hidden>
+    <nav class="player-nav" aria-label="课程页面导航">
+      <button id="backBtn" class="ghost-action" type="button">← 目录</button>
+      <span id="playerCount">1 / 1</span>
+      <button id="skipBtn" class="ghost-action" type="button">跳过本页</button>
+    </nav>
+    <div class="player-progress" aria-hidden="true"><i id="playerProgress"></i></div>
+
+    <article class="lesson-card">
+      <p id="playerKicker" class="eyebrow"></p>
+      <div class="lesson-title-row">
+        <h1 id="playerTitle"></h1>
+        <span id="pageState" class="state-pill">未开始</span>
+      </div>
+      <p id="playerGoal" class="goal"></p>
+      <div id="pageBlocks" class="page-blocks"></div>
+      <div id="taskBox"></div>
+      <p id="feedback" class="feedback" aria-live="polite"></p>
+    </article>
+
+    <nav class="bottom-nav" aria-label="上一页和下一页">
+      <button id="prevBtn" class="secondary-action" type="button">上一页</button>
+      <button id="nextBtn" class="primary-action" type="button">下一页</button>
+    </nav>
+  </section>
+</main>
+
+<footer class="game-footer">
+  <span class="ver" data-ver><b>V1.38</b> [26.11.02]</span>
+  <button id="resetBtn" type="button">清空当前课程进度</button>
+</footer>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/utils.js"></script>
+<script src="js/game-data.js"></script>
+<script src="js/game-core.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/game-audio.js"></script>
+<script src="js/game-render.js"></script>
+<script src="js/game-app.js"></script>
+</body>
+</html>

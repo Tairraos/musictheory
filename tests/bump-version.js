@@ -6,21 +6,21 @@
  *
  * 约定（用户 2026-10-19 定，2026-10-30 扩到两页）：
  *   每次有实质改动 → 版本号递增（1.23 → 1.24 → …），日期同步改成当天。
- *   **两页共用同一个版本号**：它们是一次更新同时交付的；标签页上显示两个
+ *   **全部课程页共用同一个版本号**：它们是一次更新同时交付的；标签页上显示多个
  *   版本号只会让人怀疑"我是不是没刷新"。
- *   每页的真源是它自己的入口文件（app.js / lyric-app.js）里的 VERSION 常量，
+ *   每页的真源是它自己的入口文件（app.js / lyric-app.js / game-app.js）里的 VERSION 常量，
  *   另外三处（<title> 与两个 data-ver 静态副本）必须与它一致，
  *   否则同一页在不同状态下会显示不同版本。
  *
  * 这个脚本检查三件事：
  *   1. 每页四处版本号是否一致（不一致直接报错并列出该改哪几行）
- *   2. 两页之间版本号是否相同
+ *   2. 各课程页之间版本号是否相同
  *   3. 相对上次提交，版本号是否递增（漏升版本时提醒，不阻断——
  *      纯文档改动可以显式 SKIP_VERSION_BUMP=1 跳过）
  *
  * 用法：
  *   node tests/bump-version.js                 # 自检（CI / 提交前跑）
- *   node tests/bump-version.js --write 1.24    # 一键把两页所有地方改成新版本号
+ *   node tests/bump-version.js --write 1.38    # 一键把所有课程页改成新版本号
  * ========================================================================== */
 'use strict';
 
@@ -37,6 +37,7 @@ const write = (p, s) => fs.writeFileSync(path.join(ROOT, p), s);
 const PAGES = [
   { page: 'index.html', app: 'js/app.js',       title: '姐弟厨师团 --- 乐理课' },
   { page: 'lyric.html', app: 'js/lyric-app.js', title: '姐弟厨师团 --- 作词课' },
+  { page: 'game.html',  app: 'js/game-app.js',  title: '姐弟厨师团 --- 互动课' },
 ];
 
 const RE_VERSION = /const VERSION = \{ v: '([\d.]+)', date: '([\d.]+)' \};/;
@@ -44,7 +45,7 @@ const RE_VERSION = /const VERSION = \{ v: '([\d.]+)', date: '([\d.]+)' \};/;
 const RE_VER_HTML = /(<[a-z]+ class="[^"]*\bver\b[^"]*" data-ver>)<b>V[\d.]+<\/b> \[[\d.]+\]/g;
 
 /* --------------------------------------------------------------------------
- * 1. --write：把两页所有地方统一改成新版本号（日期默认今天，格式 YY.MM.DD）
+ * 1. --write：把所有课程页统一改成新版本号（日期默认今天，格式 YY.MM.DD）
  * ------------------------------------------------------------------------ */
 const writeIdx = process.argv.indexOf('--write');
 if (writeIdx > -1) {
@@ -103,7 +104,7 @@ if (writeIdx > -1) {
 }
 
 /* --------------------------------------------------------------------------
- * 2. 自检：每页四处一致 + 两页之间一致 + 是否相对上次提交递增
+ * 2. 自检：每页四处一致 + 各课程页之间一致 + 是否相对上次提交递增
  * ------------------------------------------------------------------------ */
 const problems = [];
 let ver = null, date = null;
@@ -115,7 +116,7 @@ for (const P of PAGES) {
   if (!vm) { problems.push(`${P.app} 里找不到 VERSION 常量`); continue; }
   const [v, dt] = [vm[1], vm[2]];
   if (ver === null) { ver = v; date = dt; }
-  else if (v !== ver) problems.push(`两页版本号不一致：${P.page} 是 V${v}，另有页面是 V${ver}`);
+  else if (v !== ver) problems.push(`课程页版本号不一致：${P.page} 是 V${v}，另有页面是 V${ver}`);
 
   /* <title> */
   const title = html.match(/<title>([^<]*)<\/title>/);

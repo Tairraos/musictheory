@@ -120,6 +120,17 @@ async function withLyricPage(fn) {
   }
 }
 
+/** 互动课（game.html）专用：同一套装载流程，换入口文件。 */
+async function withGamePage(fn) {
+  const { dom, errors } = await loadPage('game.html');
+  try {
+    await fn(dom.window, dom.window.document);
+    assert.deepEqual(errors, [], '互动课页面执行期间不应有脚本错误');
+  } finally {
+    dom.window.close();
+  }
+}
+
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 /* -------------------------------------------------------------------------- *
@@ -2935,5 +2946,98 @@ test('L8 古风自检器：万能词、公式句、物候错配、韵脚被埋�
     out = d.querySelector('#scanOut').textContent;
     assert.match(out, /没撞上这四类/, '干净的词不该报古风嫌疑');
     assert.match(out, /韵脚空间完整/, '白话词的韵脚空间应该是完整的');
+  });
+});
+
+/* -------------------------------------------------------------------------- *
+ * P. 互动课（game.html）：配置完整性、进度、播放器与音频
+ *    互动课的内容不是手写在 HTML 里，而是从当前教程抽成配置；
+ *    所以这里守的是"配置层不坏 + 播放器可用"，不是复刻教程长文。
+ * -------------------------------------------------------------------------- */
+
+const GAME_CONFIG = require('../js/game-data.js');
+const GAME_CORE = require('../js/game-core.js');
+
+test('P1 互动课配置：由当前教程生成、可校验、页量充足且不混入 raw HTML', () => {
+  const errors = GAME_CORE.validateCourseConfig(GAME_CONFIG);
+  assert.deepEqual(errors, [], '互动课配置必须通过完整校验');
+
+  assert.equal(GAME_CONFIG.schemaVersion, 1, '配置 schema 版本必须是 1');
+  assert.ok(GAME_CONFIG.pages.length >= 120,
+    `互动课应从两课卡片抽出足够页量，实际 ${GAME_CONFIG.pages.length}`);
+  GAME_CONFIG.courses.forEach(c => {
+    const n = GAME_CONFIG.pages.filter(p => p.course === c.id).length;
+    assert.ok(n >= 40, `${c.title} 至少 40 页，实际 ${n}`);
+  });
+
+  GAME_CONFIG.pages.forEach(p => {
+    assert.ok(p.blocks.length, `${p.id} 至少一个内容块`);
+    p.blocks.forEach(b => {
+      assert.ok(!b.html, `${p.id} 不允许 raw HTML`);
+      if (b.type === 'text' || b.type === 'tip') assert.ok(b.text, `${p.id} 文本块不能为空`);
+      if (b.type === 'table') assert.ok(b.rows.length, `${p.id} 表格不能为空`);
+      if (b.type === 'list') assert.ok(b.items.length, `${p.id} 列表不能为空`);
+      if (b.type === 'audio') assert.ok(b.notes.length, `${p.id} 音频块必须有音`);
+    });
+  });
+});
+
+test('P2 互动课内核：判题、跳过与进度状态机', () => {
+  const page = GAME_CONFIG.pages[0];
+  const raw = { version: 1, pages: { [page.id]: 'completed' }, lastByCourse: {} };
+  const clean = GAME_CORE.normalizeProgress(GAME_CONFIG, raw);
+  assert.equal(clean.pages[page.id], 'completed', '合法状态应保留');
+
+  const next = GAME_CORE.markPage(GAME_CONFIG, clean, page.id, 'skipped');
+  assert.equal(next.pages[page.id], 'skipped', '跳过要单独记录，不能覆盖成失败');
+  assert.equal(next.lastByCourse[page.course], page.id, '最后位置要记下');
+
+  const stats = GAME_CORE.courseStats(GAME_CONFIG, next, page.course);
+  assert.equal(stats.skipped, 1, '课程统计要把跳过单独算出来');
+
+  const action = { type: 'action', label: '我读完了', explain: 'ok' };
+  assert.equal(GAME_CORE.evaluateTask(action, true).ok, true, 'action 页不卡进度');
+  assert.equal(GAME_CORE.evaluateTask({ type:'choice', options:['a','b'], answer:1 }, 0).ok, false,
+    'choice 答错不该算完成');
+});
+
+test('P3 互动课播放器：首页、开页、下一页与跳过都可点', async () => {
+  await withGamePage((w, d) => {
+    const G = w.__GAME__;
+    assert.equal(d.querySelectorAll('.course-stat').length, 2, '首页要有两门课');
+    assert.ok(d.querySelector('.chapter-card'), '首页要按章节分组');
+
+    const first = G.config.pages[0];
+    G.openPage(first.id);
+    assert.equal(d.querySelector('#playerView').hidden, false, '开页后要显示播放器');
+    assert.equal(d.querySelector('#playerTitle').textContent, first.title, '标题要来自配置');
+    assert.equal(d.querySelectorAll('#pageBlocks > *').length, first.blocks.length, '内容块要全部渲染');
+    assert.ok(d.querySelector('#taskBox .primary-action'), '当前 action 页要有可点完成按钮');
+
+    d.querySelector('#taskBox .primary-action').click();
+    assert.equal(G.progress.pages[first.id], 'completed', '点完成后要记为 completed');
+
+    d.querySelector('#nextBtn').click();
+    const second = G.config.pages[1];
+    assert.equal(G.currentPageId, second.id, '下一页要进入第二页');
+
+    d.querySelector('#skipBtn').click();
+    assert.equal(G.progress.pages[second.id], 'skipped', '跳过要记成 skipped');
+  });
+});
+
+test('P4 互动课音频与表格：真实块能渲染、音频能触发而不报错', async () => {
+  await withGamePage((w, d) => {
+    const G = w.__GAME__;
+
+    const audioPage = G.config.pages.find(p => p.blocks.some(b => b.type === 'audio'));
+    assert.ok(audioPage, '配置里至少要有一页带音频');
+    G.openPage(audioPage.id);
+    d.querySelector('#pageBlocks .audio-card').click();
+
+    const tablePage = G.config.pages.find(p => p.blocks.some(b => b.type === 'table'));
+    assert.ok(tablePage, '配置里至少要有一页带表格');
+    G.openPage(tablePage.id);
+    assert.ok(d.querySelector('#pageBlocks .table-scroll .game-table'), '表格要套横滑层');
   });
 });
