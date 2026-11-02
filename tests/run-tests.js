@@ -120,17 +120,6 @@ async function withLyricPage(fn) {
   }
 }
 
-/** 互动课（game.html）专用：同一套装载流程，换入口文件。 */
-async function withGamePage(fn) {
-  const { dom, errors } = await loadPage('game.html');
-  try {
-    await fn(dom.window, dom.window.document);
-    assert.deepEqual(errors, [], '互动课页面执行期间不应有脚本错误');
-  } finally {
-    dom.window.close();
-  }
-}
-
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 /* -------------------------------------------------------------------------- *
