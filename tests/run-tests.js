@@ -3001,10 +3001,29 @@ test('P1 互动课配置：由当前教程生成、可校验、页量充足且�
   });
 
   /* 教程里能点出声的演示必须成建制地捕获进来——这是"讲到哪儿就能听到哪儿"的底线。
-   * 目前教程渲染后有 80+ 个演示，低于 60 说明捕获链路坏了。 */
+   * 目前教程渲染后 130+ 个演示（含六个进行的整条播放），低于 110 说明捕获链路坏了。 */
   const audioBlocks = GAME_CONFIG.pages.flatMap(p => p.blocks.filter(b => b.type === 'audio'));
-  assert.ok(audioBlocks.length >= 60,
-    `音频演示应成建制捕获（教程现有 80+ 个），实际 ${audioBlocks.length}`);
+  assert.ok(audioBlocks.length >= 110,
+    `音频演示应成建制捕获（教程现有 130+ 个），实际 ${audioBlocks.length}`);
+
+  /* 散字页守卫：一页出现 ≥3 个 ≤4 字的孤立 text 块 = JS 装配的图被拆成散字
+   * （与生成器末尾的体检同一口径；生成器会拦，这里防有人绕过生成器直改 game-data） */
+  const scattered = GAME_CONFIG.pages
+    .map(p => ({ id: p.id, hits: p.blocks.filter(b => b.type === 'text' && b.text.length <= 4).map(b => b.text) }))
+    .filter(x => x.hits.length >= 3);
+  assert.deepEqual(scattered, [], `不允许散字页：${JSON.stringify(scattered)}`);
+
+  /* 和弦块条守卫：六个和弦进行 + 终止式面板都是"格子图 + 整条播放"，
+   * 低于 8 说明共享容器重画捕获（chips 点击后重画 progStrip/cadStrip）坏了 */
+  const chordStrips = GAME_CONFIG.pages.flatMap(p => p.blocks.filter(b => b.type === 'strip' && b.chords));
+  assert.ok(chordStrips.length >= 8, `和弦块条应成建制捕获（现有 11 条），实际 ${chordStrips.length}`);
+  const progPage = GAME_CONFIG.pages.find(p => /和弦一个接一个/.test(p.title));
+  assert.ok(progPage, '要有和弦进行页');
+  assert.ok(progPage.blocks.filter(b => b.type === 'strip' && b.chords).length >= 6,
+    '和弦进行页六个进行每条都要有格子图');
+  assert.ok(progPage.blocks.filter(b => b.type === 'audio' && /整条$/.test(b.label || '')).length >= 6,
+    '和弦进行页六个进行每条都要能整条播放');
+
   const svgPages = GAME_CONFIG.pages.filter(p => p.blocks.some(b => b.type === 'svg'));
   assert.ok(svgPages.length >= 12,
     `带示意图的页应成建制抽取（阶梯图/对比图/网格图共 17 页），实际 ${svgPages.length}`);
