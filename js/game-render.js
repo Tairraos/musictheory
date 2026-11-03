@@ -38,9 +38,15 @@ function renderGameBlock(block){
       table.append(thead);
     }
     const tbody = el('tbody');
-    block.rows.forEach(row => {
+    block.rows.forEach((row, ri) => {
       const tr = el('tr');
       row.forEach(cell => tr.append(el('td', '', cell)));
+      /* "点一行听一下"：生成器把行音频回填到 rowsAudio，行本身可点（与教程一致） */
+      const pa = block.rowsAudio && block.rowsAudio[ri];
+      if (pa && pa.evs && pa.evs.length){
+        tr.classList.add('play-row');
+        tr.addEventListener('click', () => playGameEvs(pa.evs));
+      }
       tbody.append(tr);
     });
     table.append(tbody);

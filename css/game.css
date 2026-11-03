@@ -278,3 +278,13 @@ p{margin:0}
 .lyr-b.good{background:var(--ok-bg);border:1px solid #83B895;color:var(--ok)}
 .lyr-b.sq{background:var(--faint)}
 .lyr-note{color:var(--faint);font-size:12px;margin:0}
+
+/* ==========================================================================
+ * 21. 表格行播放（V1.44）——"点一行听一下"
+ * --------------------------------------------------------------------------
+ * 生成器把行音频回填到 table.rowsAudio；渲染层给这些行挂 .play-row。
+ * 教程里这些行本来就带着"可以点"的手感，互动课必须一致。
+ * ========================================================================== */
+.game-table tr.play-row{cursor:pointer}
+.game-table tr.play-row:active{background:var(--purple-bg)}
+.game-table tr.play-row td:last-child::after{content:" ▶";color:var(--faint);font-size:11px}

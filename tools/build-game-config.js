@@ -155,6 +155,19 @@ function captureDemos(win, container){
     const raw = (el.textContent || '').replace(/\s+/g, ' ').trim();
     let label = raw.replace(/^[▶■✕]\s*/, '').trim();
     if (isClickableRow(el)) label = [...el.children].slice(0, 2).map(textOf).filter(Boolean).join(' ');
+    /* 节拍器：MET 用 setInterval 前瞻排程、直调 AudioContext，不经 seq/voice
+     * 根本捕不到，label 还是"开始"会被下面的过滤排除——单独读 MET 真值
+     * （点击后 beats/bpm 已更新）合成两轮拍点，教程改默认值重跑即同步 */
+    if (el.id === 'metPlay'){
+      try {
+        const M = win.MET || {}, beats = M.beats || 4, spb = 60 / (M.bpm || 90);
+        const evs = [];
+        for (let i = 0; i < beats * 2; i++) evs.push({ t: Math.round(i * spb * 1000) / 1000, click: true, strong: i % beats === 0 });
+        blocks.push({ type: 'audio', label: '节拍器 · ' + (M.bpm || 90) + ' BPM', evs });
+      } catch (e) {}
+      stopIt();
+      return;
+    }
     if (!label || label === '开始' || /停止|播放中/.test(label)) return;   /* 停止键与节拍器长跑不捕获 */
     if (el.id && wholePlayDone.has(el.id)) return;                          /* 已随 chip 顺带捕获 */
     /* 点击会重画的共享容器（六个和弦进行 chips 共用一个 #progStrip）：先快照，
@@ -204,7 +217,13 @@ function captureDemos(win, container){
         }
       }
     }
-    if (evs) blocks.push({ type: 'audio', label: shrink(label, 40), evs });
+    if (evs){
+      const a = { type: 'audio', label: shrink(label, 40), evs };
+      /* 表格行捕获的演示打 fromRow 标记：组页时注入所属表格块的行上，
+       * 互动课里恢复"点一行听一下"的教程体验 */
+      if (isClickableRow(el)) a.fromRow = true;
+      blocks.push(a);
+    }
     stopIt();
   });
 
@@ -335,8 +354,15 @@ function blocksFrom(container){
     if (tag === 'button') return;   /* 音频演示统一由 captureDemos 捕获生成，按钮本身不再抽取 */
     if (tag === 'table'){
       const headers = [...el.querySelectorAll('thead th')].map(textOf);
-      const rows = [...el.querySelectorAll('tbody tr')].map(tr => [...tr.children].map(textOf)).filter(r => r.some(Boolean));
-      if (rows.length) out.push({ type:'table', headers, rows });
+      const rows = [], clickRows = [];
+      [...el.querySelectorAll('tbody tr')].forEach(tr => {
+        const cells = [...tr.children].map(textOf);
+        if (!cells.some(Boolean)) return;
+        /* "点一行听一下"的行：记下行索引，captureDemos 捕到的行音频按序回填到这些行 */
+        if (/(^|\s)click(\s|$)/.test(tr.className)) clickRows.push(rows.length);
+        rows.push(cells);
+      });
+      if (rows.length) out.push({ type:'table', headers, rows, clickRows });
       return;
     }
     if (tag === 'ul' || tag === 'ol'){
@@ -447,6 +473,19 @@ async function buildCourse({ file, course, title, short, intro, accent }){
         seenChords.add(sig);
         return true;
       });
+      /* "点一行听一下"回填：表格行捕获的 audio（fromRow，文档序与 clickRows 对齐）
+       * 注入本卡唯一表格块的对应行——互动课表格行本身可点，与教程体验一致；
+       * 多表或数目对不上时保守跳过，audio 保留为独立播放行。 */
+      const tables = blocks.filter(b => b.type === 'table');
+      const rowAudios = blocks.filter(b => b.type === 'audio' && b.fromRow);
+      if (tables.length === 1 && rowAudios.length){
+        const t = tables[0];
+        const targets = (t.clickRows || []);
+        if (targets.length === rowAudios.length){
+          t.rowsAudio = targets.map((ri, i) => ({ label: rowAudios[i].label, evs: rowAudios[i].evs }));
+          blocks = blocks.filter(b => !(b.type === 'audio' && b.fromRow));
+        }
+      }
       if (!blocks.some(b => b.type !== 'heading')) return;
       const textSample = blocks.filter(b => b.text).map(b => b.text).join(' ');
       pushPage({

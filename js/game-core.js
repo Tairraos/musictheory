@@ -69,6 +69,15 @@ function validateCourseConfig(config){
       if (b.type === 'table'){
         if (!Array.isArray(b.rows) || !b.rows.length) fail(errors, `${label} blocks[${bi}] 表格不能为空`);
         if (!Array.isArray(b.headers)) fail(errors, `${label} blocks[${bi}] 表头必须是数组`);
+        /* rowsAudio：回填到行上的"点一行听一下"事件，行号必须落在表格内 */
+        if (b.rowsAudio !== undefined){
+          if (!Array.isArray(b.rowsAudio) || !b.rowsAudio.length)
+            fail(errors, `${label} blocks[${bi}] rowsAudio 必须是非空数组`);
+          else if (b.rowsAudio.length > b.rows.length)
+            fail(errors, `${label} blocks[${bi}] rowsAudio 行号越界`);
+          else if (b.rowsAudio.some(a => !a || !Array.isArray(a.evs) || !a.evs.length))
+            fail(errors, `${label} blocks[${bi}] rowsAudio 行缺演示事件`);
+        }
       }
       if (b.type === 'svg'){
         if (typeof b.svg !== 'string' || !/^<svg/.test(b.svg)) fail(errors, `${label} blocks[${bi}] svg 块必须是完整的 svg 标记`);

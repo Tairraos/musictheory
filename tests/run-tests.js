@@ -3001,10 +3001,25 @@ test('P1 互动课配置：由当前教程生成、可校验、页量充足且�
   });
 
   /* 教程里能点出声的演示必须成建制地捕获进来——这是"讲到哪儿就能听到哪儿"的底线。
-   * 目前教程渲染后 130+ 个演示（含六个进行的整条播放），低于 110 说明捕获链路坏了。 */
+   * 目前 107 个音频块（另有 27 个行演示回填进表格 rowsAudio，见下），
+   * 低于 100 说明捕获链路坏了。 */
   const audioBlocks = GAME_CONFIG.pages.flatMap(p => p.blocks.filter(b => b.type === 'audio'));
-  assert.ok(audioBlocks.length >= 110,
-    `音频演示应成建制捕获（教程现有 130+ 个），实际 ${audioBlocks.length}`);
+  const rowAudios = GAME_CONFIG.pages
+    .flatMap(p => p.blocks).filter(b => b.type === 'table')
+    .flatMap(t => t.rowsAudio || []);
+  assert.ok(audioBlocks.length >= 100,
+    `音频演示应成建制捕获（现有 ${audioBlocks.length}），实际过少`);
+  assert.ok(rowAudios.length >= 20,
+    `"点一行听一下"的行演示应回填进表格（3 表 27 行），实际 ${rowAudios.length}`);
+  /* 生成器不允许再把行演示留成游离 audio（fromRow 未回填 = 表格对齐失败） */
+  const orphanFromRow = GAME_CONFIG.pages
+    .flatMap(p => p.blocks).filter(b => b.type === 'audio' && b.fromRow);
+  assert.deepEqual(orphanFromRow, [], '行演示必须全部回填进表格，不允许游离 audio 块');
+
+  /* 节拍器：MET 直调 AudioContext 捕获不到，生成器必须按 MET 真值合成拍点 */
+  const metPage = GAME_CONFIG.pages.find(p => /节拍器/.test(p.title));
+  assert.ok(metPage && metPage.blocks.some(b => b.type === 'audio' && /节拍器/.test(b.label || '')),
+    '节拍器页要有拍点音频');
 
   /* 散字页守卫：一页出现 ≥3 个 ≤4 字的孤立 text 块 = JS 装配的图被拆成散字
    * （与生成器末尾的体检同一口径；生成器会拦，这里防有人绕过生成器直改 game-data） */
@@ -3120,5 +3135,70 @@ test('P4 互动课音频与表格：真实块能渲染、音频能触发而不�
     assert.ok(lyrPage, '配置里至少要有一页带字块时间轴');
     G.openPage(lyrPage.id);
     assert.ok(d.querySelector('#pageBlocks .lyr-wrap .lyr-tl .lyr-b'), '时间轴字块要按位置渲染');
+  });
+});
+
+test('P5 互动课逐页体检：144 页每页逐块渲染核对，点行/点卡不报错', async () => {
+  await withGamePage(async (w, d) => {
+    const G = w.__GAME__;
+    /* 配置块类型 → 渲染后的 DOM 特征。用户报过"图丢了/播放丢了"而
+     * 体检只查配置层数量、测不到渲染层——这里对每一页做
+     * 配置 vs DOM 的逐类型核对，任何一种块渲染丢失都会直接红。 */
+    const DOM_OF = {
+      text: () => d.querySelectorAll('#pageBlocks .game-text').length,
+      tip: () => d.querySelectorAll('#pageBlocks .game-tip').length,
+      heading: () => d.querySelectorAll('#pageBlocks .game-heading').length,
+      list: () => d.querySelectorAll('#pageBlocks .game-list').length,
+      table: () => d.querySelectorAll('#pageBlocks .game-table').length,
+      svg: () => d.querySelectorAll('#pageBlocks .svg-wrap svg').length,
+      strip: () => d.querySelectorAll('#pageBlocks .strip-wrap').length,
+      lyr: () => d.querySelectorAll('#pageBlocks .lyr-wrap').length,
+      audio: () => d.querySelectorAll('#pageBlocks .audio-card').length,
+    };
+    const diffLines = [];
+    let playRows = 0;
+    for (const pg of G.config.pages){
+      G.openPage(pg.id);
+      for (const t of Object.keys(DOM_OF)){
+        let want = pg.blocks.filter(b => b.type === t).length;
+        /* 渲染层故意去重：首个 heading 与页标题同文则移除（页顶已显示） */
+        const first = pg.blocks[0];
+        if (t === 'heading' && first && first.type === 'heading' && first.text === pg.title) want--;
+        const got = DOM_OF[t]();
+        if (want !== got) diffLines.push(`${pg.id} ${t}: 配置 ${want} 渲染 ${got}`);
+      }
+      /* 每页的可点发声元素都点一遍：行播放行 + 独立音频卡，不允许抛错 */
+      d.querySelectorAll('#pageBlocks tr.play-row').forEach(tr => {
+        playRows++;
+        try { tr.click(); } catch (e){ diffLines.push(`${pg.id} 行播放点击抛错: ${e.message}`); }
+      });
+      d.querySelectorAll('#pageBlocks .audio-card').forEach(b => {
+        try { b.click(); } catch (e){ diffLines.push(`${pg.id} 音频卡点击抛错: ${e.message}`); }
+      });
+      w.stopGameAudio();
+    }
+    assert.deepEqual(diffLines, [], `逐页渲染核对失败：\n${diffLines.join('\n')}`);
+    assert.ok(playRows >= 20, `"点一行听一下"的表格行应回填成可点行（3 表 27 行），实际 ${playRows}`);
+
+    /* 用户点名过的页面逐一断言，防回归 */
+    const find = re => G.config.pages.find(p => re.test(p.title));
+    const met = find(/节拍器/);
+    assert.ok(met && met.blocks.some(b => b.type === 'audio' && /节拍器/.test(b.label || '')),
+      '节拍器页要有拍点音频（MET 直调 AudioContext 捕不到，由生成器按 MET 真值合成）');
+    const meters = find(/逐个听、逐个认/);
+    assert.ok(meters, '要有"逐个听、逐个认"页');
+    const meterTable = meters && meters.blocks.find(b => b.type === 'table');
+    assert.ok(meterTable && (meterTable.rowsAudio || []).length === 7,
+      '"逐个听、逐个认"的七个调式要能点行播放');
+    const funcPage = find(/级数与功能/);
+    const funcTable = funcPage && funcPage.blocks.find(b => b.type === 'table');
+    assert.ok(funcTable && (funcTable.rowsAudio || []).length === 7,
+      '"音级上的和弦"的七级要能点行播放');
+    const prog = find(/和弦一个接一个/);
+    assert.ok(prog && prog.blocks.filter(b => b.type === 'strip' && b.chords).length >= 6,
+      '和弦进行页六个进行都要有格子图');
+    const cadence = find(/五种收尾方式/);
+    assert.ok(cadence && cadence.blocks.filter(b => b.type === 'strip' && b.chords).length >= 5,
+      '五种收尾方式每条都要有格子图');
   });
 });
