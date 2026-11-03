@@ -108,7 +108,15 @@ function renderGameBlock(block){
       const strip = block.hitStrip != null
         ? document.querySelectorAll('#pageBlocks .strip-wrap')[block.hitStrip]
         : null;
-      playGameEvs(block.evs, strip);
+      /* playing：播放期间按钮保持高亮（91 张场景卡教程里就有这个反馈）；
+       * 点新卡时旧卡的 playing 立即清掉 */
+      if (window.__playingCard && window.__playingCard !== b) window.__playingCard.classList.remove('playing');
+      const end = playGameEvs(block.evs, strip);
+      if (end != null){
+        b.classList.add('playing');
+        window.__playingCard = b;
+        setTimeout(() => { b.classList.remove('playing'); if (window.__playingCard === b) window.__playingCard = null; }, end * 1000 + 300);
+      }
     });
     return b;
   }

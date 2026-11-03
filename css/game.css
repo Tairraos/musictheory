@@ -296,3 +296,4 @@ p{margin:0}
  * 互动课的音频卡/行播放通过 hitStrip 索引联动同样的条块。
  * ========================================================================== */
 .strip-wrap .strip-cell.hit{background:var(--purple-bg);border-color:var(--purple);transform:translateY(-1px)}
+.audio-card.playing{background:var(--purple-bg);border-color:var(--purple)}

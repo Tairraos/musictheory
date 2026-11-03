@@ -56,9 +56,9 @@ function flashKey(midi, at, ms, litKey){
  *             纯旋律演示（速度术语）按事件序号点亮（教程同款 i % 4）；
  *   和弦条 —— 事件按时间分组（间隔 >0.6s 为新和弦），逐组点亮格子。 */
 function playGameEvs(evs, strip){
-  if (typeof voice !== 'function' || typeof ac !== 'function' || typeof newBus !== 'function') return;
+  if (typeof voice !== 'function' || typeof ac !== 'function' || typeof newBus !== 'function') return null;
   const list = (evs || []).filter(e => e && (e.click || Number.isInteger(e.m)));
-  if (!list.length) return;
+  if (!list.length) return null;
   stopGameAudio();
   const A = ac();
   const start = A.currentTime + 0.08;
@@ -106,6 +106,7 @@ function playGameEvs(evs, strip){
     }
     evN++;
   });
+  return end;
 }
 
 Object.assign(window, { stopGameAudio, flashKey, playGameEvs });
