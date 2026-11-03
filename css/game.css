@@ -240,3 +240,41 @@ p{margin:0}
 .svg-wrap svg{display:block;max-width:none}
 .svg-wrap rect.lit{fill:#D85A30 !important;stroke:#993C1D !important}
 .svg-wrap rect.lit + text{fill:#FFFFFF !important}
+
+/* ---------- 20. 条块与字块时间轴（V1.42） ---------- */
+/* 和弦进行条 / 终止式条：每格 级数+音名+大小，与教程 progStrip 同款视觉 */
+.strip-wrap{display:flex;gap:6px;margin:4px 0}
+.strip-wrap.chords .strip-cell{
+  flex:1;min-width:0;background:#fff;border:1px solid var(--line);border-radius:10px;
+  padding:8px 4px;text-align:center;display:grid;gap:2px;
+}
+.strip-cell{min-width:0}
+.strip-cell .s{color:var(--faint);font-size:11px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.strip-cell b{font-size:15px;font-weight:600;overflow-wrap:anywhere}
+.strip-cell .q{font-style:normal;font-size:12px}
+.q.maj{color:var(--purple)}
+.q.min{color:#185FA5}
+.q.dim{color:var(--bad)}
+/* 拍点强弱条：强拍深底白字 */
+.strip-wrap:not(.chords){gap:8px}
+.strip-wrap:not(.chords) .strip-cell{
+  width:44px;height:44px;border-radius:50%;display:grid;place-items:center;
+  background:var(--surface-2);color:var(--muted);font-size:13px;
+}
+.strip-wrap:not(.chords) .strip-cell.strong{background:#2B2924;color:#fff}
+/* 字块时间轴：重音对位/拖腔/气口/中英计时/粤语/合奏旋律 */
+.lyr-wrap{display:grid;gap:8px;margin:4px 0}
+.lyr-row{display:grid;grid-template-columns:92px minmax(0,1fr);gap:8px;align-items:center}
+.lyr-lab{color:var(--muted);font-size:12px;text-align:right;overflow-wrap:anywhere}
+.lyr-tl{position:relative;height:34px;background:var(--surface-2);border-radius:8px;overflow:hidden}
+.lyr-b{
+  position:absolute;top:3px;bottom:3px;border-radius:6px;
+  background:#D8D4C8;display:grid;place-items:center;
+  font-size:12px;font-weight:600;color:#4A473F;overflow:hidden;white-space:nowrap;
+}
+.lyr-b.str{background:var(--purple);color:#fff}
+.lyr-b.wk{background:#EDEBE4;border:1px solid var(--line)}
+.lyr-b.bad{background:var(--bad-bg);border:1px solid #D79B96;color:var(--bad)}
+.lyr-b.good{background:var(--ok-bg);border:1px solid #83B895;color:var(--ok)}
+.lyr-b.sq{background:var(--faint)}
+.lyr-note{color:var(--faint);font-size:12px;margin:0}

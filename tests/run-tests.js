@@ -2983,6 +2983,14 @@ test('P1 互动课配置：由当前教程生成、可校验、页量充足且�
         assert.ok(b.svg.startsWith('<svg') && b.svg.length > 60, `${p.id} svg 块必须是完整的 svg 标记`);
         assert.ok(!/<script/i.test(b.svg), `${p.id} svg 块里不许夹带脚本`);
       }
+      if (b.type === 'strip'){
+        assert.ok(Array.isArray(b.items) && b.items.length, `${p.id} 条块不能为空`);
+        assert.ok(!b.chords || b.items.every(x => x.main), `${p.id} 和弦条每格要有音名`);
+      }
+      if (b.type === 'lyr'){
+        assert.ok(Array.isArray(b.rows) && b.rows.length && b.rows.every(r => Array.isArray(r.boxes)),
+          `${p.id} 时间轴行必须带字块数组`);
+      }
       if (b.type === 'audio'){
         assert.ok(Array.isArray(b.evs) && b.evs.length,
           `${p.id} 音频块必须带捕获的演示事件（evs）`);
@@ -3083,5 +3091,15 @@ test('P4 互动课音频与表格：真实块能渲染、音频能触发而不�
     assert.ok(svgPage, '配置里至少要有一页带示意图');
     G.openPage(svgPage.id);
     assert.ok(d.querySelector('#pageBlocks .svg-wrap svg'), '示意图要整块渲染进页面');
+
+    const stripPage = G.config.pages.find(p => p.blocks.some(b => b.type === 'strip' && b.chords));
+    assert.ok(stripPage, '配置里至少要有一页带和弦条');
+    G.openPage(stripPage.id);
+    assert.ok(d.querySelector('#pageBlocks .strip-wrap.chords .strip-cell b'), '和弦条要渲染成格子');
+
+    const lyrPage = G.config.pages.find(p => p.blocks.some(b => b.type === 'lyr'));
+    assert.ok(lyrPage, '配置里至少要有一页带字块时间轴');
+    G.openPage(lyrPage.id);
+    assert.ok(d.querySelector('#pageBlocks .lyr-wrap .lyr-tl .lyr-b'), '时间轴字块要按位置渲染');
   });
 });

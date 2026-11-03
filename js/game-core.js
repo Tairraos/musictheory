@@ -13,7 +13,7 @@
 'use strict';
 
 const TASK_TYPES = ['choice', 'number', 'sequence', 'scan', 'action'];
-const BLOCK_TYPES = ['text', 'tip', 'heading', 'list', 'table', 'svg', 'audio'];
+const BLOCK_TYPES = ['text', 'tip', 'heading', 'list', 'table', 'svg', 'strip', 'lyr', 'audio'];
 const PAGE_ID = /^[a-z][a-z0-9]*(?:\.[a-z0-9-]+)+$/;
 
 function fail(list, message){ list.push(message); }
@@ -73,6 +73,14 @@ function validateCourseConfig(config){
       if (b.type === 'svg'){
         if (typeof b.svg !== 'string' || !/^<svg/.test(b.svg)) fail(errors, `${label} blocks[${bi}] svg 块必须是完整的 svg 标记`);
         if (/<script/i.test(b.svg || '')) fail(errors, `${label} blocks[${bi}] svg 块里不许夹带脚本`);
+      }
+      if (b.type === 'strip'){
+        if (!Array.isArray(b.items) || !b.items.length) fail(errors, `${label} blocks[${bi}] 条块不能为空`);
+        if (b.chords && (b.items || []).some(x => !x.main)) fail(errors, `${label} blocks[${bi}] 和弦条每格要有音名`);
+      }
+      if (b.type === 'lyr'){
+        if (!Array.isArray(b.rows) || !b.rows.length) fail(errors, `${label} blocks[${bi}] 时间轴不能为空`);
+        if ((b.rows || []).some(r => !Array.isArray(r.boxes))) fail(errors, `${label} blocks[${bi}] 时间轴行缺字块数组`);
       }
       if (b.type === 'audio'){
         /* evs：捕获来的演示事件序列，要么是拍点（click）要么带音高（m） */

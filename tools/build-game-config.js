@@ -137,10 +137,19 @@ function captureDemos(win, container){
     return items.length ? items : null;
   };
 
-  [...container.querySelectorAll('button')].forEach(btn => {
+  /* 可点击行（音程表/调式表/音级和弦表都是"点一行听一下"）：
+   * 行不是按钮，但演示同走 seq，照样点击捕获；label 用行首两格。 */
+  const clickableRows = [...container.querySelectorAll('tbody tr.click')].map(tr => ({
+    el: tr,
+    label: [...tr.children].slice(0, 2).map(textOf).filter(Boolean).join(' '),
+  }));
+
+  [...container.querySelectorAll('button'), ...clickableRows].forEach(item => {
+    const isRow = item && item.el && item.el.tagName === 'TR';
+    const btn = isRow ? item.el : item;
     const raw = (btn.textContent || '').replace(/\s+/g, ' ').trim();
-    const label = raw.replace(/^[▶■✕]\s*/, '').trim();
-    if (!label || /停止|开始|播放中/.test(label)) return;   /* 停止键与节拍器长跑不捕获 */
+    const label = isRow ? item.label : raw.replace(/^[▶■✕]\s*/, '').trim();
+    if (!label || label === '开始' || /停止|播放中/.test(label)) return;   /* 停止键与节拍器长跑不捕获 */
     batch = [];
     try { btn.click(); } catch (e) { /* 桩环境下个别演示点不动就跳过 */ }
     const evs = toEvs(batch); batch = null;
@@ -189,6 +198,51 @@ function blocksFrom(container){
       const html = el.outerHTML || '';
       if (html.length > 60 && !/<script/i.test(html)) out.push({ type:'svg', svg: html });
       return;
+    }
+    if (tag === 'div'){
+      const id = el.id;
+      /* 表单控件容器（BPM 滑杆/循环开关这类教程交互件）整块不抽，
+       * 否则"速度 88 循环"会变成三块莫名其妙的散字 */
+      if (el.querySelector('input, select, textarea')) return;
+      /* 拍点圆点条（tempoBeats/meterBeats/metBeatsDots/rhythmDots）：
+       * 整体抽成 strip 块，否则"强 · ·"会被拆成散字 */
+      if (el.children.length && [...el.children].every(c => hasClass(c, 'beat'))){
+        out.push({ type:'strip', items: [...el.children].map(c => ({ main: textOf(c), strong: hasClass(c, 'strong') })) });
+        return;
+      }
+      /* 和弦块条（progStrip/cadStrip）：级数 + 音名 + 大小，块本身可点播 */
+      if (id === 'progStrip' || id === 'cadStrip'){
+        const items = [...el.children].map(b => {
+          const q = b.querySelector('span.q');
+          return {
+            sub: textOf(b.children[0]),
+            main: textOf(b.children[1]),
+            q: q ? (String(q.className).split(/\s+/)[1] || '') : '',
+            t: q ? textOf(q) : '',
+          };
+        }).filter(x => x.main);
+        if (items.length){ out.push({ type:'strip', chords: true, items }); return; }
+      }
+      /* lyr 时间轴（stressFig/phraseFig/breathFig/langFig/ensMel/cantonFig）：
+       * 字块按百分比定位，照抄位置存成结构化行，渲染层还原同款视觉 */
+      if (el.querySelector(':scope > .lyr-row')){
+        const rows = [...el.querySelectorAll(':scope > .lyr-row')].map(row => {
+          const tl = row.querySelector('.lyr-tl');
+          return {
+            lab: textOf(row.querySelector('.lyr-lab')),
+            boxes: tl ? [...tl.children].map(b => ({
+              ch: textOf(b),
+              at: parseFloat(b.style.left) || 0,
+              w: parseFloat(b.style.width) || 0,
+              cls: String(b.className).replace(/\blyr-b\b/g, '').trim(),
+            })) : [],
+          };
+        });
+        const m = (el.querySelector('.lyr-tl') || {}).getAttribute ?
+          (el.querySelector('.lyr-tl').getAttribute('style') || '').match(/--beats:\s*(\d+)/) : null;
+        const note = [...el.querySelectorAll(':scope > .mini')].map(textOf).filter(Boolean).join(' ');
+        if (rows.length){ out.push({ type:'lyr', beats: m ? +m[1] : null, rows, note: note || undefined }); return; }
+      }
     }
     if (tag === 'button') return;   /* 音频演示统一由 captureDemos 捕获生成，按钮本身不再抽取 */
     if (tag === 'table'){
@@ -266,7 +320,10 @@ async function buildCourse({ file, course, title, short, intro, accent }){
      * 要收全部 .card，但只收最外层，避免嵌套卡片重复出页。 */
     [...sec.querySelectorAll('.card')].filter(card => !card.parentElement.closest('.card')).forEach((card, ci) => {
       const h3 = card.querySelector('h3');
-      const cardTitle = textOf(h3) || `${secTitle} · ${ci + 1}`;
+      /* 标题里的括号操作提示（"点一行听一下"等）说的是教程页的交互，
+       * 互动课里播放方式不同，留着只会显得标题啰嗦 */
+      const cardTitle = (textOf(h3) || `${secTitle} · ${ci + 1}`)
+        .replace(/（[^）]*点[^）]*）\s*$/, '').trim() || (h3 ? textOf(h3) : `${secTitle} · ${ci + 1}`);
       /* 先抽结构化内容（含整块 SVG），再点播放按钮捕获演示事件——
        * 点击会重画部分示意图，顺序反了会存下最后一个变体的图。 */
       const blocks = blocksFrom(card).concat(captureDemos(win, card));

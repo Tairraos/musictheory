@@ -56,6 +56,44 @@ function renderGameBlock(block){
     return w;
   }
 
+  if (block.type === 'strip'){
+    /* 和弦进行条 / 终止式条（chords）与拍点强弱条（圆点） */
+    const w = el('div', 'strip-wrap' + (block.chords ? ' chords' : ''));
+    block.items.forEach(it => {
+      const c = el('div', 'strip-cell' + (it.strong ? ' strong' : ''));
+      if (block.chords){
+        if (it.sub) c.append(el('span', 's', it.sub));
+        c.append(el('b', '', it.main));
+        if (it.t) c.append(el('i', 'q ' + (it.q || ''), it.t));
+      } else {
+        c.append(el('b', '', it.main || '·'));
+      }
+      w.append(c);
+    });
+    return w;
+  }
+
+  if (block.type === 'lyr'){
+    /* 字块时间轴（重音对位/拖腔/气口/中英计时/粤语/合奏旋律），
+     * 字块按百分比定位，与教程同款视觉 */
+    const w = el('div', 'lyr-wrap');
+    block.rows.forEach(r => {
+      const row = el('div', 'lyr-row');
+      row.append(el('span', 'lyr-lab', r.lab));
+      const tl = el('div', 'lyr-tl');
+      (r.boxes || []).forEach(b => {
+        const d = el('div', 'lyr-b' + (b.cls ? ' ' + b.cls : ''), b.ch || '');
+        d.style.left = b.at + '%';
+        d.style.width = b.w + '%';
+        tl.append(d);
+      });
+      row.append(tl);
+      w.append(row);
+    });
+    if (block.note) w.append(el('p', 'lyr-note', block.note));
+    return w;
+  }
+
   if (block.type === 'audio'){
     const b = el('button', 'audio-card', '▶ ' + block.label);
     b.type = 'button';
