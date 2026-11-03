@@ -96,6 +96,11 @@ function validateCourseConfig(config){
         if (!Array.isArray(b.evs) || !b.evs.length) fail(errors, `${label} blocks[${bi}] 音频缺少演示事件 evs`);
         if ((b.evs || []).some(e => !e || (e.click ? e.t == null : !Number.isInteger(e.m) || e.m < 0 || e.m > 127)))
           fail(errors, `${label} blocks[${bi}] 存在非法演示事件`);
+        /* hitStrip：联动点亮页内第几个条块（拍点圆点/和弦格子跟着播放动） */
+        if (b.hitStrip !== undefined && (!Number.isInteger(b.hitStrip) || b.hitStrip < 0))
+          fail(errors, `${label} blocks[${bi}] hitStrip 必须是条块索引`);
+        if (b.hitStrip != null && b.hitStrip >= (p.blocks || []).filter(x => x.type === 'strip').length)
+          fail(errors, `${label} blocks[${bi}] hitStrip 索引越界`);
       }
     });
 

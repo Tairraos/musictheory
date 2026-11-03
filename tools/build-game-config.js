@@ -102,7 +102,7 @@ function captureDemos(win, container){
     win.seq = function(steps, litSel){
       if (batch && Array.isArray(steps)){
         steps.forEach(s => {
-          if (s.c) batch.push({ at: s.at, click: true, strong: !!s.strong });
+          if (s.c) batch.push({ at: s.at, click: true, strong: !!s.strong, dot: Number.isInteger(s.dot) ? s.dot : undefined });
           else if (Number.isInteger(s.m)) batch.push({ at: s.at, m: s.m, d: s.d || 0.9, g: s.g || 0.4, kind: s.kind || 'piano', lit: s.lit });
         });
       }
@@ -132,7 +132,7 @@ function captureDemos(win, container){
       .map(e => {
         const t = Math.round((e.at - t0) * 1000) / 1000;
         return e.click
-          ? { t, click: true, strong: e.strong }
+          ? { t, click: true, strong: e.strong, ...(Number.isInteger(e.dot) ? { dot: e.dot } : {}) }
           : { t, m: e.m, d: Math.round(e.d * 1000) / 1000, g: e.g, kind: e.kind, lit: e.lit };
       })
       .sort((a, b) => a.t - b.t);
@@ -162,8 +162,8 @@ function captureDemos(win, container){
       try {
         const M = win.MET || {}, beats = M.beats || 4, spb = 60 / (M.bpm || 90);
         const evs = [];
-        for (let i = 0; i < beats * 2; i++) evs.push({ t: Math.round(i * spb * 1000) / 1000, click: true, strong: i % beats === 0 });
-        blocks.push({ type: 'audio', label: '节拍器 · ' + (M.bpm || 90) + ' BPM', evs });
+        for (let i = 0; i < beats * 2; i++) evs.push({ t: Math.round(i * spb * 1000) / 1000, click: true, strong: i % beats === 0, dot: i % beats });
+        blocks.push({ type: 'audio', label: '节拍器 · ' + (M.bpm || 90) + ' BPM', evs, hitStrip: 'dots' });
       } catch (e) {}
       stopIt();
       return;
@@ -198,7 +198,8 @@ function captureDemos(win, container){
         batch = [];
         try { play.click(); } catch (e) {}
         const pevs = toEvs(batch); batch = null;
-        if (pevs) blocks.push({ type: 'audio', label: shrink(label + ' · 整条', 40), evs: pevs });
+        /* 整条播放：播放时教程会把和弦格子逐个点亮（.hit），互动课同样联动 */
+        if (pevs) blocks.push({ type: 'audio', label: shrink(label + ' · 整条', 40), evs: pevs, hitStrip: 'chords' });
       }
     } else if (/(^|\s)on(\s|$)/.test(String(el.className))){
       /* 初始就选中的 chip：重画内容与快照相同、检不出"变"，但它的整条播放
@@ -213,7 +214,7 @@ function captureDemos(win, container){
           batch = [];
           try { play.click(); } catch (e) {}
           const pevs = toEvs(batch); batch = null;
-          if (pevs) blocks.push({ type: 'audio', label: shrink(label + ' · 整条', 40), evs: pevs });
+          if (pevs) blocks.push({ type: 'audio', label: shrink(label + ' · 整条', 40), evs: pevs, hitStrip: 'chords' });
         }
       }
     }
@@ -222,6 +223,10 @@ function captureDemos(win, container){
       /* 表格行捕获的演示打 fromRow 标记：组页时注入所属表格块的行上，
        * 互动课里恢复"点一行听一下"的教程体验 */
       if (isClickableRow(el)) a.fromRow = true;
+      /* 卡上带着拍点圆点条（tempoBeats/meterBeats/rhythmDots）的演示：
+       * 教程里播放时圆点会跟着节奏亮，互动课的音频卡要联动同样的圆点条 */
+      const card = el.closest ? el.closest('.card') : null;
+      if (card && card.querySelector('.beats')) a.hitStrip = 'dots';
       blocks.push(a);
     }
     stopIt();
@@ -484,6 +489,25 @@ async function buildCourse({ file, course, title, short, intro, accent }){
         if (targets.length === rowAudios.length){
           t.rowsAudio = targets.map((ri, i) => ({ label: rowAudios[i].label, evs: rowAudios[i].evs }));
           blocks = blocks.filter(b => !(b.type === 'audio' && b.fromRow));
+        }
+      }
+      /* hitStrip 解析：'dots' → 页内第一个拍点圆点条；'chords' → 音频**之前**
+       * 最近的和弦格子条（每个整条播放对着自己的那条进行）。解析成 strip 序号
+       * （第几个 strip 块，渲染层按序取 DOM），播放层按序号逐格点亮；
+       * 页内没有对应条就删掉标记（不联动总好过指错） */
+      {
+        let dotsN = -1, lastChordsN = -1, stripN = 0;
+        for (const x of blocks){
+          if (x.type === 'strip'){
+            if (!x.chords && dotsN < 0) dotsN = stripN;
+            if (x.chords) lastChordsN = stripN;
+            stripN++;
+          }
+          if (x.type === 'audio' && x.hitStrip){
+            const n = x.hitStrip === 'dots' ? dotsN : x.hitStrip === 'chords' ? lastChordsN : -1;
+            if (n >= 0) x.hitStrip = n;
+            else delete x.hitStrip;
+          }
         }
       }
       if (!blocks.some(b => b.type !== 'heading')) return;

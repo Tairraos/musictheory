@@ -288,3 +288,11 @@ p{margin:0}
 .game-table tr.play-row{cursor:pointer}
 .game-table tr.play-row:active{background:var(--purple-bg)}
 .game-table tr.play-row td:last-child::after{content:" ▶";color:var(--faint);font-size:11px}
+
+/* ==========================================================================
+ * 22. 演示联动点亮（V1.45）——"节拍器会动了"
+ * --------------------------------------------------------------------------
+ * 教程里播放时拍点圆点/和弦格子会逐个 .hit（紫底上浮），
+ * 互动课的音频卡/行播放通过 hitStrip 索引联动同样的条块。
+ * ========================================================================== */
+.strip-wrap .strip-cell.hit{background:var(--purple-bg);border-color:var(--purple);transform:translateY(-1px)}

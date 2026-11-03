@@ -4870,7 +4870,8 @@ return {
               "g": 0.16,
               "kind": "pluck"
             }
-          ]
+          ],
+          "hitStrip": 0
         },
         {
           "type": "strip",
@@ -5018,7 +5019,8 @@ return {
               "g": 0.16,
               "kind": "pluck"
             }
-          ]
+          ],
+          "hitStrip": 1
         },
         {
           "type": "strip",
@@ -5166,7 +5168,8 @@ return {
               "g": 0.16,
               "kind": "pluck"
             }
-          ]
+          ],
+          "hitStrip": 2
         },
         {
           "type": "strip",
@@ -5416,7 +5419,8 @@ return {
               "g": 0.16,
               "kind": "pluck"
             }
-          ]
+          ],
+          "hitStrip": 3
         },
         {
           "type": "strip",
@@ -5530,7 +5534,8 @@ return {
               "g": 0.16,
               "kind": "pluck"
             }
-          ]
+          ],
+          "hitStrip": 4
         },
         {
           "type": "strip",
@@ -5678,7 +5683,8 @@ return {
               "g": 0.16,
               "kind": "pluck"
             }
-          ]
+          ],
+          "hitStrip": 5
         },
         {
           "type": "audio",
@@ -5908,7 +5914,8 @@ return {
               "g": 0.14,
               "kind": "pluck"
             }
-          ]
+          ],
+          "hitStrip": 0
         },
         {
           "type": "strip",
@@ -5981,7 +5988,8 @@ return {
               "g": 0.14,
               "kind": "pluck"
             }
-          ]
+          ],
+          "hitStrip": 1
         },
         {
           "type": "strip",
@@ -6054,7 +6062,8 @@ return {
               "g": 0.14,
               "kind": "pluck"
             }
-          ]
+          ],
+          "hitStrip": 2
         },
         {
           "type": "strip",
@@ -6127,7 +6136,8 @@ return {
               "g": 0.14,
               "kind": "pluck"
             }
-          ]
+          ],
+          "hitStrip": 3
         },
         {
           "type": "strip",
@@ -6227,7 +6237,8 @@ return {
               "g": 0.14,
               "kind": "pluck"
             }
-          ]
+          ],
+          "hitStrip": 4
         },
         {
           "type": "audio",
@@ -6725,7 +6736,8 @@ return {
               "g": 0.38,
               "kind": "piano"
             }
-          ]
+          ],
+          "hitStrip": 0
         },
         {
           "type": "audio",
@@ -6794,7 +6806,8 @@ return {
               "g": 0.38,
               "kind": "piano"
             }
-          ]
+          ],
+          "hitStrip": 0
         },
         {
           "type": "audio",
@@ -6863,7 +6876,8 @@ return {
               "g": 0.38,
               "kind": "piano"
             }
-          ]
+          ],
+          "hitStrip": 0
         },
         {
           "type": "audio",
@@ -6932,7 +6946,8 @@ return {
               "g": 0.38,
               "kind": "piano"
             }
-          ]
+          ],
+          "hitStrip": 0
         },
         {
           "type": "audio",
@@ -7001,7 +7016,8 @@ return {
               "g": 0.38,
               "kind": "piano"
             }
-          ]
+          ],
+          "hitStrip": 0
         },
         {
           "type": "audio",
@@ -7070,7 +7086,8 @@ return {
               "g": 0.38,
               "kind": "piano"
             }
-          ]
+          ],
+          "hitStrip": 0
         }
       ],
       "skip": true,
@@ -7122,44 +7139,53 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0.667,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 1.333,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 2,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 2.667,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 3.333,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 4,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 4.667,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             }
-          ]
+          ],
+          "hitStrip": 0
         }
       ],
       "skip": true,
@@ -7244,7 +7270,8 @@ return {
               "g": 0.26,
               "kind": "piano"
             }
-          ]
+          ],
+          "hitStrip": 0
         },
         {
           "type": "audio",
@@ -7257,7 +7284,8 @@ return {
               "g": 0.4,
               "kind": "piano"
             }
-          ]
+          ],
+          "hitStrip": 0
         },
         {
           "type": "audio",
@@ -7270,7 +7298,8 @@ return {
               "g": 0.4,
               "kind": "piano"
             }
-          ]
+          ],
+          "hitStrip": 0
         },
         {
           "type": "audio",
@@ -7290,7 +7319,8 @@ return {
               "g": 0.4,
               "kind": "piano"
             }
-          ]
+          ],
+          "hitStrip": 0
         }
       ],
       "skip": true,
@@ -7375,27 +7405,32 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0.4,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 0.8,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 2
             },
             {
               "t": 1.2,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 1.6,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 4
             },
             {
               "t": 1.6,
@@ -7407,7 +7442,8 @@ return {
             {
               "t": 2,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 5
             },
             {
               "t": 2,
@@ -7419,7 +7455,8 @@ return {
             {
               "t": 2.4,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 6
             },
             {
               "t": 2.4,
@@ -7431,7 +7468,8 @@ return {
             {
               "t": 2.8,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 7
             },
             {
               "t": 2.8,
@@ -7443,7 +7481,8 @@ return {
             {
               "t": 3.2,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 3.2,
@@ -7455,7 +7494,8 @@ return {
             {
               "t": 3.6,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 3.6,
@@ -7467,7 +7507,8 @@ return {
             {
               "t": 4,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 2
             },
             {
               "t": 4,
@@ -7479,7 +7520,8 @@ return {
             {
               "t": 4.4,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 4.4,
@@ -7491,9 +7533,11 @@ return {
             {
               "t": 4.8,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 4
             }
-          ]
+          ],
+          "hitStrip": 0
         },
         {
           "type": "audio",
@@ -7502,22 +7546,26 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0.4,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 0.8,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 2
             },
             {
               "t": 1.2,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 1.4,
@@ -7529,7 +7577,8 @@ return {
             {
               "t": 1.6,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 4
             },
             {
               "t": 1.8,
@@ -7541,7 +7590,8 @@ return {
             {
               "t": 2,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 5
             },
             {
               "t": 2.2,
@@ -7553,7 +7603,8 @@ return {
             {
               "t": 2.4,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 6
             },
             {
               "t": 2.6,
@@ -7565,7 +7616,8 @@ return {
             {
               "t": 2.8,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 7
             },
             {
               "t": 3,
@@ -7577,7 +7629,8 @@ return {
             {
               "t": 3.2,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 3.4,
@@ -7589,7 +7642,8 @@ return {
             {
               "t": 3.6,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 3.8,
@@ -7601,7 +7655,8 @@ return {
             {
               "t": 4,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 2
             },
             {
               "t": 4.2,
@@ -7613,14 +7668,17 @@ return {
             {
               "t": 4.4,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 4.8,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 4
             }
-          ]
+          ],
+          "hitStrip": 0
         },
         {
           "type": "audio",
@@ -7629,7 +7687,8 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0,
@@ -7641,7 +7700,8 @@ return {
             {
               "t": 0.4,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 0.4,
@@ -7653,7 +7713,8 @@ return {
             {
               "t": 0.8,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 2
             },
             {
               "t": 0.8,
@@ -7665,7 +7726,8 @@ return {
             {
               "t": 1.2,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 1.2,
@@ -7677,7 +7739,8 @@ return {
             {
               "t": 1.6,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 4
             },
             {
               "t": 1.6,
@@ -7689,7 +7752,8 @@ return {
             {
               "t": 2,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 5
             },
             {
               "t": 2,
@@ -7701,7 +7765,8 @@ return {
             {
               "t": 2.4,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 6
             },
             {
               "t": 2.4,
@@ -7713,7 +7778,8 @@ return {
             {
               "t": 2.8,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 7
             },
             {
               "t": 2.8,
@@ -7725,9 +7791,11 @@ return {
             {
               "t": 3.2,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             }
-          ]
+          ],
+          "hitStrip": 0
         },
         {
           "type": "audio",
@@ -7736,7 +7804,8 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0.2,
@@ -7748,7 +7817,8 @@ return {
             {
               "t": 0.4,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 0.6,
@@ -7760,7 +7830,8 @@ return {
             {
               "t": 0.8,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 2
             },
             {
               "t": 1,
@@ -7772,7 +7843,8 @@ return {
             {
               "t": 1.2,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 1.4,
@@ -7784,7 +7856,8 @@ return {
             {
               "t": 1.6,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 4
             },
             {
               "t": 1.8,
@@ -7796,7 +7869,8 @@ return {
             {
               "t": 2,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 5
             },
             {
               "t": 2.2,
@@ -7808,7 +7882,8 @@ return {
             {
               "t": 2.4,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 6
             },
             {
               "t": 2.6,
@@ -7820,7 +7895,8 @@ return {
             {
               "t": 2.8,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 7
             },
             {
               "t": 3,
@@ -7832,9 +7908,11 @@ return {
             {
               "t": 3.2,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             }
-          ]
+          ],
+          "hitStrip": 0
         }
       ],
       "skip": true,
@@ -11805,7 +11883,8 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0,
@@ -11824,7 +11903,8 @@ return {
             {
               "t": 0.833,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 0.833,
@@ -11843,7 +11923,8 @@ return {
             {
               "t": 1.667,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 1.667,
@@ -11855,7 +11936,8 @@ return {
             {
               "t": 2.5,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 2.5,
@@ -11867,22 +11949,26 @@ return {
             {
               "t": 3.333,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 4.167,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 5,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 5.833,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             }
           ]
         },
@@ -11893,7 +11979,8 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0,
@@ -11912,7 +11999,8 @@ return {
             {
               "t": 0.833,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 1.333,
@@ -11924,7 +12012,8 @@ return {
             {
               "t": 1.667,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 2,
@@ -11936,7 +12025,8 @@ return {
             {
               "t": 2.5,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 2.667,
@@ -11948,7 +12038,8 @@ return {
             {
               "t": 3.333,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 3.333,
@@ -11960,17 +12051,20 @@ return {
             {
               "t": 4.167,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 5,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 5.833,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             }
           ]
         },
@@ -11981,7 +12075,8 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0,
@@ -12000,7 +12095,8 @@ return {
             {
               "t": 0.833,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 0.833,
@@ -12019,12 +12115,14 @@ return {
             {
               "t": 1.667,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 2.5,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 3,
@@ -12036,7 +12134,8 @@ return {
             {
               "t": 3.333,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 3.5,
@@ -12048,17 +12147,20 @@ return {
             {
               "t": 4.167,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 5,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 5.833,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             }
           ]
         }
@@ -12565,7 +12667,8 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0,
@@ -12577,7 +12680,8 @@ return {
             {
               "t": 0.789,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 1.053,
@@ -12589,7 +12693,8 @@ return {
             {
               "t": 1.579,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 2.105,
@@ -12601,12 +12706,14 @@ return {
             {
               "t": 2.368,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 3.158,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 3.158,
@@ -12618,7 +12725,8 @@ return {
             {
               "t": 3.947,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 4.211,
@@ -12630,7 +12738,8 @@ return {
             {
               "t": 4.737,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 5.263,
@@ -12642,7 +12751,8 @@ return {
             {
               "t": 5.526,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             }
           ]
         },
@@ -12653,7 +12763,8 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0,
@@ -12672,7 +12783,8 @@ return {
             {
               "t": 0.789,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 1.404,
@@ -12684,7 +12796,8 @@ return {
             {
               "t": 1.579,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 2.105,
@@ -12696,7 +12809,8 @@ return {
             {
               "t": 2.368,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 2.807,
@@ -12708,7 +12822,8 @@ return {
             {
               "t": 3.158,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 3.509,
@@ -12720,7 +12835,8 @@ return {
             {
               "t": 3.947,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 4.211,
@@ -12732,7 +12848,8 @@ return {
             {
               "t": 4.737,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 4.912,
@@ -12744,7 +12861,8 @@ return {
             {
               "t": 5.526,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 5.614,
@@ -12762,7 +12880,8 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0,
@@ -12781,7 +12900,8 @@ return {
             {
               "t": 0.789,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 1.053,
@@ -12793,7 +12913,8 @@ return {
             {
               "t": 1.579,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 1.579,
@@ -12812,7 +12933,8 @@ return {
             {
               "t": 2.368,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 2.632,
@@ -12824,7 +12946,8 @@ return {
             {
               "t": 3.158,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 3.158,
@@ -12843,7 +12966,8 @@ return {
             {
               "t": 3.947,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 4.211,
@@ -12855,7 +12979,8 @@ return {
             {
               "t": 4.737,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 4.737,
@@ -12874,7 +12999,8 @@ return {
             {
               "t": 5.526,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 5.789,
@@ -13334,7 +13460,8 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0,
@@ -13347,7 +13474,8 @@ return {
             {
               "t": 0.625,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 0.625,
@@ -13360,7 +13488,8 @@ return {
             {
               "t": 1.25,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 1.25,
@@ -13373,7 +13502,8 @@ return {
             {
               "t": 1.875,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 1.875,
@@ -13386,7 +13516,8 @@ return {
             {
               "t": 2.5,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 2.5,
@@ -13399,7 +13530,8 @@ return {
             {
               "t": 3.125,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 3.125,
@@ -13412,7 +13544,8 @@ return {
             {
               "t": 3.75,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 3.75,
@@ -13425,7 +13558,8 @@ return {
             {
               "t": 4.375,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 4.375,
@@ -13444,7 +13578,8 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0,
@@ -13457,7 +13592,8 @@ return {
             {
               "t": 0.625,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 0.625,
@@ -13470,7 +13606,8 @@ return {
             {
               "t": 1.25,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 1.625,
@@ -13483,7 +13620,8 @@ return {
             {
               "t": 1.875,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 1.875,
@@ -13496,12 +13634,14 @@ return {
             {
               "t": 2.5,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 3.125,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 3.125,
@@ -13514,7 +13654,8 @@ return {
             {
               "t": 3.75,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 3.875,
@@ -13535,7 +13676,8 @@ return {
             {
               "t": 4.375,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 4.375,
@@ -13554,7 +13696,8 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0.094,
@@ -13591,7 +13734,8 @@ return {
             {
               "t": 0.625,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 0.625,
@@ -13604,7 +13748,8 @@ return {
             {
               "t": 1.25,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 1.563,
@@ -13617,7 +13762,8 @@ return {
             {
               "t": 1.875,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 1.875,
@@ -13630,12 +13776,14 @@ return {
             {
               "t": 2.5,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 3.125,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 3.125,
@@ -13648,7 +13796,8 @@ return {
             {
               "t": 3.75,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 3.875,
@@ -13669,7 +13818,8 @@ return {
             {
               "t": 4.375,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             },
             {
               "t": 4.375,
@@ -13825,7 +13975,8 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0,
@@ -13838,17 +13989,20 @@ return {
             {
               "t": 0.833,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 1.667,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 2.5,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             }
           ]
         },
@@ -13859,7 +14013,8 @@ return {
             {
               "t": 0,
               "click": true,
-              "strong": true
+              "strong": true,
+              "dot": 0
             },
             {
               "t": 0,
@@ -13880,17 +14035,20 @@ return {
             {
               "t": 0.833,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 1
             },
             {
               "t": 1.667,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 2
             },
             {
               "t": 2.5,
               "click": true,
-              "strong": false
+              "strong": false,
+              "dot": 3
             }
           ]
         }

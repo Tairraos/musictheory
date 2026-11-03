@@ -103,7 +103,13 @@ function renderGameBlock(block){
   if (block.type === 'audio'){
     const b = el('button', 'audio-card', '▶ ' + block.label);
     b.type = 'button';
-    b.addEventListener('click', () => playGameEvs(block.evs));
+    b.addEventListener('click', () => {
+      /* hitStrip：该演示联动页内第几个条块（拍点圆点/和弦格子跟着播放点亮） */
+      const strip = block.hitStrip != null
+        ? document.querySelectorAll('#pageBlocks .strip-wrap')[block.hitStrip]
+        : null;
+      playGameEvs(block.evs, strip);
+    });
     return b;
   }
 

@@ -48,8 +48,14 @@ function flashKey(midi, at, ms, litKey){
 
 /* 播放一组捕获来的演示事件。click 事件是教程的节拍器拍点（无音高），
  * 用高音短音模拟：重拍高一点亮一点，弱拍反之——
- * 弱起/切分这类"相对拍点偏了"的演示，没有拍点对比就听不出差别。 */
-function playGameEvs(evs){
+ * 弱起/切分这类"相对拍点偏了"的演示，没有拍点对比就听不出差别。
+ *
+ * strip：页内的条块 DOM（.strip-wrap）。教程里播放时拍点圆点/和弦格子
+ * 会逐个点亮（.hit），互动课必须同样"会动"，mode 由条块类型决定：
+ *   圆点条 —— click 按 dot（教程捕获的精确格位）或出现序号点亮；
+ *             纯旋律演示（速度术语）按事件序号点亮（教程同款 i % 4）；
+ *   和弦条 —— 事件按时间分组（间隔 >0.6s 为新和弦），逐组点亮格子。 */
+function playGameEvs(evs, strip){
   if (typeof voice !== 'function' || typeof ac !== 'function' || typeof newBus !== 'function') return;
   const list = (evs || []).filter(e => e && (e.click || Number.isInteger(e.m)));
   if (!list.length) return;
@@ -58,9 +64,47 @@ function playGameEvs(evs){
   const start = A.currentTime + 0.08;
   const end = Math.max.apply(null, list.map(e => e.t + (e.click ? 0.1 : (e.d || 0.9))));
   const bus = newBus((end + 2) * 1000);
+  const tok = GAME_AUDIO_TOKEN;
+
+  /* 点亮 strip 的一格；tok 已变（用户点了别的）就不亮 */
+  let cells = null, len = 0;
+  if (strip && strip.children && strip.children.length){
+    cells = [...strip.children];
+    len = cells.length;
+  }
+  const hitCell = (idx, ms) => {
+    if (!cells) return;
+    const c = cells[((idx % len) + len) % len];
+    if (!c) return;
+    c.classList.add('hit');
+    clearTimeout(c._gft);
+    c._gft = setTimeout(() => c.classList.remove('hit'), ms);
+  };
+  const chordMode = !!(strip && strip.classList && strip.classList.contains('chords'));
+  const dotsMode = !!cells && !chordMode && list.some(e => e.click);
+
+  let clickN = 0, evN = 0, chordN = -1, prevT = -9;
   list.forEach(e => {
-    if (e.click){ voice(e.strong ? 96 : 91, start + e.t, 0.06, e.strong ? 0.18 : 0.1, 'piano', bus); return; }
-    voice(e.m, start + e.t, e.d, e.g, e.kind || 'piano', bus, e.lit);
+    if (e.click){
+      voice(e.strong ? 96 : 91, start + e.t, 0.06, e.strong ? 0.18 : 0.1, 'piano', bus);
+      if (dotsMode) setTimeout(() => { if (tok !== GAME_AUDIO_TOKEN) return; hitCell(Number.isInteger(e.dot) ? e.dot : clickN, 180); }, Math.max(0, e.t * 1000));
+      clickN++;
+    } else {
+      voice(e.m, start + e.t, e.d, e.g, e.kind || 'piano', bus, e.lit);
+      if (chordMode){
+        if (e.t - prevT > 0.6){
+          chordN++;
+          const n = chordN;
+          setTimeout(() => { if (tok !== GAME_AUDIO_TOKEN) return; cells.forEach(c => c.classList.remove('hit')); hitCell(n, 1400); }, Math.max(0, e.t * 1000));
+        }
+        prevT = e.t;
+      } else if (cells && !dotsMode){
+        /* 纯旋律 + 圆点条（速度术语演示）：教程按音序 i % 圆点数点亮 */
+        const n = evN;
+        setTimeout(() => { if (tok !== GAME_AUDIO_TOKEN) return; hitCell(n, 220); }, Math.max(0, e.t * 1000));
+      }
+    }
+    evN++;
   });
 }
 

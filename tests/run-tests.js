@@ -3020,6 +3020,10 @@ test('P1 互动课配置：由当前教程生成、可校验、页量充足且�
   const metPage = GAME_CONFIG.pages.find(p => /节拍器/.test(p.title));
   assert.ok(metPage && metPage.blocks.some(b => b.type === 'audio' && /节拍器/.test(b.label || '')),
     '节拍器页要有拍点音频');
+  /* 演示联动：卡上有圆点条的演示要标 dots、整条播放要标 chords（解析成序号后 ≥0），
+   * 这是"教程里会动的，互动课也要动"的数据层底线 */
+  const linked = GAME_CONFIG.pages.flatMap(p => p.blocks).filter(b => b.type === 'audio' && b.hitStrip != null);
+  assert.ok(linked.length >= 20, `拍点/和弦联动应成建制标记（现有 ${linked.length} 条）`);
 
   /* 散字页守卫：一页出现 ≥3 个 ≤4 字的孤立 text 块 = JS 装配的图被拆成散字
    * （与生成器末尾的体检同一口径；生成器会拦，这里防有人绕过生成器直改 game-data） */
@@ -3183,8 +3187,30 @@ test('P5 互动课逐页体检：144 页每页逐块渲染核对，点行/点卡
     /* 用户点名过的页面逐一断言，防回归 */
     const find = re => G.config.pages.find(p => re.test(p.title));
     const met = find(/节拍器/);
-    assert.ok(met && met.blocks.some(b => b.type === 'audio' && /节拍器/.test(b.label || '')),
-      '节拍器页要有拍点音频（MET 直调 AudioContext 捕不到，由生成器按 MET 真值合成）');
+    const metAudio = met && met.blocks.find(b => b.type === 'audio' && /节拍器/.test(b.label || ''));
+    assert.ok(metAudio, '节拍器页要有拍点音频（MET 直调 AudioContext 捕不到，由生成器按 MET 真值合成）');
+    assert.ok(metAudio && metAudio.hitStrip === 0, '节拍器拍点要联动页内的圆点条（hitStrip=0）');
+
+    /* 视觉联动实测：点节拍器后拍点圆点必须真的动（.hit 轮流出现）。
+     * 每拍只亮 ~180ms（90 BPM 拍距 667ms），采样要轮询，不能等完再查 */
+    G.openPage(met.id);
+    d.querySelector('#pageBlocks .audio-card').click();
+    let metHits = 0;
+    for (let i = 0; i < 12 && !metHits; i++){
+      await new Promise(r => setTimeout(r, 100));
+      metHits = d.querySelectorAll('#pageBlocks .strip-wrap .strip-cell.hit').length;
+    }
+    w.stopGameAudio();
+    assert.ok(metHits >= 1, `节拍器播放时圆点条要点亮（轮询 1.2s 内实际 ${metHits} 格）`);
+
+    /* 整条播放的音频必须各配一条自己的和弦格子条（hitStrip 解析不能串） */
+    const whole = G.config.pages
+      .flatMap(p => p.blocks).filter(b => b.type === 'audio' && /整条$/.test(b.label || ''));
+    assert.ok(whole.length >= 10, `整条播放应成建制（六进行 + 五收尾共 11 条），实际 ${whole.length}`);
+    const noStrip = whole.filter(b => b.hitStrip == null);
+    assert.ok(noStrip.length === 0,
+      '每条整条播放都要配对到自己的和弦格子条，未配对: ' + noStrip.map(b => JSON.stringify(b.label)).join(','));
+
     const meters = find(/逐个听、逐个认/);
     assert.ok(meters, '要有"逐个听、逐个认"页');
     const meterTable = meters && meters.blocks.find(b => b.type === 'table');
