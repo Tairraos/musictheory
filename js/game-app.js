@@ -5,7 +5,7 @@
  *       页面内容只从 COURSE_CONFIG 取；本文件不复制任何知识点文案。
  * ========================================================================== */
 
-const VERSION = { v: '1.45', date: '26.11.03' };
+const VERSION = { v: '1.46', date: '26.11.04' };
 const PROGRESS_KEY = 'jiedi-course-progress-v1';
 
 const memoryStorage = (() => {
