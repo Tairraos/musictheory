@@ -18,7 +18,7 @@
   /* 版本号：与另两页共用同一个数（三页一次交付，标签页上显示不同版本
      只会让人怀疑"我是不是没刷新"）。真源就在这里，另外三处是静态副本，
      统一由 tests/bump-version.js 改；本文件负责把副本刷成同一个值。 */
-  const VERSION = { v: '1.38', date: '26.11.04' };
+  const VERSION = { v: '1.39', date: '26.11.04' };
 
   function applyVersion() {
     document.querySelectorAll('[data-ver]').forEach(el => {
@@ -254,12 +254,14 @@
         /* 图例色块取本族颜色：写死紫色的话，弦乐那张图的图例就和条对不上了 */
         chartBox.style.setProperty('--c', f.color);
         chartBox.style.setProperty('--cl', f.light);
-        chartBox.innerHTML = rangeChart(f.items, { title: f.name + '音域覆盖' });
+        /* 滑动手势提示放在图**上方**：图例在 39 行之后，等滑到那儿才知道
+           "刚才右边被裁了"就太晚了。桌面端不显示。 */
+        chartBox.innerHTML = `<div class="swipe-top">← 左右滑动看完整音域 →</div>`
+          + rangeChart(f.items, { title: f.name + '音域覆盖' });
         const cap = document.createElement('div');
         cap.className = 'rchart-cap';
         cap.innerHTML = `<span><i class="sw-l"></i>够得着（全音域）</span>
           <span><i class="sw-d"></i>常用 / 舒适区</span>
-          <span class="swipe">← 左右滑动看完整音域 →</span>
           <span class="mini">横轴每格一个八度，刻度落在 C 上</span>`;
         chartBox.appendChild(cap);
       }
@@ -272,10 +274,11 @@
        不是读细节，所以不需要条内文字 */
     const ov = document.getElementById('chartAll');
     if (ov) {
-      ov.innerHTML = rangeChart(all(), {
-        rowH: 19, barH: 9, showInBar: false, labelW: 122,
-        highlight: ['C3', 'C5'], title: '全部乐器音域总览',
-      });
+      ov.innerHTML = `<div class="swipe-top">← 左右滑动看完整音域 →</div>`
+        + rangeChart(all(), {
+          rowH: 19, barH: 9, showInBar: false, labelW: 122,
+          highlight: ['C3', 'C5'], title: '全部乐器音域总览',
+        });
     }
 
     const sp = document.getElementById('speedTable');

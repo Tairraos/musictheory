@@ -19,8 +19,9 @@
 .rchart-cap .sw-l,.rchart-cap .sw-d{width:22px;height:9px;border-radius:5px;display:inline-block;margin-right:5px;vertical-align:middle}
 .rchart-cap .sw-l{background:var(--cl,#EEEDFE);border:1px solid var(--c,#AFA9EC)}
 .rchart-cap .sw-d{background:var(--c,#534AB7)}
-/* 窄屏才提示能滑：桌面端图是完整铺开的，写这句话反而多余 */
-.rchart-cap .swipe{display:none;color:var(--faint)}
+/* 窄屏才提示能滑：桌面端图是完整铺开的，写这句话反而多余。
+   位置在图**上方**——图例在几十行之后，滑到那儿才知道右边被裁就晚了。 */
+.swipe-top{display:none}
 .rchart-cap .mini{margin-left:auto}
 
 /* ---------- 2. 乐器卡 ---------- */
@@ -103,10 +104,10 @@
    td 默认 vertical-align:middle 会把单行的那几格压到行底，看着像没对齐；
    顶对齐＋定宽之后，每一行都从同一条基线上开始读。 */
 .plan{table-layout:fixed}
-.plan th:nth-child(1){width:17%}
+.plan th:nth-child(1){width:19%}
 .plan th:nth-child(2){width:11%}
 .plan th:nth-child(3){width:32%}
-.plan th:nth-child(4){width:40%}
+.plan th:nth-child(4){width:38%}
 .plan td{vertical-align:top}
 .plan td:nth-child(2){white-space:nowrap}
 
@@ -130,6 +131,6 @@
   .rchart{min-width:520px}
   .rchart-cap{font-size:11px;gap:10px}
   .rchart-cap .mini{display:none}
-  .rchart-cap .swipe{display:inline;margin-left:auto}
+  .swipe-top{display:block;font-size:11px;color:var(--faint);margin:0 0 4px}
   .facts>div{grid-template-columns:50px minmax(0,1fr)}
 }
