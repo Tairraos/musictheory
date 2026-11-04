@@ -131,6 +131,18 @@ async function withGamePage(fn) {
   }
 }
 
+/* 乐器课：与上面两个同构。它只加载两个脚本（数据 + 渲染），不碰音频与键盘，
+   所以能直接在 jsdom 里跑完整装配。 */
+async function withInstrumentPage(fn) {
+  const { dom, errors } = await loadPage('instrument.html');
+  try {
+    await fn(dom.window, dom.window.document);
+    assert.deepEqual(errors, [], '乐器课页面执行期间不应有脚本错误');
+  } finally {
+    dom.window.close();
+  }
+}
+
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 /* -------------------------------------------------------------------------- *
@@ -3226,5 +3238,245 @@ test('P5 互动课逐页体检：144 页每页逐块渲染核对，点行/点卡
     const cadence = find(/五种收尾方式/);
     assert.ok(cadence && cadence.blocks.filter(b => b.type === 'strip' && b.chords).length >= 5,
       '五种收尾方式每条都要有格子图');
+  });
+});
+
+/* -------------------------------------------------------------------------- *
+ * I. 乐器课（instrument.html）
+ * -------------------------------------------------------------------------- */
+
+test('I1 乐器课装配：15 节、每族一张图、每件乐器一张卡', async () => {
+  await withInstrumentPage((w, d) => {
+    const links = [...d.querySelectorAll('#nav a[href^="#"]')];
+    const sections = [...d.querySelectorAll('section')];
+    assert.equal(links.length, 15, '15 个导航链接');
+    assert.equal(sections.length, 15, '15 个 section');
+    for (const l of links) {
+      const id = l.getAttribute('href').slice(1);
+      assert.ok(d.getElementById(id), `导航目标 #${id} 应存在`);
+    }
+    /* 与另两页同一条守卫：节号连续，插一节忘了顺延立刻报 */
+    assert.deepEqual(sections.map(s => s.querySelector('.sec-num').textContent),
+      ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14'],
+      '节号必须从 00 到 14 连续');
+
+    const fams = w.__IC__.INST_DATA.families;
+    const total = fams.reduce((n, f) => n + f.items.length, 0);
+    assert.equal(total, w.__IC__.all().length, '族内乐器总数应与 all() 一致');
+
+    /* 每族：一张图（里面必须有 svg）+ 与数据等量的卡片 */
+    for (const f of fams) {
+      const chart = d.querySelector(`[data-fam-chart="${f.id}"] svg`);
+      assert.ok(chart, `${f.name} 应有音域图`);
+      assert.equal(d.querySelectorAll(`[data-fam-cards="${f.id}"] .inst`).length, f.items.length,
+        `${f.name} 的卡片数应与数据一致`);
+      /* 每件乐器的卡都要有：八度格、织密条、五条参数、四段话 */
+      for (const card of d.querySelectorAll(`[data-fam-cards="${f.id}"] .inst`)) {
+        assert.equal(card.querySelectorAll('.octs i').length, 6, '八度格固定 6 格（C1–C6）');
+        assert.ok(card.querySelectorAll('.octs i.hot').length >= 1, '每件乐器至少要落在一个八度格里');
+        /* 族色是 CSS 变量传下去的：一旦拿到 undefined，卡片边框和格子会**静默**变白，
+           肉眼要盯很久才发现。所以直接断言 style 里不能出现 undefined。 */
+        assert.doesNotMatch(card.getAttribute('style') || '', /undefined/,
+          `${card.querySelector('.inst-h b').textContent} 的族色变量不能是 undefined`);
+        assert.ok(card.querySelector('.dens-track i'), '应有织密条');
+        assert.equal(card.querySelectorAll('.facts > div').length, 5, '理科参数固定 5 条');
+        assert.equal(card.querySelectorAll('.inst-right p').length, 4, '四段话：意象/特点/用它/别用');
+      }
+    }
+
+    assert.ok(d.querySelector('#chartAll svg'), '总览图应有 svg');
+    assert.equal(d.querySelectorAll('#speedTable tbody tr').length, total, '速查表每件乐器一行');
+    assert.equal(d.querySelectorAll('#noiseTable tbody tr').length, w.__IC__.INST_NOISE.length,
+      '无音高乐器单独成表');
+
+    /* 手写的表格也要套 .tscroll（窄屏横滑），与另两页同一条规矩 */
+    [...d.querySelectorAll('table')].forEach(t => {
+      assert.ok(t.parentNode.classList.contains('tscroll'), '每张表都要套 .tscroll');
+      const cols = t.querySelectorAll('thead th').length;
+      assert.equal(t.parentNode.classList.contains('wide'), cols >= 4,
+        `列数 ${cols} 的表，wide 标记必须与"≥4 列"一致`);
+    });
+  });
+});
+
+test('I2 音高换算：C4=60、A4=440Hz、谱号两端不能差一个八度', async () => {
+  await withInstrumentPage((w) => {
+    const { midiOf, hzOf } = w.__IC__;
+    assert.equal(midiOf('C4'), 60, '中央 C 的 MIDI 号必须是 60');
+    assert.equal(midiOf('A4'), 69);
+    assert.equal(midiOf('A0'), 21, '88 键钢琴最低音');
+    assert.equal(midiOf('C8'), 108, '88 键钢琴最高音');
+    assert.equal(midiOf('C#4'), 61, '升号必须 +1');
+    assert.equal(midiOf('Db4'), 61, '降号必须 −1，且与 C#4 同音');
+
+    assert.ok(Math.abs(hzOf(69) - 440) < 1e-9, 'A4 必须是 440 Hz');
+    assert.ok(Math.abs(hzOf(60) - 261.6256) < 1e-3, 'C4 约 261.63 Hz');
+    assert.ok(Math.abs(hzOf(21) - 27.5) < 1e-6, 'A0 = 27.5 Hz');
+
+    /* 八度关系是这套公式唯一的不变式：差 12 个半音必须正好翻倍 */
+    for (const m of [21, 48, 60, 72, 96]) {
+      assert.ok(Math.abs(hzOf(m + 12) / hzOf(m) - 2) < 1e-9, `${m} 与 ${m + 12} 之间应正好差一个八度`);
+    }
+  });
+});
+
+test('I3 乐器数据体检：常用区必须落在音域内，织密不得超过全站量程', async () => {
+  await withInstrumentPage((w) => {
+    const { all, INST_NOISE } = w.__IC__;
+    const list = all();
+    const ids = new Set();
+    for (const it of list) {
+      assert.ok(!ids.has(it.id), `乐器 id 重复：${it.id}`);
+      ids.add(it.id);
+
+      const lo = w.__IC__.midiOf(it.lo), hi = w.__IC__.midiOf(it.hi);
+      const cLo = w.__IC__.midiOf(it.comfort[0]), cHi = w.__IC__.midiOf(it.comfort[1]);
+      assert.ok(lo < hi, `${it.name} 的音域不能为空`);
+      assert.ok(lo <= cLo && cLo <= cHi && cHi <= hi,
+        `${it.name} 的常用区 ${it.comfort.join('–')} 必须落在音域 ${it.lo}–${it.hi} 之内`);
+
+      const [d0, d1] = it.density;
+      assert.ok(d0 >= 0 && d0 <= d1, `${it.name} 的织密区间不合法`);
+      /* 16 是渲染层 DENS_MAX；数据超过量程会把条画到框外 */
+      assert.ok(d1 <= 16, `${it.name} 的织密上限 ${d1} 超过全站量程 16，条形会溢出`);
+
+      assert.equal(it.params.length, 5, `${it.name} 应有 5 条理科参数`);
+      it.params.forEach(p => {
+        assert.ok(p[0] && p[1], `${it.name} 的参数不能有空行`);
+      });
+      for (const k of ['name', 'en', 'image', 'trait', 'use', 'avoid']) {
+        assert.ok(it[k] && String(it[k]).trim(), `${it.name} 缺少 ${k}`);
+      }
+      assert.ok(it._color && it._light, `${it.name} 应带上族色`);
+    }
+
+    /* 无音高的一组不进音域图，但也不能空着 */
+    assert.ok(INST_NOISE.length >= 3, '无音高乐器至少三件');
+    INST_NOISE.forEach(n => assert.ok(n.name && n.band && n.role && n.note));
+  });
+});
+
+test('I4 音域图：每件乐器两条 rect，刻度落在 C 上', async () => {
+  await withInstrumentPage((w, d) => {
+    const fams = w.__IC__.INST_DATA.families;
+    for (const f of fams) {
+      const svg = d.querySelector(`[data-fam-chart="${f.id}"] svg`);
+      /* 全音域 + 常用区 = 每条 2 个 rect；族图不画高亮带，所以数量必须精确相等 */
+      assert.equal(svg.querySelectorAll('rect').length, f.items.length * 2,
+        `${f.name}：${f.items.length} 件乐器应有 ${f.items.length * 2} 个矩形`);
+      /* 刻度文本必须是 C…，不能出现半音名——横轴是按八度建的 */
+      const ticks = [...svg.querySelectorAll('text')]
+        .map(t => t.textContent).filter(s => /^C-?\d+$/.test(s));
+      assert.ok(ticks.length >= 3, `${f.name} 的横轴至少要有 3 个八度刻度`);
+      assert.deepEqual([...new Set(ticks.map(t => t.replace(/\d+/g, '')))], ['C'],
+        '刻度只能落在 C 上');
+    }
+
+    /* 总览图多一条高亮带（主奏与人声最挤的一段） */
+    const ov = d.querySelector('#chartAll svg');
+    const total = w.__IC__.all().length;
+    assert.equal(ov.querySelectorAll('rect').length, total * 2 + 1,
+      '总览图 = 每件两条 + 一条高亮带');
+  });
+});
+
+test('I5 图由数据驱动：改一个音名，图必须跟着变（防手写死）', async () => {
+  await withInstrumentPage((w) => {
+    const { rangeChart, all } = w.__IC__;
+    const it = all().find(x => x.id === 'piano');
+    const a = rangeChart([it], {});
+    it.hi = 'C6';               /* 临时改数据，故意改坏 */
+    const b = rangeChart([it], {});
+    it.hi = 'C8';               /* 立刻还原 */
+    assert.notEqual(a, b, '改了 hi 之后图必须不同——否则说明图里写死了音域');
+    assert.equal(rangeChart([it], {}), a, '还原后必须回到原样');
+  });
+});
+
+test('I6 乐器课资源：专属样式与两个脚本都在，互链指向另两页', async () => {
+  const html = fs.readFileSync(path.join(ROOT, 'instrument.html'), 'utf8');
+  assert.match(html, /<link rel="stylesheet" href="css\/main\.css">/);
+  assert.match(html, /<link rel="stylesheet" href="css\/instrument\.css">/);
+  const scripts = [...html.matchAll(/<script src="(js\/[^"]+)"><\/script>/g)].map(m => m[1]);
+  assert.deepEqual(scripts, ['js/instrument-data.js', 'js/instrument-render.js'],
+    '乐器课只加载数据与渲染两个脚本，不拖入音频与键盘');
+  for (const f of ['css/instrument.css', 'js/instrument-data.js', 'js/instrument-render.js']) {
+    assert.ok(fs.existsSync(path.join(ROOT, f)), `${f} 应存在`);
+  }
+  /* 三页互链：本页必须能回到另两页，另两页也必须指过来 */
+  assert.match(html, /href="index\.html"/, '应能回乐理课');
+  assert.match(html, /href="lyric\.html"/, '应能去作词课');
+  for (const p of ['index.html', 'lyric.html']) {
+    assert.match(fs.readFileSync(path.join(ROOT, p), 'utf8'), /href="instrument\.html"/,
+      `${p} 应链到乐器课`);
+  }
+  /* Hero 插画还没进仓库时不断言存在；一旦放进来就必须是合法 PNG */
+  const hero = path.join(ROOT, 'assets/images/hero-instrument.png');
+  if (fs.existsSync(hero)) {
+    const png = fs.readFileSync(hero);
+    assert.deepEqual([...png.subarray(0, 4)], [0x89, 0x50, 0x4e, 0x47],
+      'hero-instrument.png 应是合法 PNG');
+  }
+});
+
+test('I7 总览结论里的数字必须与数据现算一致（加一件乐器就要改文案）', async () => {
+  await withInstrumentPage((w, d) => {
+    const { all, midiOf } = w.__IC__;
+    const list = all();
+    /* 四个统计口径，与页面 s-all 里那三句话一一对应。
+       任何一个数字将来变了而文案没改，这条会立刻挂——
+       这正是"内容体检：数字要和数据对账"那条纪律。 */
+    const low = list.filter(i => midiOf(i.lo) <= 35).length;                                  // 够得着 C2 以下
+    const lowCore = list.filter(i => midiOf(i.comfort[1]) <= 51).length;                      // 常用区不超 D3
+    const mid = list.filter(i => midiOf(i.comfort[0]) <= 71 && midiOf(i.comfort[1]) >= 48).length; // 常用区压 C3–C5
+    const high = list.filter(i => midiOf(i.hi) >= 84).length;                                 // 能到 C6 以上
+    const highTop = list.filter(i => midiOf(i.comfort[1]) >= 96).length;                      // 常用区够得着 C7
+
+    const text = d.getElementById('s-all').textContent.replace(/\s+/g, '');
+    assert.ok(text.includes(`先把${list.length}件乐器叠在一张图上`),
+      `s-all 里应写「先把 ${list.length} 件乐器」，实际总览是 ${list.length} 件`);
+    assert.ok(text.includes(`只有${low}件乐器够得着`),
+      `C1–C2 够得着的应写 ${low} 件`);
+    assert.ok(text.includes(`${mid}件的常用区`),
+      `压在中频的应写 ${mid} 件`);
+    assert.ok(text.includes(`有${high}件`),
+      `能到 C6 以上的应写 ${high} 件`);
+
+    /* 这两条是结论的支点，数字一变就要连文案一起改，所以直接钉死 */
+    assert.equal(lowCore, 4, '常驻低频的应恰为四件（低音提琴/电贝斯/大号/808），若变了请同步改 s-all 第一条');
+    assert.equal(highTop, 6, '常用区能摸到 C7 的应恰为六件（短笛/钢片琴/竖琴/小提琴/长笛/合成器），若变了请同步改 s-all 第三条');
+    assert.ok(text.includes('只有六件'), '高音结论里的「只有六件」要与 highTop=6 一致');
+  });
+});
+
+test('I8 每件乐器的移调说明必须与音域自洽（记谱方向不能写反）', async () => {
+  await withInstrumentPage((w) => {
+    const { all } = w.__IC__;
+    /* 移调乐器最容易写反的一句话是"记谱比实际高/低几度"。
+       这里只查有明确写法的几件：正负号必须和"它实际比记谱高还是低"对上。
+       规则：描述里出现"记谱比实际高"＝实际音比记谱低；"记谱比实际低"＝实际音更高。 */
+    const expect = {
+      piccolo: '低',        // 记谱低八度 → 实际高
+      dbass: '高',          // 记谱高八度 → 实际低
+      guitar: '高',
+      celesta: '低',
+      clarinet: '高',       // 降 B，记谱比实际高大二度
+      bassoon: '高',
+      sopsax: '高',         // 降 B
+      altosax: '高',        // 降 E，记谱比实际高小六度
+      tenorsax: '高',       // 降 B，记谱比实际高大九度
+      barisax: '高',        // 降 E，记谱比实际高大十三度
+      trumpet: '高',
+      horn: '高',
+    };
+    for (const [id, dir] of Object.entries(expect)) {
+      const it = all().find(x => x.id === id);
+      assert.ok(it, `${id} 应存在`);
+      const line = it.params.map(p => p[0] + p[1]).join('');
+      assert.ok(line.includes('记谱'), `${it.name} 应在参数里交代记谱移调`);
+      const m = line.match(/记谱比实际([高低])/);
+      assert.ok(m, `${it.name} 的移调写法应为「记谱比实际高/低…」，实际是「${line}」`);
+      assert.equal(m[1], dir, `${it.name} 的移调方向写反了`);
+    }
   });
 });

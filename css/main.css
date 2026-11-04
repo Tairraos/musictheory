@@ -451,3 +451,11 @@ svg text{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sa
 .tscroll::-webkit-scrollbar{height:6px}
 .tscroll::-webkit-scrollbar-track{background:transparent}
 .tscroll::-webkit-scrollbar-thumb{background:#D6D2C6;border-radius:3px}
+
+/* ---------- 22. 三页互链（V1.37 乐器课加入后） ----------
+   原来只有两个页面，`.pageswitch` 里永远只有一条链接，所以没写 gap；
+   现在有三个，两条药丸会贴在一起。gap 对单链接无影响，两页都不受影响。
+   侧栏同理：两条 .navswitch 上下叠着，各自 12px 的下边距会撑出 24px，
+   第二条的上边距收掉一点，看起来才是"一组入口"而不是两个区块。 */
+.pageswitch{gap:8px}
+#nav a.navswitch + a.navswitch{margin-top:-8px}
