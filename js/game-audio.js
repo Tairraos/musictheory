@@ -28,6 +28,8 @@ function flashKey(midi, at, ms, litKey){
   const t = ms || 220;
   setTimeout(() => {
     if (tok !== GAME_AUDIO_TOKEN) return;   /* 已被停止：不亮 */
+    /* 画面外的键先滚进可视窗（用户拖过键盘 2 秒内则让位） */
+    if (typeof gameKbFollow === 'function'){ try { gameKbFollow(midi); } catch (e) {} }
     const kb = document.getElementById('gameKb');
     if (kb) kb.querySelectorAll('[data-m="' + midi + '"]').forEach(el => {
       el.classList.add('flash');

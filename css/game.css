@@ -60,7 +60,7 @@ h3,h4{margin:0;line-height:1.4}
 p{margin:0}
 .home-hero p:last-child{max-width:680px;margin-top:14px;color:var(--muted);font-size:17px}
 
-.course-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:8px 0 28px}
+.course-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:8px 0 28px}
 .course-stat{padding:20px;border:1px solid var(--line);border-radius:20px;background:var(--surface);box-shadow:var(--shadow)}
 .course-stat h2{margin-bottom:6px}
 .course-stat p{color:var(--muted);font-size:15px;line-height:1.6}
@@ -297,3 +297,12 @@ p{margin:0}
  * ========================================================================== */
 .strip-wrap .strip-cell.hit{background:var(--purple-bg);border-color:var(--purple);transform:translateY(-1px)}
 .audio-card.playing{background:var(--purple-bg);border-color:var(--purple)}
+
+/* ==========================================================================
+ * 23. 键盘拖拽回位 + 乐器课入口（V1.47）
+ * --------------------------------------------------------------------------
+ * 键盘改 C2–C7 五个八度：可视窗仍 14 白键，其余左右拖拽看，松手 2 秒滑回 C4；
+ * 演示音频播到画面外的键时视口自动滚过去（gameKbFollow）。
+ * accent-teal：第三课《乐器课》课程卡进度条颜色。
+ * ========================================================================== */
+.accent-teal .progress-track i{background:var(--teal)}

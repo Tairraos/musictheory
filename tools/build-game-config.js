@@ -25,7 +25,8 @@ const OUT = path.join(ROOT, 'js/game-data.js');
 
 const SOURCES = [
   { file: 'index.html', course: 'music', title: '乐理课', short: '听出来', intro: '把乐理课的每一张卡片变成一页可玩、可跳过的知识点。', accent: 'purple' },
-  { file: 'lyric.html', course: 'lyric', title: '作词课', short: '改出来', intro: '把作词课的每一张卡片变成一页可查、可练、可跳过的判据。', accent: 'amber' }
+  { file: 'lyric.html', course: 'lyric', title: '作词课', short: '改出来', intro: '把作词课的每一张卡片变成一页可查、可练、可跳过的判据。', accent: 'amber' },
+  { file: 'instrument.html', course: 'instrument', title: '乐器课', short: '认出来', intro: '每一件乐器的音域、织密与性格，翻成一页页可翻的卡片。', accent: 'teal' }
 ];
 
 function textOf(el){ return ((el && el.textContent) || '').replace(/\s+/g, ' ').trim(); }

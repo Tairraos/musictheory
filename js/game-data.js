@@ -13,7 +13,7 @@
 return {
   "schemaVersion": 1,
   "contentVersion": "v1.38-derived",
-  "generatedAt": "2026-11-03",
+  "generatedAt": "2026-11-04",
   "courses": [
     {
       "id": "music",
@@ -28,6 +28,13 @@ return {
       "short": "改出来",
       "intro": "把作词课的每一张卡片变成一页可查、可练、可跳过的判据。",
       "accent": "amber"
+    },
+    {
+      "id": "instrument",
+      "title": "乐器课",
+      "short": "认出来",
+      "intro": "每一件乐器的音域、织密与性格，翻成一页页可翻的卡片。",
+      "accent": "teal"
     }
   ],
   "pages": [
@@ -21070,6 +21077,2054 @@ return {
       ],
       "skip": true,
       "order": 72,
+      "task": {
+        "type": "action",
+        "prompt": "按顺序读完后过页",
+        "label": "我读完了",
+        "explain": "顺序本身就是知识的一部分；跳过也不会卡进度。"
+      }
+    },
+    {
+      "id": "instrument.s-read.intro",
+      "course": "instrument",
+      "chapter": "00 先学会读这张图",
+      "title": "先学会读这张图",
+      "goal": "整页只有一种图，读法三种：条有多长＝它能到多高多低；",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "text",
+          "text": "整页只有一种图，读法三种：条有多长＝它能到多高多低；深色的那一段＝它待着最舒服的地方； 六个格子＝它的重心落在哪个八度。第三样最有用，因为配器吵架吵的从来不是音域，是重心。"
+        }
+      ],
+      "skip": true,
+      "order": 1,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-read.c1",
+      "course": "instrument",
+      "chapter": "00 先学会读这张图",
+      "title": "三个量，一次说清",
+      "goal": "三个量，一次说清 量一 · 音域 能到哪：浅色那截是 够得着 ，不代表好听、不代表常用。",
+      "estimatedSeconds": 78,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "三个量，一次说清"
+        },
+        {
+          "type": "text",
+          "text": "量一 · 音域"
+        },
+        {
+          "type": "text",
+          "text": "能到哪：浅色那截是 够得着 ，不代表好听、不代表常用。钢琴能到 A0， 但没人拿 A0 写旋律。音域是 物理极限 ，不是工作范围。"
+        },
+        {
+          "type": "text",
+          "text": "量二 · 常用区"
+        },
+        {
+          "type": "text",
+          "text": "在哪舒服：深色那截才是它真正的工作区。两件乐器的 深色段重叠 ，就是它们要打架的地方； 浅色段重叠无所谓——反正谁都不会去。"
+        },
+        {
+          "type": "text",
+          "text": "量三 · 织密"
+        },
+        {
+          "type": "text",
+          "text": "多忙：每秒能出几个音头（音头/秒）。 同一时刻只能有一个东西在动 —— 这条判据比音域更能决定一段编曲会不会糊。"
+        },
+        {
+          "type": "tip",
+          "text": "三个量里，前两个是乐器自带的，只有织密是你写出来的。 这就是为什么\"换一件乐器\"经常救不了一首烂编曲——音域和常用区都换了，织密没换。"
+        }
+      ],
+      "skip": true,
+      "order": 2,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-read.c2",
+      "course": "instrument",
+      "chapter": "00 先学会读这张图",
+      "title": "为什么不用\"音色温暖 / 明亮\"来选乐器",
+      "goal": "为什么不用\"音色温暖 / 明亮\"来选乐器 因为这三个词没有刻度，说的人和听的人对不上。",
+      "estimatedSeconds": 51,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "为什么不用\"音色温暖 / 明亮\"来选乐器"
+        },
+        {
+          "type": "text",
+          "text": "因为这三个词没有刻度，说的人和听的人对不上。换成可量的说法，同一件事立刻能验证："
+        },
+        {
+          "type": "table",
+          "headers": [
+            "你本来想说",
+            "其实是哪个参数",
+            "怎么验"
+          ],
+          "rows": [
+            [
+              "「这个音色很暖」",
+              "高次谐波少 + 起音慢",
+              "把高音区砍掉、起音拖到 150ms，任何乐器都会\"变暖\""
+            ],
+            [
+              "「这个很亮 / 很尖」",
+              "2、3 次泛音强 + 起音 < 5ms",
+              "钢片琴、短笛、唢呐都是这个配方"
+            ],
+            [
+              "「这个很空、很远」",
+              "基频强、泛音少 + 混响多",
+              "长笛与箫：几乎没有\"鼻音\"的共振峰"
+            ],
+            [
+              "「这个有厚度」",
+              "低频在 100–250Hz 有能量",
+              "不是音量，是频段；加音量只会更吵，不会更厚"
+            ],
+            [
+              "「这个很脏 / 很糙」",
+              "非谐波泛音 + 噪声成分",
+              "二胡的蛇皮、唢呐的簧、失真吉他的削波"
+            ]
+          ],
+          "clickRows": []
+        },
+        {
+          "type": "tip",
+          "text": "这张表的用法：下次你想说\"换个更暖的乐器\"，先问自己是要砍高频还是拖起音。 两个都要，才叫暖；只做一个，听起来是\"闷\"或者\"拖\"。"
+        }
+      ],
+      "skip": true,
+      "order": 3,
+      "task": {
+        "type": "action",
+        "prompt": "查完这张表后过页",
+        "label": "我查完了",
+        "explain": "表不是用来背的，是动笔/动耳前先查的工具。"
+      }
+    },
+    {
+      "id": "instrument.s-all.intro",
+      "course": "instrument",
+      "chapter": "01 全部乐器一张图：谁和谁在抢",
+      "title": "全部乐器一张图：谁和谁在抢",
+      "goal": "先把 46 件乐器叠在一张图上，你会看到一件比任何配器教材都直观的事： 低音区是空的，高音区是空的，中间挤满了人。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "text",
+          "text": "先把 46 件乐器叠在一张图上，你会看到一件比任何配器教材都直观的事： 低音区是空的，高音区是空的，中间挤满了人。所有\"编曲听着糊\"的问题，几乎都发生在那条浅红色的带子里。"
+        }
+      ],
+      "skip": true,
+      "order": 4,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-all.c1",
+      "course": "instrument",
+      "chapter": "01 全部乐器一张图：谁和谁在抢",
+      "title": "音域总览（按族排序）",
+      "goal": "音域总览（按族排序） ← 左右滑动看完整音域 → 颜色＝族，从上到下按族排。",
+      "estimatedSeconds": 56,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "音域总览（按族排序）"
+        },
+        {
+          "type": "text",
+          "text": "← 左右滑动看完整音域 →"
+        },
+        {
+          "type": "svg",
+          "svg": "<svg class=\"rchart\" viewBox=\"0 0 760 936\" role=\"img\" aria-label=\"全部乐器音域总览\"><rect x=\"358.25\" y=\"28\" width=\"153.5\" height=\"880\" fill=\"#D85A30\" opacity=\".055\"></rect><text x=\"435\" y=\"20\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#B4502C\">主奏与人声最挤的一段</text><line x1=\"128\" y1=\"30\" x2=\"128\" y2=\"910\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"204.75\" y1=\"30\" x2=\"204.75\" y2=\"910\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"281.5\" y1=\"30\" x2=\"281.5\" y2=\"910\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"358.25\" y1=\"30\" x2=\"358.25\" y2=\"910\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"435\" y1=\"30\" x2=\"435\" y2=\"910\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"511.75\" y1=\"30\" x2=\"511.75\" y2=\"910\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"588.5\" y1=\"30\" x2=\"588.5\" y2=\"910\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"665.25\" y1=\"30\" x2=\"665.25\" y2=\"910\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"742\" y1=\"30\" x2=\"742\" y2=\"910\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><text x=\"122\" y=\"47.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">钢琴</text><rect x=\"185.6\" y=\"39\" width=\"556.4\" height=\"9\" rx=\"4.5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"281.5\" y=\"39\" width=\"307.0\" height=\"9\" rx=\"4.5\" fill=\"#534AB7\"></rect><text x=\"122\" y=\"66.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">电钢琴</text><rect x=\"185.6\" y=\"58\" width=\"556.4\" height=\"9\" rx=\"4.5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"358.3\" y=\"58\" width=\"230.3\" height=\"9\" rx=\"4.5\" fill=\"#534AB7\"></rect><text x=\"122\" y=\"85.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">钢片琴</text><rect x=\"358.3\" y=\"77\" width=\"383.8\" height=\"9\" rx=\"4.5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"435.0\" y=\"77\" width=\"230.3\" height=\"9\" rx=\"4.5\" fill=\"#534AB7\"></rect><text x=\"122\" y=\"104.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">大键琴</text><rect x=\"236.7\" y=\"96\" width=\"383.8\" height=\"9\" rx=\"4.5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"281.5\" y=\"96\" width=\"230.3\" height=\"9\" rx=\"4.5\" fill=\"#534AB7\"></rect><text x=\"122\" y=\"123.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">管风琴</text><rect x=\"281.5\" y=\"115\" width=\"383.8\" height=\"9\" rx=\"4.5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"358.3\" y=\"115\" width=\"230.3\" height=\"9\" rx=\"4.5\" fill=\"#534AB7\"></rect><text x=\"122\" y=\"142.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">手风琴</text><rect x=\"390.2\" y=\"134\" width=\"255.8\" height=\"9\" rx=\"4.5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"403.0\" y=\"134\" width=\"211.1\" height=\"9\" rx=\"4.5\" fill=\"#534AB7\"></rect><text x=\"122\" y=\"161.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">小提琴</text><rect x=\"403.0\" y=\"153\" width=\"287.8\" height=\"9\" rx=\"4.5\" fill=\"#E1F5EE\" stroke=\"#0F6E56\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"403.0\" y=\"153\" width=\"262.2\" height=\"9\" rx=\"4.5\" fill=\"#0F6E56\"></rect><text x=\"122\" y=\"180.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">中提琴</text><rect x=\"358.3\" y=\"172\" width=\"255.8\" height=\"9\" rx=\"4.5\" fill=\"#E1F5EE\" stroke=\"#0F6E56\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"358.3\" y=\"172\" width=\"211.1\" height=\"9\" rx=\"4.5\" fill=\"#0F6E56\"></rect><text x=\"122\" y=\"199.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">大提琴</text><rect x=\"281.5\" y=\"191\" width=\"287.8\" height=\"9\" rx=\"4.5\" fill=\"#E1F5EE\" stroke=\"#0F6E56\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"281.5\" y=\"191\" width=\"255.8\" height=\"9\" rx=\"4.5\" fill=\"#0F6E56\"></rect><text x=\"122\" y=\"218.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">低音提琴</text><rect x=\"230.3\" y=\"210\" width=\"249.4\" height=\"9\" rx=\"4.5\" fill=\"#E1F5EE\" stroke=\"#0F6E56\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"230.3\" y=\"210\" width=\"140.7\" height=\"9\" rx=\"4.5\" fill=\"#0F6E56\"></rect><text x=\"122\" y=\"237.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">古典 / 民谣吉他</text><rect x=\"307.1\" y=\"229\" width=\"275.0\" height=\"9\" rx=\"4.5\" fill=\"#FAEEDA\" stroke=\"#BA7517\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"307.1\" y=\"229\" width=\"262.2\" height=\"9\" rx=\"4.5\" fill=\"#BA7517\"></rect><text x=\"122\" y=\"256.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">电吉他</text><rect x=\"307.1\" y=\"248\" width=\"307.0\" height=\"9\" rx=\"4.5\" fill=\"#FAEEDA\" stroke=\"#BA7517\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"307.1\" y=\"248\" width=\"230.2\" height=\"9\" rx=\"4.5\" fill=\"#BA7517\"></rect><text x=\"122\" y=\"275.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">尤克里里</text><rect x=\"435.0\" y=\"267\" width=\"134.3\" height=\"9\" rx=\"4.5\" fill=\"#FAEEDA\" stroke=\"#BA7517\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"435.0\" y=\"267\" width=\"102.3\" height=\"9\" rx=\"4.5\" fill=\"#BA7517\"></rect><text x=\"122\" y=\"294.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">电贝斯</text><rect x=\"230.3\" y=\"286\" width=\"249.4\" height=\"9\" rx=\"4.5\" fill=\"#FAEEDA\" stroke=\"#BA7517\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"230.3\" y=\"286\" width=\"140.7\" height=\"9\" rx=\"4.5\" fill=\"#BA7517\"></rect><text x=\"122\" y=\"313.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">竖琴</text><rect x=\"204.8\" y=\"305\" width=\"505.3\" height=\"9\" rx=\"4.5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"281.5\" y=\"305\" width=\"383.8\" height=\"9\" rx=\"4.5\" fill=\"#185FA5\"></rect><text x=\"122\" y=\"332.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">曼陀林</text><rect x=\"403.0\" y=\"324\" width=\"243.0\" height=\"9\" rx=\"4.5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"403.0\" y=\"324\" width=\"211.1\" height=\"9\" rx=\"4.5\" fill=\"#185FA5\"></rect><text x=\"122\" y=\"351.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">短笛</text><rect x=\"524.5\" y=\"343\" width=\"217.5\" height=\"9\" rx=\"4.5\" fill=\"#FBEAF0\" stroke=\"#993556\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"524.5\" y=\"343\" width=\"198.3\" height=\"9\" rx=\"4.5\" fill=\"#993556\"></rect><text x=\"122\" y=\"370.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">长笛</text><rect x=\"435.0\" y=\"362\" width=\"243.0\" height=\"9\" rx=\"4.5\" fill=\"#FBEAF0\" stroke=\"#993556\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"435.0\" y=\"362\" width=\"230.3\" height=\"9\" rx=\"4.5\" fill=\"#993556\"></rect><text x=\"122\" y=\"389.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">双簧管</text><rect x=\"422.2\" y=\"381\" width=\"223.9\" height=\"9\" rx=\"4.5\" fill=\"#FBEAF0\" stroke=\"#993556\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"422.2\" y=\"381\" width=\"191.9\" height=\"9\" rx=\"4.5\" fill=\"#993556\"></rect><text x=\"122\" y=\"408.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">单簧管</text><rect x=\"371.0\" y=\"400\" width=\"281.4\" height=\"9\" rx=\"4.5\" fill=\"#FBEAF0\" stroke=\"#993556\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"371.0\" y=\"400\" width=\"185.5\" height=\"9\" rx=\"4.5\" fill=\"#993556\"></rect><text x=\"122\" y=\"427.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">巴松</text><rect x=\"268.7\" y=\"419\" width=\"268.6\" height=\"9\" rx=\"4.5\" fill=\"#FBEAF0\" stroke=\"#993556\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"268.7\" y=\"419\" width=\"230.3\" height=\"9\" rx=\"4.5\" fill=\"#993556\"></rect><text x=\"122\" y=\"446.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">高音萨克斯</text><rect x=\"409.4\" y=\"438\" width=\"204.7\" height=\"9\" rx=\"4.5\" fill=\"#FAECE7\" stroke=\"#D85A30\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"409.4\" y=\"438\" width=\"179.1\" height=\"9\" rx=\"4.5\" fill=\"#D85A30\"></rect><text x=\"122\" y=\"465.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">中音萨克斯</text><rect x=\"364.6\" y=\"457\" width=\"204.7\" height=\"9\" rx=\"4.5\" fill=\"#FAECE7\" stroke=\"#D85A30\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"364.6\" y=\"457\" width=\"179.1\" height=\"9\" rx=\"4.5\" fill=\"#D85A30\"></rect><text x=\"122\" y=\"484.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">次中音萨克斯</text><rect x=\"332.7\" y=\"476\" width=\"204.7\" height=\"9\" rx=\"4.5\" fill=\"#FAECE7\" stroke=\"#D85A30\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"332.7\" y=\"476\" width=\"179.1\" height=\"9\" rx=\"4.5\" fill=\"#D85A30\"></rect><text x=\"122\" y=\"503.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">上低音萨克斯</text><rect x=\"287.9\" y=\"495\" width=\"204.7\" height=\"9\" rx=\"4.5\" fill=\"#FAECE7\" stroke=\"#D85A30\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"287.9\" y=\"495\" width=\"179.1\" height=\"9\" rx=\"4.5\" fill=\"#D85A30\"></rect><text x=\"122\" y=\"522.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">小号</text><rect x=\"383.8\" y=\"514\" width=\"217.5\" height=\"9\" rx=\"4.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"383.8\" y=\"514\" width=\"204.7\" height=\"9\" rx=\"4.5\" fill=\"#A32D2D\"></rect><text x=\"122\" y=\"541.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">圆号</text><rect x=\"351.9\" y=\"533\" width=\"191.9\" height=\"9\" rx=\"4.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"351.9\" y=\"533\" width=\"172.7\" height=\"9\" rx=\"4.5\" fill=\"#A32D2D\"></rect><text x=\"122\" y=\"560.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">长号</text><rect x=\"307.1\" y=\"552\" width=\"191.9\" height=\"9\" rx=\"4.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"307.1\" y=\"552\" width=\"159.9\" height=\"9\" rx=\"4.5\" fill=\"#A32D2D\"></rect><text x=\"122\" y=\"579.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">大号</text><rect x=\"217.5\" y=\"571\" width=\"249.4\" height=\"9\" rx=\"4.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"217.5\" y=\"571\" width=\"127.9\" height=\"9\" rx=\"4.5\" fill=\"#A32D2D\"></rect><text x=\"122\" y=\"598.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">定音鼓</text><rect x=\"294.3\" y=\"590\" width=\"121.5\" height=\"9\" rx=\"4.5\" fill=\"#EAF3DE\" stroke=\"#3B6D11\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"294.3\" y=\"590\" width=\"121.5\" height=\"9\" rx=\"4.5\" fill=\"#3B6D11\"></rect><text x=\"122\" y=\"617.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">马林巴</text><rect x=\"281.5\" y=\"609\" width=\"383.8\" height=\"9\" rx=\"4.5\" fill=\"#EAF3DE\" stroke=\"#3B6D11\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"358.3\" y=\"609\" width=\"230.3\" height=\"9\" rx=\"4.5\" fill=\"#3B6D11\"></rect><text x=\"122\" y=\"636.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">颤音琴</text><rect x=\"390.2\" y=\"628\" width=\"230.3\" height=\"9\" rx=\"4.5\" fill=\"#EAF3DE\" stroke=\"#3B6D11\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"390.2\" y=\"628\" width=\"211.1\" height=\"9\" rx=\"4.5\" fill=\"#3B6D11\"></rect><text x=\"122\" y=\"655.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">男低音</text><rect x=\"307.1\" y=\"647\" width=\"153.5\" height=\"9\" rx=\"4.5\" fill=\"#E7EDF4\" stroke=\"#3D5A80\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"326.3\" y=\"647\" width=\"108.7\" height=\"9\" rx=\"4.5\" fill=\"#3D5A80\"></rect><text x=\"122\" y=\"674.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">男中音</text><rect x=\"339.1\" y=\"666\" width=\"153.5\" height=\"9\" rx=\"4.5\" fill=\"#E7EDF4\" stroke=\"#3D5A80\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"351.9\" y=\"666\" width=\"108.7\" height=\"9\" rx=\"4.5\" fill=\"#3D5A80\"></rect><text x=\"122\" y=\"693.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">男高音</text><rect x=\"358.3\" y=\"685\" width=\"153.5\" height=\"9\" rx=\"4.5\" fill=\"#E7EDF4\" stroke=\"#3D5A80\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"383.8\" y=\"685\" width=\"108.7\" height=\"9\" rx=\"4.5\" fill=\"#3D5A80\"></rect><text x=\"122\" y=\"712.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">女低音</text><rect x=\"390.2\" y=\"704\" width=\"153.5\" height=\"9\" rx=\"4.5\" fill=\"#E7EDF4\" stroke=\"#3D5A80\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"415.8\" y=\"704\" width=\"108.7\" height=\"9\" rx=\"4.5\" fill=\"#3D5A80\"></rect><text x=\"122\" y=\"731.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">女中音</text><rect x=\"415.8\" y=\"723\" width=\"153.5\" height=\"9\" rx=\"4.5\" fill=\"#E7EDF4\" stroke=\"#3D5A80\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"428.6\" y=\"723\" width=\"115.1\" height=\"9\" rx=\"4.5\" fill=\"#3D5A80\"></rect><text x=\"122\" y=\"750.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">女高音</text><rect x=\"435.0\" y=\"742\" width=\"153.5\" height=\"9\" rx=\"4.5\" fill=\"#E7EDF4\" stroke=\"#3D5A80\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"460.6\" y=\"742\" width=\"108.7\" height=\"9\" rx=\"4.5\" fill=\"#3D5A80\"></rect><text x=\"122\" y=\"769.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">二胡</text><rect x=\"447.8\" y=\"761\" width=\"230.3\" height=\"9\" rx=\"4.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"447.8\" y=\"761\" width=\"198.3\" height=\"9\" rx=\"4.5\" fill=\"#A32D2D\"></rect><text x=\"122\" y=\"788.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">琵琶</text><rect x=\"339.1\" y=\"780\" width=\"275.0\" height=\"9\" rx=\"4.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"339.1\" y=\"780\" width=\"249.4\" height=\"9\" rx=\"4.5\" fill=\"#A32D2D\"></rect><text x=\"122\" y=\"807.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">古筝</text><rect x=\"294.3\" y=\"799\" width=\"307.0\" height=\"9\" rx=\"4.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"294.3\" y=\"799\" width=\"275.0\" height=\"9\" rx=\"4.5\" fill=\"#A32D2D\"></rect><text x=\"122\" y=\"826.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">竹笛</text><rect x=\"447.8\" y=\"818\" width=\"230.3\" height=\"9\" rx=\"4.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"447.8\" y=\"818\" width=\"198.3\" height=\"9\" rx=\"4.5\" fill=\"#A32D2D\"></rect><text x=\"122\" y=\"845.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">箫</text><rect x=\"447.8\" y=\"837\" width=\"166.3\" height=\"9\" rx=\"4.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"447.8\" y=\"837\" width=\"140.7\" height=\"9\" rx=\"4.5\" fill=\"#A32D2D\"></rect><text x=\"122\" y=\"864.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">唢呐</text><rect x=\"422.2\" y=\"856\" width=\"230.2\" height=\"9\" rx=\"4.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"435.0\" y=\"856\" width=\"198.3\" height=\"9\" rx=\"4.5\" fill=\"#A32D2D\"></rect><text x=\"122\" y=\"883.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">合成器</text><rect x=\"128.0\" y=\"875\" width=\"614.0\" height=\"9\" rx=\"4.5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"204.8\" y=\"875\" width=\"460.5\" height=\"9\" rx=\"4.5\" fill=\"#185FA5\"></rect><text x=\"122\" y=\"902.5\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">808 低音</text><rect x=\"204.8\" y=\"894\" width=\"153.5\" height=\"9\" rx=\"4.5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"204.8\" y=\"894\" width=\"121.5\" height=\"9\" rx=\"4.5\" fill=\"#185FA5\"></rect><line x1=\"128\" y1=\"914\" x2=\"742\" y2=\"914\" stroke=\"#D6D2C6\"></line><text x=\"128\" y=\"930\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C0</text><text x=\"204.75\" y=\"930\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C1</text><text x=\"281.5\" y=\"930\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C2</text><text x=\"358.25\" y=\"930\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C3</text><text x=\"435\" y=\"930\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C4</text><text x=\"511.75\" y=\"930\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C5</text><text x=\"588.5\" y=\"930\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C6</text><text x=\"665.25\" y=\"930\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C7</text><text x=\"742\" y=\"930\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C8</text></svg>"
+        },
+        {
+          "type": "tip",
+          "text": "颜色＝族，从上到下按族排。浅红色那条带是 C3–C5——人声、提琴、木管、吉他、钢琴右手全都在这儿。 数一下就知道：C1–C2 只有 10 件乐器够得着，C3–C5 有 43 件的常用区压在这儿。 所以配器不是\"再加一件乐器\"，是\"从最挤的地方挪一个人出去\"。"
+        }
+      ],
+      "skip": true,
+      "order": 5,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-all.c2",
+      "course": "instrument",
+      "chapter": "01 全部乐器一张图：谁和谁在抢",
+      "title": "三条从图上直接读出来的结论",
+      "goal": "三条从图上直接读出来的结论",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "三条从图上直接读出来的结论"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "低频是稀缺资源，不是\"低音太多了\"。46 件里只有 10 件够得着 C1–C2， 而常用区真正常驻在那儿的只有四件：低音提琴、电贝斯、大号、808。 钢琴、竖琴、合成器也下得去，但那是它们的边角，不是工作区。 你听到的\"低频糊\"，通常是两三件低频乐器叠在同一个八度，不是低频太多。",
+            "中频是战场，而且没人愿意让。46 件里有 43 件的常用区落在 C3–C5—— 不是它们\"想\"挤，是那一带确实是绝大多数乐器的舒适区。 解决方式只有两个：换八度，或者换织密。",
+            "高音是装饰，不是主体。能到 C6 以上的有 27 件，但常用区能摸到 C7 的只有六件： 短笛、钢片琴、竖琴、小提琴、长笛、合成器。所以高音一响就被听见——这既是优势也是陷阱：高音重复超过两小节就开始刺耳。"
+          ]
+        }
+      ],
+      "skip": true,
+      "order": 6,
+      "task": {
+        "type": "action",
+        "prompt": "按顺序读完后过页",
+        "label": "我读完了",
+        "explain": "顺序本身就是知识的一部分；跳过也不会卡进度。"
+      }
+    },
+    {
+      "id": "instrument.s-key.intro",
+      "course": "instrument",
+      "chapter": "02 键盘族：同一排键，里面完全不是一回事",
+      "title": "键盘族：同一排键，里面完全不是一回事",
+      "goal": "键盘不是一种乐器，是一排\"控制器\"：同样 88 个键，里面可以是钢丝、簧片、气流或纯振荡器。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "text",
+          "text": "键盘不是一种乐器，是一排\"控制器\"：同样 88 个键，里面可以是钢丝、簧片、气流或纯振荡器。所以这一族真正要比的不是音域，是按下键之后发生了什么。"
+        }
+      ],
+      "skip": true,
+      "order": 7,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-key.c1",
+      "course": "instrument",
+      "chapter": "02 键盘族：同一排键，里面完全不是一回事",
+      "title": "六件琴的音域覆盖",
+      "goal": "六件琴的音域覆盖 ← 左右滑动看完整音域 → 够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上 看两条：钢琴 A0–C8 几乎覆盖所有乐器",
+      "estimatedSeconds": 65,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "六件琴的音域覆盖"
+        },
+        {
+          "type": "text",
+          "text": "← 左右滑动看完整音域 →"
+        },
+        {
+          "type": "svg",
+          "svg": "<svg class=\"rchart\" viewBox=\"0 0 760 234\" role=\"img\" aria-label=\"键盘族音域覆盖\"><line x1=\"122\" y1=\"10\" x2=\"122\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"199.5\" y1=\"10\" x2=\"199.5\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"277\" y1=\"10\" x2=\"277\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"354.5\" y1=\"10\" x2=\"354.5\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"432\" y1=\"10\" x2=\"432\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"509.5\" y1=\"10\" x2=\"509.5\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"587\" y1=\"10\" x2=\"587\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"664.5\" y1=\"10\" x2=\"664.5\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"742\" y1=\"10\" x2=\"742\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><text x=\"116\" y=\"34\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">钢琴</text><rect x=\"180.1\" y=\"22.5\" width=\"561.9\" height=\"15\" rx=\"7.5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"277.0\" y=\"22.5\" width=\"310.0\" height=\"15\" rx=\"7.5\" fill=\"#534AB7\"></rect><text x=\"432.0\" y=\"33.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">C2–C6</text><text x=\"116\" y=\"66\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">电钢琴</text><rect x=\"180.1\" y=\"54.5\" width=\"561.9\" height=\"15\" rx=\"7.5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"354.5\" y=\"54.5\" width=\"232.5\" height=\"15\" rx=\"7.5\" fill=\"#534AB7\"></rect><text x=\"470.8\" y=\"65.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">C3–C6</text><text x=\"116\" y=\"98\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">钢片琴</text><rect x=\"354.5\" y=\"86.5\" width=\"387.5\" height=\"15\" rx=\"7.5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"432.0\" y=\"86.5\" width=\"232.5\" height=\"15\" rx=\"7.5\" fill=\"#534AB7\"></rect><text x=\"548.3\" y=\"97.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">C4–C7</text><text x=\"116\" y=\"130\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">大键琴</text><rect x=\"231.8\" y=\"118.5\" width=\"387.5\" height=\"15\" rx=\"7.5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"277.0\" y=\"118.5\" width=\"232.5\" height=\"15\" rx=\"7.5\" fill=\"#534AB7\"></rect><text x=\"393.3\" y=\"129.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">C2–C5</text><text x=\"116\" y=\"162\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">管风琴</text><rect x=\"277.0\" y=\"150.5\" width=\"387.5\" height=\"15\" rx=\"7.5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"354.5\" y=\"150.5\" width=\"232.5\" height=\"15\" rx=\"7.5\" fill=\"#534AB7\"></rect><text x=\"470.8\" y=\"161.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">C3–C6</text><text x=\"116\" y=\"194\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">手风琴</text><rect x=\"386.8\" y=\"182.5\" width=\"258.3\" height=\"15\" rx=\"7.5\" fill=\"#EEEDFE\" stroke=\"#534AB7\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"399.7\" y=\"182.5\" width=\"213.1\" height=\"15\" rx=\"7.5\" fill=\"#534AB7\"></rect><text x=\"506.3\" y=\"193.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">G3–E6</text><line x1=\"122\" y1=\"212\" x2=\"742\" y2=\"212\" stroke=\"#D6D2C6\"></line><text x=\"122\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C0</text><text x=\"199.5\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C1</text><text x=\"277\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C2</text><text x=\"354.5\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C3</text><text x=\"432\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C4</text><text x=\"509.5\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C5</text><text x=\"587\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C6</text><text x=\"664.5\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C7</text><text x=\"742\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C8</text></svg>"
+        },
+        {
+          "type": "text",
+          "text": "够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上"
+        },
+        {
+          "type": "tip",
+          "text": "看两条：钢琴 A0–C8 几乎覆盖所有乐器（所以它是唯一\"不挑曲子\"的主奏）； 钢片琴常用区只有 C4–C7 三个八度，而且全在高处（所以它只能点缀，不能唱主角）。 另外四件（电钢琴、大键琴、管风琴、手风琴）音域都落在钢琴的中段，真正的差别不在能弹多高， 而在按下键之后，声音是怎么来的、又是怎么消失的。"
+        }
+      ],
+      "skip": true,
+      "order": 8,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-key.c2",
+      "course": "instrument",
+      "chapter": "02 键盘族：同一排键，里面完全不是一回事",
+      "title": "键盘族的选琴判据（一句话版）",
+      "goal": "键盘族的选琴判据（一句话版）",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "键盘族的选琴判据（一句话版）"
+        },
+        {
+          "type": "table",
+          "headers": [
+            "你要的",
+            "选它",
+            "因为"
+          ],
+          "rows": [
+            [
+              "一个人讲完整个故事",
+              "钢琴",
+              "唯一能同时给旋律 + 和声 + 低音，音量还连续可变"
+            ],
+            [
+              "温暖但不抢戏",
+              "电钢琴",
+              "起音 5ms、有钟声尾，力度轻就自动退到后面"
+            ],
+            [
+              "一闪而过的光",
+              "钢片琴",
+              "衰减快、无延音，插进最满的段落也不脏"
+            ],
+            [
+              "没有起伏的时间",
+              "大键琴",
+              "力度不影响音量，情绪只能靠节奏——这正是巴洛克的味道"
+            ],
+            [
+              "铺满、不落",
+              "管风琴",
+              "按住就一直响，音栓就是加法合成"
+            ],
+            [
+              "街头、有人味",
+              "手风琴",
+              "风箱自带呼吸，音高会轻微游移"
+            ]
+          ],
+          "clickRows": []
+        }
+      ],
+      "skip": true,
+      "order": 9,
+      "task": {
+        "type": "action",
+        "prompt": "查完这张表后过页",
+        "label": "我查完了",
+        "explain": "表不是用来背的，是动笔/动耳前先查的工具。"
+      }
+    },
+    {
+      "id": "instrument.s-strings.intro",
+      "course": "instrument",
+      "chapter": "03 弦乐：一条从 E1 到 E7 的链子",
+      "title": "弦乐：一条从 E1 到 E7 的链子",
+      "goal": "四件琴共用同一套设计——弓、无品、四根弦——只把尺寸放大四次：弦越长，音越低，起音越慢，谐波越少。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "text",
+          "text": "四件琴共用同一套设计——弓、无品、四根弦——只把尺寸放大四次：弦越长，音越低，起音越慢，谐波越少。所以它们的音域是首尾相接的一条链（E1 → E7），而不是四个各自为政的乐器。唯一的例外是低音提琴：它太大，按五度定弦手指够不着，只好改成四度。"
+        }
+      ],
+      "skip": true,
+      "order": 10,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-strings.c1",
+      "course": "instrument",
+      "chapter": "03 弦乐：一条从 E1 到 E7 的链子",
+      "title": "提琴一家：四件琴的音域首尾相接",
+      "goal": "提琴一家：四件琴的音域首尾相接 ← 左右滑动看完整音域 → 够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上 注意它们是接龙，不是并列：低",
+      "estimatedSeconds": 61,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "提琴一家：四件琴的音域首尾相接"
+        },
+        {
+          "type": "text",
+          "text": "← 左右滑动看完整音域 →"
+        },
+        {
+          "type": "svg",
+          "svg": "<svg class=\"rchart\" viewBox=\"0 0 760 170\" role=\"img\" aria-label=\"弦乐 · 提琴一家音域覆盖\"><line x1=\"122\" y1=\"10\" x2=\"122\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"210.57142857142856\" y1=\"10\" x2=\"210.57142857142856\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"299.1428571428571\" y1=\"10\" x2=\"299.1428571428571\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"387.7142857142857\" y1=\"10\" x2=\"387.7142857142857\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"476.2857142857143\" y1=\"10\" x2=\"476.2857142857143\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"564.8571428571429\" y1=\"10\" x2=\"564.8571428571429\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"653.4285714285714\" y1=\"10\" x2=\"653.4285714285714\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"742\" y1=\"10\" x2=\"742\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><text x=\"116\" y=\"34\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">小提琴</text><rect x=\"350.8\" y=\"22.5\" width=\"332.1\" height=\"15\" rx=\"7.5\" fill=\"#E1F5EE\" stroke=\"#0F6E56\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"350.8\" y=\"22.5\" width=\"302.6\" height=\"15\" rx=\"7.5\" fill=\"#0F6E56\"></rect><text x=\"502.1\" y=\"33.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">G3–C7</text><text x=\"116\" y=\"66\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">中提琴</text><rect x=\"299.1\" y=\"54.5\" width=\"295.2\" height=\"15\" rx=\"7.5\" fill=\"#E1F5EE\" stroke=\"#0F6E56\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"299.1\" y=\"54.5\" width=\"243.6\" height=\"15\" rx=\"7.5\" fill=\"#0F6E56\"></rect><text x=\"420.9\" y=\"65.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">C3–A5</text><text x=\"116\" y=\"98\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">大提琴</text><rect x=\"210.6\" y=\"86.5\" width=\"332.1\" height=\"15\" rx=\"7.5\" fill=\"#E1F5EE\" stroke=\"#0F6E56\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"210.6\" y=\"86.5\" width=\"295.2\" height=\"15\" rx=\"7.5\" fill=\"#0F6E56\"></rect><text x=\"358.2\" y=\"97.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">C2–E5</text><text x=\"116\" y=\"130\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">低音提琴</text><rect x=\"151.5\" y=\"118.5\" width=\"287.9\" height=\"15\" rx=\"7.5\" fill=\"#E1F5EE\" stroke=\"#0F6E56\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"151.5\" y=\"118.5\" width=\"162.4\" height=\"15\" rx=\"7.5\" fill=\"#0F6E56\"></rect><text x=\"232.7\" y=\"129.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">E1–D3</text><line x1=\"122\" y1=\"148\" x2=\"742\" y2=\"148\" stroke=\"#D6D2C6\"></line><text x=\"122\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C1</text><text x=\"210.57142857142856\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C2</text><text x=\"299.1428571428571\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C3</text><text x=\"387.7142857142857\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C4</text><text x=\"476.2857142857143\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C5</text><text x=\"564.8571428571429\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C6</text><text x=\"653.4285714285714\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C7</text><text x=\"742\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C8</text></svg>"
+        },
+        {
+          "type": "text",
+          "text": "够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上"
+        },
+        {
+          "type": "tip",
+          "text": "注意它们是接龙，不是并列：低音提琴 E1–G4，大提琴 C2–A5，中提琴 C3–E6，小提琴 G3–E7。 每一件的低音都落进上一件的常用区——这是刻意的设计，为的是齐奏时没有缝。 但也正因为如此，两件琴同度齐奏＝互相抵消，不是\"变厚\"。"
+        }
+      ],
+      "skip": true,
+      "order": 11,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-strings.c2",
+      "course": "instrument",
+      "chapter": "03 弦乐：一条从 E1 到 E7 的链子",
+      "title": "弦乐最容易被写坏的三处",
+      "goal": "弦乐最容易被写坏的三处",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "弦乐最容易被写坏的三处"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "起音慢，却被塞进密集节奏。弓要先\"抓住\"弦，起音 80–200ms。十六分音符的连续跳弓是专业技巧， 写成\"每个音都要清楚\"的密集段落，实际会糊成一片噪声。",
+            "把中提琴当\"小一号小提琴\"。它低五度、反应更慢、高把位更吃力。写成小提琴的替代品，它会又闷又赶不上。",
+            "让大提琴同时做低音和旋律。它可以，但两者会互相拖累：低音要稳、旋律要动，同一把琴在同一时刻只能选一个。"
+          ]
+        }
+      ],
+      "skip": true,
+      "order": 12,
+      "task": {
+        "type": "action",
+        "prompt": "按顺序读完后过页",
+        "label": "我读完了",
+        "explain": "顺序本身就是知识的一部分；跳过也不会卡进度。"
+      }
+    },
+    {
+      "id": "instrument.s-guitar.intro",
+      "course": "instrument",
+      "chapter": "04 吉他一家：弦长定音域，弦数定能省多少",
+      "title": "吉他一家：弦长定音域，弦数定能省多少",
+      "goal": "这一族共用一套逻辑：弦长决定音域，弦数决定和声能省多少。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "text",
+          "text": "这一族共用一套逻辑：弦长决定音域，弦数决定和声能省多少。同一首曲子换一把琴，音域没差多少，能同时说几件事差很多。"
+        }
+      ],
+      "skip": true,
+      "order": 13,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-guitar.c1",
+      "course": "instrument",
+      "chapter": "04 吉他一家：弦长定音域，弦数定能省多少",
+      "title": "四件琴的音域覆盖",
+      "goal": "四件琴的音域覆盖 ← 左右滑动看完整音域 → 够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上 古典吉他 19 品到 B5，电吉他 24",
+      "estimatedSeconds": 65,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "四件琴的音域覆盖"
+        },
+        {
+          "type": "text",
+          "text": "← 左右滑动看完整音域 →"
+        },
+        {
+          "type": "svg",
+          "svg": "<svg class=\"rchart\" viewBox=\"0 0 760 170\" role=\"img\" aria-label=\"吉他一家音域覆盖\"><line x1=\"122\" y1=\"10\" x2=\"122\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"225.33333333333331\" y1=\"10\" x2=\"225.33333333333331\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"328.66666666666663\" y1=\"10\" x2=\"328.66666666666663\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"432\" y1=\"10\" x2=\"432\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"535.3333333333333\" y1=\"10\" x2=\"535.3333333333333\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"638.6666666666667\" y1=\"10\" x2=\"638.6666666666667\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"742\" y1=\"10\" x2=\"742\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><text x=\"116\" y=\"34\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">古典 / 民谣吉他</text><rect x=\"259.8\" y=\"22.5\" width=\"370.3\" height=\"15\" rx=\"7.5\" fill=\"#FAEEDA\" stroke=\"#BA7517\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"259.8\" y=\"22.5\" width=\"353.1\" height=\"15\" rx=\"7.5\" fill=\"#BA7517\"></rect><text x=\"436.3\" y=\"33.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">E2–A5</text><text x=\"116\" y=\"66\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">电吉他</text><rect x=\"259.8\" y=\"54.5\" width=\"413.3\" height=\"15\" rx=\"7.5\" fill=\"#FAEEDA\" stroke=\"#BA7517\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"259.8\" y=\"54.5\" width=\"310.0\" height=\"15\" rx=\"7.5\" fill=\"#BA7517\"></rect><text x=\"414.8\" y=\"65.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">E2–E5</text><text x=\"116\" y=\"98\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">尤克里里</text><rect x=\"432.0\" y=\"86.5\" width=\"180.8\" height=\"15\" rx=\"7.5\" fill=\"#FAEEDA\" stroke=\"#BA7517\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"432.0\" y=\"86.5\" width=\"137.8\" height=\"15\" rx=\"7.5\" fill=\"#BA7517\"></rect><text x=\"500.9\" y=\"97.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">C4–E5</text><text x=\"116\" y=\"130\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">电贝斯</text><rect x=\"156.4\" y=\"118.5\" width=\"335.8\" height=\"15\" rx=\"7.5\" fill=\"#FAEEDA\" stroke=\"#BA7517\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"156.4\" y=\"118.5\" width=\"189.4\" height=\"15\" rx=\"7.5\" fill=\"#BA7517\"></rect><text x=\"251.2\" y=\"129.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">E1–D3</text><line x1=\"122\" y1=\"148\" x2=\"742\" y2=\"148\" stroke=\"#D6D2C6\"></line><text x=\"122\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C1</text><text x=\"225.33333333333331\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C2</text><text x=\"328.66666666666663\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C3</text><text x=\"432\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C4</text><text x=\"535.3333333333333\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C5</text><text x=\"638.6666666666667\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C6</text><text x=\"742\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C7</text></svg>"
+        },
+        {
+          "type": "text",
+          "text": "够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上"
+        },
+        {
+          "type": "tip",
+          "text": "古典吉他 19 品到 B5，电吉他 24 品到 E6——同样的定弦，只差在最上面那几个品； 电贝斯低一个八度、而且音域更短（E1–G4）； 尤克里里整个身子都在 C4 以上，最高只到 A5。所以\"尤克里里听起来可爱\"不是音色问题，是它根本发不出低频—— 人耳把\"没有低频\"直接读成\"轻、小、无害\"。"
+        }
+      ],
+      "skip": true,
+      "order": 14,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-guitar.c2",
+      "course": "instrument",
+      "chapter": "04 吉他一家：弦长定音域，弦数定能省多少",
+      "title": "电吉他的音色为什么不是\"琴\"决定的",
+      "goal": "电吉他的音色为什么不是\"琴\"决定的 同一把电吉他，换一个音箱就是另一件乐器。",
+      "estimatedSeconds": 52,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "电吉他的音色为什么不是\"琴\"决定的"
+        },
+        {
+          "type": "text",
+          "text": "同一把电吉他，换一个音箱就是另一件乐器。原因是它不靠琴体共鸣，靠拾音器把弦的振动变成电信号， 后面每一级都在改这个信号："
+        },
+        {
+          "type": "table",
+          "headers": [
+            "环节",
+            "它干了什么",
+            "听感"
+          ],
+          "rows": [
+            [
+              "拾音器位置",
+              "靠近琴桥 → 拾到更多高次谐波",
+              "靠桥＝亮、硬；靠颈＝圆、软"
+            ],
+            [
+              "失真 / 过载",
+              "把波形削平 → 凭空长出大量谐波",
+              "体积变大、延音变长、颗粒变粗"
+            ],
+            [
+              "音箱与箱体",
+              "喇叭的频响与纸盆的物理限制",
+              "同一台头，接 1×12 和 4×12 是两个世界"
+            ],
+            [
+              "混响 / 延迟",
+              "给信号加尾巴",
+              "\"空间\"不是录出来的，是加上去的"
+            ]
+          ],
+          "clickRows": []
+        },
+        {
+          "type": "tip",
+          "text": "结论：电声乐器的音域写在琴上，音色写在后级里。所以\"给电吉他写谱\"意义有限—— 真正要写的是这一串参数。"
+        }
+      ],
+      "skip": true,
+      "order": 15,
+      "task": {
+        "type": "action",
+        "prompt": "查完这张表后过页",
+        "label": "我查完了",
+        "explain": "表不是用来背的，是动笔/动耳前先查的工具。"
+      }
+    },
+    {
+      "id": "instrument.s-pluck.intro",
+      "course": "instrument",
+      "chapter": "05 竖琴与曼陀林：两个极端",
+      "title": "竖琴与曼陀林：两个极端",
+      "goal": "两件都不是\"吉他变体\"：竖琴是音域的极端（C1–G7，六格半八度，原声乐器里只输给钢琴），曼陀林是衰减的极端（一响就掉，所以只能滚）。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "text",
+          "text": "两件都不是\"吉他变体\"：竖琴是音域的极端（C1–G7，六格半八度，原声乐器里只输给钢琴），曼陀林是衰减的极端（一响就掉，所以只能滚）。"
+        }
+      ],
+      "skip": true,
+      "order": 16,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-pluck.c1",
+      "course": "instrument",
+      "chapter": "05 竖琴与曼陀林：两个极端",
+      "title": "一个最宽，一个最短",
+      "goal": "一个最宽，一个最短 ← 左右滑动看完整音域 → 够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上 竖琴 C1–G7 有六格半八度，原声乐器",
+      "estimatedSeconds": 55,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "一个最宽，一个最短"
+        },
+        {
+          "type": "text",
+          "text": "← 左右滑动看完整音域 →"
+        },
+        {
+          "type": "svg",
+          "svg": "<svg class=\"rchart\" viewBox=\"0 0 760 106\" role=\"img\" aria-label=\"拨弦 · 竖琴与曼陀林音域覆盖\"><line x1=\"122\" y1=\"10\" x2=\"122\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"210.57142857142856\" y1=\"10\" x2=\"210.57142857142856\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"299.1428571428571\" y1=\"10\" x2=\"299.1428571428571\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"387.7142857142857\" y1=\"10\" x2=\"387.7142857142857\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"476.2857142857143\" y1=\"10\" x2=\"476.2857142857143\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"564.8571428571429\" y1=\"10\" x2=\"564.8571428571429\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"653.4285714285714\" y1=\"10\" x2=\"653.4285714285714\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"742\" y1=\"10\" x2=\"742\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><text x=\"116\" y=\"34\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">竖琴</text><rect x=\"122.0\" y=\"22.5\" width=\"583.1\" height=\"15\" rx=\"7.5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"210.6\" y=\"22.5\" width=\"442.9\" height=\"15\" rx=\"7.5\" fill=\"#185FA5\"></rect><text x=\"432.0\" y=\"33.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">C2–C7</text><text x=\"116\" y=\"66\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">曼陀林</text><rect x=\"350.8\" y=\"54.5\" width=\"280.5\" height=\"15\" rx=\"7.5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"350.8\" y=\"54.5\" width=\"243.6\" height=\"15\" rx=\"7.5\" fill=\"#185FA5\"></rect><text x=\"472.6\" y=\"65.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">G3–E6</text><line x1=\"122\" y1=\"84\" x2=\"742\" y2=\"84\" stroke=\"#D6D2C6\"></line><text x=\"122\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C1</text><text x=\"210.57142857142856\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C2</text><text x=\"299.1428571428571\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C3</text><text x=\"387.7142857142857\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C4</text><text x=\"476.2857142857143\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C5</text><text x=\"564.8571428571429\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C6</text><text x=\"653.4285714285714\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C7</text><text x=\"742\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C8</text></svg>"
+        },
+        {
+          "type": "text",
+          "text": "够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上"
+        },
+        {
+          "type": "tip",
+          "text": "竖琴 C1–G7 有六格半八度，原声乐器里只输给钢琴；曼陀林 G3–A6 看着不窄，但它的每个音只活半秒。 这两件事没有画在图上——音域图不表达衰减，这是它唯一的盲区，得靠参数表补。"
+        }
+      ],
+      "skip": true,
+      "order": 17,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-wood.intro",
+      "course": "instrument",
+      "chapter": "06 木管族：管长与簧决定一切",
+      "title": "木管族：管长与簧决定一切",
+      "goal": "木管比的是管长与簧：管越短音越高，簧越硬音越\"窄\"。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "text",
+          "text": "木管比的是管长与簧：管越短音越高，簧越硬音越\"窄\"。它们的共同弱点是必须换气，所以木管写的句子天然是\"一句一句\"的，不是连绵的。"
+        }
+      ],
+      "skip": true,
+      "order": 18,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-wood.c1",
+      "course": "instrument",
+      "chapter": "06 木管族：管长与簧决定一切",
+      "title": "五支管的音域覆盖",
+      "goal": "五支管的音域覆盖 ← 左右滑动看完整音域 → 够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上 木管族是唯一音域连续不断档的一组：巴松 B",
+      "estimatedSeconds": 55,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "五支管的音域覆盖"
+        },
+        {
+          "type": "text",
+          "text": "← 左右滑动看完整音域 →"
+        },
+        {
+          "type": "svg",
+          "svg": "<svg class=\"rchart\" viewBox=\"0 0 760 202\" role=\"img\" aria-label=\"木管族音域覆盖\"><line x1=\"122\" y1=\"10\" x2=\"122\" y2=\"176\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"210.57142857142856\" y1=\"10\" x2=\"210.57142857142856\" y2=\"176\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"299.1428571428571\" y1=\"10\" x2=\"299.1428571428571\" y2=\"176\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"387.7142857142857\" y1=\"10\" x2=\"387.7142857142857\" y2=\"176\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"476.2857142857143\" y1=\"10\" x2=\"476.2857142857143\" y2=\"176\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"564.8571428571429\" y1=\"10\" x2=\"564.8571428571429\" y2=\"176\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"653.4285714285714\" y1=\"10\" x2=\"653.4285714285714\" y2=\"176\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"742\" y1=\"10\" x2=\"742\" y2=\"176\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><text x=\"116\" y=\"34\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">短笛</text><rect x=\"491.0\" y=\"22.5\" width=\"251.0\" height=\"15\" rx=\"7.5\" fill=\"#FBEAF0\" stroke=\"#993556\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"491.0\" y=\"22.5\" width=\"228.8\" height=\"15\" rx=\"7.5\" fill=\"#993556\"></rect><text x=\"605.5\" y=\"33.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">D5–A7</text><text x=\"116\" y=\"66\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">长笛</text><rect x=\"387.7\" y=\"54.5\" width=\"280.5\" height=\"15\" rx=\"7.5\" fill=\"#FBEAF0\" stroke=\"#993556\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"387.7\" y=\"54.5\" width=\"265.7\" height=\"15\" rx=\"7.5\" fill=\"#993556\"></rect><text x=\"520.6\" y=\"65.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">C4–C7</text><text x=\"116\" y=\"98\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">双簧管</text><rect x=\"373.0\" y=\"86.5\" width=\"258.3\" height=\"15\" rx=\"7.5\" fill=\"#FBEAF0\" stroke=\"#993556\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"373.0\" y=\"86.5\" width=\"221.4\" height=\"15\" rx=\"7.5\" fill=\"#993556\"></rect><text x=\"483.7\" y=\"97.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">B♭3–E6</text><text x=\"116\" y=\"130\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">单簧管</text><rect x=\"313.9\" y=\"118.5\" width=\"324.8\" height=\"15\" rx=\"7.5\" fill=\"#FBEAF0\" stroke=\"#993556\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"313.9\" y=\"118.5\" width=\"214.0\" height=\"15\" rx=\"7.5\" fill=\"#993556\"></rect><text x=\"420.9\" y=\"129.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">D3–G5</text><text x=\"116\" y=\"162\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">巴松</text><rect x=\"195.8\" y=\"150.5\" width=\"310.0\" height=\"15\" rx=\"7.5\" fill=\"#FBEAF0\" stroke=\"#993556\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"195.8\" y=\"150.5\" width=\"265.7\" height=\"15\" rx=\"7.5\" fill=\"#993556\"></rect><text x=\"328.7\" y=\"161.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">B♭1–B♭4</text><line x1=\"122\" y1=\"180\" x2=\"742\" y2=\"180\" stroke=\"#D6D2C6\"></line><text x=\"122\" y=\"196\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C1</text><text x=\"210.57142857142856\" y=\"196\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C2</text><text x=\"299.1428571428571\" y=\"196\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C3</text><text x=\"387.7142857142857\" y=\"196\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C4</text><text x=\"476.2857142857143\" y=\"196\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C5</text><text x=\"564.8571428571429\" y=\"196\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C6</text><text x=\"653.4285714285714\" y=\"196\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C7</text><text x=\"742\" y=\"196\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C8</text></svg>"
+        },
+        {
+          "type": "text",
+          "text": "够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上"
+        },
+        {
+          "type": "tip",
+          "text": "木管族是唯一音域连续不断档的一组：巴松 Bb1 起，双簧管、单簧管、长笛、短笛一路接到 C8。 所以写木管和声几乎不会\"缺声部\"——但也因此，五个声部一起响会非常吵，因为它们全在中频。"
+        }
+      ],
+      "skip": true,
+      "order": 19,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-wood.c2",
+      "course": "instrument",
+      "chapter": "06 木管族：管长与簧决定一切",
+      "title": "换气这件事，决定了木管的句子形状",
+      "goal": "换气这件事，决定了木管的句子形状 所有管乐（包括人声）都必须换气，这在本页的图上是看不见的，但它比音域更影响写法： 一个可操作的检查：把你写的木管旋律唱一遍。",
+      "estimatedSeconds": 48,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "换气这件事，决定了木管的句子形状"
+        },
+        {
+          "type": "text",
+          "text": "所有管乐（包括人声）都必须换气，这在本页的图上是看不见的，但它比音域更影响写法："
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "句子的长度 = 一口气的长度。中速下大约 8–12 秒。写成 20 秒不换气的长句，演奏者只能偷偷断，断在哪里你控制不了。",
+            "换气口是天然的\"标点\"。想让一句听起来\"说完了\"，就在那里留半拍；想让它\"没说完\"，就别留。",
+            "弦乐没有这个问题（弓可以换，声音不断），所以弦乐能写连绵的长线，木管不能——这是两组最本质的差别。"
+          ]
+        },
+        {
+          "type": "tip",
+          "text": "一个可操作的检查：把你写的木管旋律唱一遍。唱不下去的地方，就是它换气的地方，也是听众听到\"断句\"的地方。"
+        }
+      ],
+      "skip": true,
+      "order": 20,
+      "task": {
+        "type": "action",
+        "prompt": "按顺序读完后过页",
+        "label": "我读完了",
+        "explain": "顺序本身就是知识的一部分；跳过也不会卡进度。"
+      }
+    },
+    {
+      "id": "instrument.s-sax.intro",
+      "course": "instrument",
+      "chapter": "07 萨克斯：铜管的身子，木管的心",
+      "title": "萨克斯：铜管的身子，木管的心",
+      "goal": "萨克斯用铜做管、用单簧片发声，所以它是\"铜管的音量 + 木管的连奏\"。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "text",
+          "text": "萨克斯用铜做管、用单簧片发声，所以它是\"铜管的音量 + 木管的连奏\"。这一族内部只差音高，四件是同一件乐器放大四次。"
+        }
+      ],
+      "skip": true,
+      "order": 21,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-sax.c1",
+      "course": "instrument",
+      "chapter": "07 萨克斯：铜管的身子，木管的心",
+      "title": "四支萨克斯的音域覆盖",
+      "goal": "四支萨克斯的音域覆盖 ← 左右滑动看完整音域 → 够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上 四支是同一件乐器放大四次：高音 → 中",
+      "estimatedSeconds": 54,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "四支萨克斯的音域覆盖"
+        },
+        {
+          "type": "text",
+          "text": "← 左右滑动看完整音域 →"
+        },
+        {
+          "type": "svg",
+          "svg": "<svg class=\"rchart\" viewBox=\"0 0 760 170\" role=\"img\" aria-label=\"萨克斯 · 铜管的身子木管的心音域覆盖\"><line x1=\"122\" y1=\"10\" x2=\"122\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"246\" y1=\"10\" x2=\"246\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"370\" y1=\"10\" x2=\"370\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"494\" y1=\"10\" x2=\"494\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"618\" y1=\"10\" x2=\"618\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"742\" y1=\"10\" x2=\"742\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><text x=\"116\" y=\"34\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">高音萨克斯</text><rect x=\"328.7\" y=\"22.5\" width=\"330.7\" height=\"15\" rx=\"7.5\" fill=\"#FAECE7\" stroke=\"#D85A30\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"328.7\" y=\"22.5\" width=\"289.3\" height=\"15\" rx=\"7.5\" fill=\"#D85A30\"></rect><text x=\"473.3\" y=\"33.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">A♭3–C6</text><text x=\"116\" y=\"66\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">中音萨克斯</text><rect x=\"256.3\" y=\"54.5\" width=\"330.7\" height=\"15\" rx=\"7.5\" fill=\"#FAECE7\" stroke=\"#D85A30\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"256.3\" y=\"54.5\" width=\"289.3\" height=\"15\" rx=\"7.5\" fill=\"#D85A30\"></rect><text x=\"401.0\" y=\"65.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">D♭3–F5</text><text x=\"116\" y=\"98\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">次中音萨克斯</text><rect x=\"204.7\" y=\"86.5\" width=\"330.7\" height=\"15\" rx=\"7.5\" fill=\"#FAECE7\" stroke=\"#D85A30\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"204.7\" y=\"86.5\" width=\"289.3\" height=\"15\" rx=\"7.5\" fill=\"#D85A30\"></rect><text x=\"349.3\" y=\"97.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">A♭2–C5</text><text x=\"116\" y=\"130\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">上低音萨克斯</text><rect x=\"132.3\" y=\"118.5\" width=\"330.7\" height=\"15\" rx=\"7.5\" fill=\"#FAECE7\" stroke=\"#D85A30\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"132.3\" y=\"118.5\" width=\"289.3\" height=\"15\" rx=\"7.5\" fill=\"#D85A30\"></rect><text x=\"277.0\" y=\"129.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">D♭2–F4</text><line x1=\"122\" y1=\"148\" x2=\"742\" y2=\"148\" stroke=\"#D6D2C6\"></line><text x=\"122\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C2</text><text x=\"246\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C3</text><text x=\"370\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C4</text><text x=\"494\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C5</text><text x=\"618\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C6</text><text x=\"742\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C7</text></svg>"
+        },
+        {
+          "type": "text",
+          "text": "够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上"
+        },
+        {
+          "type": "tip",
+          "text": "四支是同一件乐器放大四次：高音 → 中音 → 次中音 → 上低音，每级低四度左右。 所以\"换一支萨克斯\"本质上是换八度，音色逻辑完全一样——这一点和提琴一家正好相反。"
+        }
+      ],
+      "skip": true,
+      "order": 22,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-brass.intro",
+      "course": "instrument",
+      "chapter": "08 铜管族：嘴唇就是簧片",
+      "title": "铜管族：嘴唇就是簧片",
+      "goal": "铜管全部靠嘴唇振动发声，所以它们的音域严格由管长决定：管长翻倍低一个八度，这四件的高低关系几乎是物理定律。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "text",
+          "text": "铜管全部靠嘴唇振动发声，所以它们的音域严格由管长决定：管长翻倍低一个八度，这四件的高低关系几乎是物理定律。起音跨度很大——小号 20 ms，大号 80 ms，越低的管子越慢。这一族的共同优势是音量，共同短板是跑不快、停不下。"
+        }
+      ],
+      "skip": true,
+      "order": 23,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-brass.c1",
+      "course": "instrument",
+      "chapter": "08 铜管族：嘴唇就是簧片",
+      "title": "四件铜管的音域覆盖",
+      "goal": "四件铜管的音域覆盖 ← 左右滑动看完整音域 → 够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上 铜管的音域由管长死锁：小号 1.48m、",
+      "estimatedSeconds": 63,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "四件铜管的音域覆盖"
+        },
+        {
+          "type": "text",
+          "text": "← 左右滑动看完整音域 →"
+        },
+        {
+          "type": "svg",
+          "svg": "<svg class=\"rchart\" viewBox=\"0 0 760 170\" role=\"img\" aria-label=\"铜管族音域覆盖\"><line x1=\"122\" y1=\"10\" x2=\"122\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"225.33333333333331\" y1=\"10\" x2=\"225.33333333333331\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"328.66666666666663\" y1=\"10\" x2=\"328.66666666666663\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"432\" y1=\"10\" x2=\"432\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"535.3333333333333\" y1=\"10\" x2=\"535.3333333333333\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"638.6666666666667\" y1=\"10\" x2=\"638.6666666666667\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"742\" y1=\"10\" x2=\"742\" y2=\"144\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><text x=\"116\" y=\"34\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">小号</text><rect x=\"363.1\" y=\"22.5\" width=\"292.8\" height=\"15\" rx=\"7.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"363.1\" y=\"22.5\" width=\"275.6\" height=\"15\" rx=\"7.5\" fill=\"#A32D2D\"></rect><text x=\"500.9\" y=\"33.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">E3–C6</text><text x=\"116\" y=\"66\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">圆号</text><rect x=\"320.1\" y=\"54.5\" width=\"258.3\" height=\"15\" rx=\"7.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"320.1\" y=\"54.5\" width=\"232.5\" height=\"15\" rx=\"7.5\" fill=\"#A32D2D\"></rect><text x=\"436.3\" y=\"65.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">B2–D5</text><text x=\"116\" y=\"98\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">长号</text><rect x=\"259.8\" y=\"86.5\" width=\"258.3\" height=\"15\" rx=\"7.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"259.8\" y=\"86.5\" width=\"215.3\" height=\"15\" rx=\"7.5\" fill=\"#A32D2D\"></rect><text x=\"367.4\" y=\"97.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">E2–F4</text><text x=\"116\" y=\"130\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">大号</text><rect x=\"139.2\" y=\"118.5\" width=\"335.8\" height=\"15\" rx=\"7.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"139.2\" y=\"118.5\" width=\"172.2\" height=\"15\" rx=\"7.5\" fill=\"#A32D2D\"></rect><text x=\"225.3\" y=\"129.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">D1–B♭2</text><line x1=\"122\" y1=\"148\" x2=\"742\" y2=\"148\" stroke=\"#D6D2C6\"></line><text x=\"122\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C1</text><text x=\"225.33333333333331\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C2</text><text x=\"328.66666666666663\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C3</text><text x=\"432\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C4</text><text x=\"535.3333333333333\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C5</text><text x=\"638.6666666666667\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C6</text><text x=\"742\" y=\"164\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C7</text></svg>"
+        },
+        {
+          "type": "text",
+          "text": "够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上"
+        },
+        {
+          "type": "tip",
+          "text": "铜管的音域由管长死锁：小号 1.48m、圆号 3.7m、长号 2.7m、大号 5.5m。 管长翻倍低一个八度，所以这四件的高低关系几乎是物理定律，不是传统。 另一件看不见的事：起音 20–80 ms，而且越低的管子越慢——圆号与长号永远\"晚半拍\"到， 写快了就只剩一片\"噗\"。"
+        }
+      ],
+      "skip": true,
+      "order": 24,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-brass.c2",
+      "course": "instrument",
+      "chapter": "08 铜管族：嘴唇就是簧片",
+      "title": "铜管写作的三条硬约束",
+      "goal": "铜管写作的三条硬约束",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "铜管写作的三条硬约束"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "不能无限长。高音区靠唇部肌肉硬顶，连续四小节以上的高音，职业乐手也要掉。",
+            "快起来代价大。起音 20–80 ms，而且每个音都要嘴唇重新起振——越低的管子越难快。 所以铜管写密集音型，实际听到的是\"一片噗\"而不是\"一串音\"。这也是它听起来庄严的物理原因：它跑不动。",
+            "音量不可细调。铜管的弱奏仍然很响，所以\"让铜管轻一点\"往往只能减人（少一支），不能减力。"
+          ]
+        }
+      ],
+      "skip": true,
+      "order": 25,
+      "task": {
+        "type": "action",
+        "prompt": "按顺序读完后过页",
+        "label": "我读完了",
+        "explain": "顺序本身就是知识的一部分；跳过也不会卡进度。"
+      }
+    },
+    {
+      "id": "instrument.s-perc.intro",
+      "course": "instrument",
+      "chapter": "09 打击：有音高的那一半",
+      "title": "打击：有音高的那一半",
+      "goal": "打击乐分成两个世界：有音高（能写旋律、能写和声）与无音高（只能写时间）。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "text",
+          "text": "打击乐分成两个世界：有音高（能写旋律、能写和声）与无音高（只能写时间）。这一节只收有音高的——无音高的部分归乐理课的节奏与律动。"
+        }
+      ],
+      "skip": true,
+      "order": 26,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-perc.c1",
+      "course": "instrument",
+      "chapter": "09 打击：有音高的那一半",
+      "title": "三件有音高打击的音域",
+      "goal": "三件有音高打击的音域 ← 左右滑动看完整音域 → 够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上 定音鼓四只鼓合起来只有 D2–A3（一",
+      "estimatedSeconds": 57,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "三件有音高打击的音域"
+        },
+        {
+          "type": "text",
+          "text": "← 左右滑动看完整音域 →"
+        },
+        {
+          "type": "svg",
+          "svg": "<svg class=\"rchart\" viewBox=\"0 0 760 138\" role=\"img\" aria-label=\"打击 · 有音高的那些音域覆盖\"><line x1=\"122\" y1=\"10\" x2=\"122\" y2=\"112\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"246\" y1=\"10\" x2=\"246\" y2=\"112\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"370\" y1=\"10\" x2=\"370\" y2=\"112\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"494\" y1=\"10\" x2=\"494\" y2=\"112\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"618\" y1=\"10\" x2=\"618\" y2=\"112\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"742\" y1=\"10\" x2=\"742\" y2=\"112\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><text x=\"116\" y=\"34\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">定音鼓</text><rect x=\"142.7\" y=\"22.5\" width=\"196.3\" height=\"15\" rx=\"7.5\" fill=\"#EAF3DE\" stroke=\"#3B6D11\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"142.7\" y=\"22.5\" width=\"196.3\" height=\"15\" rx=\"7.5\" fill=\"#3B6D11\"></rect><text x=\"240.8\" y=\"33.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">D2–A3</text><text x=\"116\" y=\"66\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">马林巴</text><rect x=\"122.0\" y=\"54.5\" width=\"620.0\" height=\"15\" rx=\"7.5\" fill=\"#EAF3DE\" stroke=\"#3B6D11\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"246.0\" y=\"54.5\" width=\"372.0\" height=\"15\" rx=\"7.5\" fill=\"#3B6D11\"></rect><text x=\"432.0\" y=\"65.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">C3–C6</text><text x=\"116\" y=\"98\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">颤音琴</text><rect x=\"297.7\" y=\"86.5\" width=\"372.0\" height=\"15\" rx=\"7.5\" fill=\"#EAF3DE\" stroke=\"#3B6D11\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"297.7\" y=\"86.5\" width=\"341.0\" height=\"15\" rx=\"7.5\" fill=\"#3B6D11\"></rect><text x=\"468.2\" y=\"97.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">F3–D6</text><line x1=\"122\" y1=\"116\" x2=\"742\" y2=\"116\" stroke=\"#D6D2C6\"></line><text x=\"122\" y=\"132\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C2</text><text x=\"246\" y=\"132\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C3</text><text x=\"370\" y=\"132\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C4</text><text x=\"494\" y=\"132\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C5</text><text x=\"618\" y=\"132\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C6</text><text x=\"742\" y=\"132\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C7</text></svg>"
+        },
+        {
+          "type": "text",
+          "text": "够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上"
+        },
+        {
+          "type": "tip",
+          "text": "定音鼓四只鼓合起来只有 D2–A3（一个八度加纯五度），单只鼓能拧的范围约一个小六度—— 它是和声的工具，不是旋律的。 马林巴 C2–C7 才是这一组里真正能\"写旋律\"的那件，颤音琴则是\"写气氛\"的那件。"
+        }
+      ],
+      "skip": true,
+      "order": 27,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-perc.c2",
+      "course": "instrument",
+      "chapter": "09 打击：有音高的那一半",
+      "title": "没有音高的那些，一样要算参数",
+      "goal": "没有音高的那些，一样要算参数 它们不进音域图（因为没有\"音高\"这个维度），但在编曲里占的是频段和时间： 一个实用判据：鼓决定\"多急\"，镲决定\"多亮\"，贝斯决定\"",
+      "estimatedSeconds": 48,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "没有音高的那些，一样要算参数"
+        },
+        {
+          "type": "text",
+          "text": "它们不进音域图（因为没有\"音高\"这个维度），但在编曲里占的是频段和时间："
+        },
+        {
+          "type": "table",
+          "headers": [
+            "乐器",
+            "频段",
+            "它在编曲里干什么",
+            "一句话"
+          ],
+          "rows": [
+            [
+              "架子鼓 Drum Kit",
+              "20 Hz – 15 kHz",
+              "定义律动与段落边界",
+              "踩镲的密度就是\"这首歌多急\"的直接读数"
+            ],
+            [
+              "手鼓 / 箱鼓 Cajon",
+              "60 Hz – 8 kHz",
+              "不插电的鼓",
+              "一个箱子里同时有\"低音\"和\"响弦\"，是本页最便宜的编制"
+            ],
+            [
+              "铃鼓 / 沙锤 Tambourine",
+              "2 kHz – 16 kHz",
+              "高频的时间感",
+              "它不增加音量，只让节奏\"变清楚\""
+            ]
+          ],
+          "clickRows": []
+        },
+        {
+          "type": "tip",
+          "text": "一个实用判据：鼓决定\"多急\"，镲决定\"多亮\"，贝斯决定\"多重\"。 三件事各归各的乐器，别指望一件乐器同时给三样。"
+        }
+      ],
+      "skip": true,
+      "order": 28,
+      "task": {
+        "type": "action",
+        "prompt": "查完这张表后过页",
+        "label": "我查完了",
+        "explain": "表不是用来背的，是动笔/动耳前先查的工具。"
+      }
+    },
+    {
+      "id": "instrument.s-voice.intro",
+      "course": "instrument",
+      "chapter": "10 人声：六把尺子",
+      "title": "人声：六把尺子",
+      "goal": "人声是所有乐器的参照物：其他乐器\"像人声\"才动人。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "text",
+          "text": "人声是所有乐器的参照物：其他乐器\"像人声\"才动人。所以这一族要单独量一遍——写旋律时先想\"这句谁唱得了\"，再去分配乐器。"
+        }
+      ],
+      "skip": true,
+      "order": 29,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-voice.c1",
+      "course": "instrument",
+      "chapter": "10 人声：六把尺子",
+      "title": "六种声部的音域覆盖",
+      "goal": "六种声部的音域覆盖 ← 左右滑动看完整音域 → 够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上 六条几乎首尾相接地从男低的 E2 铺到女",
+      "estimatedSeconds": 60,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "六种声部的音域覆盖"
+        },
+        {
+          "type": "text",
+          "text": "← 左右滑动看完整音域 →"
+        },
+        {
+          "type": "svg",
+          "svg": "<svg class=\"rchart\" viewBox=\"0 0 760 234\" role=\"img\" aria-label=\"人声 · 六把尺子音域覆盖\"><line x1=\"122\" y1=\"10\" x2=\"122\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"277\" y1=\"10\" x2=\"277\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"432\" y1=\"10\" x2=\"432\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"587\" y1=\"10\" x2=\"587\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"742\" y1=\"10\" x2=\"742\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><text x=\"116\" y=\"34\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">男低音</text><rect x=\"173.7\" y=\"22.5\" width=\"310.0\" height=\"15\" rx=\"7.5\" fill=\"#E7EDF4\" stroke=\"#3D5A80\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"212.4\" y=\"22.5\" width=\"219.6\" height=\"15\" rx=\"7.5\" fill=\"#3D5A80\"></rect><text x=\"322.2\" y=\"33.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">G2–C4</text><text x=\"116\" y=\"66\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">男中音</text><rect x=\"238.3\" y=\"54.5\" width=\"310.0\" height=\"15\" rx=\"7.5\" fill=\"#E7EDF4\" stroke=\"#3D5A80\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"264.1\" y=\"54.5\" width=\"219.6\" height=\"15\" rx=\"7.5\" fill=\"#3D5A80\"></rect><text x=\"373.9\" y=\"65.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">B2–E4</text><text x=\"116\" y=\"98\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">男高音</text><rect x=\"277.0\" y=\"86.5\" width=\"310.0\" height=\"15\" rx=\"7.5\" fill=\"#E7EDF4\" stroke=\"#3D5A80\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"328.7\" y=\"86.5\" width=\"219.6\" height=\"15\" rx=\"7.5\" fill=\"#3D5A80\"></rect><text x=\"438.5\" y=\"97.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">E3–A4</text><text x=\"116\" y=\"130\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">女低音</text><rect x=\"341.6\" y=\"118.5\" width=\"310.0\" height=\"15\" rx=\"7.5\" fill=\"#E7EDF4\" stroke=\"#3D5A80\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"393.3\" y=\"118.5\" width=\"219.6\" height=\"15\" rx=\"7.5\" fill=\"#3D5A80\"></rect><text x=\"503.0\" y=\"129.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">A3–D5</text><text x=\"116\" y=\"162\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">女中音</text><rect x=\"393.3\" y=\"150.5\" width=\"310.0\" height=\"15\" rx=\"7.5\" fill=\"#E7EDF4\" stroke=\"#3D5A80\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"419.1\" y=\"150.5\" width=\"232.5\" height=\"15\" rx=\"7.5\" fill=\"#3D5A80\"></rect><text x=\"535.3\" y=\"161.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">B3–F5</text><text x=\"116\" y=\"194\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">女高音</text><rect x=\"432.0\" y=\"182.5\" width=\"310.0\" height=\"15\" rx=\"7.5\" fill=\"#E7EDF4\" stroke=\"#3D5A80\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"483.7\" y=\"182.5\" width=\"219.6\" height=\"15\" rx=\"7.5\" fill=\"#3D5A80\"></rect><text x=\"593.5\" y=\"193.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">E4–A5</text><line x1=\"122\" y1=\"212\" x2=\"742\" y2=\"212\" stroke=\"#D6D2C6\"></line><text x=\"122\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C2</text><text x=\"277\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C3</text><text x=\"432\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C4</text><text x=\"587\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C5</text><text x=\"742\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C6</text></svg>"
+        },
+        {
+          "type": "text",
+          "text": "够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上"
+        },
+        {
+          "type": "tip",
+          "text": "六条几乎首尾相接地从男低的 E2 铺到女高的 C6——人声整体只有三个半八度，比钢琴窄一倍还多。 但所有乐器都在模仿它。原因不在音域，在共振峰：只有人声能靠改变口腔形状，在同一个音高上换元音。 乐器做不到这件事，所以\"像人声\"永远是最高评价。"
+        }
+      ],
+      "skip": true,
+      "order": 30,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-voice.c2",
+      "course": "instrument",
+      "chapter": "10 人声：六把尺子",
+      "title": "写旋律前先问：这句谁唱得了",
+      "goal": "写旋律前先问：这句谁唱得了",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "写旋律前先问：这句谁唱得了"
+        },
+        {
+          "type": "table",
+          "headers": [
+            "症状",
+            "真正的原因",
+            "改法"
+          ],
+          "rows": [
+            [
+              "副歌\"喊不上去\"",
+              "整首的舒适区压在说话音高，副歌突然跳五度",
+              "主歌就往上挪两度，把落差摊平"
+            ],
+            [
+              "歌手唱两句就要断",
+              "句子长过一口气（8–12 秒）",
+              "在句中留半拍，让它成为\"标点\"而不是\"喘\""
+            ],
+            [
+              "听着像在念，不像在唱",
+              "全曲音高都在 E3–A3 之间来回",
+              "至少让一句碰到高八度附近，给耳朵一个\"高点\""
+            ],
+            [
+              "高音很紧、很挤",
+              "换声区（约 E4–A4）附近连续停留",
+              "快速通过那一段，别在那里写长音"
+            ]
+          ],
+          "clickRows": []
+        }
+      ],
+      "skip": true,
+      "order": 31,
+      "task": {
+        "type": "action",
+        "prompt": "查完这张表后过页",
+        "label": "我查完了",
+        "explain": "表不是用来背的，是动笔/动耳前先查的工具。"
+      }
+    },
+    {
+      "id": "instrument.s-folk.intro",
+      "course": "instrument",
+      "chapter": "11 民族乐器：特别的是动作，不是音色",
+      "title": "民族乐器：特别的是动作，不是音色",
+      "goal": "民族乐器真正特别的地方不是音色，是它允许你做的动作：二胡没有指板所以能任意滑，古筝能按出五声之外的音，笛子靠一层膜改变泛音。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "text",
+          "text": "民族乐器真正特别的地方不是音色，是它允许你做的动作：二胡没有指板所以能任意滑，古筝能按出五声之外的音，笛子靠一层膜改变泛音。学它们的音域只是入门，学它们的\"动作\"才是关键。"
+        }
+      ],
+      "skip": true,
+      "order": 32,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-folk.c1",
+      "course": "instrument",
+      "chapter": "11 民族乐器：特别的是动作，不是音色",
+      "title": "六件民族乐器的音域覆盖",
+      "goal": "六件民族乐器的音域覆盖 ← 左右滑动看完整音域 → 够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上 单看音域，它们和西洋乐器高度重合：二",
+      "estimatedSeconds": 61,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "六件民族乐器的音域覆盖"
+        },
+        {
+          "type": "text",
+          "text": "← 左右滑动看完整音域 →"
+        },
+        {
+          "type": "svg",
+          "svg": "<svg class=\"rchart\" viewBox=\"0 0 760 234\" role=\"img\" aria-label=\"民族乐器音域覆盖\"><line x1=\"122\" y1=\"10\" x2=\"122\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"225.33333333333331\" y1=\"10\" x2=\"225.33333333333331\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"328.66666666666663\" y1=\"10\" x2=\"328.66666666666663\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"432\" y1=\"10\" x2=\"432\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"535.3333333333333\" y1=\"10\" x2=\"535.3333333333333\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"638.6666666666667\" y1=\"10\" x2=\"638.6666666666667\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"742\" y1=\"10\" x2=\"742\" y2=\"208\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><text x=\"116\" y=\"34\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">二胡</text><rect x=\"345.9\" y=\"22.5\" width=\"310.0\" height=\"15\" rx=\"7.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"345.9\" y=\"22.5\" width=\"266.9\" height=\"15\" rx=\"7.5\" fill=\"#A32D2D\"></rect><text x=\"479.4\" y=\"33.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">D4–A6</text><text x=\"116\" y=\"66\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">琵琶</text><rect x=\"199.5\" y=\"54.5\" width=\"370.3\" height=\"15\" rx=\"7.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"199.5\" y=\"54.5\" width=\"335.8\" height=\"15\" rx=\"7.5\" fill=\"#A32D2D\"></rect><text x=\"367.4\" y=\"65.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">A2–C6</text><text x=\"116\" y=\"98\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">古筝</text><rect x=\"139.2\" y=\"86.5\" width=\"413.3\" height=\"15\" rx=\"7.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"139.2\" y=\"86.5\" width=\"370.3\" height=\"15\" rx=\"7.5\" fill=\"#A32D2D\"></rect><text x=\"324.4\" y=\"97.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">D2–A5</text><text x=\"116\" y=\"130\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">竹笛</text><rect x=\"345.9\" y=\"118.5\" width=\"310.0\" height=\"15\" rx=\"7.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"345.9\" y=\"118.5\" width=\"266.9\" height=\"15\" rx=\"7.5\" fill=\"#A32D2D\"></rect><text x=\"479.4\" y=\"129.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">D4–A6</text><text x=\"116\" y=\"162\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">箫</text><rect x=\"345.9\" y=\"150.5\" width=\"223.9\" height=\"15\" rx=\"7.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"345.9\" y=\"150.5\" width=\"189.4\" height=\"15\" rx=\"7.5\" fill=\"#A32D2D\"></rect><text x=\"440.6\" y=\"161.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">D4–C6</text><text x=\"116\" y=\"194\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">唢呐</text><rect x=\"311.4\" y=\"182.5\" width=\"310.0\" height=\"15\" rx=\"7.5\" fill=\"#FCEBEB\" stroke=\"#A32D2D\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"328.7\" y=\"182.5\" width=\"266.9\" height=\"15\" rx=\"7.5\" fill=\"#A32D2D\"></rect><text x=\"462.1\" y=\"193.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">C4–G6</text><line x1=\"122\" y1=\"212\" x2=\"742\" y2=\"212\" stroke=\"#D6D2C6\"></line><text x=\"122\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C2</text><text x=\"225.33333333333331\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C3</text><text x=\"328.66666666666663\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C4</text><text x=\"432\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C5</text><text x=\"535.3333333333333\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C6</text><text x=\"638.6666666666667\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C7</text><text x=\"742\" y=\"228\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C8</text></svg>"
+        },
+        {
+          "type": "text",
+          "text": "够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上"
+        },
+        {
+          "type": "tip",
+          "text": "单看音域，它们和西洋乐器高度重合：二胡 ≈ 小提琴的中高段，竹笛 ≈ 长笛，唢呐 ≈ 小号。 所以\"民族乐器听起来不一样\"不是音域的事，是三件图上没有的事： 二胡无指板（能任意滑）、古筝左手按音（五声里做出半音）、笛子贴膜（多一层高频毛刺）。"
+        }
+      ],
+      "skip": true,
+      "order": 33,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-folk.c2",
+      "course": "instrument",
+      "chapter": "11 民族乐器：特别的是动作，不是音色",
+      "title": "写国风最容易犯的错：把民族乐器当\"音色插件\"",
+      "goal": "写国风最容易犯的错：把民族乐器当\"音色插件\" 最常见的做法是：写一段完全西洋的旋律，然后把长笛换成竹笛、把小提琴换成二胡，以为就\"国风\"了。",
+      "estimatedSeconds": 56,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "写国风最容易犯的错：把民族乐器当\"音色插件\""
+        },
+        {
+          "type": "text",
+          "text": "最常见的做法是：写一段完全西洋的旋律，然后把长笛换成竹笛、把小提琴换成二胡，以为就\"国风\"了。 结果听起来像\"外国人穿汉服\"——衣服对了，动作不对。"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "二胡的滑音是语法，不是装饰。它没有指板，音与音之间可以连续过渡。写成跳进，等于放弃了它唯一的优势。",
+            "古筝的按音能造出五声之外的音。这是它在五声定弦上做七声、做转调的唯一手段。只弹五声，就只是一台\"五声钢琴\"。",
+            "笛膜的高频毛刺是它的身份证。去掉这层膜（比如用西洋长笛代替），最特征的那一点就没了。",
+            "留白比音符重要。这些乐器的传统写法里，音与音之间的空白和音本身一样是内容。填满就变成\"民乐合奏曲\"。"
+          ]
+        },
+        {
+          "type": "tip",
+          "text": "这条和作词课的古风两节是同一件事：体裁是外套，手艺才是身子。 换乐器＝换外套；换动作（滑音、按音、留白）才是换身子。"
+        }
+      ],
+      "skip": true,
+      "order": 34,
+      "task": {
+        "type": "action",
+        "prompt": "按顺序读完后过页",
+        "label": "我读完了",
+        "explain": "顺序本身就是知识的一部分；跳过也不会卡进度。"
+      }
+    },
+    {
+      "id": "instrument.s-elec.intro",
+      "course": "instrument",
+      "chapter": "12 电声与合成：音域是设计出来的",
+      "title": "电声与合成：音域是设计出来的",
+      "goal": "这一类没有\"物理尺寸\"，所以音域是设计出来的，不是造出来的。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "text",
+          "text": "这一类没有\"物理尺寸\"，所以音域是设计出来的，不是造出来的。它们的真正参数不是音域，是包络（起音/衰减/延音/释放）——四个数字就能定义一件\"乐器\"。"
+        }
+      ],
+      "skip": true,
+      "order": 35,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-elec.c1",
+      "course": "instrument",
+      "chapter": "12 电声与合成：音域是设计出来的",
+      "title": "两件\"没有物理尺寸\"的乐器",
+      "goal": "两件\"没有物理尺寸\"的乐器 ← 左右滑动看完整音域 → 够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上 合成器的条几乎横贯全图——因为它",
+      "estimatedSeconds": 58,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "两件\"没有物理尺寸\"的乐器"
+        },
+        {
+          "type": "text",
+          "text": "← 左右滑动看完整音域 →"
+        },
+        {
+          "type": "svg",
+          "svg": "<svg class=\"rchart\" viewBox=\"0 0 760 106\" role=\"img\" aria-label=\"电声与合成音域覆盖\"><line x1=\"122\" y1=\"10\" x2=\"122\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"199.5\" y1=\"10\" x2=\"199.5\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"277\" y1=\"10\" x2=\"277\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"354.5\" y1=\"10\" x2=\"354.5\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"432\" y1=\"10\" x2=\"432\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"509.5\" y1=\"10\" x2=\"509.5\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"587\" y1=\"10\" x2=\"587\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"664.5\" y1=\"10\" x2=\"664.5\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><line x1=\"742\" y1=\"10\" x2=\"742\" y2=\"80\" stroke=\"#E5E2D9\" stroke-width=\"1\"></line><text x=\"116\" y=\"34\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">合成器</text><rect x=\"122.0\" y=\"22.5\" width=\"620.0\" height=\"15\" rx=\"7.5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"199.5\" y=\"22.5\" width=\"465.0\" height=\"15\" rx=\"7.5\" fill=\"#185FA5\"></rect><text x=\"432.0\" y=\"33.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">C1–C7</text><text x=\"116\" y=\"66\" text-anchor=\"end\" font-size=\"12.5\" fill=\"#2C2C2A\">808 低音</text><rect x=\"199.5\" y=\"54.5\" width=\"155.0\" height=\"15\" rx=\"7.5\" fill=\"#E6F1FB\" stroke=\"#185FA5\" stroke-opacity=\".38\" stroke-width=\"1\"></rect><rect x=\"199.5\" y=\"54.5\" width=\"122.7\" height=\"15\" rx=\"7.5\" fill=\"#185FA5\"></rect><text x=\"260.9\" y=\"65.5\" text-anchor=\"middle\" font-size=\"9.5\" fill=\"#fff\" font-family=\"ui-monospace,monospace\">C1–G2</text><line x1=\"122\" y1=\"84\" x2=\"742\" y2=\"84\" stroke=\"#D6D2C6\"></line><text x=\"122\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C0</text><text x=\"199.5\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C1</text><text x=\"277\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C2</text><text x=\"354.5\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C3</text><text x=\"432\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C4</text><text x=\"509.5\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C5</text><text x=\"587\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C6</text><text x=\"664.5\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C7</text><text x=\"742\" y=\"100\" text-anchor=\"middle\" font-size=\"10.5\" fill=\"#6F6C62\" font-family=\"ui-monospace,monospace\">C8</text></svg>"
+        },
+        {
+          "type": "text",
+          "text": "够得着（全音域） 常用 / 舒适区 横轴每格一个八度，刻度落在 C 上"
+        },
+        {
+          "type": "tip",
+          "text": "合成器的条几乎横贯全图——因为它没有琴体、没有管长、没有弦，音域只受键盘和采样率限制。 808 则相反：它只有 C1–C3 两个八度，出了这个范围就不叫 808 了。这是\"设计出来的限制\"，比物理限制更硬。"
+        }
+      ],
+      "skip": true,
+      "order": 36,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-elec.c2",
+      "course": "instrument",
+      "chapter": "12 电声与合成：音域是设计出来的",
+      "title": "包络：用四个数字定义一件乐器",
+      "goal": "包络：用四个数字定义一件乐器 合成器里最像\"乐器\"的部分不是振荡器，是 ADSR。",
+      "estimatedSeconds": 54,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "包络：用四个数字定义一件乐器"
+        },
+        {
+          "type": "text",
+          "text": "合成器里最像\"乐器\"的部分不是振荡器，是 ADSR。同一段旋律，只改这四个数，听感就从钢琴变成弦乐再变成鼓："
+        },
+        {
+          "type": "table",
+          "headers": [
+            "参数",
+            "管什么",
+            "拉长的效果"
+          ],
+          "rows": [
+            [
+              "A · Attack",
+              "从按下到最响要多久",
+              "< 5ms＝敲击；> 200ms＝弓弦、气息"
+            ],
+            [
+              "D · Decay",
+              "最响之后掉多快",
+              "短＝颗粒（拨弦）；长＝持续的铺底"
+            ],
+            [
+              "S · Sustain",
+              "按住不放时停在多响",
+              "0＝一响就没（马林巴）；1＝按住一直在（管风琴）"
+            ],
+            [
+              "R · Release",
+              "松手之后还要响多久",
+              "长＝有余韵、有空间；短＝干净、贴身"
+            ]
+          ],
+          "clickRows": []
+        },
+        {
+          "type": "tip",
+          "text": "这四个数就是本页所有\"起音 / 衰减\"参数的总开关。 理解了它们，前十一节里那些\"为什么它听起来是这样\"就不用背了——都是同一组数字的不同取值。"
+        }
+      ],
+      "skip": true,
+      "order": 37,
+      "task": {
+        "type": "action",
+        "prompt": "查完这张表后过页",
+        "label": "我查完了",
+        "explain": "表不是用来背的，是动笔/动耳前先查的工具。"
+      }
+    },
+    {
+      "id": "instrument.s-arrange.intro",
+      "course": "instrument",
+      "chapter": "13 配器：怎么让它们不打架",
+      "title": "配器：怎么让它们不打架",
+      "goal": "前面的图告诉你每件乐器在哪儿。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "text",
+          "text": "前面的图告诉你每件乐器在哪儿。这一节讲放几件、怎么放。 规则只有三条，但每一条都能直接否掉一个听起来\"还行\"的编曲。"
+        }
+      ],
+      "skip": true,
+      "order": 38,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-arrange.c1",
+      "course": "instrument",
+      "chapter": "13 配器：怎么让它们不打架",
+      "title": "三条铁律",
+      "goal": "三条铁律 铁律一 · 音区 常用区不许重叠 两件乐器的 深色段 叠在一起，就一定要有一个让。",
+      "estimatedSeconds": 71,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "三条铁律"
+        },
+        {
+          "type": "text",
+          "text": "铁律一 · 音区"
+        },
+        {
+          "type": "text",
+          "text": "常用区不许重叠"
+        },
+        {
+          "type": "text",
+          "text": "两件乐器的 深色段 叠在一起，就一定要有一个让。让的方式只有换八度—— 换音色没用，因为冲突发生在频段上，不在音色上。"
+        },
+        {
+          "type": "text",
+          "text": "铁律二 · 密度"
+        },
+        {
+          "type": "text",
+          "text": "同时只有一个在动"
+        },
+        {
+          "type": "text",
+          "text": "主乐 4 音头/秒，副乐就不能也 4。 两件都很忙＝谁都没在说。 想加一件乐器，先问它能不能用 1 音头/秒完成任务。"
+        },
+        {
+          "type": "text",
+          "text": "铁律三 · 起音"
+        },
+        {
+          "type": "text",
+          "text": "快的站拍点：起音 2ms 的（钢琴、拨弦、打击）可以放在拍点上；起音 200ms 的（大提琴、低音提琴）放上去会\"迟到\"。 慢起音 + 密集节奏＝一团糊。"
+        }
+      ],
+      "skip": true,
+      "order": 39,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-arrange.c2",
+      "course": "instrument",
+      "chapter": "13 配器：怎么让它们不打架",
+      "title": "五套可以直接用的编制",
+      "goal": "五套可以直接用的编制 每一套都按\"谁让谁\"排好了，不用再想。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "五套可以直接用的编制"
+        },
+        {
+          "type": "text",
+          "text": "每一套都按\"谁让谁\"排好了，不用再想。"
+        },
+        {
+          "type": "table",
+          "headers": [
+            "编制",
+            "主奏",
+            "怎么分工",
+            "最容易错的地方"
+          ],
+          "rows": [
+            [
+              "钢琴 + 大提琴最稳",
+              "钢琴",
+              "钢琴占 C3 以上，右手点状伴奏；大提琴只做 C2–C3 的长音铺底",
+              "让大提琴去拉旋律、钢琴去弹低音——正好把两件乐器都放进了对方的位置"
+            ],
+            [
+              "吉他 + 贝斯 + 鼓民谣三层",
+              "人声",
+              "吉他走 E3 以上的中高段扫弦（1–4 音头/秒）；贝斯只走根音；鼓定段落",
+              "吉他扫到 E2–A2 和贝斯撞——低音要收，或者干脆不弹那两根弦"
+            ],
+            [
+              "弦乐四重古典",
+              "小提琴",
+              "一提旋律、二提内声部、中提填中频、大提低音，四件不重叠",
+              "四件全写长音＝一块厚布，没有层次；必须有一件在动"
+            ],
+            [
+              "电吉他 + 贝斯 + 808现代",
+              "人声",
+              "失真吉他占中频，贝斯与 808 二选一（不能同时），高频交给踩镲",
+              "贝斯和 808 同时用：两个都在 C1–C3，低频互相吃掉，听起来反而更小"
+            ],
+            [
+              "长笛 + 竖琴梦境",
+              "长笛",
+              "竖琴琶音铺满 C2–C6，长笛在高八度走长句；谁也不做低音",
+              "加了贝斯就毁了——这一套的力量来自\"没有地基\""
+            ]
+          ],
+          "clickRows": []
+        }
+      ],
+      "skip": true,
+      "order": 40,
+      "task": {
+        "type": "action",
+        "prompt": "查完这张表后过页",
+        "label": "我查完了",
+        "explain": "表不是用来背的，是动笔/动耳前先查的工具。"
+      }
+    },
+    {
+      "id": "instrument.s-arrange.c3",
+      "course": "instrument",
+      "chapter": "13 配器：怎么让它们不打架",
+      "title": "必须避开的五种搭配",
+      "goal": "必须避开的五种搭配 共同点：它们都是\"两件乐器抢同一格\"。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "必须避开的五种搭配"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "大提琴 + 低音提琴同度 / 八度。低频叠成一块，人耳分不出是两件，只觉得\"糊\"。",
+            "两把大提琴音区没拉开三度以上。同族同音色同频段，等于一件乐器加了 6dB 音量。",
+            "大提琴 + 手风琴 + 低音萨克斯。三个中低频同时在场，谁的轮廓都听不清。",
+            "贝斯 + 808 同时出现。都占 C1–C3，且都是\"没有泛音的低频\"，互相抵消。",
+            "短笛 + 小提琴高把位 + 钢片琴同时在高音。三个都在 C6 以上，听起来像报警器。"
+          ]
+        },
+        {
+          "type": "tip",
+          "text": "共同点：它们都是\"两件乐器抢同一格\"。避开的方法从来不是\"换一件更好听的\"， 而是把其中一件挪到它的第二舒适区，或者让它闭嘴。"
+        }
+      ],
+      "skip": true,
+      "order": 41,
+      "task": {
+        "type": "action",
+        "prompt": "按顺序读完后过页",
+        "label": "我读完了",
+        "explain": "顺序本身就是知识的一部分；跳过也不会卡进度。"
+      }
+    },
+    {
+      "id": "instrument.s-arrange.c4",
+      "course": "instrument",
+      "chapter": "13 配器：怎么让它们不打架",
+      "title": "谁能当主奏：三个条件，缺一不可",
+      "goal": "谁能当主奏：三个条件，缺一不可 按这三条筛，能当主奏的其实很多，但分成两类： 自带伴奏的——钢琴、吉他、电吉他、合成器、管风琴，它们一个人就能交代和声；",
+      "estimatedSeconds": 62,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "谁能当主奏：三个条件，缺一不可"
+        },
+        {
+          "type": "table",
+          "headers": [
+            "条件",
+            "为什么",
+            "不满足会怎样"
+          ],
+          "rows": [
+            [
+              "音域够宽（≥ 2 个八度）",
+              "旋律要起伏，窄音域的乐器只能来回走",
+              "尤克里里、定音鼓当主奏：旋律听着像在原地踏步"
+            ],
+            [
+              "能同时发多个音，或能被和声托住",
+              "主奏通常是单声部，需要别人给它和声",
+              "单旋律乐器独自开场会非常\"空\"，除非这就是你要的效果"
+            ],
+            [
+              "织密上限够高（≥ 6 音头/秒）",
+              "主奏要能在副歌\"动起来\"",
+              "圆号、大号当主奏：副歌提不上去，整首平"
+            ]
+          ],
+          "clickRows": []
+        },
+        {
+          "type": "tip",
+          "text": "按这三条筛，能当主奏的其实很多，但分成两类： 自带伴奏的——钢琴、吉他、电吉他、合成器、管风琴，它们一个人就能交代和声； 需要别人托举的——小提琴、长笛、双簧管、单簧管、萨克斯、小号、二胡、竹笛、琵琶。 真正当不了主奏的只有窄音域或跑不动的：尤克里里、定音鼓、808、大号。 不过反过来说也对：让大提琴当主奏不是不行，代价是整首的速度和密度都得降下来。"
+        }
+      ],
+      "skip": true,
+      "order": 42,
+      "task": {
+        "type": "action",
+        "prompt": "查完这张表后过页",
+        "label": "我查完了",
+        "explain": "表不是用来背的，是动笔/动耳前先查的工具。"
+      }
+    },
+    {
+      "id": "instrument.s-speed.intro",
+      "course": "instrument",
+      "chapter": "14 速查表",
+      "title": "速查表",
+      "goal": "写东西时最常查的四列：音域、频率、织密、它的意象。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "text",
+          "text": "写东西时最常查的四列：音域、频率、织密、它的意象。频率那一列是给\"要和别人解释\"准备的—— \"大提琴最低 65Hz\"比\"大提琴很低\"有用得多。"
+        }
+      ],
+      "skip": true,
+      "order": 43,
+      "task": {
+        "type": "action",
+        "prompt": "读完这一页后过页",
+        "label": "我读完了",
+        "explain": "先看懂再往下走；卡住了就跳过，进度不会因此清零。"
+      }
+    },
+    {
+      "id": "instrument.s-speed.c1",
+      "course": "instrument",
+      "chapter": "14 速查表",
+      "title": "全部乐器",
+      "goal": "全部乐器 织密单位是音头/秒，与乐理课第 09 节律动用的是同一个口径： 实际演奏的音头数 ÷ 时长。",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "全部乐器"
+        },
+        {
+          "type": "table",
+          "headers": [
+            "乐器",
+            "族",
+            "音域",
+            "频率",
+            "织密",
+            "它的意象"
+          ],
+          "rows": [
+            [
+              "钢琴",
+              "键盘族",
+              "A0–C8",
+              "27.5 Hz – 4.2 kHz",
+              "0.5–12",
+              "雨、空房间、电影里的时间"
+            ],
+            [
+              "电钢琴",
+              "键盘族",
+              "A0–C8",
+              "27.5 Hz – 4.2 kHz",
+              "0.5–8",
+              "夜车、旧磁带、咖啡馆的角落"
+            ],
+            [
+              "钢片琴",
+              "键盘族",
+              "C3–C8",
+              "131 Hz – 4.2 kHz",
+              "0.3–6",
+              "星星、糖、回忆闪回、魔法出现的那一下"
+            ],
+            [
+              "大键琴",
+              "键盘族",
+              "F1–F6",
+              "43.7 Hz – 1.4 kHz",
+              "0.5–10",
+              "宫廷、旧画、机关、整齐的时间"
+            ],
+            [
+              "管风琴",
+              "键盘族",
+              "C2–C7",
+              "65.4 Hz – 2.1 kHz",
+              "0.2–6",
+              "教堂、光柱、庄严、不会结束的东西"
+            ],
+            [
+              "手风琴",
+              "键盘族",
+              "F3–A6",
+              "175 Hz – 1.8 kHz",
+              "0.5–8",
+              "街头、酒馆、东欧、流浪"
+            ],
+            [
+              "小提琴",
+              "弦乐 · 提琴一家",
+              "G3–E7",
+              "196 Hz – 2.6 kHz",
+              "0.2–10",
+              "刀、哭、寒、一个人站在最前面"
+            ],
+            [
+              "中提琴",
+              "弦乐 · 提琴一家",
+              "C3–E6",
+              "131 Hz – 1.3 kHz",
+              "0.2–8",
+              "雾、迟疑、内声部、旧毛衣"
+            ],
+            [
+              "大提琴",
+              "弦乐 · 提琴一家",
+              "C2–A5",
+              "65.4 Hz – 880 Hz",
+              "0.2–8",
+              "胸腔、离别、母亲、忍着不说的那句"
+            ],
+            [
+              "低音提琴",
+              "弦乐 · 提琴一家",
+              "E1–G4",
+              "41.2 Hz – 392 Hz",
+              "0.25–6",
+              "地基、脚步、心跳、夜里的地板"
+            ],
+            [
+              "古典 / 民谣吉他",
+              "吉他一家",
+              "E2–B5",
+              "82.4 Hz – 988 Hz",
+              "0.5–10",
+              "宿舍、夏天、一个人的下午"
+            ],
+            [
+              "电吉他",
+              "吉他一家",
+              "E2–E6",
+              "82.4 Hz – 1.3 kHz",
+              "0.5–16",
+              "墙、反抗、霓虹、雨夜的街"
+            ],
+            [
+              "尤克里里",
+              "吉他一家",
+              "C4–A5",
+              "262 Hz – 880 Hz",
+              "1–10",
+              "阳光、天真、假装不难过"
+            ],
+            [
+              "电贝斯",
+              "吉他一家",
+              "E1–G4",
+              "41.2 Hz – 392 Hz",
+              "0.5–8",
+              "脊椎、走路、心跳、律动本身"
+            ],
+            [
+              "竖琴",
+              "拨弦 · 竖琴与曼陀林",
+              "C1–G7",
+              "32.7 Hz – 3.1 kHz",
+              "1–12",
+              "天堂、水、光、梦的开场"
+            ],
+            [
+              "曼陀林",
+              "拨弦 · 竖琴与曼陀林",
+              "G3–A6",
+              "196 Hz – 1.8 kHz",
+              "1–12",
+              "意大利、乡村、奔跑、珠子落地"
+            ],
+            [
+              "短笛",
+              "木管族",
+              "D5–C8",
+              "587 Hz – 4.2 kHz",
+              "0.5–10",
+              "鸟、闪电、穿透、军营"
+            ],
+            [
+              "长笛",
+              "木管族",
+              "C4–D7",
+              "262 Hz – 2.3 kHz",
+              "0.5–10",
+              "天光、风、透明的河"
+            ],
+            [
+              "双簧管",
+              "木管族",
+              "B♭3–A6",
+              "233 Hz – 1.8 kHz",
+              "0.5–8",
+              "乡愁、田园、芦苇、带鼻音的哀"
+            ],
+            [
+              "单簧管",
+              "木管族",
+              "D3–B♭6",
+              "147 Hz – 1.9 kHz",
+              "0.5–10",
+              "猫、夜色、爵士、滑音里的笑"
+            ],
+            [
+              "巴松",
+              "木管族",
+              "B♭1–E5",
+              "58.3 Hz – 659 Hz",
+              "0.3–6",
+              "老人、笨拙的温柔、喜剧、森林"
+            ],
+            [
+              "高音萨克斯",
+              "萨克斯 · 铜管的身子木管的心",
+              "A♭3–E6",
+              "208 Hz – 1.3 kHz",
+              "0.5–10",
+              "孤独的领奏、教堂、远处的哭"
+            ],
+            [
+              "中音萨克斯",
+              "萨克斯 · 铜管的身子木管的心",
+              "D♭3–A5",
+              "139 Hz – 880 Hz",
+              "0.5–10",
+              "夜、雨、霓虹、欲言又止"
+            ],
+            [
+              "次中音萨克斯",
+              "萨克斯 · 铜管的身子木管的心",
+              "A♭2–E5",
+              "104 Hz – 659 Hz",
+              "0.5–8",
+              "老电影、深夜电台、一个人的吧台"
+            ],
+            [
+              "上低音萨克斯",
+              "萨克斯 · 铜管的身子木管的心",
+              "D♭2–A4",
+              "69.3 Hz – 440 Hz",
+              "0.4–6",
+              "低频的咆哮、街头、走路的重量"
+            ],
+            [
+              "小号",
+              "铜管族",
+              "E3–D6",
+              "165 Hz – 1.2 kHz",
+              "0.5–8",
+              "宣告、太阳、军号、胜利那一下"
+            ],
+            [
+              "圆号",
+              "铜管族",
+              "B2–F5",
+              "123 Hz – 698 Hz",
+              "0.3–6",
+              "森林、远山、呼唤、雾里的号角"
+            ],
+            [
+              "长号",
+              "铜管族",
+              "E2–B♭4",
+              "82.4 Hz – 466 Hz",
+              "0.3–6",
+              "庄严、神的低音、滑稽的滑音"
+            ],
+            [
+              "大号",
+              "铜管族",
+              "D1–F4",
+              "36.7 Hz – 349 Hz",
+              "0.25–4",
+              "重量、地板、笨重的温柔"
+            ],
+            [
+              "定音鼓",
+              "打击 · 有音高的那些",
+              "D2–A3",
+              "73.4 Hz – 220 Hz",
+              "0.25–6",
+              "雷、命运、心跳突然加速"
+            ],
+            [
+              "马林巴",
+              "打击 · 有音高的那些",
+              "C2–C7",
+              "65.4 Hz – 2.1 kHz",
+              "0.5–10",
+              "木头的雨、客厅、温柔的攻击"
+            ],
+            [
+              "颤音琴",
+              "打击 · 有音高的那些",
+              "F3–F6",
+              "175 Hz – 1.4 kHz",
+              "0.4–8",
+              "冷光、悬置、回忆、医院走廊"
+            ],
+            [
+              "男低音",
+              "人声 · 六把尺子",
+              "E2–E4",
+              "82.4 Hz – 330 Hz",
+              "0.3–5",
+              "稳、父辈、地基、说话不用大声"
+            ],
+            [
+              "男中音",
+              "人声 · 六把尺子",
+              "A2–A4",
+              "110 Hz – 440 Hz",
+              "0.3–5",
+              "叙述者、讲故事的人、普通人的心事"
+            ],
+            [
+              "男高音",
+              "人声 · 六把尺子",
+              "C3–C5",
+              "131 Hz – 523 Hz",
+              "0.3–5",
+              "燃烧、告白、把话喊出来"
+            ],
+            [
+              "女低音",
+              "人声 · 六把尺子",
+              "F3–F5",
+              "175 Hz – 698 Hz",
+              "0.3–5",
+              "厚、稳、母亲、不张扬的暖"
+            ],
+            [
+              "女中音",
+              "人声 · 六把尺子",
+              "A3–A5",
+              "220 Hz – 880 Hz",
+              "0.3–5",
+              "欲言又止、暧昧、说了一半的话"
+            ],
+            [
+              "女高音",
+              "人声 · 六把尺子",
+              "C4–C6",
+              "262 Hz – 1.0 kHz",
+              "0.3–5",
+              "光、穿破、祈祷、不需要扩音"
+            ],
+            [
+              "二胡",
+              "民族乐器",
+              "D4–D7",
+              "294 Hz – 2.3 kHz",
+              "0.3–8",
+              "哭腔、北风、说书、一个人"
+            ],
+            [
+              "琵琶",
+              "民族乐器",
+              "A2–E6",
+              "110 Hz – 1.3 kHz",
+              "1–14",
+              "珠落玉盘、急促叙事、刀光"
+            ],
+            [
+              "古筝",
+              "民族乐器",
+              "D2–D6",
+              "73.4 Hz – 1.2 kHz",
+              "0.5–12",
+              "水、风、山、刀光"
+            ],
+            [
+              "竹笛",
+              "民族乐器",
+              "D4–D7",
+              "294 Hz – 2.3 kHz",
+              "0.5–10",
+              "田野、清晨、少年、风穿过竹林"
+            ],
+            [
+              "箫",
+              "民族乐器",
+              "D4–E6",
+              "294 Hz – 1.3 kHz",
+              "0.2–5",
+              "夜、月、独处、气声"
+            ],
+            [
+              "唢呐",
+              "民族乐器",
+              "B♭3–B♭6",
+              "233 Hz – 1.9 kHz",
+              "0.5–10",
+              "红白喜事、穿透、乡土、生猛"
+            ],
+            [
+              "合成器",
+              "电声与合成",
+              "C0–C8",
+              "16.4 Hz – 4.2 kHz",
+              "0–16",
+              "未来、无来源、空间、机器的心跳"
+            ],
+            [
+              "808 低音",
+              "电声与合成",
+              "C1–C3",
+              "32.7 Hz – 131 Hz",
+              "0–4",
+              "低频的墙、街头、心跳"
+            ]
+          ],
+          "clickRows": []
+        },
+        {
+          "type": "tip",
+          "text": "织密单位是音头/秒，与乐理课第 09 节律动用的是同一个口径： 实际演奏的音头数 ÷ 时长。所以这里的数字可以直接和那边的节奏型对账。"
+        }
+      ],
+      "skip": true,
+      "order": 44,
+      "task": {
+        "type": "action",
+        "prompt": "查完这张表后过页",
+        "label": "我查完了",
+        "explain": "表不是用来背的，是动笔/动耳前先查的工具。"
+      }
+    },
+    {
+      "id": "instrument.s-speed.c2",
+      "course": "instrument",
+      "chapter": "14 速查表",
+      "title": "三句话带走",
+      "goal": "三句话带走",
+      "estimatedSeconds": 45,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "三句话带走"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items": [
+            "音域决定\"能不能\"，常用区决定\"好不好\"，织密决定\"糊不糊\"。配器冲突多数发生在第二、第三条上。",
+            "低音是稀缺资源，中频是战场，高音是装饰。所有\"再加一件乐器\"的冲动，先问它加在哪一格。",
+            "选乐器不是选音色，是选它允许你做的动作。滑音、按音、贴膜、失真——这些才是乐器真正的身份证。"
+          ]
+        }
+      ],
+      "skip": true,
+      "order": 45,
       "task": {
         "type": "action",
         "prompt": "按顺序读完后过页",

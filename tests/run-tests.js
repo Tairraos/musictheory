@@ -2975,8 +2975,9 @@ test('P1 互动课配置：由当前教程生成、可校验、页量充足且�
   assert.deepEqual(errors, [], '互动课配置必须通过完整校验');
 
   assert.equal(GAME_CONFIG.schemaVersion, 1, '配置 schema 版本必须是 1');
-  assert.ok(GAME_CONFIG.pages.length >= 120,
-    `互动课应从两课卡片抽出足够页量，实际 ${GAME_CONFIG.pages.length}`);
+  assert.equal(GAME_CONFIG.courses.length, 3, '三节课：乐理 / 作词 / 乐器');
+  assert.ok(GAME_CONFIG.pages.length >= 150,
+    `互动课应从三课卡片抽出足够页量，实际 ${GAME_CONFIG.pages.length}`);
   GAME_CONFIG.courses.forEach(c => {
     const n = GAME_CONFIG.pages.filter(p => p.course === c.id).length;
     assert.ok(n >= 40, `${c.title} 至少 40 页，实际 ${n}`);
@@ -3082,7 +3083,7 @@ test('P2 互动课内核：判题、跳过与进度状态机', () => {
 test('P3 互动课播放器：首页、开页、停留完成与跳过都可走', async () => {
   await withGamePage((w, d) => {
     const G = w.__GAME__;
-    assert.equal(d.querySelectorAll('.course-stat').length, 2, '首页要有两门课');
+    assert.equal(d.querySelectorAll('.course-stat').length, 3, '首页要有三门课');
     assert.ok(d.querySelector('.chapter-card'), '首页要按章节分组');
     assert.equal(d.querySelector('#pageState'), null, '状态 pill 已移除，完成与否只看底色');
     assert.equal(d.querySelector('.page-status'), null, '目录行不再写"已完成/看过"');
@@ -3092,7 +3093,7 @@ test('P3 互动课播放器：首页、开页、停留完成与跳过都可走',
     assert.equal(d.querySelector('#playerView').hidden, false, '开页后要显示播放器');
     assert.equal(d.querySelector('#playerTitle').textContent, first.title, '标题要来自配置');
     assert.equal(d.querySelector('#gameDock').hidden, false, '播放器页要显示底部钢琴');
-    assert.equal(d.querySelectorAll('#gameKb .wk').length, 14, '底部钢琴固定画 C4–B5 十四个白键');
+    assert.equal(d.querySelectorAll('#gameKb .wk').length, 36, '底部钢琴画全 C2–C7（35 白键 + 顶格 C7 = 36）');
     const shouldHideGoal = !first.goal || first.goal === first.title ||
       first.blocks.some(b => (b.text || '') === first.goal);
     assert.equal(d.querySelector('#playerGoal').hidden, shouldHideGoal,
@@ -3238,6 +3239,18 @@ test('P5 互动课逐页体检：144 页每页逐块渲染核对，点行/点卡
     const cadence = find(/五种收尾方式/);
     assert.ok(cadence && cadence.blocks.filter(b => b.type === 'strip' && b.chords).length >= 5,
       '五种收尾方式每条都要有格子图');
+
+    /* 第三课《乐器课》：入口与内容都要在 */
+    const rangePage = GAME_CONFIG.pages.find(p => p.course === 'instrument' && /音域/.test(p.title));
+    assert.ok(rangePage && rangePage.blocks.some(b => b.type === 'svg'),
+      '乐器课的音域图页要带 SVG 示意图');
+    assert.ok(GAME_CONFIG.pages.filter(p => p.course === 'instrument').length >= 40,
+      '乐器课要成建制出页（30 卡 + 15 节导语）');
+
+    /* 键盘拖拽回位：C2–C7 五个八度都画出来（白键 35），不再只有 14 键 */
+    G.openPage(GAME_CONFIG.pages[0].id);
+    const wkAll = d.querySelectorAll('#gameKb .wk');
+    assert.ok(wkAll.length >= 30, `底部键盘应画全 C2–C7（35 白键），实际 ${wkAll.length}`);
   });
 });
 
