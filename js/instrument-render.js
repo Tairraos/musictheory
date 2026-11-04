@@ -18,7 +18,7 @@
   /* 版本号：与另两页共用同一个数（三页一次交付，标签页上显示不同版本
      只会让人怀疑"我是不是没刷新"）。真源就在这里，另外三处是静态副本，
      统一由 tests/bump-version.js 改；本文件负责把副本刷成同一个值。 */
-  const VERSION = { v: '1.40', date: '26.11.04' };
+  const VERSION = { v: '1.41', date: '26.11.04' };
 
   function applyVersion() {
     document.querySelectorAll('[data-ver]').forEach(el => {

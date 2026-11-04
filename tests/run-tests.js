@@ -3127,3 +3127,65 @@ test('I6 乐器课资源：专属样式与两个脚本都在，互链指向另�
       'hero-instrument.png 应是合法 PNG');
   }
 });
+
+test('I7 总览结论里的数字必须与数据现算一致（加一件乐器就要改文案）', async () => {
+  await withInstrumentPage((w, d) => {
+    const { all, midiOf } = w.__IC__;
+    const list = all();
+    /* 四个统计口径，与页面 s-all 里那三句话一一对应。
+       任何一个数字将来变了而文案没改，这条会立刻挂——
+       这正是"内容体检：数字要和数据对账"那条纪律。 */
+    const low = list.filter(i => midiOf(i.lo) <= 35).length;                                  // 够得着 C2 以下
+    const lowCore = list.filter(i => midiOf(i.comfort[1]) <= 51).length;                      // 常用区不超 D3
+    const mid = list.filter(i => midiOf(i.comfort[0]) <= 71 && midiOf(i.comfort[1]) >= 48).length; // 常用区压 C3–C5
+    const high = list.filter(i => midiOf(i.hi) >= 84).length;                                 // 能到 C6 以上
+    const highTop = list.filter(i => midiOf(i.comfort[1]) >= 96).length;                      // 常用区够得着 C7
+
+    const text = d.getElementById('s-all').textContent.replace(/\s+/g, '');
+    assert.ok(text.includes(`先把${list.length}件乐器叠在一张图上`),
+      `s-all 里应写「先把 ${list.length} 件乐器」，实际总览是 ${list.length} 件`);
+    assert.ok(text.includes(`只有${low}件乐器够得着`),
+      `C1–C2 够得着的应写 ${low} 件`);
+    assert.ok(text.includes(`${mid}件的常用区`),
+      `压在中频的应写 ${mid} 件`);
+    assert.ok(text.includes(`有${high}件`),
+      `能到 C6 以上的应写 ${high} 件`);
+
+    /* 这两条是结论的支点，数字一变就要连文案一起改，所以直接钉死 */
+    assert.equal(lowCore, 4, '常驻低频的应恰为四件（低音提琴/电贝斯/大号/808），若变了请同步改 s-all 第一条');
+    assert.equal(highTop, 6, '常用区能摸到 C7 的应恰为六件（短笛/钢片琴/竖琴/小提琴/长笛/合成器），若变了请同步改 s-all 第三条');
+    assert.ok(text.includes('只有六件'), '高音结论里的「只有六件」要与 highTop=6 一致');
+  });
+});
+
+test('I8 每件乐器的移调说明必须与音域自洽（记谱方向不能写反）', async () => {
+  await withInstrumentPage((w) => {
+    const { all } = w.__IC__;
+    /* 移调乐器最容易写反的一句话是"记谱比实际高/低几度"。
+       这里只查有明确写法的几件：正负号必须和"它实际比记谱高还是低"对上。
+       规则：描述里出现"记谱比实际高"＝实际音比记谱低；"记谱比实际低"＝实际音更高。 */
+    const expect = {
+      piccolo: '低',        // 记谱低八度 → 实际高
+      dbass: '高',          // 记谱高八度 → 实际低
+      guitar: '高',
+      celesta: '低',
+      clarinet: '高',       // 降 B，记谱比实际高大二度
+      bassoon: '高',
+      sopsax: '高',         // 降 B
+      altosax: '高',        // 降 E，记谱比实际高小六度
+      tenorsax: '高',       // 降 B，记谱比实际高大九度
+      barisax: '高',        // 降 E，记谱比实际高大十三度
+      trumpet: '高',
+      horn: '高',
+    };
+    for (const [id, dir] of Object.entries(expect)) {
+      const it = all().find(x => x.id === id);
+      assert.ok(it, `${id} 应存在`);
+      const line = it.params.map(p => p[0] + p[1]).join('');
+      assert.ok(line.includes('记谱'), `${it.name} 应在参数里交代记谱移调`);
+      const m = line.match(/记谱比实际([高低])/);
+      assert.ok(m, `${it.name} 的移调写法应为「记谱比实际高/低…」，实际是「${line}」`);
+      assert.equal(m[1], dir, `${it.name} 的移调方向写反了`);
+    }
+  });
+});
