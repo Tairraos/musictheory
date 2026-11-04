@@ -1,0 +1,135 @@
+/* ==========================================================================
+ * 《姐弟厨师团——乐器课》 · 专属样式（css/instrument.css）
+ * --------------------------------------------------------------------------
+ * 只补 main.css 里没有的三样：音域图容器、乐器卡、八度占位格。
+ * 设计令牌、导航、卡片、表格、按钮全部复用 main.css，不重新定义。
+ * ========================================================================== */
+
+/* ---------- 1. 音域覆盖图 ---------- */
+/* 图比容器宽是常态（760 的 viewBox），所以让它自己横滑，而不是缩到看不清。
+   缩放到 390px 宽时 12px 的字只剩 6px——那不是"响应式"，是放弃阅读。 */
+.rchart-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:2px 0 0}
+.rchart{display:block;width:100%;min-width:560px;height:auto}
+.rchart-wrap::-webkit-scrollbar{height:6px}
+.rchart-wrap::-webkit-scrollbar-thumb{background:#D6D2C6;border-radius:3px}
+.rchart-wrap::-webkit-scrollbar-track{background:transparent}
+
+/* 图例：两种色块的含义必须写在图上，不能指望读者猜 */
+.rchart-cap{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:8px;font-size:11.5px;color:var(--faint)}
+.rchart-cap .sw-l,.rchart-cap .sw-d{width:22px;height:9px;border-radius:5px;display:inline-block;margin-right:5px;vertical-align:middle}
+.rchart-cap .sw-l{background:var(--cl,#EEEDFE);border:1px solid var(--c,#AFA9EC)}
+.rchart-cap .sw-d{background:var(--c,#534AB7)}
+/* 窄屏才提示能滑：桌面端图是完整铺开的，写这句话反而多余 */
+.rchart-cap .swipe{display:none;color:var(--faint)}
+.rchart-cap .mini{margin-left:auto}
+
+/* ---------- 2. 乐器卡 ---------- */
+/* 左边一道 3px 的族色：一组卡片挨着看时，同族不用读标题就知道是一家 */
+.inst{
+  background:var(--card);border:1px solid var(--line);border-left:3px solid var(--c);
+  border-radius:12px;padding:15px 18px;margin-bottom:12px;
+}
+.inst-h{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:10px}
+.inst-h b{font-size:15px;font-weight:600;letter-spacing:.2px}
+.inst-h .en{font-size:11.5px;color:var(--faint);font-style:italic}
+.inst-h .pill{margin-left:0}
+.inst-h .pill:first-of-type{margin-left:auto}
+
+.inst-body{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);gap:20px}
+@media(max-width:760px){.inst-body{grid-template-columns:1fr;gap:12px}}
+
+/* 八度占位格：C1–C6 六格。浅＝音域扫过，深＝常用区落在这里。
+   格子固定宽度而不是 flex 均分：卡片左列有 380px 宽，均分会把每格拉到 60px 以上，
+   六个大空框比六个小格子更难读——信息密度低的东西不该占大位置。 */
+.octs{display:grid;grid-template-columns:30px repeat(6,minmax(0,1fr));gap:3px;align-items:center;
+  max-width:318px;margin-bottom:8px}
+.octs .ok{font-size:11px;color:var(--faint);line-height:1}
+.octs i{
+  height:19px;border-radius:4px;background:#F4F2EC;border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.octs i u{
+  font-style:normal;text-decoration:none;font-size:9px;line-height:1;
+  color:#B9B5A8;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+.octs i.tch{background:var(--cl);border-color:var(--c);border-style:dashed}
+.octs i.tch u{color:var(--c);opacity:.65}
+.octs i.hot{background:var(--c);border-color:var(--c)}
+.octs i.hot u{color:#fff;opacity:.92}
+
+/* 织密条：统一量程 0–16，区间用色块表示 */
+.dens{display:flex;align-items:center;gap:7px;margin:0 0 11px;font-size:11px;color:var(--faint)}
+.dens-k{flex:none;width:30px}
+.dens-track{position:relative;flex:1;height:6px;background:#F0EEE7;border-radius:3px;overflow:hidden}
+.dens-track i{position:absolute;top:0;bottom:0;background:var(--c);border-radius:3px;opacity:.85}
+.dens b{color:var(--text);font-weight:600;font-size:11.5px;font-family:ui-monospace,monospace}
+.dens-u{flex:none;font-size:10.5px}
+
+/* 理科参数：术语窄、值宽，行距紧一点，五行刚好读成一整块 */
+.facts{font-size:12px;margin:0}
+.facts>div{display:grid;grid-template-columns:54px minmax(0,1fr);gap:9px;padding:3.5px 0;border-bottom:1px dashed #F0EEE7}
+.facts>div:last-child{border-bottom:none}
+.facts dt{color:var(--faint);font-size:11.5px;line-height:1.6}
+.facts dd{color:var(--muted);line-height:1.6}
+
+/* 右侧四段话：标签窄条 + 正文。负向的那条换红色，扫一眼就知道是"禁区" */
+.inst-right p{display:grid;grid-template-columns:32px minmax(0,1fr);gap:9px;margin:0 0 8px;font-size:12.5px;line-height:1.65;color:var(--muted)}
+.inst-right p:last-child{margin-bottom:0}
+.inst-right i{
+  font-style:normal;font-size:10.5px;line-height:18px;height:19px;text-align:center;
+  background:var(--gray-bg);color:var(--faint);border-radius:4px;
+}
+.inst-right p.neg i{background:var(--red-bg);color:var(--red)}
+.inst-right p.neg span{color:var(--text)}
+
+/* ---------- 3. 总览图 ---------- */
+/* 30 行塞一张，行高压到 19px：它只回答"谁和谁撞"，不回答"多少赫兹" */
+#chartAll{margin-top:4px}
+
+/* ---------- 4. 速查表 ---------- *//* 六列定宽：不定宽时"乐器 / 族"两列会按内容抢宽度，把频率与织密挤到折行——
+   实测 "175 Hz – 1.4 kHz" 会被拆成两行，整张表立刻参差不齐。
+   数值列一律 nowrap：这三列的长度是可预测的，折行只会让它更难读。 */
+.speed{table-layout:fixed}
+.speed th:nth-child(1){width:15%}
+.speed th:nth-child(2){width:14%}
+.speed th:nth-child(3){width:12%}
+.speed th:nth-child(4){width:23%}
+.speed th:nth-child(5){width:10%}
+.speed th:nth-child(6){width:26%}
+.speed td:nth-child(1),.speed td:nth-child(3),
+.speed td:nth-child(4),.speed td:nth-child(5){white-space:nowrap}
+
+/* 编制表：第一列和"主奏"列常常只有一两行，而"怎么分工"有三四行。
+   td 默认 vertical-align:middle 会把单行的那几格压到行底，看着像没对齐；
+   顶对齐＋定宽之后，每一行都从同一条基线上开始读。 */
+.plan{table-layout:fixed}
+.plan th:nth-child(1){width:17%}
+.plan th:nth-child(2){width:11%}
+.plan th:nth-child(3){width:32%}
+.plan th:nth-child(4){width:40%}
+.plan td{vertical-align:top}
+.plan td:nth-child(2){white-space:nowrap}
+
+/* ---------- 5. Hero 图缺失时的兜底 ---------- */
+/* 插画还没放进仓库时不留一个破图图标：换成纸色方块 + 一行小字，
+   版面高度不变，打磨阶段补图不会让整页跳一下。 */
+.hero-grid .art.no-art{
+  border:1px dashed var(--line2);border-radius:14px;background:var(--gray-bg);
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-grid .art.no-art img{display:none}
+.hero-grid .art.no-art:after{
+  content:"乐器课插画待放入 assets/images/hero-instrument.png";
+  font-size:11px;color:var(--faint);text-align:center;padding:0 14px;line-height:1.6;
+}
+
+/* ---------- 6. 窄屏 ---------- */
+@media(max-width:700px){
+  .inst{padding:13px 14px}
+  .inst-h .pill:first-of-type{margin-left:0}
+  .rchart{min-width:520px}
+  .rchart-cap{font-size:11px;gap:10px}
+  .rchart-cap .mini{display:none}
+  .rchart-cap .swipe{display:inline;margin-left:auto}
+  .facts>div{grid-template-columns:50px minmax(0,1fr)}
+}

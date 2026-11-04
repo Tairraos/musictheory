@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F7F6F2">
+<meta name="color-scheme" content="light">
+<!-- 图标与另两页共用：三页在同一域名下，标签页不该长得像三个站 -->
+<link rel="icon" href="assets/images/favicon.ico" sizes="any">
+<link rel="icon" href="assets/images/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/images/favicon.png">
+<title>姐弟厨师团 --- 乐器课 V1.38 [26.11.04]</title>
+<!-- 样式：设计令牌、导航、卡片、表格全部复用 main.css；
+     instrument.css 只补音域图与乐器卡 -->
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/instrument.css">
+</head>
+<body>
+
+<!-- 左侧导航：15 节，与下方 <section> 一一对应（≤1000px 变为顶部横滚条） -->
+<aside id="nav">
+  <div class="brand">乐器课目录 <span class="ver" data-ver><b>V1.38</b> [26.11.04]</span><small>谁在发这个声</small></div>
+  <a class="navswitch" href="index.html">← 回《乐理课》</a>
+  <a class="navswitch" href="lyric.html">← 回《作词课》</a>
+  <a href="#s-read">0 · 先学会读这张图</a>
+  <a href="#s-all">1 · 全部乐器一张图</a>
+  <a href="#s-key">2 · 键盘族</a>
+  <a href="#s-strings">3 · 弦乐：提琴一家</a>
+  <a href="#s-guitar">4 · 吉他一家</a>
+  <a href="#s-pluck">5 · 竖琴与曼陀林</a>
+  <a href="#s-wood">6 · 木管族</a>
+  <a href="#s-sax">7 · 萨克斯</a>
+  <a href="#s-brass">8 · 铜管族</a>
+  <a href="#s-perc">9 · 有音高的打击</a>
+  <a href="#s-voice">10 · 人声：六把尺子</a>
+  <a href="#s-folk">11 · 民族乐器</a>
+  <a href="#s-elec">12 · 电声与合成</a>
+  <a href="#s-arrange">13 · 配器：怎么不打架</a>
+  <a href="#s-speed">14 · 速查表</a>
+</aside>
+
+<div class="wrap">
+
+<!-- 顶部互链：另两页各一条。三页是一个系列，不是三个站。 -->
+<nav class="pageswitch">
+  <a href="index.html">← 乐理课</a>
+  <a href="lyric.html">作词课 →</a>
+</nav>
+
+<header class="hero">
+  <div class="hero-grid">
+    <div class="art"><img src="assets/images/hero-instrument.png"
+      alt="姐弟二人被一圈乐器围住的插图，画在羊皮纸上，标题写着「姐弟乐器课」"></div>
+    <div class="intro-wrap">
+      <p class="intro">
+        乐理课回答"声音怎么组织"，作词课回答"词怎么写才成立"，这一页回答最后一个问题：<b>这些声音由谁来发</b>。
+        同一段旋律，交给大提琴是有人在忍，交给短笛是有人在笑——不是比喻，是频率、起音和谐波在起作用。
+        所以这一页不写"音色温暖"这种话：每件乐器都给一条<b>音域条</b>、一条<b>织密条</b>、五个可以拿去跟人吵架的参数，
+        外加一句它到底适合说什么。看完你应该能回答一件事：<b>我这句旋律，该给谁。</b>
+      </p>
+      <p class="hero-ver ver" data-ver><b>V1.38</b> [26.11.04]</p>
+    </div>
+  </div>
+</header>
+
+<!-- ==================== 0 · 先学会读这张图 ==================== -->
+<section id="s-read">
+  <div class="sec-head"><span class="sec-num">00</span><h2>先学会读这张图</h2></div>
+  <p class="lead">整页只有一种图，读法三种：<b>条有多长＝它能到多高多低</b>；<b>深色的那一段＝它待着最舒服的地方</b>；
+    <b>六个格子＝它的重心落在哪个八度</b>。第三样最有用，因为配器吵架吵的从来不是音域，是重心。</p>
+
+  <div class="card">
+    <h3>三个量，一次说清</h3>
+    <div class="grid3">
+      <div class="card tight" style="margin:0">
+        <div class="mini" style="color:var(--purple)">量一 · 音域</div>
+        <div style="font-weight:600;margin:4px 0">能到哪</div>
+        <div class="mini">浅色那截是<b>够得着</b>，不代表好听、不代表常用。钢琴能到 A0，
+          但没人拿 A0 写旋律。音域是<b>物理极限</b>，不是工作范围。</div>
+      </div>
+      <div class="card tight" style="margin:0">
+        <div class="mini" style="color:var(--teal)">量二 · 常用区</div>
+        <div style="font-weight:600;margin:4px 0">在哪舒服</div>
+        <div class="mini">深色那截才是它真正的工作区。两件乐器的<b>深色段重叠</b>，就是它们要打架的地方；
+          浅色段重叠无所谓——反正谁都不会去。</div>
+      </div>
+      <div class="card tight" style="margin:0">
+        <div class="mini" style="color:var(--amber)">量三 · 织密</div>
+        <div style="font-weight:600;margin:4px 0">多忙</div>
+        <div class="mini">每秒能出几个音头（音头/秒）。<b>同一时刻只能有一个东西在动</b>——
+          这条判据比音域更能决定一段编曲会不会糊。</div>
+      </div>
+    </div>
+    <div class="note">三个量里，只有第一个是乐器自带的；后两个是<b>你写出来的</b>。
+      这就是为什么"换一件乐器"经常救不了一首烂编曲——音域换了，织密没换。</div>
+  </div>
+
+  <div class="card">
+    <h3>为什么不用"音色温暖 / 明亮"来选乐器</h3>
+    <p class="mini" style="margin-bottom:10px">因为这三个词没有刻度，说的人和听的人对不上。换成可量的说法，同一件事立刻能验证：</p>
+    <div class="tscroll"><table>
+      <thead><tr><th style="width:26%">你本来想说</th><th style="width:34%">其实是哪个参数</th><th>怎么验</th></tr></thead>
+      <tbody>
+        <tr><td>「这个音色很暖」</td><td>高次谐波少 + 起音慢</td><td>把高音区砍掉、起音拖到 150ms，任何乐器都会"变暖"</td></tr>
+        <tr><td>「这个很亮 / 很尖」</td><td>2、3 次泛音强 + 起音 &lt; 5ms</td><td>钢片琴、短笛、唢呐都是这个配方</td></tr>
+        <tr><td>「这个很空、很远」</td><td>基频强、泛音少 + 混响多</td><td>长笛与箫：几乎没有"鼻音"的共振峰</td></tr>
+        <tr><td>「这个有厚度」</td><td>低频在 100–250Hz 有能量</td><td>不是音量，是<b>频段</b>；加音量只会更吵，不会更厚</td></tr>
+        <tr><td>「这个很脏 / 很糙」</td><td>非谐波泛音 + 噪声成分</td><td>二胡的蛇皮、唢呐的簧、失真吉他的削波</td></tr>
+      </tbody></table></div>
+    <div class="note">这张表的用法：下次你想说"换个更暖的乐器"，先问自己是要<b>砍高频</b>还是<b>拖起音</b>。
+      两个都要，才叫暖；只做一个，听起来是"闷"或者"拖"。</div>
+  </div>
+</section>
+
+<!-- ==================== 1 · 全部乐器一张图 ==================== -->
+<section id="s-all">
+  <div class="sec-head"><span class="sec-num">01</span><h2>全部乐器一张图：谁和谁在抢</h2></div>
+  <p class="lead">先把 30 多件乐器叠在一张图上，你会看到一件比任何配器教材都直观的事：
+    <b>低音区是空的，高音区是空的，中间挤满了人</b>。所有"编曲听着糊"的问题，几乎都发生在那条浅红色的带子里。</p>
+
+  <div class="card">
+    <h3>音域总览（按族排序）</h3>
+    <div id="chartAll"></div>
+    <div class="note">颜色＝族，从上到下按族排。浅红色那条带是 <b>C3–C5</b>——人声、提琴、木管、吉他、钢琴右手全都在这儿。
+      数一下就知道：<b>C1–C2 只有五六件乐器能去，C3–C5 有二十多件。</b>
+      所以配器不是"再加一件乐器"，是"从最挤的地方挪一个人出去"。</div>
+  </div>
+
+  <div class="card">
+    <h3>三条从图上直接读出来的结论</h3>
+    <ul class="plain">
+      <li><b>低频是稀缺资源，不是"低音太多了"。</b>真正能干净地待在 C1–C2 的只有大号、低音提琴、贝斯、808、管风琴。
+        你听到的"低频糊"，通常是<b>两三件低频乐器叠在同一个八度</b>，不是低频太多。</li>
+      <li><b>中频是战场，而且没人愿意让。</b>C3–C5 里每一件乐器都觉得"这是我的位置"——因为它确实是每一件乐器的舒适区。
+        解决方式只有两个：<b>换八度</b>，或者<b>换织密</b>。</li>
+      <li><b>高音是装饰，不是主体。</b>C6 以上只有短笛、小提琴高把位、钢片琴、竖琴能去。
+        所以高音一响就被听见——这既是优势也是陷阱：<b>高音重复超过两小节就开始刺耳</b>。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ==================== 2 · 键盘族 ==================== -->
+<section id="s-key">
+  <div class="sec-head"><span class="sec-num">02</span><h2>键盘族：同一排键，里面完全不是一回事</h2></div>
+  <p class="lead" data-fam-lead="key"></p>
+
+  <div class="card">
+    <h3>六件琴的音域覆盖</h3>
+    <div data-fam-chart="key"></div>
+    <div class="note">看两条：<b>钢琴 A0–C8 几乎覆盖所有乐器</b>（所以它是唯一"不挑曲子"的主奏）；
+      <b>钢片琴只有 C4–C7 三个八度，而且全在高处</b>（所以它只能点缀，不能唱主角）。
+      中间那四件是各种"退让版钢琴"：音域差不多，差别在按下键之后的声音怎么消失。</div>
+  </div>
+
+  <div data-fam-cards="key"></div>
+
+  <div class="card">
+    <h3>键盘族的选琴判据（一句话版）</h3>
+    <div class="tscroll"><table>
+      <thead><tr><th>你要的</th><th>选它</th><th>因为</th></tr></thead>
+      <tbody>
+        <tr><td>一个人讲完整个故事</td><td>钢琴</td><td>唯一能同时给旋律 + 和声 + 低音，音量还连续可变</td></tr>
+        <tr><td>温暖但不抢戏</td><td>电钢琴</td><td>起音 5ms、有钟声尾，力度轻就自动退到后面</td></tr>
+        <tr><td>一闪而过的光</td><td>钢片琴</td><td>衰减快、无延音，插进最满的段落也不脏</td></tr>
+        <tr><td>没有起伏的时间</td><td>大键琴</td><td>力度不影响音量，情绪只能靠节奏——这正是巴洛克的味道</td></tr>
+        <tr><td>铺满、不落</td><td>管风琴</td><td>按住就一直响，音栓就是加法合成</td></tr>
+        <tr><td>街头、有人味</td><td>手风琴</td><td>风箱自带呼吸，音高会轻微游移</td></tr>
+      </tbody></table></div>
+  </div>
+</section>
+
+<!-- ==================== 3 · 弦乐 ==================== -->
+<section id="s-strings">
+  <div class="sec-head"><span class="sec-num">03</span><h2>弦乐：一条从 E1 到 E7 的链子</h2></div>
+  <p class="lead" data-fam-lead="strings"></p>
+
+  <div class="card">
+    <h3>提琴一家：四件琴的音域首尾相接</h3>
+    <div data-fam-chart="strings"></div>
+    <div class="note">注意它们是<b>接龙</b>，不是并列：低音提琴 E1–G4，大提琴 C2–A5，中提琴 C3–E6，小提琴 G3–E7。
+      每一件的低音都落进上一件的常用区——这是刻意的设计，为的是<b>齐奏时没有缝</b>。
+      但也正因为如此，<b>两件琴同度齐奏＝互相抵消</b>，不是"变厚"。</div>
+  </div>
+
+  <div data-fam-cards="strings"></div>
+
+  <div class="card">
+    <h3>弦乐最容易被写坏的三处</h3>
+    <ul class="plain">
+      <li><b>起音慢，却被塞进密集节奏。</b>弓要先"抓住"弦，起音 80–200ms。十六分音符的连续跳弓是专业技巧，
+        写成"每个音都要清楚"的密集段落，实际会糊成一片噪声。</li>
+      <li><b>把中提琴当"小一号小提琴"。</b>它低五度、反应更慢、高把位更吃力。写成小提琴的替代品，它会又闷又赶不上。</li>
+      <li><b>让大提琴同时做低音和旋律。</b>它可以，但两者会互相拖累：低音要稳、旋律要动，同一把琴在同一时刻只能选一个。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ==================== 4 · 吉他一家 ==================== -->
+<section id="s-guitar">
+  <div class="sec-head"><span class="sec-num">04</span><h2>吉他一家：弦长定音域，弦数定能省多少</h2></div>
+  <p class="lead" data-fam-lead="guitar"></p>
+
+  <div class="card">
+    <h3>四件琴的音域覆盖</h3>
+    <div data-fam-chart="guitar"></div>
+    <div class="note">四件琴里三件的音域几乎一样（E2–E6），<b>唯一的例外是尤克里里</b>：它整个身子都在 C4 以上，
+      而且最高只到 A5。所以"尤克里里听起来可爱"不是音色问题，是<b>它根本发不出低频</b>——
+      人耳把"没有低频"直接读成"轻、小、无害"。</div>
+  </div>
+
+  <div data-fam-cards="guitar"></div>
+
+  <div class="card">
+    <h3>电吉他的音色为什么不是"琴"决定的</h3>
+    <p class="mini" style="margin-bottom:10px">同一把电吉他，换一个音箱就是另一件乐器。原因是它<b>不靠琴体共鸣</b>，靠拾音器把弦的振动变成电信号，
+      后面每一级都在改这个信号：</p>
+    <div class="tscroll"><table>
+      <thead><tr><th>环节</th><th>它干了什么</th><th>听感</th></tr></thead>
+      <tbody>
+        <tr><td>拾音器位置</td><td>靠近琴桥 → 拾到更多高次谐波</td><td>靠桥＝亮、硬；靠颈＝圆、软</td></tr>
+        <tr><td>失真 / 过载</td><td>把波形削平 → 凭空长出大量谐波</td><td>体积变大、延音变长、颗粒变粗</td></tr>
+        <tr><td>音箱与箱体</td><td>喇叭的频响与纸盆的物理限制</td><td>同一台头，接 1×12 和 4×12 是两个世界</td></tr>
+        <tr><td>混响 / 延迟</td><td>给信号加尾巴</td><td>"空间"不是录出来的，是加上去的</td></tr>
+      </tbody></table></div>
+    <div class="note">结论：<b>电声乐器的音域写在琴上，音色写在后级里。</b>所以"给电吉他写谱"意义有限——
+      真正要写的是这一串参数。</div>
+  </div>
+</section>
+
+<!-- ==================== 5 · 竖琴与曼陀林 ==================== -->
+<section id="s-pluck">
+  <div class="sec-head"><span class="sec-num">05</span><h2>竖琴与曼陀林：两个极端</h2></div>
+  <p class="lead" data-fam-lead="pluck"></p>
+
+  <div class="card">
+    <h3>一个最宽，一个最短</h3>
+    <div data-fam-chart="pluck"></div>
+    <div class="note">竖琴 C1–G7 比 88 键钢琴还宽一格；曼陀林 G3–A6 看着不窄，但它的<b>每个音只活半秒</b>。
+      这两件事没有画在图上——<b>音域图不表达衰减</b>，这是它唯一的盲区，得靠参数表补。</div>
+  </div>
+
+  <div data-fam-cards="pluck"></div>
+</section>
+
+<!-- ==================== 6 · 木管 ==================== -->
+<section id="s-wood">
+  <div class="sec-head"><span class="sec-num">06</span><h2>木管族：管长与簧决定一切</h2></div>
+  <p class="lead" data-fam-lead="wood"></p>
+
+  <div class="card">
+    <h3>五支管的音域覆盖</h3>
+    <div data-fam-chart="wood"></div>
+    <div class="note">木管族是<b>唯一音域连续不断档</b>的一组：巴松 Bb1 起，双簧管、单簧管、长笛、短笛一路接到 C8。
+      所以写木管和声几乎不会"缺声部"——但也因此，五个声部一起响会非常吵，因为它们全在中频。</div>
+  </div>
+
+  <div data-fam-cards="wood"></div>
+
+  <div class="card">
+    <h3>换气这件事，决定了木管的句子形状</h3>
+    <p class="mini" style="margin-bottom:10px">所有管乐（包括人声）都必须换气，这在本页的图上是看不见的，但它比音域更影响写法：</p>
+    <ul class="plain">
+      <li><b>句子的长度 = 一口气的长度。</b>中速下大约 8–12 秒。写成 20 秒不换气的长句，演奏者只能偷偷断，断在哪里你控制不了。</li>
+      <li><b>换气口是天然的"标点"。</b>想让一句听起来"说完了"，就在那里留半拍；想让它"没说完"，就别留。</li>
+      <li><b>弦乐没有这个问题</b>（弓可以换，声音不断），所以弦乐能写连绵的长线，木管不能——这是两组最本质的差别。</li>
+    </ul>
+    <div class="note">一个可操作的检查：把你写的木管旋律<b>唱一遍</b>。唱不下去的地方，就是它换气的地方，也是听众听到"断句"的地方。</div>
+  </div>
+</section>
+
+<!-- ==================== 7 · 萨克斯 ==================== -->
+<section id="s-sax">
+  <div class="sec-head"><span class="sec-num">07</span><h2>萨克斯：铜管的身子，木管的心</h2></div>
+  <p class="lead" data-fam-lead="sax"></p>
+
+  <div class="card">
+    <h3>四支萨克斯的音域覆盖</h3>
+    <div data-fam-chart="sax"></div>
+    <div class="note">四支是同一件乐器放大四次：高音 → 中音 → 次中音 → 上低音，每级低四度左右。
+      所以"换一支萨克斯"本质上是<b>换八度</b>，音色逻辑完全一样——这一点和提琴一家正好相反。</div>
+  </div>
+
+  <div data-fam-cards="sax"></div>
+</section>
+
+<!-- ==================== 8 · 铜管 ==================== -->
+<section id="s-brass">
+  <div class="sec-head"><span class="sec-num">08</span><h2>铜管族：嘴唇就是簧片</h2></div>
+  <p class="lead" data-fam-lead="brass"></p>
+
+  <div class="card">
+    <h3>四件铜管的音域覆盖</h3>
+    <div data-fam-chart="brass"></div>
+    <div class="note">铜管的音域由<b>管长</b>死锁：小号 1.48m、圆号 3.7m、长号 2.7m、大号 5.5m。
+      管长翻倍低一个八度，所以这四件的高低关系几乎是物理定律，不是传统。
+      另一件看不见的事：<b>起音 20–80ms</b>，比木管还慢——铜管永远"晚半拍"到，写快了就只剩一片"噗"。</div>
+  </div>
+
+  <div data-fam-cards="brass"></div>
+
+  <div class="card">
+    <h3>铜管写作的三条硬约束</h3>
+    <ul class="plain">
+      <li><b>不能无限长。</b>高音区靠唇部肌肉硬顶，连续四小节以上的高音，职业乐手也要掉。</li>
+      <li><b>不能快速换音。</b>起音 20–80ms，意味着每秒超过 6 个音头就开始糊。这是"铜管听起来庄严"的物理原因——它<b>跑不动</b>。</li>
+      <li><b>音量不可细调。</b>铜管的弱奏仍然很响，所以"让铜管轻一点"往往只能<b>减人</b>（少一支），不能减力。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ==================== 9 · 打击 ==================== -->
+<section id="s-perc">
+  <div class="sec-head"><span class="sec-num">09</span><h2>打击：有音高的那一半</h2></div>
+  <p class="lead" data-fam-lead="perc"></p>
+
+  <div class="card">
+    <h3>三件有音高打击的音域</h3>
+    <div data-fam-chart="perc"></div>
+    <div class="note">定音鼓只有 D2–A3，一个六度多一点——它是<b>和声的工具</b>，不是旋律的。
+      马林巴 C2–C7 才是这一组里真正能"写旋律"的那件，颤音琴则是"写气氛"的那件。</div>
+  </div>
+
+  <div data-fam-cards="perc"></div>
+
+  <div class="card">
+    <h3>没有音高的那些，一样要算参数</h3>
+    <p class="mini" style="margin-bottom:10px">它们不进音域图（因为没有"音高"这个维度），但在编曲里占的是<b>频段</b>和<b>时间</b>：</p>
+    <div id="noiseTable"></div>
+    <div class="note">一个实用判据：<b>鼓决定"多急"，镲决定"多亮"，贝斯决定"多重"。</b>
+      三件事各归各的乐器，别指望一件乐器同时给三样。</div>
+  </div>
+</section>
+
+<!-- ==================== 10 · 人声 ==================== -->
+<section id="s-voice">
+  <div class="sec-head"><span class="sec-num">10</span><h2>人声：六把尺子</h2></div>
+  <p class="lead" data-fam-lead="voice"></p>
+
+  <div class="card">
+    <h3>六种声部的音域覆盖</h3>
+    <div data-fam-chart="voice"></div>
+    <div class="note">六条几乎首尾相接地铺满 C3–C6——<b>人声整体只占三个八度</b>，比钢琴窄得多。
+      但所有乐器都在模仿它。原因不在音域，在<b>共振峰</b>：只有人声能靠改变口腔形状，在同一个音高上换元音。
+      乐器做不到这件事，所以"像人声"永远是最高评价。</div>
+  </div>
+
+  <div data-fam-cards="voice"></div>
+
+  <div class="card">
+    <h3>写旋律前先问：这句谁唱得了</h3>
+    <div class="tscroll"><table>
+      <thead><tr><th>症状</th><th>真正的原因</th><th>改法</th></tr></thead>
+      <tbody>
+        <tr><td>副歌"喊不上去"</td><td>整首的舒适区压在说话音高，副歌突然跳五度</td><td>主歌就往上挪两度，把落差摊平</td></tr>
+        <tr><td>歌手唱两句就要断</td><td>句子长过一口气（8–12 秒）</td><td>在句中留半拍，让它成为"标点"而不是"喘"</td></tr>
+        <tr><td>听着像在念，不像在唱</td><td>全曲音高都在 E3–A3 之间来回</td><td>至少让一句碰到高八度附近，给耳朵一个"高点"</td></tr>
+        <tr><td>高音很紧、很挤</td><td>换声区（约 E4–A4）附近连续停留</td><td>快速通过那一段，别在那里写长音</td></tr>
+      </tbody></table></div>
+  </div>
+</section>
+
+<!-- ==================== 11 · 民族乐器 ==================== -->
+<section id="s-folk">
+  <div class="sec-head"><span class="sec-num">11</span><h2>民族乐器：特别的是动作，不是音色</h2></div>
+  <p class="lead" data-fam-lead="folk"></p>
+
+  <div class="card">
+    <h3>六件民族乐器的音域覆盖</h3>
+    <div data-fam-chart="folk"></div>
+    <div class="note">单看音域，它们和西洋乐器高度重合：二胡 ≈ 小提琴的低中段，竹笛 ≈ 长笛，唢呐 ≈ 小号。
+      所以"民族乐器听起来不一样"<b>不是音域的事</b>，是三件图上没有的事：
+      二胡<b>无指板</b>（能任意滑）、古筝<b>左手按音</b>（五声里做出半音）、笛子<b>贴膜</b>（多一层高频毛刺）。</div>
+  </div>
+
+  <div data-fam-cards="folk"></div>
+
+  <div class="card">
+    <h3>写国风最容易犯的错：把民族乐器当"音色插件"</h3>
+    <p class="mini" style="margin-bottom:10px">最常见的做法是：写一段完全西洋的旋律，然后把长笛换成竹笛、把小提琴换成二胡，以为就"国风"了。
+      结果听起来像"外国人穿汉服"——衣服对了，动作不对。</p>
+    <ul class="plain">
+      <li><b>二胡的滑音是语法，不是装饰。</b>它没有指板，音与音之间可以连续过渡。写成跳进，等于放弃了它唯一的优势。</li>
+      <li><b>古筝的按音能造出五声之外的音。</b>这是它在五声定弦上做七声、做转调的唯一手段。只弹五声，就只是一台"五声钢琴"。</li>
+      <li><b>笛膜的高频毛刺是它的身份证。</b>去掉这层膜（比如用西洋长笛代替），最特征的那一点就没了。</li>
+      <li><b>留白比音符重要。</b>这些乐器的传统写法里，音与音之间的空白和音本身一样是内容。填满就变成"民乐合奏曲"。</li>
+    </ul>
+    <div class="note">这条和作词课的古风两节是同一件事：<b>体裁是外套，手艺才是身子。</b>
+      换乐器＝换外套；换动作（滑音、按音、留白）才是换身子。</div>
+  </div>
+</section>
+
+<!-- ==================== 12 · 电声 ==================== -->
+<section id="s-elec">
+  <div class="sec-head"><span class="sec-num">12</span><h2>电声与合成：音域是设计出来的</h2></div>
+  <p class="lead" data-fam-lead="elec"></p>
+
+  <div class="card">
+    <h3>两件"没有物理尺寸"的乐器</h3>
+    <div data-fam-chart="elec"></div>
+    <div class="note">合成器的条几乎横贯全图——因为它没有琴体、没有管长、没有弦，<b>音域只受键盘和采样率限制</b>。
+      808 则相反：它只有 C1–C3 两个八度，出了这个范围就不叫 808 了。这是"设计出来的限制"，比物理限制更硬。</div>
+  </div>
+
+  <div data-fam-cards="elec"></div>
+
+  <div class="card">
+    <h3>包络：用四个数字定义一件乐器</h3>
+    <p class="mini" style="margin-bottom:10px">合成器里最像"乐器"的部分不是振荡器，是 <b>ADSR</b>。同一段旋律，只改这四个数，听感就从钢琴变成弦乐再变成鼓：</p>
+    <div class="tscroll"><table>
+      <thead><tr><th>参数</th><th>管什么</th><th>拉长的效果</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">A · Attack</td><td>从按下到最响要多久</td><td>&lt; 5ms＝敲击；&gt; 200ms＝弓弦、气息</td></tr>
+        <tr><td class="mono">D · Decay</td><td>最响之后掉多快</td><td>短＝颗粒（拨弦）；长＝持续的铺底</td></tr>
+        <tr><td class="mono">S · Sustain</td><td>按住不放时停在多响</td><td>0＝一响就没（马林巴）；1＝按住一直在（管风琴）</td></tr>
+        <tr><td class="mono">R · Release</td><td>松手之后还要响多久</td><td>长＝有余韵、有空间；短＝干净、贴身</td></tr>
+      </tbody></table></div>
+    <div class="note">这四个数就是本页所有"起音 / 衰减"参数的总开关。
+      理解了它们，前十一节里那些"为什么它听起来是这样"就不用背了——<b>都是同一组数字的不同取值</b>。</div>
+  </div>
+</section>
+
+<!-- ==================== 13 · 配器 ==================== -->
+<section id="s-arrange">
+  <div class="sec-head"><span class="sec-num">13</span><h2>配器：怎么让它们不打架</h2></div>
+  <p class="lead">前面的图告诉你每件乐器在哪儿。这一节讲<b>放几件、怎么放</b>。
+    规则只有三条，但每一条都能直接否掉一个听起来"还行"的编曲。</p>
+
+  <div class="card">
+    <h3>三条铁律</h3>
+    <div class="grid3">
+      <div class="card tight" style="margin:0">
+        <div class="mini" style="color:var(--purple)">铁律一 · 音区</div>
+        <div style="font-weight:600;margin:4px 0">常用区不许重叠</div>
+        <div class="mini">两件乐器的<b>深色段</b>叠在一起，就一定要有一个让。让的方式只有换八度——
+          换音色没用，因为冲突发生在频段上，不在音色上。</div>
+      </div>
+      <div class="card tight" style="margin:0">
+        <div class="mini" style="color:var(--teal)">铁律二 · 密度</div>
+        <div style="font-weight:600;margin:4px 0">同时只有一个在动</div>
+        <div class="mini">主乐 4 音头/秒，副乐就不能也 4。<b>两件都很忙＝谁都没在说。</b>
+          想加一件乐器，先问它能不能用 1 音头/秒完成任务。</div>
+      </div>
+      <div class="card tight" style="margin:0">
+        <div class="mini" style="color:var(--amber)">铁律三 · 起音</div>
+        <div style="font-weight:600;margin:4px 0">快的站拍点</div>
+        <div class="mini">起音 2ms 的（钢琴、拨弦、打击）可以放在拍点上；起音 200ms 的（大提琴、圆号）放上去会"迟到"。
+          <b>慢起音 + 密集节奏＝一团糊。</b></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>五套可以直接用的编制</h3>
+    <p class="mini" style="margin-bottom:10px">每一套都按"谁让谁"排好了，不用再想。</p>
+    <div class="tscroll wide"><table class="plan">
+      <thead><tr><th>编制</th><th>主奏</th><th>怎么分工</th><th>最容易错的地方</th></tr></thead>
+      <tbody>
+        <tr><td><b>钢琴 + 大提琴</b><br><span class="mini">最稳</span></td><td>钢琴</td>
+          <td>钢琴占 C3 以上，右手点状伴奏；大提琴只做 C2–C3 的长音铺底</td>
+          <td>让大提琴去拉旋律、钢琴去弹低音——正好把两件乐器都放进了对方的位置</td></tr>
+        <tr><td><b>吉他 + 贝斯 + 鼓</b><br><span class="mini">民谣三层</span></td><td>人声</td>
+          <td>吉他走 E2–B5 的中高段扫弦（1–4 音头/秒）；贝斯只走根音；鼓定段落</td>
+          <td>吉他扫到 E2–A2 和贝斯撞——低音要收，或者干脆不弹那两根弦</td></tr>
+        <tr><td><b>弦乐四重</b><br><span class="mini">古典</span></td><td>小提琴</td>
+          <td>一提旋律、二提内声部、中提填中频、大提低音，四件不重叠</td>
+          <td>四件全写长音＝一块厚布，没有层次；必须有一件在动</td></tr>
+        <tr><td><b>电吉他 + 贝斯 + 808</b><br><span class="mini">现代</span></td><td>人声</td>
+          <td>失真吉他占中频，贝斯与 808 <b>二选一</b>（不能同时），高频交给踩镲</td>
+          <td>贝斯和 808 同时用：两个都在 C1–C3，低频互相吃掉，听起来反而更小</td></tr>
+        <tr><td><b>长笛 + 竖琴</b><br><span class="mini">梦境</span></td><td>长笛</td>
+          <td>竖琴琶音铺满 C2–C6，长笛在高八度走长句；谁也不做低音</td>
+          <td>加了贝斯就毁了——这一套的力量来自"没有地基"</td></tr>
+      </tbody></table></div>
+  </div>
+
+  <div class="card">
+    <h3>必须避开的五种搭配</h3>
+    <ul class="plain">
+      <li><b>大提琴 + 低音提琴同度 / 八度。</b>低频叠成一块，人耳分不出是两件，只觉得"糊"。</li>
+      <li><b>两把大提琴音区没拉开三度以上。</b>同族同音色同频段，等于一件乐器加了 6dB 音量。</li>
+      <li><b>大提琴 + 手风琴 + 低音萨克斯。</b>三个中低频同时在场，谁的轮廓都听不清。</li>
+      <li><b>贝斯 + 808 同时出现。</b>都占 C1–C3，且都是"没有泛音的低频"，互相抵消。</li>
+      <li><b>短笛 + 小提琴高把位 + 钢片琴同时在高音。</b>三个都在 C6 以上，听起来像报警器。</li>
+    </ul>
+    <div class="note">共同点：<b>它们都是"两件乐器抢同一格"。</b>避开的方法从来不是"换一件更好听的"，
+      而是<b>把其中一件挪到它的第二舒适区</b>，或者让它闭嘴。</div>
+  </div>
+
+  <div class="card">
+    <h3>谁能当主奏：三个条件，缺一不可</h3>
+    <div class="tscroll"><table>
+      <thead><tr><th style="width:22%">条件</th><th>为什么</th><th>不满足会怎样</th></tr></thead>
+      <tbody>
+        <tr><td><b>音域够宽</b>（≥ 2 个八度）</td><td>旋律要起伏，窄音域的乐器只能来回走</td><td>尤克里里、定音鼓当主奏：旋律听着像在原地踏步</td></tr>
+        <tr><td><b>能同时发多个音</b>，或能被和声托住</td><td>主奏通常是单声部，需要别人给它和声</td><td>单旋律乐器独自开场会非常"空"，除非这就是你要的效果</td></tr>
+        <tr><td><b>织密上限够高</b>（≥ 6 音头/秒）</td><td>主奏要能在副歌"动起来"</td><td>圆号、大号当主奏：副歌提不上去，整首平</td></tr>
+      </tbody></table></div>
+    <div class="note">按这三条筛一遍，天生能当主奏的只有：<b>钢琴、小提琴、长笛、人声、电吉他、合成器、二胡、竹笛</b>。
+      其余的不是不能，是要<b>专门为它写</b>——比如大提琴当主奏，就得把整首的速度和密度都降下来。</div>
+  </div>
+</section>
+
+<!-- ==================== 14 · 速查表 ==================== -->
+<section id="s-speed">
+  <div class="sec-head"><span class="sec-num">14</span><h2>速查表</h2></div>
+  <p class="lead">写东西时最常查的四列：<b>音域、频率、织密、它的意象</b>。频率那一列是给"要和别人解释"准备的——
+    "大提琴最低 65Hz"比"大提琴很低"有用得多。</p>
+
+  <div class="card">
+    <h3>全部乐器</h3>
+    <div id="speedTable"></div>
+    <div class="note">织密单位是<b>音头/秒</b>，与乐理课第 09 节律动用的是同一个口径：
+      实际演奏的音头数 ÷ 时长。所以这里的数字可以直接和那边的节奏型对账。</div>
+  </div>
+
+  <div class="card">
+    <h3>三句话带走</h3>
+    <ul class="plain">
+      <li><b>音域决定"能不能"，常用区决定"好不好"，织密决定"糊不糊"。</b>配器冲突 90% 发生在第二、第三条上。</li>
+      <li><b>低音是稀缺资源，中频是战场，高音是装饰。</b>所有"再加一件乐器"的冲动，先问它加在哪一格。</li>
+      <li><b>选乐器不是选音色，是选它允许你做的动作。</b>滑音、按音、贴膜、失真——这些才是乐器真正的身份证。</li>
+    </ul>
+  </div>
+</section>
+
+<footer class="footer">
+  《姐弟厨师团——乐器课》 · 与《乐理课》《作词课》同源同版：声音怎么组织在那边，词怎么写在这边，谁来发这个声在这里。
+</footer>
+
+</div><!-- /.wrap -->
+
+<div id="toast"></div>
+
+<!-- 脚本按依赖顺序加载（经典 script，共享全局作用域，双击 html 即可离线打开）：
+     instrument-data 乐器数据 → instrument-render 音域图与卡片装配 -->
+<script src="js/instrument-data.js"></script>
+<script src="js/instrument-render.js"></script>
+</body>
+</html>

@@ -37,6 +37,7 @@ const write = (p, s) => fs.writeFileSync(path.join(ROOT, p), s);
 const PAGES = [
   { page: 'index.html', app: 'js/app.js',       title: '姐弟厨师团 --- 乐理课' },
   { page: 'lyric.html', app: 'js/lyric-app.js', title: '姐弟厨师团 --- 作词课' },
+  { page: 'instrument.html', app: 'js/instrument-render.js', title: '姐弟厨师团 --- 乐器课' },
 ];
 
 const RE_VERSION = /const VERSION = \{ v: '([\d.]+)', date: '([\d.]+)' \};/;
