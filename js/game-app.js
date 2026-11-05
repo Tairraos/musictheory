@@ -5,7 +5,7 @@
  *       页面内容只从 COURSE_CONFIG 取；本文件不复制任何知识点文案。
  * ========================================================================== */
 
-const VERSION = { v: '1.47', date: '26.11.04' };
+const VERSION = { v: '1.48', date: '26.11.05' };
 const PROGRESS_KEY = 'jiedi-course-progress-v1';
 
 const memoryStorage = (() => {
@@ -179,7 +179,7 @@ function openPage(id){
   currentPageId = id;
   ensureSeen(id);
   setView('player');
-  gameKbShow(true);
+  gameKbShow(page.course === 'music');   /* 底部钢琴只有乐理课要：作词/乐器课页面收起 */
   setHash('#' + id);
 
   const pages = pagesForCourse(config, page.course);

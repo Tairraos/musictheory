@@ -306,3 +306,13 @@ p{margin:0}
  * accent-teal：第三课《乐器课》课程卡进度条颜色。
  * ========================================================================== */
 .accent-teal .progress-track i{background:var(--teal)}
+
+/* ==========================================================================
+ * 24. 无钢琴页的底部布局（V1.48）
+ * --------------------------------------------------------------------------
+ * 底部钢琴只有乐理课要（gameKbShow 按课切换）；作词/乐器课收起钢琴时，
+ * 底部导航与 toast 不再为 140px 的钢琴让位，沉到屏底、正文相应贴底。
+ * ========================================================================== */
+body.kb-off .bottom-nav{bottom:calc(10px + env(safe-area-inset-bottom))}
+body.kb-off #playerView{padding-bottom:calc(120px + env(safe-area-inset-bottom))}
+body.kb-off #toast{bottom:calc(20px + env(safe-area-inset-bottom))}

@@ -3094,6 +3094,17 @@ test('P3 互动课播放器：首页、开页、停留完成与跳过都可走',
     assert.equal(d.querySelector('#playerTitle').textContent, first.title, '标题要来自配置');
     assert.equal(d.querySelector('#gameDock').hidden, false, '播放器页要显示底部钢琴');
     assert.equal(d.querySelectorAll('#gameKb .wk').length, 36, '底部钢琴画全 C2–C7（35 白键 + 顶格 C7 = 36）');
+    /* 底部钢琴只有乐理课要：作词/乐器课的页面要收起（导航随 .kb-off 沉底） */
+    const lyricPage = G.config.pages.find(p => p.course === 'lyric');
+    G.openPage(lyricPage.id);
+    assert.equal(d.querySelector('#gameDock').hidden, true, '作词课页不显示底部钢琴');
+    assert.ok(d.body.classList.contains('kb-off') || d.querySelector('body.kb-off'),
+      '收起钢琴时 body 要挂 .kb-off（导航沉底）');
+    const instPage = G.config.pages.find(p => p.course === 'instrument');
+    G.openPage(instPage.id);
+    assert.equal(d.querySelector('#gameDock').hidden, true, '乐器课页不显示底部钢琴');
+    G.openPage(first.id);   /* 回到乐理课要重新出现 */
+    assert.equal(d.querySelector('#gameDock').hidden, false, '切回乐理课钢琴要回来');
     const shouldHideGoal = !first.goal || first.goal === first.title ||
       first.blocks.some(b => (b.text || '') === first.goal);
     assert.equal(d.querySelector('#playerGoal').hidden, shouldHideGoal,

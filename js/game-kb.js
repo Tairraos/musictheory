@@ -148,12 +148,16 @@ function gameKbBind(){
   kb.addEventListener('click', e => { e.stopPropagation(); e.preventDefault(); }, true);
 }
 
-/* 播放器页显示、目录页隐藏；每次显示都重绘（顺带消化旋转/改屏宽后的键宽） */
+/* 播放器页显示、目录页隐藏；只有乐理课显示钢琴（gameKbShow 由 game-app 按课传参）。
+ * 隐藏时给 body 挂 .kb-off：底部导航不再给钢琴让位，沉到屏底。
+ * 每次显示都重绘（顺带消化旋转/改屏宽后的键宽） */
 function gameKbShow(v){
   const dock = document.getElementById('gameDock');
   if (!dock) return;
   dock.hidden = !v;
+  document.body.classList.toggle('kb-off', !v);
   if (v){ gameKbBind(); renderGameKB(); }
+  else if (gkHomeTimer){ clearTimeout(gkHomeTimer); gkHomeTimer = null; }
 }
 
 /* 播放中旋转/改屏宽：键宽按容器宽推导，变了就重绘一次（重绘保留原视口） */
