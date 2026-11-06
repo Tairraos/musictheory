@@ -20,9 +20,12 @@ const GK_LO = 36, GK_HI = 96, GK_VIS = 14;
 const GK_WHITE_PC = [0, 2, 4, 5, 7, 9, 11];
 const GK_HOME = 60;   /* C4 */
 
-/* midi → 键盘内白键序号（黑键无独立白键位，返回 -1；跟随定位用黑键所属白键位） */
+/* midi → 键盘内白键序号（黑键无独立白键位，返回其左侧白键位）。
+ * midi 的八度是 12*(oct+1)+pc（C4=60 → oct=4），键盘基准 C2=36 →
+ * 这里 oct 相对 C2：floor(m/12) - 3。此前 -2 会让 C4 落到 C5 的位置——
+ * 钢琴回位就回到了 C5 区间。 */
 function gkWhiteIndex(m){
-  const pc = ((m % 12) + 12) % 12, oct = Math.floor(m / 12) - 2;   /* C2 = 0 */
+  const pc = ((m % 12) + 12) % 12, oct = Math.floor(m / 12) - 3;   /* C2 = 0 */
   const w = GK_WHITE_PC.indexOf(pc);
   if (w < 0) return (oct * 7 + Math.max(0, GK_WHITE_PC.filter(p => p < pc).length - 1));
   return oct * 7 + w;

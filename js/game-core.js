@@ -188,7 +188,8 @@ function normalizeProgress(config, raw){
   const clean = { version: 1, pages: {}, lastByCourse: {} };
   if (!raw || typeof raw !== 'object') return clean;
   Object.entries(raw.pages || {}).forEach(([id, state]) => {
-    if (known.has(id) && ['seen', 'completed', 'skipped'].includes(state)) clean.pages[id] = state;
+    /* 'seen' 是历史版本的状态（"学过"不再记录），清洗时丢弃 */
+    if (known.has(id) && ['completed', 'skipped'].includes(state)) clean.pages[id] = state;
   });
   Object.entries(raw.lastByCourse || {}).forEach(([course, id]) => {
     if (known.has(id)) clean.lastByCourse[course] = id;
@@ -225,7 +226,7 @@ function courseStats(config, progress, courseId){
   const clean = normalizeProgress(config, progress);
   const completed = pages.filter(p => clean.pages[p.id] === 'completed').length;
   const skipped = pages.filter(p => clean.pages[p.id] === 'skipped').length;
-  return { total: pages.length, completed, skipped, seen: pages.filter(p => clean.pages[p.id]).length };
+  return { total: pages.length, completed, skipped };
 }
 
 function firstUnfinishedPage(config, progress, courseId){

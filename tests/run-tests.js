@@ -3080,7 +3080,7 @@ test('P2 互动课内核：判题、跳过与进度状态机', () => {
     'choice 答错不该算完成');
 });
 
-test('P3 互动课播放器：首页、开页、停留完成与跳过都可走', async () => {
+test('P3 互动课播放器：首页、开页与下一页即跳过都可走', async () => {
   await withGamePage((w, d) => {
     const G = w.__GAME__;
     assert.equal(d.querySelectorAll('.course-stat').length, 3, '首页要有三门课');
@@ -3111,19 +3111,18 @@ test('P3 互动课播放器：首页、开页、停留完成与跳过都可走',
       '副标题与大标题或正文重复时要隐藏');
     assert.ok(!d.querySelector('#taskBox .primary-action'), '阅读页不再渲染"我读完了"按钮');
 
-    assert.equal(G.progress.pages[first.id], 'seen', '开页先记为看过');
-    assert.equal(G.dwellMs, 40000, '阅读页停留 40 秒视为读完');
-    G.fireDwell();
-    assert.equal(G.progress.pages[first.id], 'completed', '停留满 40 秒要自动记为 completed');
-    assert.ok(d.querySelector('.lesson-card').classList.contains('done'), '完成后卡片底色变浅绿');
+    /* V1.49：不再记录"学过"——没有 seen 态、没有 40 秒定时器变绿；
+     * 右上角跳过按钮删除，"下一页"就是跳过本页 */
+    assert.ok(!d.querySelector('#skipBtn'), '右上角跳过按钮已删除');
+    assert.equal(G.progress.pages[first.id], undefined, '开页不再记 seen（不记录学过）');
+    assert.equal(G.dwellMs, undefined, '40 秒定时器已删除');
+    assert.equal(typeof G.fireDwell, 'undefined', 'fireDwell 已删除');
 
     d.querySelector('#nextBtn').click();
     const second = G.config.pages[1];
     assert.equal(G.currentPageId, second.id, '下一页要进入第二页');
+    assert.equal(G.progress.pages[first.id], 'skipped', '点下一页时经过的未做页（当前页）记为 skipped');
     assert.ok(!d.querySelector('.lesson-card').classList.contains('done'), '新开一页不沿用上一页的完成底色');
-
-    d.querySelector('#skipBtn').click();
-    assert.equal(G.progress.pages[second.id], 'skipped', '跳过要记成 skipped');
   });
 });
 
@@ -3139,6 +3138,19 @@ test('P4 互动课音频与表格：真实块能渲染、音频能触发而不�
     const litCount = d.querySelectorAll('#gameKb .flash').length +
       d.querySelectorAll('#pageBlocks svg rect.lit').length;
     assert.ok(litCount >= 1, '演示音频发声时，底部钢琴键或示意图方块要点亮');
+
+    /* 示意图方块点亮（V1.49 修复选择器拼接错误——此前 rect.lit 从未工作过）：
+     * "大调 全 全 半"页的长网页同款体验：音阶播到哪个音，阶梯图哪个方块变色 */
+    const majmin = G.config.pages.find(p => /全 全 半/.test(p.title));
+    assert.ok(majmin && majmin.blocks.some(b => b.type === 'svg'), '要有大调阶梯图页');
+    G.openPage(majmin.id);
+    d.querySelector('#pageBlocks .audio-card').click();
+    await new Promise(r => setTimeout(r, 250));
+    const majLit = d.querySelectorAll('#pageBlocks svg rect.lit');
+    assert.ok(majLit.length >= 1,
+      `大调页播放时阶梯图方块要点亮（教程同款），实际 ${majLit.length} 个`);
+    const majNote = majLit.length ? majLit[0].getAttribute('data-note') : null;
+    w.stopGameAudio();
 
     const wk = d.querySelector('#gameKb .wk');
     wk.dispatchEvent(new w.Event('pointerdown', { bubbles: true }));

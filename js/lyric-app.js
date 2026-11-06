@@ -28,7 +28,7 @@ function toast(m){
  *   js/app.js       → 乐理课
  *   js/lyric-app.js → 作词课
  * tests/bump-version.js 一次写两处，两页永远同版。 */
-const VERSION = { v: '1.48', date: '26.11.05' };
+const VERSION = { v: '1.49', date: '26.11.06' };
 
 function applyVersion(){
   const label = `V${VERSION.v} [${VERSION.date}]`;

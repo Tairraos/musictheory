@@ -5,7 +5,7 @@
  *       页面内容只从 COURSE_CONFIG 取；本文件不复制任何知识点文案。
  * ========================================================================== */
 
-const VERSION = { v: '1.48', date: '26.11.05' };
+const VERSION = { v: '1.49', date: '26.11.06' };
 const PROGRESS_KEY = 'jiedi-course-progress-v1';
 
 const memoryStorage = (() => {
@@ -36,21 +36,11 @@ function applyVersion(){
 function saveProgress(){ progress = progressStore.save(config, progress); }
 function pageState(id){ return progress.pages[id] || ''; }
 
-/* 阅读页不打分：停留 40 秒即视为读完，靠页面变浅绿做视觉反馈 */
-const DWELL_MS = 40000;
-let dwellTimer = null;
-function clearDwell(){ if (dwellTimer){ clearTimeout(dwellTimer); dwellTimer = null; } }
+/* 页面不再记录"学过"：没有定时器变绿、没有 seen 态。
+ * 任务页答对了记 completed（练对反馈），点"下一页"经过的没做的页记 skipped。 */
 function updateDoneVisual(id){
   const card = document.querySelector('.lesson-card');
   if (card) card.classList.toggle('done', pageState(id) === 'completed');
-}
-function fireDwell(){
-  clearDwell();
-  const id = currentPageId;
-  if (!id || pageState(id) === 'completed') return;
-  progress = markPage(config, progress, id, 'completed');
-  saveProgress();
-  updateDoneVisual(id);
 }
 
 function setView(name){
@@ -67,7 +57,6 @@ function courseOf(id){ return config.courses.find(c => c.id === id); }
 
 function renderHome(){
   stopGameAudio();
-  clearDwell();
   gameKbShow(false);
   currentPageId = null;
   setView('home');
@@ -88,7 +77,7 @@ function renderHome(){
     const fill = el('i');
     fill.style.width = (s.total ? Math.round(s.completed / s.total * 100) : 0) + '%';
     bar.append(fill);
-    const btn = el('button', 'primary-action', s.seen ? '继续学习' : '开始学习');
+    const btn = el('button', 'primary-action', progress.lastByCourse[c.id] ? '继续学习' : '开始学习');
     btn.type = 'button';
     btn.addEventListener('click', () => {
       currentCourse = c.id;
@@ -156,11 +145,7 @@ function renderHome(){
   });
 }
 
-function ensureSeen(id){
-  if (!pageState(id)){
-    progress = markPage(config, progress, id, 'seen');
-    saveProgress();
-  }
+function ensureSeen(id){ /* 已废弃：不再记录"学过"，保留空壳防外部误调用 */
 }
 
 function renderPageHeader(page, index, total){
@@ -174,10 +159,8 @@ function openPage(id){
   const page = config.pages[pageIndex(config, id)];
   if (!page) return renderHome();
   stopGameAudio();
-  clearDwell();
   currentCourse = page.course;
   currentPageId = id;
-  ensureSeen(id);
   setView('player');
   gameKbShow(page.course === 'music');   /* 底部钢琴只有乐理课要：作词/乐器课页面收起 */
   setHash('#' + id);
@@ -207,14 +190,13 @@ function openPage(id){
   updateDoneVisual(id);
 
   if (page.task.type === 'action'){
-    /* 阅读页不需要"我读完了"：停留满 40 秒自动记为已完成，底色变浅绿 */
+    /* 阅读页不打分、不计时：看完直接点下一页走人 */
     feedback.hidden = true;
     feedback.textContent = '';
     feedback.className = 'feedback';
-    dwellTimer = setTimeout(fireDwell, DWELL_MS);
   } else {
     feedback.hidden = false;
-    feedback.textContent = '完成后会自动记录；卡住了也可以直接跳过。';
+    feedback.textContent = '答对了这一页就记为完成；不想做直接点下一页。';
     feedback.className = 'feedback';
     const card = renderGameTask(page.task, result => {
       feedback.textContent = result.message;
@@ -243,14 +225,6 @@ function goAdjacent(delta){
   else renderHome();
 }
 
-function skipCurrent(){
-  if (!currentPageId) return;
-  progress = markPage(config, progress, currentPageId, 'skipped');
-  saveProgress();
-  toast('已跳过本页');
-  goAdjacent(1);
-}
-
 function resetCourse(){
   const pages = pagesForCourse(config, currentCourse);
   pages.forEach(p => { delete progress.pages[p.id]; });
@@ -261,8 +235,16 @@ function resetCourse(){
 }
 
 $('#prevBtn').addEventListener('click', () => goAdjacent(-1));
-$('#nextBtn').addEventListener('click', () => goAdjacent(1));
-$('#skipBtn').addEventListener('click', skipCurrent);
+/* 下一页就是跳过本页：没做完（既没练对也没标记过）的页记 skipped 后前进；
+ * 已经 completed 的页直接前进。上一页不标记。 */
+$('#nextBtn').addEventListener('click', () => {
+  if (currentPageId && !pageState(currentPageId)){
+    progress = markPage(config, progress, currentPageId, 'skipped');
+    saveProgress();
+    toast('已跳过本页');
+  }
+  goAdjacent(1);
+});
 $('#backBtn').addEventListener('click', renderHome);
 $('#resetBtn').addEventListener('click', resetCourse);
 
@@ -293,11 +275,9 @@ window.__GAME__ = {
   get version(){ return VERSION; },
   get progress(){ return progress; },
   get currentPageId(){ return currentPageId; },
-  get dwellMs(){ return DWELL_MS; },
   config,
   openPage,
   renderHome,
-  fireDwell,
   validateCourseConfig,
   evaluateTask,
   pagesForCourse,

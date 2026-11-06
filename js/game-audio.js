@@ -38,7 +38,9 @@ function flashKey(midi, at, ms, litKey){
     });
     const fig = document.getElementById('pageBlocks');
     if (fig){
-      const sel = litKey ? 'rect[data-lit="' + litKey + '"]' : 'rect[data-note="' + midi + '"]';
+      /* sel 自带 'rect[...]' 前缀，直接拼在 'svg ' 后——
+       * 曾拼成 'svg rectrect[...]' 无效选择器，示意图方块从没亮过（静默抛错） */
+      const sel = litKey ? '[data-lit="' + litKey + '"]' : '[data-note="' + midi + '"]';
       fig.querySelectorAll('svg rect' + sel).forEach(r => {
         r.classList.add('lit');
         clearTimeout(r._ft);
