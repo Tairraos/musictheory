@@ -2954,20 +2954,20 @@ test('L8 古风自检器：万能词、公式句、物候错配、韵脚被埋�
  * I. 乐器课（instrument.html）
  * -------------------------------------------------------------------------- */
 
-test('I1 乐器课装配：15 节、每族一张图、每件乐器一张卡', async () => {
+test('I1 乐器课装配：16 节、每族一张图、每件乐器一张卡', async () => {
   await withInstrumentPage((w, d) => {
     const links = [...d.querySelectorAll('#nav a[href^="#"]')];
     const sections = [...d.querySelectorAll('section')];
-    assert.equal(links.length, 15, '15 个导航链接');
-    assert.equal(sections.length, 15, '15 个 section');
+    assert.equal(links.length, 16, '16 个导航链接');
+    assert.equal(sections.length, 16, '16 个 section');
     for (const l of links) {
       const id = l.getAttribute('href').slice(1);
       assert.ok(d.getElementById(id), `导航目标 #${id} 应存在`);
     }
     /* 与另两页同一条守卫：节号连续，插一节忘了顺延立刻报 */
     assert.deepEqual(sections.map(s => s.querySelector('.sec-num').textContent),
-      ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14'],
-      '节号必须从 00 到 14 连续');
+      ['00','01','02','03','04','05','06','07','08','09','10','11','12','13','14','15'],
+      '节号必须从 00 到 15 连续');
 
     const fams = w.__IC__.INST_DATA.families;
     const total = fams.reduce((n, f) => n + f.items.length, 0);
@@ -3102,14 +3102,16 @@ test('I5 图由数据驱动：改一个音名，图必须跟着变（防手写�
   });
 });
 
-test('I6 乐器课资源：专属样式与两个脚本都在，互链指向另两页', async () => {
+test('I6 乐器课资源：专属样式与脚本都在，互链指向另两页', async () => {
   const html = fs.readFileSync(path.join(ROOT, 'instrument.html'), 'utf8');
   assert.match(html, /<link rel="stylesheet" href="css\/main\.css">/);
   assert.match(html, /<link rel="stylesheet" href="css\/instrument\.css">/);
   const scripts = [...html.matchAll(/<script src="(js\/[^"]+)"><\/script>/g)].map(m => m[1]);
-  assert.deepEqual(scripts, ['js/instrument-data.js', 'js/instrument-render.js'],
-    '乐器课只加载数据与渲染两个脚本，不拖入音频与键盘');
-  for (const f of ['css/instrument.css', 'js/instrument-data.js', 'js/instrument-render.js']) {
+  assert.deepEqual(scripts,
+    ['js/instrument-data.js', 'js/instrument-render.js', 'js/term-data.js', 'js/term-render.js'],
+    '乐器课只加载数据与渲染两层（乐器 + 术语），不拖入音频与键盘；术语层必须排在乐器层之后');
+  for (const f of ['css/instrument.css', 'js/instrument-data.js', 'js/instrument-render.js',
+    'js/term-data.js', 'js/term-render.js']) {
     assert.ok(fs.existsSync(path.join(ROOT, f)), `${f} 应存在`);
   }
   /* 三页互链：本页必须能回到另两页，另两页也必须指过来 */
@@ -3186,6 +3188,166 @@ test('I8 每件乐器的移调说明必须与音域自洽（记谱方向不能�
       const m = line.match(/记谱比实际([高低])/);
       assert.ok(m, `${it.name} 的移调写法应为「记谱比实际高/低…」，实际是「${line}」`);
       assert.equal(m[1], dir, `${it.name} 的移调方向写反了`);
+    }
+  });
+});
+
+/* -------------------------------------------------------------------------- *
+ * T. 术语层（term-data.js / term-render.js）
+ * -------------------------------------------------------------------------- */
+
+test('T1 术语表装配：通用表 + 每族一张表，行数与数据一致', async () => {
+  await withInstrumentPage((w, d) => {
+    const D = w.__TC__.TERM_DATA;
+
+    assert.equal(d.querySelectorAll('#termGeneral tbody tr').length, D.general.length,
+      '通用表行数应等于数据条数');
+    assert.equal(d.querySelectorAll('#termGeneral thead th').length, 5,
+      '通用表五列：术语 / 形式表现 / 作用 / 英文提示词 / 会用到它的族');
+
+    const cards = [...d.querySelectorAll('#termFam .terms-card')];
+    assert.equal(cards.length, D.families.length, '每族一张术语表');
+    D.families.forEach((f, i) => {
+      const card = cards[i];
+      assert.equal(card.querySelectorAll('tbody tr').length, f.terms.length,
+        `${f.zh} 的行数应与数据一致`);
+      assert.equal(card.querySelectorAll('thead th').length, 4, `${f.zh} 应为四列`);
+      /* 条数写在标题里而不是写死在 HTML 里：数据一变标题跟着变，不会留下旧数字 */
+      assert.ok(card.querySelector('h3').textContent.includes(`${f.terms.length} 条`),
+        `${f.zh} 的小标题应写出条数`);
+    });
+
+    /* 每个词条都要有锚点，而且锚点必须落在术语节内——
+       落在别处的话，卡片跳过去会跳到完全不相干的地方。 */
+    const sec = d.getElementById('s-terms');
+    assert.ok(sec, '应有术语节（#s-terms）');
+    for (const id of w.__TC__.idx.keys()) {
+      const tr = d.getElementById('t-' + id);
+      assert.ok(tr, `术语 ${id} 应有锚点 t-${id}`);
+      assert.ok(sec.contains(tr), `锚点 t-${id} 必须落在术语节内`);
+    }
+  });
+});
+
+test('T2 同一种动作只定义一次：id 唯一、卡片引用两向有效', async () => {
+  await withInstrumentPage((w, d) => {
+    const D = w.__TC__.TERM_DATA;
+    const all = [...D.general, ...D.families.flatMap(f => f.terms)];
+
+    const ids = all.map(t => t.id);
+    assert.deepEqual(ids.filter((x, i) => ids.indexOf(x) !== i), [],
+      '术语 id 不许重复——重复就等于同一个动作有两份定义');
+    /* 换个中文名重复定义同样算重：花舌曾按族写了三份，改一处忘两处 */
+    const zh = all.map(t => t.zh);
+    assert.deepEqual(zh.filter((x, i) => zh.indexOf(x) !== i), [],
+      '同一个中文术语名不许出现两次');
+
+    /* 通用表的标准：至少两个族在用。只有一个族用的动作应该回它自己的族表 */
+    const famIds = D.families.map(f => f.id);
+    D.general.forEach(t => {
+      assert.ok(Array.isArray(t.reuse) && t.reuse.length >= 2,
+        `${t.zh} 只被一个族用（或没写 reuse），它不该待在通用表里`);
+      t.reuse.forEach(r => assert.ok(famIds.includes(r), `${t.zh} 引用了不存在的族 ${r}`));
+    });
+
+    /* 每件乐器挂 2–3 个术语，id 必须真实存在。
+       all() 返回的是 jsdom realm 的数组，跨 realm 的 Array.prototype 不同，
+       直接 deepEqual 会"内容一样也判不等"——所以先 spread 成本 realm 的数组。 */
+    const insts = w.__IC__.all();
+    assert.deepEqual([...insts.filter(i => !D.card[i.id]).map(i => i.id)], [],
+      '每件乐器都要在 card 表里挂术语');
+    for (const i of insts) {
+      const list = D.card[i.id];
+      assert.ok(list.length >= 2 && list.length <= 3,
+        `${i.name} 的术语应挂 2–3 个，实际 ${list.length}`);
+      list.forEach(id => assert.ok(w.__TC__.idx.get(id), `${i.name} 引用了不存在的术语 ${id}`));
+    }
+    /* 反过来：card 表里不许留下已不存在的乐器 id（改名后的孤儿） */
+    const instIds = insts.map(i => i.id);
+    Object.keys(D.card).forEach(k =>
+      assert.ok(instIds.includes(k), `card 表里的 ${k} 已不是现有乐器`));
+
+    /* 页面上真的挂上了：每张卡一条脚注，链接数与数据一致 */
+    const cards = [...d.querySelectorAll('.inst[data-inst]')];
+    assert.equal(cards.length, insts.length, '每张卡都应带 data-inst 钩子');
+    for (const el of cards) {
+      const id = el.getAttribute('data-inst');
+      const links = [...el.querySelectorAll('.inst-terms a')];
+      assert.equal(links.length, D.card[id].length, `${id} 卡上的术语链接数应与数据一致`);
+      links.forEach(a => assert.ok(d.getElementById(a.getAttribute('href').slice(1)),
+        `${id} 卡上的链接 ${a.getAttribute('href')} 应有目标`));
+    }
+  });
+});
+
+test('T3 英文提示词列要能直接粘进提示词框（小写 ASCII、带乐器前缀）', async () => {
+  await withInstrumentPage((w) => {
+    const D = w.__TC__.TERM_DATA;
+    const all = [...D.general, ...D.families.flatMap(f => f.terms)];
+
+    assert.deepEqual(all.filter(t => /[^\x20-\x7e]/.test(t.en)).map(t => t.zh), [],
+      '英文列里不许出现中文、全角标点或弯引号');
+    assert.deepEqual(all.filter(t => t.en !== t.en.toLowerCase()).map(t => t.zh), [],
+      '英文列一律小写——它是要粘进提示词框的，不是标题');
+    assert.deepEqual(all.filter(t => /[.。]$/.test(t.en)).map(t => t.zh), [], '英文列不加句号');
+    assert.deepEqual(all.filter(t => t.en.length > 52).map(t => t.zh), [],
+      '英文列超过 52 字符的，模型基本读不完，拆成两条');
+
+    /* 空壳条目：两列都得是有信息的一句话，不能只写"有特点" */
+    assert.deepEqual(all.filter(t => !t.form || t.form.length < 5).map(t => t.zh), [],
+      '「形式表现」不许留空或太短');
+    assert.deepEqual(all.filter(t => !t.use || t.use.length < 5).map(t => t.zh), [],
+      '「作用」不许留空或太短');
+    assert.deepEqual(all.filter(t => !t.zh || t.zh.length > 12).map(t => t.id), [],
+      '术语名超过 12 字的，读者记不住，拆成两条');
+  });
+});
+
+test('T4 术语节排在配器之前，节号与导航同步', async () => {
+  await withInstrumentPage((w, d) => {
+    const secs = [...d.querySelectorAll('section')];
+    const iTerm = secs.findIndex(s => s.id === 's-terms');
+    const iArrange = secs.findIndex(s => s.id === 's-arrange');
+    assert.ok(iTerm > 0 && iArrange > 0, '应有术语节与配器节');
+    /* 先立"表达手段"，再讲"组合决策"：顺序反了，配器那节会引用还没定义的动作 */
+    assert.ok(iTerm < iArrange, '术语节必须排在配器之前');
+    assert.equal(secs[iTerm].querySelector('.sec-num').textContent, '13',
+      '术语节应为 13，后面两节顺延');
+    assert.equal(secs[iTerm + 1].querySelector('.sec-num').textContent, '14', '配器节应顺延为 14');
+    assert.equal(secs[iTerm + 2].querySelector('.sec-num').textContent, '15', '速查表应顺延为 15');
+    /* 导航文字里的编号也要跟着改，不能只改 body */
+    const nav = [...d.querySelectorAll('#nav a[href^="#"]')].map(a => a.textContent.trim());
+    assert.ok(nav.some(t => t.startsWith('13') && t.includes('术语')), '导航 13 应是术语');
+    assert.ok(nav.some(t => t.startsWith('14') && t.includes('配器')), '导航 14 应是配器');
+    assert.ok(nav.some(t => t.startsWith('15') && t.includes('速查表')), '导航 15 应是速查表');
+  });
+});
+
+test('T5 卡片上的术语只能来自本族或通用表，且链接文本与目标同名', async () => {
+  await withInstrumentPage((w, d) => {
+    const famOf = {};
+    w.__IC__.INST_DATA.families.forEach(f => f.items.forEach(it => { famOf[it.id] = f.id; }));
+
+    for (const el of d.querySelectorAll('.inst[data-inst]')) {
+      const instId = el.getAttribute('data-inst');
+      const links = [...el.querySelectorAll('.inst-terms a')];
+      assert.ok(links.length, `${instId} 卡上应挂术语`);
+      links.forEach(a => {
+        const href = a.getAttribute('href');
+        const target = d.getElementById(href.slice(1));
+        assert.ok(target, `${instId} 卡上的链接 ${href} 没有目标`);
+        assert.equal(target.querySelector('td').textContent.trim(), a.textContent.trim(),
+          `卡片上写「${a.textContent.trim()}」，点进去却是「${target.querySelector('td').textContent.trim()}」`);
+
+        /* 真正的约束：术语要么通用，要么属于这件乐器自己的族。
+           把吉他的"自然泛音（吉他）"挂到尤克里里卡上，跳过去也不算错——
+           但那是在教人拿错工具，所以这一条必须由数据层拦住。 */
+        const hit = w.__TC__.idx.get(href.slice(3));  /* #t- 三个字符 */
+        if (hit.fam) {
+          assert.equal(hit.fam.id, famOf[instId],
+            `${instId}（${famOf[instId]}）挂了别族的术语「${hit.t.zh}」（${hit.fam.id}）`);
+        }
+      });
     }
   });
 });

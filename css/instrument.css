@@ -1,7 +1,7 @@
 /* ==========================================================================
  * 《姐弟厨师团——乐器课》 · 专属样式（css/instrument.css）
  * --------------------------------------------------------------------------
- * 只补 main.css 里没有的三样：音域图容器、乐器卡、八度占位格。
+ * 只补 main.css 里没有的：音域图容器、乐器卡、八度占位格、术语表。
  * 设计令牌、导航、卡片、表格、按钮全部复用 main.css，不重新定义。
  * ========================================================================== */
 
@@ -134,3 +134,46 @@
   .swipe-top{display:block;font-size:11px;color:var(--faint);margin:0 0 4px}
   .facts>div{grid-template-columns:50px minmax(0,1fr)}
 }
+
+/* ---------- 7. 术语表 ---------- */
+/* 四列定宽，理由和速查表一样：不定宽时"形式表现"两列按内容抢宽度，
+   英文那列会被挤到只能一个词一行。术语列 nowrap——它是这张表的锚点，
+   折行了读者就找不到"从哪儿开始读"。 */
+.terms{table-layout:fixed}
+.terms th:nth-child(1){width:15%}
+.terms th:nth-child(2){width:31%}
+.terms th:nth-child(3){width:30%}
+.terms th:nth-child(4){width:24%}
+.terms td{vertical-align:top}
+.terms td.tz{font-weight:600;color:var(--text);white-space:nowrap}
+.terms td.ten{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;line-height:1.55;
+  color:var(--teal);word-break:break-word;
+}
+/* 通用表多一列"会用到它的族"：五个族名连起来有十几个字，给到 19% 才不会
+   被压成一字一行（这一列是交叉索引，挤成竖排就没法扫）。 */
+.terms.gen th:nth-child(1){width:15%}
+.terms.gen th:nth-child(2){width:23%}
+.terms.gen th:nth-child(3){width:23%}
+.terms.gen th:nth-child(4){width:20%}
+.terms.gen th:nth-child(5){width:19%}
+.terms td.reuse{font-size:11px;line-height:1.5;color:var(--faint)}
+/* 从卡片锚点跳过来时把那一行点亮：一屏里几十行同色，不亮就白跳了 */
+.terms tbody tr:target{background:var(--amber-bg)}
+
+.terms-card h3{display:flex;align-items:baseline;gap:8px}
+.terms-card .tmark{
+  width:8px;height:8px;border-radius:2px;background:var(--c);flex:none;
+  transform:translateY(-1px);
+}
+.terms-card .terms-n{margin-left:auto;font-size:11px;font-weight:400;color:var(--faint)}
+.terms-card>p.mini{margin:2px 0 10px}
+
+/* 卡片脚注：术语入口。只挂 2–3 个，多了就成了第二张表 */
+.inst-terms{
+  margin:11px 0 0;padding-top:9px;border-top:1px dashed var(--line2);
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;font-size:12px;
+}
+.inst-terms i{font-style:normal;font-size:10.5px;letter-spacing:.06em;color:var(--faint)}
+.inst-terms a{color:var(--c);text-decoration:none;border-bottom:1px dotted currentColor}
+.inst-terms a:hover{color:var(--text)}

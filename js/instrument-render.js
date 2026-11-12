@@ -18,7 +18,7 @@
   /* 版本号：与另两页共用同一个数（三页一次交付，标签页上显示不同版本
      只会让人怀疑"我是不是没刷新"）。真源就在这里，另外三处是静态副本，
      统一由 tests/bump-version.js 改；本文件负责把副本刷成同一个值。 */
-  const VERSION = { v: '1.41', date: '26.11.04' };
+  const VERSION = { v: '1.42', date: '26.11.12' };
 
   function applyVersion() {
     document.querySelectorAll('[data-ver]').forEach(el => {
@@ -177,7 +177,9 @@
     const facts = it.params.map(p =>
       `<div><dt>${p[0]}</dt><dd>${p[1]}</dd></div>`).join('');
 
-    return `<article class="inst" style="--c:${it._color};--cl:${it._light}">
+    /* data-inst 是给术语层用的钩子：卡片底部要挂 2–3 个术语锚点，
+       而"这张卡是哪件乐器"不能靠中文名去反查（改名就断）。 */
+    return `<article class="inst" data-inst="${it.id}" style="--c:${it._color};--cl:${it._light}">
       <header class="inst-h">
         <b>${it.name}</b><span class="en">${it.en}</span>
         <span class="pill mono">${pretty(it.lo)}–${pretty(it.hi)}</span>
@@ -296,6 +298,11 @@
       if (heroImg.complete && heroImg.naturalWidth === 0) mark();
       heroImg.addEventListener('error', mark);
     }
+
+    /* 卡片画完了，通知术语层可以挂锚点了。
+       正常情况下术语层的 init 本来就排在后面，用不上这一声；
+       但脚本一旦被改成 defer/动态加载，顺序就不再可靠——那时这声是唯一的线索。 */
+    document.dispatchEvent(new CustomEvent('ic:ready'));
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

@@ -9,7 +9,7 @@
 <link rel="icon" href="assets/images/favicon.ico" sizes="any">
 <link rel="icon" href="assets/images/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/images/favicon.png">
-<title>姐弟厨师团 --- 乐器课 V1.41 [26.11.04]</title>
+<title>姐弟厨师团 --- 乐器课 V1.42 [26.11.12]</title>
 <!-- 样式：设计令牌、导航、卡片、表格全部复用 main.css；
      instrument.css 只补音域图与乐器卡 -->
 <link rel="stylesheet" href="css/main.css">
@@ -17,9 +17,9 @@
 </head>
 <body>
 
-<!-- 左侧导航：15 节，与下方 <section> 一一对应（≤1000px 变为顶部横滚条） -->
+<!-- 左侧导航：16 节，与下方 <section> 一一对应（≤1000px 变为顶部横滚条） -->
 <aside id="nav">
-  <div class="brand">乐器课目录 <span class="ver" data-ver><b>V1.41</b> [26.11.04]</span><small>谁在发这个声</small></div>
+  <div class="brand">乐器课目录 <span class="ver" data-ver><b>V1.42</b> [26.11.12]</span><small>谁在发这个声</small></div>
   <a class="navswitch" href="index.html">← 回《乐理课》</a>
   <a class="navswitch" href="lyric.html">← 回《作词课》</a>
   <a href="#s-read">0 · 先学会读这张图</a>
@@ -35,8 +35,9 @@
   <a href="#s-voice">10 · 人声：六把尺子</a>
   <a href="#s-folk">11 · 民族乐器</a>
   <a href="#s-elec">12 · 电声与合成</a>
-  <a href="#s-arrange">13 · 配器：怎么不打架</a>
-  <a href="#s-speed">14 · 速查表</a>
+  <a href="#s-terms">13 · 术语：写提示词用</a>
+  <a href="#s-arrange">14 · 配器：怎么不打架</a>
+  <a href="#s-speed">15 · 速查表</a>
 </aside>
 
 <div class="wrap">
@@ -58,7 +59,7 @@
         所以这一页不写"音色温暖"这种话：每件乐器都给一条<b>音域条</b>、一条<b>织密条</b>、五个可以拿去跟人吵架的参数，
         外加一句它到底适合说什么。看完你应该能回答一件事：<b>我这句旋律，该给谁。</b>
       </p>
-      <p class="hero-ver ver" data-ver><b>V1.41</b> [26.11.04]</p>
+      <p class="hero-ver ver" data-ver><b>V1.42</b> [26.11.12]</p>
     </div>
   </div>
 </header>
@@ -427,9 +428,70 @@
   </div>
 </section>
 
-<!-- ==================== 13 · 配器 ==================== -->
+<!-- ==================== 13 · 术语 ==================== -->
+<section id="s-terms">
+  <div class="sec-head"><span class="sec-num">13</span><h2>术语：写提示词时抄这一张</h2></div>
+  <p class="lead">前面的图回答"这句旋律该给谁"，这一节回答<b>让它怎么发声</b>。
+    同一件乐器，<b>切音</b>和<b>闷音</b>是两个动作、两种声音——写错，得到的就是别的东西。
+    在 AI 里写歌真正缺的往往不是"用大提琴"，而是"大提琴用顿弓拉到 C2"这一级的具体。</p>
+
+  <div class="card">
+    <h3>四列怎么读</h3>
+    <div class="tscroll"><table>
+      <thead><tr><th style="width:16%">列</th><th>它回答什么</th><th>怎么用</th></tr></thead>
+      <tbody>
+        <tr><td><b>术语</b></td><td>这个动作叫什么</td><td>和人沟通、查资料时用它；中文名懂了，英文名才查得动</td></tr>
+        <tr><td><b>形式表现</b></td><td>手做了什么，声音变成什么样</td><td>判断"这是不是我要的那个声音"；也是自己练琴时的动作说明</td></tr>
+        <tr><td><b>作用</b></td><td>它解决了什么表达问题</td><td>从"我想要什么感觉"反查术语——写提示词时多半是从这一列进来的</td></tr>
+        <tr><td><b>英文提示词</b></td><td>直接粘进提示词框的那串词</td><td>照抄，<b>但必须带乐器前缀</b>：<span class="mono">palm-muted guitar</span>，不是 <span class="mono">muted</span></td></tr>
+      </tbody></table></div>
+  </div>
+
+  <div class="card">
+    <h3>三条要提前认账的</h3>
+    <ul class="plain">
+      <li><b>英文必须带乐器或动作前缀。</b>单写 <span class="mono">muted</span> 会被理解成"整体音色暗淡"，
+        写成 <span class="mono">palm-muted guitar</span> 才是"手掌闷音"。同理 <span class="mono">brushed drums</span>、
+        <span class="mono">pizzicato strings</span>——<b>形容词得挂在一个具体乐器上</b>。</li>
+      <li><b>演奏法在提示词里的权重，低于曲风和结构标签。</b>它只会让结果"往那个方向偏"，不是开关。
+        真想换一种演奏法，改曲风词、改段落标签、减配器，比堆术语有效得多。</li>
+      <li><b>同一个中文词在不同族不是一回事。</b>吉他的"切音"是刷完立刻止音；铜管的"弱音器"是往喇叭口塞金属；
+        人声的"气声"和萨克斯的"气声低音"也不是同一种混气比例。看到眼熟的词别直接套。</li>
+    </ul>
+    <div class="note">还有一条是这一节的规矩：<b>同一种动作只定义一次。</b>
+      花舌、循环换气、弹舌同时属于木管、萨克斯、铜管、唢呐，它们只出现在下面的<b>通用表</b>里，
+      族表只放这一族真正独有的东西。所以在"木管"那张表里找不到花舌——去通用表，那里写着哪些族用它。</div>
+  </div>
+
+  <div class="card">
+    <h3>通用：跨乐器的发音法</h3>
+    <p class="mini" style="margin-bottom:10px">这些是<b>动作</b>，不是乐器。任何一件乐器学会滑音、泛音、弱音，表达力就多一档；
+      反过来，同一段旋律换乐器但动作不变，听起来仍然像"换了个人在说同一句话"。</p>
+    <div id="termGeneral"></div>
+  </div>
+
+  <div id="termFam"></div>
+
+  <div class="card">
+    <h3>怎么把术语写进一句提示词</h3>
+    <p class="mini" style="margin-bottom:10px">顺序照"谁、怎么发声、在什么场景"排。四列各取一点，一句就够：</p>
+    <div class="tscroll"><table>
+      <thead><tr><th style="width:30%">想要的</th><th>写出来的</th></tr></thead>
+      <tbody>
+        <tr><td>主歌压住，副歌放开</td><td class="mono">palm-muted guitar in verses, open strums in chorus</td></tr>
+        <tr><td>一个人在山里，风很大</td><td class="mono">airy xiao flute, breathy tone, sparse</td></tr>
+        <tr><td>告别，但还笑着</td><td class="mono">pizzicato strings, staccato, light</td></tr>
+        <tr><td>悬着、不敢落地的结尾</td><td class="mono">bowed vibraphone, harmonics, no resolve</td></tr>
+        <tr><td>老唱片里的一段独白</td><td class="mono">subtone saxophone, slightly detuned, warm</td></tr>
+      </tbody></table></div>
+    <div class="note">看出来了吗：<b>起作用的从来不是术语本身，是"术语 + 场景"。</b>
+      只写 <span class="mono">pizzicato</span> 会得到一段拨弦；加上"告别、还笑着"，才知道该往哪儿偏。</div>
+  </div>
+</section>
+
+<!-- ==================== 14 · 配器 ==================== -->
 <section id="s-arrange">
-  <div class="sec-head"><span class="sec-num">13</span><h2>配器：怎么让它们不打架</h2></div>
+  <div class="sec-head"><span class="sec-num">14</span><h2>配器：怎么让它们不打架</h2></div>
   <p class="lead">前面的图告诉你每件乐器在哪儿。这一节讲<b>放几件、怎么放</b>。
     规则只有三条，但每一条都能直接否掉一个听起来"还行"的编曲。</p>
 
@@ -511,9 +573,9 @@
   </div>
 </section>
 
-<!-- ==================== 14 · 速查表 ==================== -->
+<!-- ==================== 15 · 速查表 ==================== -->
 <section id="s-speed">
-  <div class="sec-head"><span class="sec-num">14</span><h2>速查表</h2></div>
+  <div class="sec-head"><span class="sec-num">15</span><h2>速查表</h2></div>
   <p class="lead">写东西时最常查的四列：<b>音域、频率、织密、它的意象</b>。频率那一列是给"要和别人解释"准备的——
     "大提琴最低 65Hz"比"大提琴很低"有用得多。</p>
 
@@ -543,8 +605,11 @@
 <div id="toast"></div>
 
 <!-- 脚本按依赖顺序加载（经典 script，共享全局作用域，双击 html 即可离线打开）：
-     instrument-data 乐器数据 → instrument-render 音域图与卡片装配 -->
+     instrument-data 乐器数据 → instrument-render 音域图与卡片
+     → term-data 术语 → term-render 术语表与卡片锚点（最后加载：它要给卡片挂脚注） -->
 <script src="js/instrument-data.js"></script>
 <script src="js/instrument-render.js"></script>
+<script src="js/term-data.js"></script>
+<script src="js/term-render.js"></script>
 </body>
 </html>
