@@ -13,7 +13,7 @@
  *   "不出现上下滚动"这条要求只能这样落地。
  * ========================================================================== */
 
-const VERSION = { v: '1.43', date: '26.11.13' };
+const VERSION = { v: '1.44', date: '26.11.13' };
 
 /* 键盘层（keyboard.js / playback.js）读这个全局：当前主音与调式 */
 let state = { root: 0, mode: 'ionian' };
@@ -59,6 +59,10 @@ let state = { root: 0, mode: 'ionian' };
    * 1 · 量高与分页
    * ======================================================================== */
   let measureCard = null, measureBody = null, availH = 0, cache = new Map();
+
+  /* 一张卡的内容不到可用高度的三成、又不足 110px，就算"单薄卡"——
+     一屏只有一两行字，翻过去等于白翻。装袋与收尾共用这一条线。 */
+  const thinH = () => Math.max(110, availH * 0.3);
 
   function initMeasure() {
     measureCard = document.createElement('article');
@@ -280,14 +284,15 @@ let state = { root: 0, mode: 'ionian' };
     return hs;
   }
 
-  function fitBlock(b, out, depth) {
+  function fitBlock(b, out, depth, budget) {
+    const cap = budget || availH;
     const h = blockHeight(b);
-    if (h <= availH || depth > 6) { out.push(b); return; }
+    if (h <= cap || depth > 6) { out.push(b); return; }
     /* 章节头塞不下（矮屏 + 长导语）：先丢掉导语，把导语退回普通段落，
        版面上宁可少一句导语，也不能把它裁掉半行。 */
     if (b.t === 'sec' && b.lead) {
       out.push({ t: 'sec', sec: b.sec, lead: null });
-      fitBlock({ t: 'lead', h: b.lead.h }, out, depth + 1);
+      fitBlock({ t: 'lead', h: b.lead.h }, out, depth + 1, cap);
       return;
     }
     if (b.t === 'list' && b.items && b.items.length > 1) {
@@ -297,7 +302,7 @@ let state = { root: 0, mode: 'ionian' };
         let hh = 0, k = start;
         while (k < hs.length) {
           const add = hs[k] + (k > start ? gap : 0);
-          if (k > start && hh + add > availH) break;
+          if (k > start && hh + add > cap) break;
           hh += add; k++;
         }
         out.push({ t: 'list', items: b.items.slice(start, k), ord: b.ord });
@@ -305,10 +310,126 @@ let state = { root: 0, mode: 'ionian' };
       }
       return;
     }
-    const parts = splitHtml(b.h || '', availH / Math.max(1, h));
+    const parts = splitHtml(b.h || '', cap / Math.max(1, h));
     if (!parts) { out.push(b); return; }
     fitBlock({ t: 'p', h: parts[0] }, out, depth + 1);
     fitBlock({ t: 'p', h: parts[1] }, out, depth + 1);
+  }
+
+  /* ---------------- 合并单薄卡 ----------------
+   * 分页是按块装的，块的尾巴不听话：长段落拆到最后只剩一行、列表拆到最后剩一条、
+   * 某一节末尾恰好挤进来半句话——翻过去，一整屏就只有那一行字。
+   * 这种卡不能靠"量高时多留几像素"解决，只能在装完之后回头收拾，按优先级：
+   *   1. 并进上一张（最顺：读者的视线本来就在上一张的末尾）
+   *   2. 并不过去 → 从上一张末尾借块过来，把这张垫厚
+   *   3. 上一张是互动卡/表格借不动 → 反过来塞进下一张的开头
+   * 只在同一节内部搬（章节标签才不会张冠李戴），章节头不往前并，
+   * 也不许有内容排到章节头上面去。
+   */
+  function rebalance(cards) {
+    const floor = thinH();      /* 卡面不到三成就算"太单薄" */
+    const isText = c => c.t === 'blocks' && !c.widget && c.blocks && c.blocks.length;
+    const isWidget = c => c.t === 'widget' || !!c.widget;
+    const bareWidget = x => isWidget(x) && !(x.blocks && x.blocks.length) && !x.after;
+    const sameSec = (a, b) => (a && b) ? a.id === b.id : a === b;
+    const opensSection = c => c.blocks[0] && c.blocks[0].t === 'sec';
+    const drop = i => { cards.splice(i, 1); };
+
+    /* ① 往前收：并进上一张，或者从上一张末尾借块 */
+    const pullBack = (c, p, i) => {
+      if (!sameSec(p.sec, c.sec) || opensSection(c)) return false;
+
+      /* 同一张表被切成两半、这一半只剩一两行 → 把行搬回上一张，别让整页只印一行表 */
+      const ct = c.blocks.length === 1 && c.blocks[0].t === 'table' ? c.blocks[0] : null;
+      const pt = (p.blocks && p.blocks.length) ? p.blocks[p.blocks.length - 1] : null;
+      if (ct && pt && pt.t === 'table' && p.bt && p.bt === c.bt && ct.rows.length <= 3) {
+        const m = measureTable({ head: ct.head, rows: ct.rows });
+        const add = m.rows.reduce((s, r) => s + r.h + 6, 0);
+        if (p.h + add <= availH) {
+          pt.rows = pt.rows.concat(ct.rows);
+          p.h += add;
+          drop(i);
+          return true;
+        }
+      }
+
+      /* 上一张是互动卡：并进去当图注（正文块排在 .w 后面）。
+         "先弄响一架钢琴" / "当前：C 大调" 本来就该是一张卡，
+         拆成两页等于让人翻一页只看一句话。 */
+      if (isWidget(p)) {
+        if (p.h + GAP + c.h > availH) return false;
+        p.after = (p.after || []).concat(c.blocks);
+        p.h += GAP + c.h;
+        drop(i);
+        return true;
+      }
+      if (!isText(p)) return false;
+
+      /* 整张并进上一张 */
+      if (p.h + GAP + c.h <= availH) {
+        p.blocks = p.blocks.concat(c.blocks);
+        p.h += GAP + c.h;
+        drop(i);
+        return true;
+      }
+
+      /* 借块：借到"上一张末尾不再是标题"为止。小标题要是被借空了留成孤儿标题，
+         比单薄卡更难看，所以它得连着正文一起走。 */
+      const taken = [];
+      let sumBh = 0, k = 0;
+      while (p.blocks.length > 1) {
+        const last = p.blocks[p.blocks.length - 1];
+        if (k > 0 && last.t !== 'h3' && last.t !== 'sec') break;
+        const bh = blockHeight(last);
+        if (c.h + (k + 1) * GAP + sumBh + bh > availH) break;
+        p.blocks.pop();
+        taken.unshift(last); sumBh += bh; k++;
+        if (c.h + k * GAP + sumBh >= floor) break;
+      }
+      if (!k) return false;
+      p.h -= k * GAP + sumBh;
+      c.blocks = taken.concat(c.blocks);
+      c.h += k * GAP + sumBh;
+      return true;
+    };
+
+    /* ② 往后再试一次：塞进下一张的开头。
+         位置更靠后的卡在前后都放不下时，只剩这一条路——
+         一页只印一行字，比"内容挪到下一页开头"糟得多。 */
+    const pushNext = (c, i) => {
+      const n = cards[i + 1];
+      if (!n || !isText(n) || opensSection(n) || !sameSec(c.sec, n.sec)) return false;
+      if (n.h + c.h + GAP > availH) return false;
+      if (c.blocks[0].t === 'sec') n.hideHead = true;
+      n.blocks = c.blocks.concat(n.blocks);
+      n.h += c.h + GAP;
+      drop(i);
+      return true;
+    };
+
+    for (let pass = 0; pass < 60; pass++) {
+      let changed = false;
+      for (let i = 1; i < cards.length; i++) {
+        const c = cards[i], p = cards[i - 1];
+
+        /* 两张都只有互动区、且叠起来还放得下：叠成一页。
+           "十三个维度"那种一节连出好几张小卡，一页一张就是连翻几页空白。
+           这里不看"单薄"阈值——放得下就叠，省下的是整整一页翻页动作。 */
+        if (bareWidget(c) && bareWidget(p) && sameSec(p.sec, c.sec) &&
+            p.h + c.h + GAP <= availH) {
+          p.extra = (p.extra || []).concat([c.widget || { w: c.w, opt: c.opt }]);
+          p.h += c.h + GAP;
+          drop(i);
+          changed = true; i--; continue;
+        }
+
+        if (!isText(c) || c.h >= floor) continue;
+
+        if (pullBack(c, p, i) || pushNext(c, i)) { changed = true; i--; }
+      }
+      if (!changed) break;
+    }
+    return cards;
   }
 
   /* ---------------- 装袋 ---------------- */
@@ -316,7 +437,7 @@ let state = { root: 0, mode: 'ionian' };
     const queue = items.slice();
     const cards = [];
     let cur = null, curH = 0;
-    const flush = () => { if (cur && cur.blocks.length) cards.push(cur); cur = null; curH = 0; };
+    const flush = () => { if (cur && cur.blocks.length) { cur.h = curH; cards.push(cur); } cur = null; curH = 0; };
 
     /* 卡片翻页时，最下面那个"小标题/章节头"不能留在上一张——
        "三种典型翻车"孤零零印在页脚、翻过去才看见表，比不排版还糟。
@@ -346,13 +467,14 @@ let state = { root: 0, mode: 'ionian' };
         const wh = widgetHeight(item.w, item.opt) + INLINE_COST;
         if (cur && wh > 0 && curH + wh <= availH) {
           cur.widget = { w: item.w, opt: item.opt || {} };
+          curH += wh;                     /* 混排卡的真实高度要含这块，后面收尾要用 */
           flush();
           continue;
         }
         /* 互动卡自带标题，不接上一张卡甩下来的小标题/章节头——
            接过来就等于让一张已经排满的卡再多背一块，必溢出。 */
         flush();
-        cards.push({ ...item });
+        cards.push({ ...item, h: wh });
         continue;
       }
       if (item.t !== 'block') { flush(); cards.push({ ...item }); continue; }
@@ -362,23 +484,44 @@ let state = { root: 0, mode: 'ionian' };
          行与行之间还有 6px 的 gap，量行高时量不到它（getBoundingClientRect
          只给节点本身），所以每行按 h+6 记账，否则行一多就会溢出几个像素。 */
       if (b.t === 'table') {
-        const head = peekHead();
         const m = measureTable(b);
         const rowGap = 6;
         const hasHead = !!(b.head && b.head.length);
-        /* 小标题跟不跟过来，得看"它 + 表头 + 第一行"还装不装得下 */
         const firstRowH = m.rows.length ? m.rows[0].h + rowGap : 0;
         const headH0 = hasHead ? m.headH : 0;
-        const carry = head && blockHeight(head) + GAP + headH0 + firstRowH <= availH ? head : null;
-        if (carry) takeHead(carry);
+        const runH = run => run.reduce((s, x) => s + blockHeight(x), 0) + run.length * GAP;
+        /* 标题要带走就整串带走：只剩"第 17 节"和它的副标题这一张，
+           把副标题单独搬走、留下章节号独自一页，比不搬还难看。 */
+        const tail = [];
+        if (cur) {
+          for (let k = cur.blocks.length - 1; k >= 0; k--) {
+            const t = cur.blocks[k].t;
+            if (t !== 'h3' && t !== 'sec') break;
+            tail.unshift(cur.blocks[k]);
+          }
+        }
+        const carryRun = tail.length && runH(tail) + headH0 + firstRowH <= availH ? tail : null;
+
+        /* 上一张要是只剩个头（"萨克斯：铜管的身子" + 一句说明），表却在下一张——
+           那两行本来就是这张表的引言，该跟着表走。
+           只在它确实单薄、且带着表头第一行还装得下时才整张搬，不能为了体面撑破下一张。 */
+        const whole = cur && cur.blocks.length && curH < thinH() &&
+                      runH(cur.blocks) + headH0 + firstRowH <= availH ? cur.blocks.slice() : null;
+
+        if (whole) { cur = null; curH = 0; }
+        else if (carryRun) {
+          carryRun.forEach(x => { cur.blocks.pop(); curH -= GAP + blockHeight(x); });
+        }
         flush();
         let rows = m.rows.slice();
         let first = true;
         let lastH = 0;
         while (rows.length) {
-          /* 第一张表卡要是有个小标题跟着过来，先给它让出位置 */
-          const leadIn = first && carry ? [carry] : [];
-          const leadInH = leadIn.length ? blockHeight(carry) + GAP : 0;
+          /* 第一张表卡要是有引言跟过来，先给它让出位置 */
+          const leadIn = first ? (whole || carryRun || []) : [];
+          const leadInH = leadIn.length ? runH(leadIn) : 0;
+          /* 引言里带着章节头的话，卡片右上角的小字就别再重复一遍 */
+          const hideHead = !!(leadIn[0] && leadIn[0].t === 'sec');
           const cap = Math.max(availH - leadInH, headH0 + rowGap + 24);
           let h = leadInH + headH0;
           const take = [];
@@ -390,7 +533,8 @@ let state = { root: 0, mode: 'ionian' };
           }
           if (!take.length) take.push(rows.shift());
           cards.push({
-            t: 'blocks', ci: item.ci, sec: item.sec,
+            t: 'blocks', ci: item.ci, sec: item.sec, h,
+            hideHead: hideHead || undefined, bt: b,     /* bt：出自哪一张表，收尾时认亲用 */
             blocks: leadIn.concat([{ t: 'table', head: b.head, rows: take.map(x => x.row) }]),
           });
           lastH = h;
@@ -406,7 +550,12 @@ let state = { root: 0, mode: 'ionian' };
       }
 
       const pieces = [];
-      fitBlock(b, pieces, 0);
+      /* 这一张要是只剩标题（章节号/小标题）还没等到正文，那正文必须挤进来一点：
+         整块推走就成了"一整页只有一个标题"，比少排两行难看得多。
+         所以按剩余空间切第一段，剩下的照常翻页。 */
+      const headOnly = cur && cur.blocks.length && cur.blocks.every(x => x.t === 'h3' || x.t === 'sec');
+      const room = headOnly ? availH - curH - GAP : 0;
+      fitBlock(b, pieces, 0, room > 60 ? room : availH);
       for (const p of pieces) {
         const h = blockHeight(p);
         /* 章节头一律从新的一张卡开始：它要是被挤到上一张的卡底，
@@ -427,7 +576,7 @@ let state = { root: 0, mode: 'ionian' };
       }
     }
     flush();
-    return cards;
+    return rebalance(cards);
   }
 
   function deckFor(course) {
@@ -480,6 +629,15 @@ let state = { root: 0, mode: 'ionian' };
       MT_W.build(card.widget ? card.widget.w : card.w, w, card.widget ? card.widget.opt : (card.opt || {}));
       if (card.blocks && card.blocks.length) w.classList.add('w-inline');
       body.appendChild(w);
+      /* 连着的互动卡叠在一页（各自都只有半个屏幕高时，一页一张等于连翻三页空白） */
+      (card.extra || []).forEach(x => {
+        const n = document.createElement('div');
+        n.className = 'w w-stacked';
+        MT_W.build(x.w, n, x.opt || {});
+        body.appendChild(n);
+      });
+      /* 互动卡下挂的图注（分页时从"只剩一句话"的那张卡里并过来的） */
+      (card.after || []).forEach(b => body.appendChild(blockEl(b)));
       el.appendChild(body);
       return el;
     }
@@ -807,7 +965,7 @@ let state = { root: 0, mode: 'ionian' };
       goto: i => show(i, i > app.page ? 1 : -1),
       setCourse, itemsOf: MT_DECK.itemsOf, blockText: MT_DECK.blockText,
       readStore: MT_DECK.readStore, writeStore: MT_DECK.writeStore,
-      splitHtml, paginate,
+      splitHtml, paginate, buildCard,
     };
   }
 

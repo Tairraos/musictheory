@@ -125,9 +125,10 @@ async function withCards(fn, url) {
   }
 }
 
-/* 常用的"把 item 流摊平"与"把卡片流摊平"工具 */
+/* 常用的"把 item 流摊平"与"把卡片流摊平"工具。
+   注意 after：互动卡下挂的图注也是正文块，漏了它"文字块各出现一次"就守不住了。 */
 const flatItems = items => items.filter(it => it.t === 'block').map(it => it.block);
-const flatCards = cards => cards.reduce((acc, c) => acc.concat(c.blocks || []), []);
+const flatCards = cards => cards.reduce((acc, c) => acc.concat(c.blocks || [], c.after || []), []);
 const keyOf = b => JSON.stringify(b);
 
 /* -------------------------------------------------------------------------- *
@@ -418,4 +419,81 @@ test('K8b 顶部三课标签与课程表一致：名字、颜色、节数都对�
     assert.equal(doc.querySelector('#prevBtn').disabled, true);
     assert.equal(doc.querySelector('#nextBtn').disabled, total <= 1);
   });
+});
+
+/* -------------------------------------------------------------------------- *
+ * K9 一张卡的三个挂载位：上文 / 互动 / 图注，以及两张互动卡叠一页
+ *    分页收尾会把"只剩一句结论"的卡并进上一张互动卡（当图注），
+ *    也会把两张都不满半屏的互动卡叠成一页——这两条都要能在版面上落下来。
+ * -------------------------------------------------------------------------- */
+test('K9 互动卡能挂图注、能叠第二张互动卡，且都排在正确的位置', async () => {
+  await withCards(async window => {
+    const CD = window.__CD__;
+    assert.equal(typeof CD.buildCard, 'function', '应有 buildCard 钩子');
+    const sec = { id: 's-test', num: '01', title: '测试节', si: 0, course: 'theory' };
+    const wid = Object.keys(G(window, 'MT_W').W)[0];
+
+    /* ① 上文在互动区上面、图注在下面 */
+    const card = CD.buildCard({
+      t: 'blocks', sec,
+      blocks: [{ t: 'h3', h: '这上面是小标题' }],
+      widget: { w: wid, opt: {} },
+      after: [{ t: 'p', h: '这一段必须排在互动区下面' }],
+    });
+    const body = card.querySelector('.dc-body');
+    const kids = [...body.children];
+    assert.equal(kids.length, 3, '应该是 上文 + 互动 + 图注 三块');
+    assert.equal(kids[0].tagName, 'H3', '第一块是上文');
+    assert.ok(kids[1].classList.contains('w'), '第二块是互动区');
+    assert.equal(kids[2].tagName, 'P', '图注排在互动区之后（不是之前）');
+    assert.match(kids[2].textContent, /排在互动区下面/);
+    assert.ok(card.classList.contains('has-blocks'), '有上文时不垂直居中');
+
+    /* ② 两张纯互动卡叠在一页 */
+    const pair = CD.buildCard({
+      t: 'widget', w: wid, opt: {}, sec,
+      extra: [{ w: wid, opt: {} }],
+    });
+    const ws = pair.querySelectorAll('.dc-body > .w');
+    assert.equal(ws.length, 2, '两张互动卡应并排在同一张卡里');
+    assert.equal(pair.querySelectorAll('.dc-head').length, 1, '叠起来也只该有一个节标签');
+  });
+});
+
+/* -------------------------------------------------------------------------- *
+ * K10 顶栏：翻页按钮换成汉字并放大，但顶栏总高不许跟着长
+ *    顶栏每长 1px，一屏就少一行字；按钮放大是靠挤掉上下留白，不是靠撑高。
+ * -------------------------------------------------------------------------- */
+test('K10 翻页按钮是汉字且有足够大的点击区，顶栏总高不比上一版高', () => {
+  const btnText = id => {
+    const m = HTML.match(new RegExp(`id="${id}"[^>]*>([^<]*)<`));
+    assert.ok(m, `cards.html 应有 #${id}`);
+    return m[1].trim();
+  };
+  assert.equal(btnText('prevBtn'), '上一页', '翻页按钮用汉字，别用 ‹ › 这种按不准的符号');
+  assert.equal(btnText('nextBtn'), '下一页');
+
+  const px = v => parseFloat(String(v).replace('px', '')) || 0;
+  const rule = re => {
+    const m = CSS.match(re);
+    assert.ok(m, `样式里找不到 ${re}`);
+    return m[1];
+  };
+  const btn = rule(/\.nav-btn\{([^}]*)\}/);
+  assert.ok(/min-width:(\d+)px/.test(btn), '.nav-btn 应声明最小宽度');
+  const bw = px(RegExp.$1);
+  const bh = px(/height:(\d+(?:\.\d+)?)px/.exec(btn)[1]);
+  assert.ok(bw >= 76, `按钮宽 ${bw}px，拇指按不准`);
+  assert.ok(bh >= 42, `按钮高 ${bh}px，拇指按不准`);
+  assert.match(btn, /touch-action:manipulation/, '别让双击缩放吃掉第一下点击');
+
+  /* 顶栏高度 = 上内边距 + 翻页行 + 标签行 + 进度条 + 下边框
+     上一版实测 84px（6 + 38 + (2+30+4) + 3 + 1）。按钮变大后这个数只许更小。 */
+  const pad = px(/padding:calc\((\d+)px \+ env\(safe-area-inset-top\)\)/.exec(CSS)[1]);
+  const rowH = px(/\.tb-row\{[^}]*height:(\d+)px/.exec(CSS)[1]);
+  const tabH = px(/#tabs button\{[^}]*height:(\d+)px/.exec(CSS)[1]);
+  const [pt = '0', , pb = '0'] = /#tabs\{[^}]*padding:([^;}]+)/.exec(CSS)[1].trim().split(/\s+/);
+  const barH = px(/#bar\{height:(\d+)px/.exec(CSS)[1]);
+  const total = pad + rowH + px(pt) + tabH + px(pb) + barH + 1;
+  assert.ok(total <= 84, `顶栏算下来 ${total}px，比上一版的 84px 还高`);
 });

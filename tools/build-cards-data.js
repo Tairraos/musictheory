@@ -177,6 +177,11 @@ function blockOf(el) {
   /* 注意：不要按"在交互卡里就丢掉 .mini"一刀切——乐理课的 .mini 多数是
      "重音落在：每个和弦的第一下"这类正经文图注，一刀切会丢五十来个文字块。
      交互面板的标签用 #genrePanel 这种"容器级"剔除（见 DROP_SEL）。 */
+  /* 但 .mini 紧跟 .big 是个例外：那是"标签 + 当前值"的实时读数
+     （音程名称 — / 包含几个半音 —），值由旁边那个下拉算出来。
+     卡片版没有那个下拉，标签留下来就成了两句没主的话。 */
+  if (el.classList.contains('mini') && el.nextElementSibling &&
+      el.nextElementSibling.classList.contains('big')) return null;
   if (el.classList.contains('lead')) return { t: 'lead', h: html };
   return { t: 'p', h: html };
 }

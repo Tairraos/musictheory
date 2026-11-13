@@ -23,7 +23,10 @@
   --gray-bg:#F5F3EC;
   --accent:#534AB7; --accent-bg:#EEEDFE;
   --r:18px;
-  --top-h:104px;
+  /* 顶栏高度预算（不写死成变量：它由三行内容自己撑出来，写死反而会和实际脱节）
+       4 padding-top + 42 翻页行 + 32 课程标签行 + 3 进度条 = 81px
+     加 1px 下边框共 82px，比上一版（83px）还矮 1px —— 按钮变大不能靠撑高顶栏，
+     顶栏每长 1px，一屏就少一行字。改动这里请同步核对 tests K10 的高度断言。 */
   --dock-h:118px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -51,29 +54,35 @@ b,strong{font-weight:600}
 }
 
 #topbar{
-  flex:none; padding:calc(6px + env(safe-area-inset-top)) 12px 0;
+  flex:none; padding:calc(4px + env(safe-area-inset-top)) 12px 0;
   background:color-mix(in srgb,var(--bg) 88%,#fff);
   backdrop-filter:saturate(1.2) blur(10px); border-bottom:1px solid var(--line);
   z-index:20;
 }
-.tb-row{display:flex;align-items:center;gap:6px;height:38px}
+/* 翻页按钮用汉字而不是 ‹ ›：箭头符号只有 20px 见宽，拇指按不准；
+   "上一页 / 下一页"三个字撑出 76×42 的可点区域，闭着眼也不会点空。 */
+.tb-row{display:flex;align-items:center;gap:6px;height:42px}
 .nav-btn{
-  flex:none; width:38px; height:34px; border-radius:11px; font-size:22px; line-height:1;
-  color:var(--accent); background:var(--accent-bg); display:flex; align-items:center; justify-content:center;
+  flex:none; min-width:76px; height:42px; padding:0 10px; border-radius:12px;
+  font-size:14.5px; font-weight:600; letter-spacing:.04em; line-height:1;
+  color:var(--accent); background:var(--accent-bg);
+  display:flex; align-items:center; justify-content:center;
+  touch-action:manipulation; -webkit-user-select:none; user-select:none;
   transition:transform .12s,opacity .12s;
 }
 .nav-btn:active{transform:scale(.94)}
 .nav-btn:disabled{opacity:.32}
 .tb-title{
   flex:1; min-width:0; display:flex; align-items:baseline; justify-content:center; gap:8px;
-  height:34px; border-radius:11px;
+  height:42px; border-radius:12px; overflow:hidden;
 }
-.tb-title b{font-size:14.5px; letter-spacing:.02em}
-.tb-title span{font-size:11.5px; color:var(--faint); font-family:ui-monospace,monospace}
-#tabs{display:flex; gap:4px; padding:2px 0 4px}
+.tb-title b{font-size:14.5px; letter-spacing:.02em; white-space:nowrap}
+.tb-title span{font-size:11.5px; color:var(--faint); font-family:ui-monospace,monospace; white-space:nowrap}
+#tabs{display:flex; gap:4px; padding:2px 0 0}
 #tabs button{
   flex:1; height:30px; border-radius:9px; font-size:12.5px; color:var(--muted);
   border:1px solid transparent; transition:.15s;
+  touch-action:manipulation; -webkit-user-select:none; user-select:none;
 }
 #tabs button.on{
   color:var(--accent); background:#fff; border-color:var(--line);
@@ -397,6 +406,12 @@ b,strong{font-weight:600}
 }
 .dcard.widget .dc-head{color:var(--accent); opacity:.85}
 .dcard.widget .dc-body{padding:2px 0}
+
+/* 两张互动卡叠在一页时，中间得有一条界线——不然上一张的最后一行
+   和下一张的标题会贴在一起，看着像同一张图里的内容 */
+.dcard.widget .dc-body .w-stacked{
+  margin-top:2px; padding-top:12px; border-top:1px dashed var(--line);
+}
 
 /* 混排卡：上面讲解、下面互动。互动部分不再垂直居中，靠一条细线与上文分开 */
 .dcard.widget .dc-body .w-inline{
