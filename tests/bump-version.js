@@ -38,6 +38,9 @@ const PAGES = [
   { page: 'index.html', app: 'js/app.js',       title: '姐弟厨师团 --- 乐理课' },
   { page: 'lyric.html', app: 'js/lyric-app.js', title: '姐弟厨师团 --- 作词课' },
   { page: 'instrument.html', app: 'js/instrument-render.js', title: '姐弟厨师团 --- 乐器课' },
+  /* 卡片版不是"第四门课"，而是同样三门课的另一套版面；
+     它把三课装在一个入口里，所以版本号也跟着三页一起走。 */
+  { page: 'cards.html', app: 'js/cards-app.js', title: '姐弟厨师团 --- 卡片课' },
 ];
 
 const RE_VERSION = /const VERSION = \{ v: '([\d.]+)', date: '([\d.]+)' \};/;

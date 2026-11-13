@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F2F0E9">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="assets/images/favicon.ico" sizes="any">
+<link rel="icon" href="assets/images/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/images/favicon.png">
+<title>姐弟厨师团 --- 卡片课 V1.43 [26.11.13]</title>
+<!-- 卡片版：一屏一张卡，不滚动。样式与长网页版完全分开（css/cards.css） -->
+<link rel="stylesheet" href="css/cards.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- 顶栏：三个课的切换 + 上一页 / 下一页 -->
+  <header id="topbar">
+    <div class="tb-row">
+      <button class="nav-btn" id="prevBtn" aria-label="上一页">‹</button>
+      <button class="tb-title" id="titleBtn" aria-label="打开目录">
+        <b id="tbCourse">乐理课</b><span id="tbPos">1 / 1</span>
+      </button>
+      <button class="nav-btn" id="nextBtn" aria-label="下一页">›</button>
+    </div>
+    <nav id="tabs" aria-label="切换课程">
+      <button data-course="theory" class="on">乐理课</button>
+      <button data-course="lyric">作词课</button>
+      <button data-course="instrument">乐器课</button>
+    </nav>
+    <div id="bar"><i id="barFill"></i></div>
+  </header>
+
+  <!-- 卡片舞台：绝对定位的卡片进出，自身永不滚动 -->
+  <main id="stage"><div id="deck"></div></main>
+
+  <!-- 常驻钢琴（只有乐理课显示）：发声时亮键，停止后自动回到 C4–B5 视口 -->
+  <div id="dock">
+    <div class="dockbar">
+      <b>常驻钢琴</b>
+      <span id="dockRead"></span>
+      <button id="dockStop">■ 停止</button>
+    </div>
+    <div class="kb" id="dockKb"></div>
+  </div>
+
+</div>
+
+<!-- 目录抽屉：按节跳转（内容由 JS 按当前课程生成） -->
+<div id="sheet" aria-hidden="true">
+  <div class="sheet-panel">
+    <div class="sheet-top">
+      <b>目录</b>
+      <span class="ver" data-ver><b>V1.43</b> [26.11.13]</span>
+      <button id="sheetClose" aria-label="关闭">✕</button>
+    </div>
+    <div id="sheetList"></div>
+    <div class="sheet-foot">
+      <span>左右滑动翻页 · 空格键停止发音</span>
+      <span class="ver" data-ver><b>V1.43</b> [26.11.13]</span>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+<!-- renderKB() 会往这里写一行当前调式说明；卡片版不展示，但必须存在 -->
+<div id="kbInfo" hidden></div>
+
+<!-- 手机横过来时：顶栏 + 钢琴要占掉一半多的高度，一屏连一段话都装不满，
+     与其把卡片压成一条缝，不如请人把手机转回去（纯 CSS 控制，不占 JS） -->
+<div id="rotate">
+  <div>
+    <b>请把手机竖起来</b>
+    <span>横屏时顶栏和钢琴把屏幕吃掉了，一屏放不下几张字。</span>
+  </div>
+</div>
+
+<!-- 脚本顺序 = 依赖顺序（经典 script，共享全局作用域，双击本文件也能离线跑）：
+     乐理数据 → 作词数据 → 乐器数据 → 工具 → 音频 → 键盘 → 播放调度 →
+     卡片内容（生成物）→ 互动卡 → 装订 → 启动 -->
+<script src="js/data.js"></script>
+<script src="js/lyric-data.js"></script>
+<script src="js/instrument-data.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/keyboard.js"></script>
+<script src="js/playback.js"></script>
+<script src="js/cards-data.js"></script>
+<script src="js/cards-widgets.js"></script>
+<script src="js/cards-deck.js"></script>
+<script src="js/cards-app.js"></script>
+</body>
+</html>
