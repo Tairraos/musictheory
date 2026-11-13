@@ -101,6 +101,12 @@ const DROP_SEL = [
      严格度、句式、纪律）都由卡片版的 genres 互动卡重新给出。原样搬文字，
      只会剩下"Pop / 默认押韵方案 / 第 1–4 行"三个失去指代的标签。 */
   '#genrePanel',
+  /* 和弦进行 / 终止式的那两排和弦块同样是**控件的输出**（renderStrip /
+     renderCad 现画的 div），卡片版由 progression / cadence 互动卡重画。
+     不剔除的话，块里那个 `<div class="mini mono">` 会被当成 .mini 段落抓走，
+     于是每一节都多出几张只印着「I」「V」「vi」「IV」的卡片——
+     读者看到的是四个孤零零的罗马数字，没有任何指代。 */
+  '#progStrip', '#progChips', '#cadStrip', '#cadChips',
 ].join(',');
 
 function cleanHtml(el) {

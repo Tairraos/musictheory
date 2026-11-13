@@ -195,7 +195,9 @@ b,strong{font-weight:600}
    代码里为了"先建读出再绑 chips"多数是反着写的，这里用 order 一次摆正，
    比在每个 widget 里改 append 顺序可靠。 */
 .w-chips{order:1}
-.w-read{order:2}
+/* 说明/读出永远排最后（9）。中间几段由 section 9 里的 .w-fig / .w-act 占位，
+   所以这里必须是个比它们都大的数——早先写的是 2，一加图就和图抢位置。 */
+.w-read{order:9}
 .w-head b{font-size:19px; display:block; line-height:1.34; letter-spacing:.01em}
 .w-head span{display:block; font-size:12.5px; color:var(--faint); line-height:1.55; margin-top:3px}
 .w-row{display:flex; align-items:center; gap:7px; flex-wrap:wrap}
@@ -422,3 +424,53 @@ b,strong{font-weight:600}
 .dcard.widget .dc-body .w-inline .w-btn{font-size:14px; padding:8px 15px}
 /* 混排卡顶到上边：有上文时内容从卡片顶部排下来，不再垂直居中 */
 .dcard.widget.has-blocks .dc-body{justify-content:flex-start}
+
+/* ---------- 9. 示意图与补回的互动区 ---------- */
+/* 一张互动卡里的竖排顺序统一在这里定，不靠 widget 里的 append 顺序：
+   order 0 = 标题与选择行（DOM 里怎么写就怎么排）
+   order 1 = chips        2 = 示意图        3 = 播放按钮排      9 = 读出/说明
+   （.w-read 的 order:9 写在上面第 5 节里，那里是"哪块排第几"的源头。）
+   图排上 order 之后，widget 就能"先建读出、最后补图"而不必倒着写代码。 */
+.w-fig,.w-prog,.w-tl{order:2}
+.w-act{order:3}
+/* 示意图底：跟 .w-chart 一样，但给 svg 一个上限，别让一张高图把卡顶穿 */
+.w-fig{overflow:hidden}
+.w-fig svg{max-height:46vh}
+
+/* 和弦进行：一块一个和弦，窄屏自动折行（4536251 有七个和弦，四列放不下） */
+.w-prog{display:grid; grid-template-columns:repeat(auto-fit,minmax(58px,1fr)); gap:6px}
+.w-pc{
+  display:flex; flex-direction:column; align-items:center; gap:1px; padding:8px 2px;
+  background:#fff; border:1px solid var(--line); border-radius:10px; line-height:1.24;
+  transition:.12s; touch-action:manipulation;
+}
+.w-pc i{font-style:normal; font-family:ui-monospace,monospace; font-size:10.5px; color:var(--faint)}
+.w-pc b{font-size:15px; color:var(--text)}
+.w-pc s{text-decoration:none; font-size:10px; color:var(--accent)}
+.w-pc.hit{background:var(--accent-bg); border-color:var(--accent); transform:scale(1.03)}
+
+/* 语言时间轴（⑦ ⑧）：一条轴＝固定拍数，每块的宽度就是它占的拍数。
+   块用绝对定位排——用 flex 的话"宽度按拍数"会再被内容撑开，量的和听的对不上。 */
+.w-tl{display:flex; flex-direction:column; gap:4px}
+.w-tl-row{display:flex; align-items:center; gap:8px}
+.w-tl-lab{flex:0 0 76px; font-size:11.5px; color:var(--faint); line-height:1.3}
+.w-tl-bar{position:relative; flex:1; min-width:0; height:27px; background:#FDFCF8;
+  border:1px solid var(--line); border-radius:7px; overflow:hidden}
+.w-tl-b{
+  position:absolute; top:0; height:100%; box-sizing:border-box; border-right:1px solid #fff;
+  display:flex; align-items:center; justify-content:center; overflow:hidden; white-space:nowrap;
+  font-size:11px; font-style:normal; color:#3C3489; background:var(--accent-bg);
+}
+.w-tl-b.str{background:var(--accent); color:#fff; font-weight:600}
+.w-tl-b.wk{background:#F1EFE8; color:#6F6C62}
+.w-tl-b.sq{background:#D6D2C4; border-right:0}
+.w-tl-b.bad{background:#FBE9E2; color:#993C1D; border-right:1px dashed #D85A30}
+.w-tl-sub{font-size:11px; color:var(--faint); line-height:1.45; margin:-1px 0 2px 84px}
+
+/* 节拍器的 BPM 滑杆 */
+.w-range{-webkit-appearance:none; appearance:none; flex:1; min-width:80px; height:22px;
+  background:transparent; accent-color:var(--accent)}
+.w-range::-webkit-slider-runnable-track{height:4px; border-radius:2px; background:var(--line2)}
+.w-range::-webkit-slider-thumb{-webkit-appearance:none; width:18px; height:18px; margin-top:-7px;
+  border-radius:50%; background:var(--accent); border:2px solid #fff; box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.w-bpmv{font-size:13px; color:var(--text); font-variant-numeric:tabular-nums; min-width:26px}

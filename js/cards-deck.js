@@ -29,25 +29,43 @@ const MT_DECK = (function () {
 
   /* ------------------------------------------------------------------------
    * 互动卡位置表
-   * ---------------------------------------------------------------------- */
+   * ------------------------------------------------------------------------
+   * ⚠ 这张表是长网页里那些"由 JS 画出来/搭出来的东西"的账本。
+   *   长网页版有一半教学内容不是文字，是播放器和示意图（svg.js 的阶梯图、
+   *   和弦进行、节拍器、语言时间轴…）。它们不在 HTML 里，抽文字时必然全丢；
+   *   丢掉的部分必须在这里逐个补回来，否则卡片版就只剩"结论"，没有"看见"。
+   *   加新互动卡的规矩：先想清楚它是哪一节的哪一张图，再写 at（插在第几个
+   *   文字块之前，0 = 该节第一个文字块之前）。 */
   const PLAN = {
     theory: {
       's-start': [{ w: 'scale', at: 0 }],
       's-halfnote': [{ w: 'interval', at: 0 }],
-      's-majmin': [{ w: 'minorforms', at: 1 }],
-      's-modes': [{ w: 'modes', at: 0 }],
-      's-penta': [{ w: 'penta', at: 1 }, { w: 'exotic', at: 5 }],
-      's-chord': [{ w: 'chords', at: 1 }],
-      's-cadence': [{ w: 'cadence', at: 1 }],
-      's-tempo': [{ w: 'tempo', at: 1 }],
+      /* 大调/小调两张阶梯图，长网页由 refreshAll() 画 */
+      's-majmin': [{ w: 'minorforms', at: 1 }, { w: 'ladder', at: 1, opt: { forms: ['maj', 'min'] } }],
+      /* modesLadderSVG：七行对齐同一个十二音网格，是本节唯一的图 */
+      's-modes': [{ w: 'modesfig', at: 0 }, { w: 'modes', at: 0 }],
+      's-penta': [{ w: 'penta', at: 1 },
+                  { w: 'ladder', at: 2, opt: { forms: ['penta'], title: '砍掉 fa 与 si 之后' } },
+                  { w: 'exotic', at: 5 }],
+      /* chordCmpSVG（大三 vs 小三）+ 整块和弦进行互动区（六个 chips + 可点和弦块） */
+      's-chord': [{ w: 'chords', at: 1 }, { w: 'chordcmp', at: 1 }, { w: 'progression', at: 4 }],
+      /* hookSVG：主歌/副歌上下差一个八度 */
+      's-cadence': [{ w: 'cadence', at: 1 }, { w: 'hook', at: 2 }],
+      /* 节拍器：长网页那几个滑杆与圆点也是 JS 搭的，不是文字 */
+      's-tempo': [{ w: 'tempo', at: 1 }, { w: 'metro', at: 1 }],
       's-meter': [{ w: 'meter', at: 1 }],
       's-groove': [{ w: 'groove', at: 11 }],
       's-form': [{ w: 'blues', at: 2 }, { w: 'shuffle', at: 5 }],
+      /* 词曲咬合后半段：⑦语言计时/⑧粤语入声/⑨人声音区，三块都是绘图 + 播放 */
       's-lyric': [{ w: 'tonefit', at: 2 }, { w: 'stress', at: 5 },
-                  { w: 'phrase', at: 8 }, { w: 'breath', at: 11 }],
+                  { w: 'phrase', at: 8 }, { w: 'breath', at: 11 },
+                  { w: 'lang', at: 23 }, { w: 'canton', at: 29 }, { w: 'voice', at: 32 }],
       's-key': [{ w: 'transpose', at: 0 }],
-      /* 's-emotion' 不在这里写：13 个维度各一张场景卡，由 sceneWidgets() 统一生成 */
-      's-ensemble': [{ w: 'ensemble', at: 1 }],
+      /* 第 13 节：《沧海一声笑》两种重心 + 13 维场景卡（场景卡由 sceneWidgets 生成） */
+      's-emotion': [{ w: 'canghai', at: 10 }],
+      /* 配器：专辑能量曲线 + 动机轮廓 + 动机生成三张图 */
+      's-ensemble': [{ w: 'ensemble', at: 1 }, { w: 'album', at: 14 },
+                     { w: 'motif', at: 22 }, { w: 'motifgen', at: 26 }],
       's-advance': [{ w: 'sevenths', at: 2 }, { w: 'modulation', at: 5 }],
     },
     lyric: {

@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/images/favicon.ico" sizes="any">
 <link rel="icon" href="assets/images/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/images/favicon.png">
-<title>姐弟厨师团 --- 卡片课 V1.44 [26.11.13]</title>
+<title>姐弟厨师团 --- 卡片课 V1.45 [26.11.13]</title>
 <!-- 卡片版：一屏一张卡，不滚动。样式与长网页版完全分开（css/cards.css） -->
 <link rel="stylesheet" href="css/cards.css">
 </head>
@@ -53,13 +53,13 @@
   <div class="sheet-panel">
     <div class="sheet-top">
       <b>目录</b>
-      <span class="ver" data-ver><b>V1.44</b> [26.11.13]</span>
+      <span class="ver" data-ver><b>V1.45</b> [26.11.13]</span>
       <button id="sheetClose" aria-label="关闭">✕</button>
     </div>
     <div id="sheetList"></div>
     <div class="sheet-foot">
       <span>左右滑动翻页 · 空格键停止发音</span>
-      <span class="ver" data-ver><b>V1.44</b> [26.11.13]</span>
+      <span class="ver" data-ver><b>V1.45</b> [26.11.13]</span>
     </div>
   </div>
 </div>
@@ -84,6 +84,9 @@
 <script src="js/lyric-data.js"></script>
 <script src="js/instrument-data.js"></script>
 <script src="js/utils.js"></script>
+<!-- 示意图层：卡片版与长网页共用同一批生成器（ladderSVG / hookSVG /
+     modesLadderSVG…）。不装它，卡片版就只剩文字，那些图会整片消失。 -->
+<script src="js/svg.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/keyboard.js"></script>
 <script src="js/playback.js"></script>

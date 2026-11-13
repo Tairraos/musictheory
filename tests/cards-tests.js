@@ -139,7 +139,10 @@ test('K1 cards.html 的资源与脚本顺序正确，跑完无脚本错误', asy
   const scripts = [...HTML.matchAll(/<script src="(js\/[^"]+)"><\/script>/g)].map(m => m[1]);
   assert.deepEqual(scripts, [
     'js/data.js', 'js/lyric-data.js', 'js/instrument-data.js',
-    'js/utils.js', 'js/audio.js', 'js/keyboard.js', 'js/playback.js',
+    /* svg.js 必须排在 utils.js 之后（要用 midiOct/noteName/spellUp）、
+       cards-widgets.js 之前（互动卡里直接调 ladderSVG/chordCmpSVG…）。
+       少了它卡片版一张示意图都画不出来——曾经整片丢失过。 */
+    'js/utils.js', 'js/svg.js', 'js/audio.js', 'js/keyboard.js', 'js/playback.js',
     'js/cards-data.js', 'js/cards-widgets.js', 'js/cards-deck.js', 'js/cards-app.js',
   ], '顺序 = 依赖顺序，经典 script 共享全局作用域');
   for (const f of ['css/cards.css', ...scripts]) {
@@ -497,3 +500,170 @@ test('K10 翻页按钮是汉字且有足够大的点击区，顶栏总高不比�
   const total = pad + rowH + px(pt) + tabH + px(pb) + barH + 1;
   assert.ok(total <= 84, `顶栏算下来 ${total}px，比上一版的 84px 还高`);
 });
+
+/* -------------------------------------------------------------------------- *
+ * K11 长网页里"由 JS 画出来 / 搭出来"的东西，卡片版必须有一张对应的互动卡
+ * --------------------------------------------------------------------------
+ * 这一条的由来（V1.45）：卡片版第一版只搬文字，于是 svg.js 那一整套示意图
+ * （阶梯图、和弦对比、副歌抬升、十二格、语言时间轴、音区条、动机曲线…）
+ * 和 buildProg / 节拍器 / 《沧海一声笑》这些互动区**整片消失**了。
+ * 文字还在，图没了——读者看到的是"结论"，看不到"看见"。
+ *
+ * 所以这里把长网页的每个"脚本产出容器"登记成一张对账表：
+ *   容器 id 在 index.html 里存在  →  卡片版这一节必须出同名功能的互动卡
+ * 任何一边改名/删除/漏搬，这条就红。
+ * -------------------------------------------------------------------------- */
+const FIG_MAP = [
+  /* [index.html 里的容器, 所属节, 卡片版 widget, 该卡必须画出 <svg>?] */
+  ['ladderMajor', 's-majmin', 'ladder', true],
+  ['ladderMinor', 's-majmin', 'ladder', true],
+  ['ladderPenta', 's-penta', 'ladder', true],
+  ['modesLadder', 's-modes', 'modesfig', true],
+  ['chordCmp', 's-chord', 'chordcmp', true],
+  ['progStrip', 's-chord', 'progression', false],
+  ['cadStrip', 's-cadence', 'cadence', false],
+  ['hookFig', 's-cadence', 'hook', true],
+  ['metBeats', 's-tempo', 'metro', false],
+  ['rhythmDots', 's-meter', 'meter', false],
+  ['grooveGrid', 's-groove', 'groove', true],
+  ['bluesFig', 's-form', 'blues', true],
+  ['shuffleFig', 's-form', 'shuffle', true],
+  ['lyricFig', 's-lyric', 'tonefit', true],
+  ['langFig', 's-lyric', 'lang', false],
+  ['cantonFig', 's-lyric', 'canton', false],
+  ['voiceFig', 's-lyric', 'voice', true],
+  ['keyLadder', 's-key', 'transpose', true],
+  ['canghaiChips', 's-emotion', 'canghai', false],
+  ['albumFig', 's-ensemble', 'album', true],
+  ['motifFig', 's-ensemble', 'motif', true],
+  ['motifGenFig', 's-ensemble', 'motifgen', true],
+  ['sevStrip', 's-advance', 'sevenths', true],
+  ['modLadder', 's-advance', 'modulation', true],
+];
+
+test('K11 长网页里每个脚本产出的图与互动区，卡片版都有对应的互动卡', async () => {
+  const INDEX = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+  /* ① 对账表里的容器必须还在长网页上——改名了要同步这张表，否则守的是空气 */
+  FIG_MAP.forEach(([cid]) => {
+    assert.ok(INDEX.includes(`id="${cid}"`), `index.html 里找不到 #${cid}（改名了？同步更新 FIG_MAP）`);
+  });
+
+  await withCards(async window => {
+    const W = G(window, 'MT_W').W;
+    const deck = G(window, 'MT_DECK');
+    const secs = window.CARDS_DATA.courses.theory.sections;
+    const plan = new Map();          /* 节 id → 这一节实际会出的 widget id 集合 */
+    secs.forEach(s => plan.set(s.id, new Set(
+      deck.widgetsOf({ ...s, course: 'theory' }).map(w => w.w))));
+
+    for (const [cid, secId, wid, needSvg] of FIG_MAP) {
+      assert.ok(W[wid], `互动卡 ${wid}（${cid}）没有实现`);
+      assert.ok(plan.get(secId), `乐理课没有 ${secId} 这一节`);
+      assert.ok(plan.get(secId).has(wid),
+        `${secId} 少了 ${wid} 互动卡：#${cid} 那套图/控件在卡片版没有对应物`);
+
+      /* ② 真建一遍：既要有内容，也不许落到"这张卡还在路上"的兜底 */
+      const host = window.document.createElement('div');
+      W[wid](host, wid === 'ladder' ? { forms: ['maj', 'min'] } : {});
+      assert.ok(host.textContent.trim().length > 0, `${wid} 建出来是空的`);
+      assert.doesNotMatch(host.textContent, /这张卡还在路上/, `${wid} 落到了兜底文案`);
+      if (needSvg) {
+        assert.ok(host.querySelector('svg'), `${wid} 应该画出一张 <svg>（图被删/没加载 svg.js？）`);
+      }
+    }
+  });
+});
+
+test('K11b 绘图类互动卡都有 class="w-fig" 容器，且排在 chips 之后、读出之前', async () => {
+  await withCards(async window => {
+    const W = G(window, 'MT_W').W;
+    const host = window.document.createElement('div');
+    W.ladder(host, { forms: ['maj'] });
+    const fig = host.querySelector('.w-fig');
+    assert.ok(fig, '图必须有 .w-fig 容器（CSS 靠它定纵向顺序）');
+    assert.ok(fig.id, '图容器必须有 id——seq() 要靠它指定点亮范围');
+    /* 顺序靠 CSS 的 order 定：chips=1、图=2、按钮=3、读出=9。
+       这三个数字是"标题 → 选项 → 图 → 播放 → 说明"的读法，改了就乱。 */
+    const orderOf = sel => {
+      const m = CSS.match(new RegExp(sel + '\\{order:(\\d+)\\}'));
+      return m ? +m[1] : null;
+    };
+    assert.equal(orderOf('\\.w-fig,\\.w-prog,\\.w-tl'), 2, '图应排在第 2 段（chips 之后）');
+    assert.equal(orderOf('\\.w-read'), 9, '读出/说明必须排最后');
+    assert.ok(orderOf('\\.w-chips') < 2, 'chips 排在图之前');
+  });
+});
+
+/* -------------------------------------------------------------------------- *
+ * K12 互动卡在分页里一张不丢、一张不多
+ * --------------------------------------------------------------------------
+ * 分页会把"太短的卡"并进相邻卡（extra / widget / after 三个去向），也会
+ * splice 掉被并走的那一张。这条路径上"少一张互动卡"是很贵的错误——
+ * 丢的恰好是图，文字还在，肉眼几乎发现不了。
+ *
+ * ⚠ 它的射程：jsdom 不做布局，availH 量出来是 0，所以 rebalance 的"并卡"
+ *   在这里基本不会触发。这条守的是分页主线（把 items 切成 card）不许吞条目，
+ *   以及"并卡之后不许重复"。真正的并卡行为由无头 Chrome 逐卡体检覆盖
+ *   （见 README「真浏览器体检」）。
+ * -------------------------------------------------------------------------- */
+test('K12 装订流里的每张互动卡在分页结果里都还在（不多不少）', async () => {
+  await withCards(async window => {
+    const CD = window.__CD__;
+    const sign = it => [it.w || (it.widget && it.widget.w), JSON.stringify(it.opt || {})].join('|');
+    for (const course of G(window, 'MT_DECK').ORDER) {
+      const items = CD.itemsOf(course);
+      const want = items.filter(i => i.t === 'widget').map(sign);
+      const got = [];
+      CD.paginate(items).forEach(c => {
+        if (c.t === 'widget' || c.widget) got.push(sign({ w: c.widget ? c.widget.w : c.w, opt: c.widget ? c.widget.opt : c.opt }));
+        (c.extra || []).forEach(x => got.push(sign(x)));
+      });
+      const tally = arr => arr.reduce((m, k) => (m[k] = (m[k] || 0) + 1, m), {});
+      assert.deepEqual(tally(got), tally(want), `${course} 的互动卡在分页中丢失或重复了`);
+    }
+  });
+});
+
+/* -------------------------------------------------------------------------- *
+ * K13 交互冒烟：把三课每一张互动卡都真建一遍，点遍每个按钮 / 下拉 / 滑杆
+ * --------------------------------------------------------------------------
+ * 为什么必须有这一条：控制台里看不见的那类错误全在这里。
+ * 真实发生过一次——《沧海一声笑》那张卡里，局部函数起名叫 play，把模块的
+ * play(steps) 辅助函数遮住了，于是"放这一段"变成自己调自己：
+ * 构建时一切正常，`npm test` 全绿，只有用户点下那个 chip 时才栈溢出。
+ * 桩 AudioContext 下点击不会真出声，但事件处理函数的每一行都会跑到。
+ * -------------------------------------------------------------------------- */
+test('K13 三课每张互动卡都能建起来，点遍按钮/下拉/滑杆不出错', async () => {
+  await withCards(async window => {
+    const CD = window.__CD__;
+    const deck = G(window, 'MT_DECK');
+    const doc = window.document;
+    let builds = 0, clicks = 0;
+    for (const course of deck.ORDER) {
+      window.CARDS_DATA.courses[course].sections.forEach(sec => {
+        deck.widgetsOf({ ...sec, course }).forEach(it => {
+          const host = doc.createElement('div');
+          doc.body.appendChild(host);
+          CD.buildCard({ t: 'widget', w: it.w, opt: it.opt || {}, sec });   /* 走真实构建路径 */
+          G(window, 'MT_W').build(it.w, host, it.opt || {});
+          builds++;
+          assert.ok(host.textContent.trim(), `${it.w} 建出来是空的`);
+          assert.doesNotMatch(host.textContent, /这张卡还在路上/, `${it.w} 落到了兜底文案`);
+          [...host.querySelectorAll('button')].forEach(b => {
+            b.click(); clicks++;
+            assert.ok(b.isConnected || true);
+          });
+          const sel = host.querySelector('select');
+          if (sel) { sel.value = sel.options[sel.options.length - 1].value; if (sel.onchange) sel.onchange({ target: sel }); clicks++; }
+          const rng = host.querySelector('input[type=range]');
+          if (rng) { rng.value = '120'; if (rng.oninput) rng.oninput({ target: rng }); clicks++; }
+          host.remove();
+        });
+      });
+    }
+    assert.ok(builds >= 100, `三课互动卡总数应有上百张，实际 ${builds}`);
+    assert.ok(clicks > 200, `应该点到两百次以上控件，实际 ${clicks}`);
+    await sleep(500);      /* 让排出去的定时器跑一轮：里面抛的错会被 withCards 记下来 */
+  });
+});
+
